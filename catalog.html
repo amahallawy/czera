@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Towels — Czera</title>
+  <meta name="description" content="The Czera collection: bath towels, hand towels, spa robes, and gift sets. Egyptian cotton, woven in Egypt." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700&family=Italiana&family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages/catalog.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <nav class="site-nav" data-site-nav aria-label="Primary">
+        <a class="site-nav__link" href="catalog.html" aria-current="page">Collections</a>
+        <a class="site-nav__link" href="catalog.html#bath">Bath</a>
+        <a class="site-nav__link" href="catalog.html#hand">Hand</a>
+        <a class="site-nav__link" href="index.html#brand">Our story</a>
+      </nav>
+
+      <a href="index.html" class="brand-mark" aria-label="Czera — Home">
+        <img src="assets/logo/czera-wordmark-ivory.jpg" alt="Czera" />
+      </a>
+
+      <div class="site-nav site-nav--end">
+<a href="#" class="icon-button" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </a>
+        <a href="#" class="icon-button" aria-label="Wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        </a>
+        <a href="#" class="icon-button" aria-label="Bag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+        <button class="icon-button menu-toggle" type="button" data-menu-toggle aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- BANNER -->
+    <section class="catalog-banner">
+      <div class="container container--narrow">
+        <span class="eyebrow">Collection</span>
+        <h1>Towels.</h1>
+        <p>
+          Long-fibre Egyptian cotton, woven in Egypt at 600&ndash;800 GSM and
+          finished by hand. Order any item below, or message us on WhatsApp for
+          custom sizes and bulk orders.
+        </p>
+      </div>
+    </section>
+
+    <!-- LAYOUT -->
+    <div class="container catalog">
+      <div class="catalog__layout">
+        <!-- Filter rail -->
+        <aside class="filter-rail" data-filter-rail aria-label="Filters">
+          <div class="filter-rail__group">
+            <h3 class="filter-rail__heading">Category</h3>
+            <ul class="filter-list">
+              <li><button class="filter-list__item is-active" data-filter-category="all">All</button></li>
+              <li><button class="filter-list__item" data-filter-category="bath">Bath towels</button></li>
+              <li><button class="filter-list__item" data-filter-category="hand">Hand towels</button></li>
+              <li><button class="filter-list__item" data-filter-category="spa">Spa &amp; robes</button></li>
+              <li><button class="filter-list__item" data-filter-category="gift">Gift sets</button></li>
+            </ul>
+          </div>
+
+          <div class="filter-rail__group">
+            <h3 class="filter-rail__heading">Color</h3>
+            <div class="swatch-list">
+              <button class="swatch swatch--ivory"    data-filter-color="ivory" aria-label="Ivory"></button>
+              <button class="swatch swatch--beige"    data-filter-color="beige" aria-label="Beige"></button>
+              <button class="swatch swatch--gold"     data-filter-color="gold" aria-label="Gold"></button>
+              <button class="swatch swatch--blush"    data-filter-color="blush" aria-label="Blush"></button>
+              <button class="swatch swatch--sage"     data-filter-color="sage" aria-label="Sage"></button>
+              <button class="swatch swatch--charcoal" data-filter-color="charcoal" aria-label="Charcoal"></button>
+              <button class="swatch swatch--midnight" data-filter-color="midnight" aria-label="Midnight"></button>
+            </div>
+          </div>
+
+          <div class="filter-rail__group">
+            <h3 class="filter-rail__heading">Sort by</h3>
+            <select class="filter-rail__sort" data-sort aria-label="Sort by">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+            </select>
+          </div>
+        </aside>
+
+        <!-- Grid -->
+        <div>
+          <div class="catalog__toolbar">
+            <button class="filter-toggle" type="button" data-filter-toggle>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+              Filters
+            </button>
+            <span class="catalog__count"><span data-result-count>12</span> pieces</span>
+          </div>
+
+          <div class="product-grid" data-product-grid>
+            <!-- 12 placeholder products. Real data fills these in later. -->
+            <a href="product.html" class="product-card" data-product-card data-category="bath" data-colors="ivory,beige" data-price="1450" data-added="20260420">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1616663717839-2fea42e1a1f6?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Bath towel</span>
+              <h3 class="product-card__title">Maison Bath Towel, 700 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--beige"></span>
+                <span class="swatch swatch--gold"></span>
+              </div>
+              <span class="product-card__price">EGP 1,450</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="bath" data-colors="charcoal,midnight" data-price="1650" data-added="20260418">
+              <span class="product-card__badge">New</span>
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1759223607861-f0ef3e617739?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Bath towel</span>
+              <h3 class="product-card__title">Nile Bath Towel, 750 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--charcoal"></span>
+                <span class="swatch swatch--midnight"></span>
+              </div>
+              <span class="product-card__price">EGP 1,650</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="bath" data-colors="ivory,blush" data-price="1290" data-added="20260415">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1620000190821-abd8f262b86f?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Bath towel</span>
+              <h3 class="product-card__title">Aurora Bath Sheet, 600 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--blush"></span>
+              </div>
+              <span class="product-card__price">EGP 1,290</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="hand" data-colors="ivory,beige,gold" data-price="650" data-added="20260410">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1728034261564-18930dcb2c8e?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Hand towel</span>
+              <h3 class="product-card__title">Maison Hand Towel, 600 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--beige"></span>
+                <span class="swatch swatch--gold"></span>
+              </div>
+              <span class="product-card__price">EGP 650</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="hand" data-colors="sage,beige" data-price="720" data-added="20260408">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1766727923658-ae4d4d837239?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Hand towel</span>
+              <h3 class="product-card__title">Garden Hand Towel, 600 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--sage"></span>
+                <span class="swatch swatch--beige"></span>
+              </div>
+              <span class="product-card__price">EGP 720</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="spa" data-colors="ivory" data-price="2950" data-added="20260405">
+              <span class="product-card__badge">Limited</span>
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1619470107151-a1f8df4893d3?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Spa robe</span>
+              <h3 class="product-card__title">Atelier Spa Robe, unisex</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+              </div>
+              <span class="product-card__price">EGP 2,950</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="bath" data-colors="ivory,gold" data-price="1980" data-added="20260401">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1616663717839-2fea42e1a1f6?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Bath sheet</span>
+              <h3 class="product-card__title">Royal Bath Sheet, 800 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--gold"></span>
+              </div>
+              <span class="product-card__price">EGP 1,980</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="gift" data-colors="ivory,beige,gold" data-price="3650" data-added="20260328">
+              <span class="product-card__badge">Gift</span>
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1759223607861-f0ef3e617739?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Gift set</span>
+              <h3 class="product-card__title">Maison Gift Box, 4-piece</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--beige"></span>
+                <span class="swatch swatch--gold"></span>
+              </div>
+              <span class="product-card__price">EGP 3,650</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="hand" data-colors="ivory,charcoal" data-price="690" data-added="20260322">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1620000190821-abd8f262b86f?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Hand towel</span>
+              <h3 class="product-card__title">Onyx Hand Towel, 650 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--charcoal"></span>
+              </div>
+              <span class="product-card__price">EGP 690</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="bath" data-colors="ivory,sage" data-price="1490" data-added="20260318">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1728034261564-18930dcb2c8e?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Bath towel</span>
+              <h3 class="product-card__title">Garden Bath Towel, 700 GSM</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--sage"></span>
+              </div>
+              <span class="product-card__price">EGP 1,490</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="spa" data-colors="charcoal" data-price="3450" data-added="20260312">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1766727923658-ae4d4d837239?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Spa robe</span>
+              <h3 class="product-card__title">Onyx Hooded Robe</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--charcoal"></span>
+              </div>
+              <span class="product-card__price">EGP 3,450</span>
+            </a>
+
+            <a href="product.html" class="product-card" data-product-card data-category="gift" data-colors="ivory,gold" data-price="2200" data-added="20260308">
+              <div class="product-card__media">
+                <div class="product-card__media-img media-image" style="background-image: url('https://images.unsplash.com/photo-1619470107151-a1f8df4893d3?w=800&h=1000&q=80&auto=format&fit=crop');"></div>
+              </div>
+              <span class="product-card__category">Gift set</span>
+              <h3 class="product-card__title">Bath Duo, gift set</h3>
+              <div class="product-card__swatches">
+                <span class="swatch swatch--ivory"></span>
+                <span class="swatch swatch--gold"></span>
+              </div>
+              <span class="product-card__price">EGP 2,200</span>
+            </a>
+          </div>
+
+          <nav class="pagination" aria-label="Pagination">
+            <button aria-label="Previous">&lsaquo;</button>
+            <button class="is-active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button aria-label="Next">&rsaquo;</button>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ — Frette pattern: long-form Q&A under the grid -->
+    <section class="catalog-faq">
+      <div class="container">
+        <header class="catalog-faq__heading">
+          <span class="eyebrow">FAQ</span>
+          <h2>Egyptian cotton towels, explained.</h2>
+        </header>
+
+        <div class="catalog-faq__list">
+          <div class="catalog-faq__item">
+            <p class="catalog-faq__q">What makes Czera towels different?</p>
+            <div>
+              <p class="catalog-faq__a">
+                We use long-fibre Egyptian cotton from the Nile Delta and weave at hospitality
+                densities (600&ndash;800 GSM). The fibre length lets a denser terry hold its softness;
+                the GSM gives the towel its weight in the hand and its absorbency on the skin.
+              </p>
+              <p class="catalog-faq__a">
+                Each piece is hand-finished in Egypt with a rolled selvedge and woven Czera tag.
+              </p>
+            </div>
+          </div>
+
+          <div class="catalog-faq__item">
+            <p class="catalog-faq__q">Which weight (GSM) should I choose?</p>
+            <div>
+              <p class="catalog-faq__a">
+                <strong>600 GSM</strong> is light, dries fastest, and works well for hand and face towels.
+                <strong>700 GSM</strong> is our most-chosen everyday bath weight.
+                <strong>800 GSM</strong> is the spa weight: heavier in hand, more plush, longer to dry.
+              </p>
+            </div>
+          </div>
+
+          <div class="catalog-faq__item">
+            <p class="catalog-faq__q">How do I care for an Egyptian cotton towel?</p>
+            <div>
+              <p class="catalog-faq__a">
+                Machine wash warm with similar colours. Tumble dry low. Skip fabric softener &mdash;
+                it coats the fibre and reduces absorbency. Iron on low if you prefer.
+              </p>
+              <p class="catalog-faq__a">
+                Czera towels reach their softest after the first three washes.
+              </p>
+            </div>
+          </div>
+
+          <div class="catalog-faq__item">
+            <p class="catalog-faq__q">Do you ship outside Egypt?</p>
+            <div>
+              <p class="catalog-faq__a">
+                Yes &mdash; by quote. Message us on WhatsApp with the items and your delivery address
+                and we&rsquo;ll come back with shipping options and an arrival window.
+              </p>
+            </div>
+          </div>
+
+          <div class="catalog-faq__item">
+            <p class="catalog-faq__q">Do you offer hospitality (bulk) pricing?</p>
+            <div>
+              <p class="catalog-faq__a">
+                Yes. We supply hotels, spas, and short-let properties with custom sizes, colour
+                matching, and embroidery. Reach out on WhatsApp and we&rsquo;ll send you the
+                hospitality programme.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer__brand-mark">CZERA</div>
+          <div class="footer__tagline">Luxury in every touch</div>
+          <p class="footer__about">
+            Premium Egyptian cotton towels, made in Egypt.
+            For the home and for hospitality.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Shop</h4>
+          <ul class="footer__list">
+            <li><a href="catalog.html#bath">Bath towels</a></li>
+            <li><a href="catalog.html#hand">Hand towels</a></li>
+            <li><a href="catalog.html#spa">Spa &amp; robes</a></li>
+            <li><a href="catalog.html#gift">Gift sets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Company</h4>
+          <ul class="footer__list">
+            <li><a href="index.html#brand">Our story</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#hospitality">Hospitality</a></li>
+            <li><a href="#care">Care guide</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Newsletter</h4>
+          <p class="footer__about">New collections, restocks, and care notes. About once a month.</p>
+          <form class="footer__newsletter" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="you@email.com" aria-label="Email address" required />
+            <button type="submit">Subscribe &rarr;</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; <span data-current-year>2026</span> Czera. All rights reserved.</span>
+        <div class="footer__socials">
+          <a href="https://www.instagram.com/czera_maison" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.facebook.com/share/1EMCtr3SpN/" aria-label="Facebook" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/201000000000" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg>
+          </a>
+        </div>
+        <span>Cairo, Egypt</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>

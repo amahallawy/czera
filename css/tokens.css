@@ -1,0 +1,108 @@
+/* Czera — Design Tokens
+ * Single source of truth for colors, typography, spacing, and motion.
+ * All other stylesheets reference these custom properties only.
+ * Source: Czera brand book (graphics/) — palette, type, marks.
+ */
+
+:root {
+  /* ---------- Color: brand palette ---------- */
+  --color-bg:           #F4F2EC;   /* Soft Ivory  — page background */
+  --color-surface:      #E7E1D5;   /* Warm Beige  — cards, secondary surfaces */
+  --color-surface-soft: #FAF8F3;   /* Lifted ivory — input fields, hover states on bg */
+
+  --color-gold:         #D4AF36;   /* Classic Royal Gold — primary accent (sparingly) */
+  --color-gold-sand:    #D8C28A;   /* Sand Gold — subtle accent, dividers */
+  --color-gold-deep:    #BA7C17;   /* Deep Gold — emphasis, hover, active */
+
+  --color-ink:          #2B2B2B;   /* Deep Charcoal — body text */
+  --color-ink-strong:   #010100;   /* Near-black — headings on light bg */
+  --color-ink-mute:     #6B6B6B;   /* Mid-gray — captions, metadata */
+  --color-ink-faint:    #A3A099;   /* Soft gray — placeholder, divider on light */
+
+  --color-on-dark:      #F4F2EC;   /* Foreground on charcoal surfaces */
+  --color-overlay:      rgba(1, 1, 0, 0.45); /* Hero text legibility on imagery */
+
+  /* ---------- Typography ----------
+   * Brand book mandates Montserrat (Latin) + Cairo (Arabic). Italiana is
+   * reserved for product names and a single editorial moment — it's rare
+   * enough to give Czera a recognisable signature without resembling any
+   * common AI-luxury serif (Cormorant, Playfair, EB Garamond — all banned).
+   *
+   * Display moments use Montserrat Light (300) at large sizes with negative
+   * tracking — the modern luxury approach used by Bottega, Calvin Klein, etc.
+   */
+  --font-sans:     'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-display:  'Italiana', 'Didot', 'Bodoni 72', 'Times New Roman', serif;
+  --font-arabic:   'Cairo', 'Tajawal', 'Segoe UI Arabic', sans-serif;
+
+  /* Aliases for backward compat. Treat as deprecated; prefer --font-sans/-display. */
+  --font-serif: var(--font-sans);
+
+  /* Type scale — Frette-tight editorial proportions (no fluid clamps below md). */
+  --fs-2xs:  0.6875rem;   /* 11px — small caps labels, footer meta */
+  --fs-xs:   0.75rem;     /* 12px — captions, badges */
+  --fs-sm:   0.8125rem;   /* 13px — nav, secondary, metadata */
+  --fs-base: 0.9375rem;   /* 15px — body (Frette uses ~14, this leaves room) */
+  --fs-md:   1.0625rem;   /* 17px — lead paragraph */
+  --fs-lg:   1.3125rem;   /* 21px — small headings, product names */
+  --fs-xl:   1.75rem;     /* 28px — section titles */
+  --fs-2xl:  2.375rem;    /* 38px — page titles */
+  --fs-3xl:  3.25rem;     /* 52px — hero display (desktop) */
+  --fs-4xl:  4.5rem;      /* 72px — display, used sparingly */
+
+  /* Line-heights — tighter overall than v1 (less air, more editorial density) */
+  --lh-display: 1.0;
+  --lh-tight:   1.1;
+  --lh-snug:    1.2;
+  --lh-base:    1.5;
+  --lh-loose:   1.65;
+
+  /* Letter-spacing — display tight, small-caps narrower than v1 */
+  --ls-display: -0.025em;  /* large Montserrat Light */
+  --ls-tight:   -0.01em;
+  --ls-base:    0;
+  --ls-wide:    0.06em;    /* small caps labels (was 0.08) */
+  --ls-widest:  0.18em;    /* eyebrow labels (was 0.22 — less theatrical) */
+
+  /* ---------- Spacing scale (4px base) ---------- */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-7:  3rem;
+  --space-8:  4rem;
+  --space-9:  6rem;
+  --space-10: 8rem;
+
+  /* ---------- Layout ---------- */
+  --content-max: 1320px;
+  --content-narrow: 720px;          /* Tightened for editorial paragraph widths */
+  --content-reading: 65ch;          /* Comfortable reading measure */
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --header-height: 88px;
+
+  /* ---------- Borders & radii ---------- */
+  --border-hairline: 1px solid var(--color-gold-sand);
+  --border-divider:  1px solid rgba(43, 43, 43, 0.12);
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* ---------- Elevation ---------- */
+  --shadow-soft: 0 4px 20px rgba(1, 1, 0, 0.06);
+  --shadow-lift: 0 10px 40px rgba(1, 1, 0, 0.10);
+
+  /* ---------- Motion ---------- */
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.83, 0, 0.17, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 600ms;
+}
+
+/* Arabic surface — apply to <html lang="ar"> or any subtree wearing dir="rtl" */
+[lang="ar"], [dir="rtl"] {
+  --font-sans: var(--font-arabic);
+}

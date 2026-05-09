@@ -1,0 +1,436 @@
+/* Czera — Components
+ * Header, footer, buttons, cards. References tokens.css + base.css.
+ */
+
+/* ---------------- Site header ---------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(244, 242, 236, 0.92);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: var(--border-divider);
+}
+
+.site-header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--header-height);
+}
+
+.site-nav { display: flex; align-items: center; gap: var(--space-6); }
+.site-nav--end { justify-content: flex-end; }
+
+.site-nav__link {
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  position: relative;
+}
+.site-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 1px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.site-nav__link:hover::after,
+.site-nav__link[aria-current="page"]::after { transform: scaleX(1); }
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-mark img {
+  height: 44px;
+  width: auto;
+  mix-blend-mode: multiply;     /* lets ivory background blend into header */
+}
+
+.site-header__icons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.icon-button {
+  width: 40px; height: 40px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--color-ink);
+  border-radius: 50%;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.icon-button:hover { background: var(--color-surface); color: var(--color-gold-deep); }
+.icon-button svg { width: 20px; height: 20px; }
+
+/* Lang toggle (placeholder until AR lands) */
+.lang-toggle {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.lang-toggle:hover { color: var(--color-ink-strong); border-color: var(--color-gold-sand); }
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  --btn-bg: var(--color-ink-strong);
+  --btn-fg: var(--color-on-dark);
+  --btn-bd: var(--color-ink-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-7);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid var(--btn-bd);
+  cursor: pointer;
+  transition: background var(--dur-base) var(--ease-out),
+              color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
+}
+.btn:hover {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-ink-strong);
+  color: var(--color-ink-strong);
+  background: transparent;
+  transform: translateY(-1px);
+}
+.btn:active { transform: translateY(0); }
+
+.btn--gold {
+  --btn-bg: var(--color-gold);
+  --btn-fg: var(--color-ink-strong);
+  --btn-bd: var(--color-gold);
+}
+.btn--gold:hover {
+  --btn-bg: var(--color-gold-deep);
+  --btn-fg: var(--color-on-dark);
+  --btn-bd: var(--color-gold-deep);
+  color: var(--color-on-dark);
+  background: var(--color-gold-deep);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-ink-strong);
+  --btn-bd: var(--color-ink-strong);
+}
+.btn--ghost:hover {
+  --btn-bg: var(--color-ink-strong);
+  --btn-fg: var(--color-on-dark);
+  background: var(--color-ink-strong);
+  color: var(--color-on-dark);
+}
+
+.btn--on-dark {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-on-dark);
+  --btn-bd: var(--color-on-dark);
+}
+.btn--on-dark:hover {
+  --btn-bg: var(--color-on-dark);
+  --btn-fg: var(--color-ink-strong);
+  background: var(--color-on-dark);
+  color: var(--color-ink-strong);
+}
+
+.btn--whatsapp {
+  --btn-bg: #25D366;
+  --btn-fg: #ffffff;
+  --btn-bd: #25D366;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  transition: background var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out);
+}
+.btn--whatsapp:hover {
+  --btn-bg: #128C7E;
+  --btn-bd: #128C7E;
+  background: #128C7E;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(18, 140, 126, 0.22);
+}
+.btn--whatsapp:active { transform: translateY(0); box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-strong);
+  border-bottom: 1px solid var(--color-gold);
+  padding-bottom: var(--space-1);
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.btn-link:hover { color: var(--color-gold-deep); border-color: var(--color-gold-deep); }
+.btn-link__arrow { transition: transform var(--dur-base) var(--ease-out); }
+.btn-link:hover .btn-link__arrow { transform: translateX(4px); }
+
+/* ---------------- Brand crown (signature mark) ----------------
+ * Tiny heraldic crown borrowed from the Czera brand book. Used sparingly
+ * on the landing page only as a chapter divider mark. Inline SVG with the
+ * crown path is dropped wherever a `<svg class="brand-crown">…</svg>`
+ * markup appears; this class controls size + colour.
+ */
+.brand-crown {
+  display: inline-block;
+  width: var(--brand-crown-size, 56px);
+  height: auto;
+  color: var(--color-gold);
+  fill: currentColor;
+  flex-shrink: 0;
+}
+.brand-crown--sm { --brand-crown-size: 32px; }
+.brand-crown--lg { --brand-crown-size: 80px; }
+.brand-crown--deep { color: var(--color-gold-deep); }
+
+/* ---------------- Media image (real photo container) ----------------
+ * For slots that have a real image: use .media-image (instead of
+ * .media-placeholder) and set an inline `style="background-image: url(...)"`.
+ * Cover, center, no repeat — handles all the common photo scenarios.
+ */
+.media-image {
+  position: relative;
+  background-color: var(--color-surface);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* ---------------- Media placeholder ----------------
+ * One honest variant. When real photography arrives, replace the element
+ * (or set inline `style="background-image: url('assets/img/X.jpg'); background-size: cover; background-position: center;"`)
+ * and remove the `.media-placeholder` class. The visible "Photography pending"
+ * caption keeps the production gap visible instead of disguising it.
+ */
+.media-placeholder {
+  position: relative;
+  background: var(--color-surface-soft);
+  outline: 1px solid rgba(43, 43, 43, 0.06);
+  outline-offset: -1px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.media-placeholder::after {
+  content: "Photography pending";
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-style: italic;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-ink-faint);
+  padding: var(--space-3);
+  text-align: center;
+}
+
+/* ---------------- Card (collection / product) ---------------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: left;
+  color: var(--color-ink);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.card:hover { color: var(--color-ink); }
+.card:hover .card__media-inner { transform: scale(1.04); }
+
+.card__media {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  aspect-ratio: 4 / 5;
+}
+.card__media-inner {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.card__badge {
+  position: absolute;
+  top: var(--space-4); left: var(--space-4);
+  background: var(--color-bg);
+  color: var(--color-gold-deep);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+}
+
+.card__body { padding-inline: var(--space-1); }
+.card__category {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+  margin-bottom: var(--space-2);
+}
+.card__title {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--fs-lg);
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--space-2);
+}
+.card__price {
+  font-size: var(--fs-base);
+  color: var(--color-ink-strong);
+  font-weight: 500;
+}
+.card__price del {
+  margin-right: var(--space-2);
+  color: var(--color-ink-mute);
+  font-weight: 400;
+}
+
+/* ---------------- Footer ---------------- */
+.site-footer {
+  background: var(--color-ink-strong);
+  color: var(--color-on-dark);
+  padding-block: var(--space-9) var(--space-6);
+  margin-top: var(--space-9);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.footer__brand-mark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  letter-spacing: 0.04em;
+  color: var(--color-gold);
+  margin-bottom: var(--space-3);
+}
+.footer__tagline {
+  color: var(--color-gold-sand);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--space-5);
+}
+.footer__about {
+  color: rgba(244, 242, 236, 0.72);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-loose);
+  max-width: 36ch;
+}
+
+.footer__heading {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+.footer__list { display: flex; flex-direction: column; gap: var(--space-2); }
+.footer__list a {
+  color: rgba(244, 242, 236, 0.78);
+  font-size: var(--fs-sm);
+}
+.footer__list a:hover { color: var(--color-gold); }
+
+.footer__newsletter {
+  display: flex;
+  margin-top: var(--space-4);
+  border-bottom: 1px solid rgba(244, 242, 236, 0.25);
+}
+.footer__newsletter input {
+  flex: 1;
+  background: transparent;
+  color: var(--color-on-dark);
+  border: 0;
+  padding: var(--space-3) 0;
+  font-size: var(--fs-sm);
+  outline: none;
+}
+.footer__newsletter input::placeholder { color: rgba(244, 242, 236, 0.45); }
+.footer__newsletter button {
+  color: var(--color-gold);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--dur-fast) var(--ease-out), gap var(--dur-base) var(--ease-out);
+}
+.footer__newsletter button:hover {
+  color: var(--color-on-dark);
+  gap: 10px;
+}
+
+.footer__bottom {
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(244, 242, 236, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: rgba(244, 242, 236, 0.55);
+}
+.footer__socials { display: flex; gap: var(--space-3); }
+.footer__socials a {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(244, 242, 236, 0.25);
+  border-radius: 50%;
+  color: rgba(244, 242, 236, 0.72);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.footer__socials a:hover {
+  color: var(--color-ink-strong);
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+.footer__socials svg { width: 16px; height: 16px; }
+
+/* ---------------- Mobile nav toggle ---------------- */
+.menu-toggle { display: none; }
+
+@media (max-width: 900px) {
+  .site-header__inner { grid-template-columns: auto 1fr auto; gap: var(--space-3); }
+  .site-nav { display: none; }
+  .menu-toggle { display: inline-flex; }
+
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+}
+
+@media (max-width: 600px) {
+  .footer-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+  .footer__bottom { flex-direction: column; align-items: flex-start; }
+}

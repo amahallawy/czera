@@ -1,0 +1,30 @@
+# Czera — repo-local gitignore
+#
+# Each entry's purpose is explicit so future contributors know why it's here.
+
+# Raw client material — brand book pages, WhatsApp dumps, .zip archives.
+# CLAUDE.md treats graphics/ as the staging dump; only assets/ is shipped.
+graphics/
+
+# Per-machine / OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local-only Claude / superpowers session state (per-machine, not per-project)
+.claude/local/
+.claude/session/
+.claude/settings.local.json
+.superpowers/
+.playwright-mcp/
+
+# Build artefacts (none today; reserved for when a build pipeline lands)
+dist/
+node_modules/
+
+# Logs / scratch
+*.log
+*.tmp
