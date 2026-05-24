@@ -28,3 +28,9 @@ node_modules/
 # Logs / scratch
 *.log
 *.tmp
+
+# Impeccable skill session state (per-machine)
+.impeccable/
+
+# Video render scratch (intermediate beats, pass logs, verify frames)
+assets/video/_working/
