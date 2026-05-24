@@ -2,63 +2,165 @@
  * Header, footer, buttons, cards. References tokens.css + base.css.
  */
 
-/* ---------------- Site header ---------------- */
+/* ---------------- Site header ----------------
+ * Two-zone layout: brand-mark left, hamburger right. Transparent by
+ * default so it sits over the hero video; gains a soft surface on
+ * scroll (handled by JS adding `.is-scrolled`) for legibility on
+ * subsequent chapters. On non-hero pages the surface is always on. */
 .site-header {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 0; left: 0; right: 0;
   z-index: 50;
-  background: rgba(244, 242, 236, 0.92);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    backdrop-filter var(--dur-base) var(--ease-out);
+}
+.site-header.is-scrolled,
+body:not(.has-hero) .site-header {
+  background: rgba(245, 242, 237, 0.92);
+  border-bottom-color: var(--color-ink-faint);
   backdrop-filter: saturate(140%) blur(10px);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
-  border-bottom: var(--border-divider);
+}
+
+/* Push page content below the fixed header (kept on non-hero pages
+ * via the body:not(.has-hero) selector). On hero pages the video
+ * sits underneath, so no padding is needed. */
+body:not(.has-hero) {
+  padding-top: var(--header-height);
 }
 
 .site-header__inner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-5);
   height: var(--header-height);
 }
 
-.site-nav { display: flex; align-items: center; gap: var(--space-6); }
-.site-nav--end { justify-content: flex-end; }
-
-.site-nav__link {
-  font-size: var(--fs-sm);
-  letter-spacing: var(--ls-wide);
-  text-transform: uppercase;
-  color: var(--color-ink);
+/* Centered-wordmark header modifier. Opt-in per page (apply to <header>).
+ * The brand mark is absolute-positioned so it can be visually centered to
+ * the inner row regardless of the menu-toggle's grid placement on the right. */
+.site-header--centered-mark .site-header__inner {
   position: relative;
+  height: auto;
+  min-height: 120px;
 }
-.site-nav__link::after {
+.site-header--centered-mark .brand-mark {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.site-header--centered-mark .brand-mark__img {
+  height: 92px;
+}
+
+/* Two-wordmark stack inside the centered brand mark: the default
+ * (ivory/white) wordmark reads over the hero video; the gold variant
+ * fades in once the header is scrolled and the surface flips to ivory.
+ * The --default img stays in flow and sizes the anchor; --gold overlays
+ * it with absolute positioning so the swap is a pure opacity cross-fade. */
+.site-header--centered-mark .brand-mark__img--default {
+  position: relative;
+  opacity: 1;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.site-header--centered-mark .brand-mark__img--gold {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.site-header--centered-mark.is-scrolled .brand-mark__img--default {
+  opacity: 0;
+}
+.site-header--centered-mark.is-scrolled .brand-mark__img--gold {
+  opacity: 1;
+}
+
+/* Top-of-page legibility scrim. A dark→transparent gradient sits behind
+ * the wordmark + menu button on the hero state, lifting them off whatever
+ * frame the hero film happens to be on. Fades out on .is-scrolled — the
+ * ivory header background takes over for legibility from there down. */
+.site-header--centered-mark::before {
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: -6px;
-  height: 1px;
-  background: var(--color-gold);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform var(--dur-base) var(--ease-out);
+  inset: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(1, 1, 0, 0.55) 0%,
+    rgba(1, 1, 0, 0.38) 45%,
+    rgba(1, 1, 0, 0) 100%
+  );
+  opacity: 1;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+  z-index: -1;
 }
-.site-nav__link:hover::after,
-.site-nav__link[aria-current="page"]::after { transform: scaleX(1); }
+.site-header--centered-mark.is-scrolled::before {
+  opacity: 0;
+}
 
 .brand-mark {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  position: relative;
 }
-.brand-mark img {
+.brand-mark__img {
   height: 44px;
   width: auto;
-  mix-blend-mode: multiply;     /* lets ivory background blend into header */
+  display: block;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+/* Two wordmarks stacked — white reads over the hero video (transparent
+ * header); gold reads over the ivory surface (scrolled / non-hero). */
+.brand-mark__img--dark {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.site-header.is-scrolled .brand-mark__img--light,
+body:not(.has-hero) .brand-mark__img--light {
+  opacity: 0;
+}
+.site-header.is-scrolled .brand-mark__img--dark,
+body:not(.has-hero) .brand-mark__img--dark {
+  opacity: 1;
 }
 
-.site-header__icons {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
+/* Hamburger sits on the right edge of the header. Color flips between
+ * ivory (over the hero video) and charcoal (when scrolled / non-hero). */
+.menu-toggle {
+  width: 44px; height: 44px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--color-on-dark);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  /* The header inner grid is `auto 1fr auto`; force this button into the
+   * trailing auto column so it sits at the right edge of the container. */
+  grid-column: 3;
+  justify-self: end;
+}
+.menu-toggle svg { width: 32px; height: 32px; }
+.menu-toggle:hover { background: rgba(244, 242, 236, 0.18); }
+.site-header.is-scrolled .menu-toggle,
+body:not(.has-hero) .menu-toggle {
+  color: var(--color-ink);
+}
+.site-header.is-scrolled .menu-toggle:hover,
+body:not(.has-hero) .menu-toggle:hover {
+  background: var(--color-surface);
+  color: var(--color-gold-deep);
 }
 
 .icon-button {
@@ -71,6 +173,93 @@
 }
 .icon-button:hover { background: var(--color-surface); color: var(--color-gold-deep); }
 .icon-button svg { width: 20px; height: 20px; }
+
+/* ---------------- Slide-in menu panel ----------------
+ * Opens from the right when the hamburger is clicked. Holds the
+ * primary nav + utility icons. Backdrop dims the page behind. */
+.site-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(1, 1, 0, 0.5);
+  z-index: 60;
+  opacity: 0;
+  transition: opacity 320ms var(--ease-out);
+}
+.site-menu-backdrop.is-open { opacity: 1; }
+
+.site-menu {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: clamp(280px, 32vw, 460px);
+  max-width: 100vw;
+  background: var(--color-bg);
+  z-index: 70;
+  box-shadow: -16px 0 48px rgba(1, 1, 0, 0.18);
+  transform: translateX(100%);
+  transition: transform 360ms var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-7) var(--space-7);
+  gap: var(--space-7);
+  overflow-y: auto;
+}
+.site-menu.is-open { transform: translateX(0); }
+
+.site-menu__head {
+  display: flex;
+  justify-content: flex-end;
+  margin-inline-end: calc(var(--space-3) * -1);
+}
+.site-menu__close {
+  width: 44px; height: 44px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.site-menu__close:hover { background: var(--color-surface); color: var(--color-gold-deep); }
+.site-menu__close svg { width: 22px; height: 22px; }
+
+.site-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.site-menu__link {
+  font-family: var(--font-display, "Italiana", serif);
+  font-size: clamp(1.5rem, 4vw, var(--fs-2xl));
+  font-weight: 400;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-ink);
+  position: relative;
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-ink-faint);
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.site-menu__link:hover {
+  color: var(--color-gold-deep);
+  border-bottom-color: var(--color-gold);
+}
+
+.site-menu__utilities {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-ink-faint);
+}
+
+/* Lock body scroll when the panel is open. */
+body.menu-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-menu, .site-menu-backdrop { transition: none; }
+}
 
 /* Lang toggle (placeholder until AR lands) */
 .lang-toggle {
@@ -419,14 +608,7 @@
 }
 .footer__socials svg { width: 16px; height: 16px; }
 
-/* ---------------- Mobile nav toggle ---------------- */
-.menu-toggle { display: none; }
-
 @media (max-width: 900px) {
-  .site-header__inner { grid-template-columns: auto 1fr auto; gap: var(--space-3); }
-  .site-nav { display: none; }
-  .menu-toggle { display: inline-flex; }
-
   .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
 }
 
