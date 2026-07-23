@@ -70,9 +70,10 @@
   <main id="main">
     <!-- HERO — 30s silent looping brand film. Five beats:
          (1) cotton field at golden hour, (2) machine stitching gold-thread hem,
-         (3) fingertips on cotton terry, (4) folded ivory towels, (5) ivory plate
-         with the wordmark fading in as the brand sign-off (handled in CSS via
-         .hero__signoff with mix-blend-mode multiply, synced to a 30s cycle).
+         (3) fingertips on cotton terry, (4) folded ivory towels, (5) draped
+         ivory cotton with the gold wordmark sign-off — now baked into the
+         video itself (fades in ~24–27.6s, holds, fades to clean fabric before
+         the loop). No CSS overlay layer any more.
          Spec: docs/superpowers/specs/2026-05-09-czera-hero-video-design.md -->
     <section class="hero">
       <video class="hero__media" autoplay muted loop playsinline preload="metadata"
@@ -80,17 +81,17 @@
         <source src="assets/video/hero-30s.webm" type="video/webm">
         <source src="assets/video/hero-30s.mp4" type="video/mp4">
       </video>
-      <img class="hero__signoff" src="assets/logo/czera-wordmark-white.png"
-           alt="" aria-hidden="true">
       <div class="hero__overlay" aria-hidden="true"></div>
       <h1 class="hero__masthead">Czera Maison &mdash; Egyptian cotton</h1>
     </section>
 
-    <!-- CHAPTER 1 — STORY (photo-essay layout: standalone image + centered
-         copy block. Abyss-derived editorial rhythm. See landing.css
-         `.chapter--photo-essay`. -->
-    <section id="brand" class="chapter chapter--light chapter--photo-essay">
-      <div class="chapter__image" aria-hidden="true" style="background-image: url('https://images.unsplash.com/photo-1559563458-527698bf5295?w=1600&q=80&auto=format&fit=crop');"></div>
+    <!-- CHAPTER 1 — STORY (text-over-image: full-bleed cotton photograph on
+         the leading side, copy overlaid on the trailing ivory void. A scrim
+         gradient fades the image into the page background so image and text
+         read as one warm field. See landing.css `.chapter--story`. -->
+    <section id="brand" class="chapter chapter--story">
+      <div class="chapter__media" role="img" aria-label="A length of ivory Egyptian cotton terry lies in soft folds on worn pale wood in warm side-light, a calm expanse of plain ivory cloth beside it."></div>
+      <div class="chapter__scrim" aria-hidden="true"></div>
       <div class="chapter__content">
         <span class="eyebrow">Our story</span>
         <svg class="brand-crown brand-crown--sm brand-crown--deep" viewBox="0 0 32 22" aria-hidden="true">
@@ -108,8 +109,7 @@
           for the home.
         </p>
         <blockquote class="chapter__pullquote">
-          Cotton this fine grows in only a few places on earth.
-          The Nile Delta is one of them.
+          600&ndash;800 GSM. The weight hospitality is measured in.
         </blockquote>
         <a class="chapter__link" href="#material">Our materials &rarr;</a>
       </div>

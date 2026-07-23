@@ -211,7 +211,7 @@ WhatsApp"). Never marketing copy.
 
 ### 6.4 Chapters
 
-The landing's narrative engine. Four chapter shapes:
+The landing's narrative engine. Five chapter shapes:
 
 | Variant | Layout | Surface |
 |---|---|---|
@@ -219,6 +219,7 @@ The landing's narrative engine. Four chapter shapes:
 | `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark` and `eyebrow--gold` |
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
 | `chapter--editorial` | Heading row + 3-column entries (no card chrome) | Light |
+| `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. Stacks (image over copy) below 768px. | Light |
 
 Each chapter starts with `<span class="eyebrow">…</span>`, then the
 crown mark, then the title, then the body. Skipping the eyebrow makes
