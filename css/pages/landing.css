@@ -32,25 +32,10 @@ video.hero__media {
   object-fit: cover;
 }
 
-/* Hero brand sign-off — white wordmark (transparent PNG) fades in during
- * Beat 5 (24–30s of the 30s video loop). The Beat 5 plate is charcoal
- * (#2B2B2B) so the white CZERA letters and decorated R land with maximum
- * contrast; the gold crown punctuates above. Reads as an editorial
- * "closing slate" in the brand-film grammar. */
-.hero__signoff {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* Sized for cinematic impact — the wordmark + tagline occupy ~55% of
-   * the desktop frame on Beat 5. */
-  width: clamp(420px, 55vw, 880px);
-  height: auto;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  animation: heroSignoffCycle 30s linear infinite;
-}
+/* The Beat 5 brand sign-off (gold wordmark on draped ivory cotton) is now
+ * baked into the hero video itself — it fades in ~24–27.6s, holds, then
+ * clears to clean fabric before the loop. The old CSS `.hero__signoff`
+ * overlay layer (white wordmark over a charcoal plate) has been removed. */
 
 /* Visible page H1, tucked at hero bottom-left as a small tracked-caps
  * masthead. Carries the page's semantic H1 (SEO + screen readers) while
@@ -208,12 +193,6 @@ video.hero__media {
   98%, 100% { opacity: 1; }
 }
 
-@keyframes heroSignoffCycle {
-  0%, 79%   { opacity: 0; }
-  82%, 95%  { opacity: 1; }
-  98%, 100% { opacity: 0; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .hero__content > .brand-crown,
   .hero__title,
@@ -232,7 +211,6 @@ video.hero__media {
     background-size: cover;
     background-position: center;
   }
-  .hero__signoff { display: none; }
   .hero__content { animation: none; opacity: 1; }
 }
 
@@ -270,42 +248,85 @@ video.hero__media {
   text-align: center;
 }
 
-/* Photo-essay chapter variant — used on the Story chapter (and any future
- * chapter where the image should be a standalone photograph, not a tinted
- * backdrop for overlaid copy). Drops the chapter--light scrim, lays the
- * image as a top block at 16:9 capped to 1200px, and the centered copy
- * block sits below it. Abyss-Habidecor-derived rhythm. */
-.chapter--photo-essay {
-  min-height: 0;
-  padding-block: clamp(var(--space-7), 8vw, var(--space-9));
-  padding-inline: 0;
-  place-items: stretch;
-  text-align: center;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(var(--space-7), 6vw, var(--space-9));
-  overflow: visible;
-}
-.chapter--photo-essay::after { content: none; }
-.chapter--photo-essay .chapter__image {
+/* Story chapter — text over image. The cotton photograph is full-bleed on
+ * the leading side; the copy sits over the trailing ivory void. A scrim
+ * gradient fades the image into the page background (--color-bg) so image
+ * and copy read as one warm field and the dark text stays legible. The
+ * whole composition mirrors on the RTL (Arabic) surface. */
+.chapter--story {
   position: relative;
-  width: min(100%, 1200px);
-  margin-inline: auto;
-  aspect-ratio: 16 / 9;
+  isolation: isolate;
+  min-height: clamp(34rem, 62vh, 46rem);
+  padding-block: clamp(var(--space-8), 10vw, var(--space-10));
+  padding-inline: var(--gutter);
+  display: grid;
+  align-items: center;
+  justify-items: end;              /* copy on the inline-end side; flips on RTL */
+  text-align: center;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.chapter--story .chapter__media {
+  /* base .chapter__media already sets position:absolute; inset:0; z-index:-2 */
+  background-image: url("../../assets/img/story-cotton-drape.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: left center;   /* keep the subject on the leading edge */
   background-repeat: no-repeat;
   background-color: var(--color-surface-soft);
 }
-.chapter--photo-essay .chapter__content {
-  max-width: 38rem;
-  margin: 0 auto;
-  padding-inline: var(--gutter);
+.chapter--story .chapter__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 28%,
+    color-mix(in srgb, var(--color-bg) 50%, transparent) 42%,
+    color-mix(in srgb, var(--color-bg) 88%, transparent) 55%,
+    var(--color-bg) 68%,
+    var(--color-bg) 100%
+  );
+}
+.chapter--story .chapter__content {
+  width: min(33rem, 44%);
+  margin: 0;
   justify-items: center;
   text-align: center;
   gap: var(--space-4);
 }
-.chapter--photo-essay .chapter__pullquote { text-align: center; }
+
+/* RTL: mirror the composition — subject on the right, copy on the left. */
+[dir="rtl"] .chapter--story .chapter__media { background-position: right center; }
+[dir="rtl"] .chapter--story .chapter__scrim { transform: scaleX(-1); }
+
+/* Mobile: overlaying copy on a phone-width image risks legibility, so stack
+ * instead — image on top, copy below on the ivory surface. */
+@media (max-width: 768px) {
+  .chapter--story {
+    display: block;
+    min-height: 0;
+    padding: 0 0 clamp(var(--space-7), 9vw, var(--space-9));
+    overflow: visible;
+  }
+  .chapter--story .chapter__media {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    background-position: center;
+  }
+  [dir="rtl"] .chapter--story .chapter__media { background-position: center; }
+  .chapter--story .chapter__scrim { display: none; }
+  .chapter--story .chapter__content {
+    width: auto;
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: clamp(var(--space-6), 8vw, var(--space-8)) var(--gutter) 0;
+  }
+}
 
 /* Full-bleed background */
 .chapter__media {
@@ -401,13 +422,15 @@ video.hero__media {
 
 /* ---------------- Pull-quote (the page's allowed Italiana flourish) ----------------
  * design.md §3.2 reserves Italiana for product names + a single
- * editorial flourish per page. This is that flourish. Hairline gold
- * rules above + below frame it without ornament. */
+ * editorial flourish per page. This is that flourish. Neutral hairline
+ * rules above + below frame it without ornament. Gold is spent once per
+ * screen on the chapter crown (design.md §3.1), so the frame stays ink,
+ * not gold. */
 .chapter__pullquote {
   margin: var(--space-5) 0 var(--space-3);
   max-width: 28ch;
   padding-block: var(--space-5);
-  border-block: 1px solid var(--color-gold-sand);
+  border-block: 1px solid var(--color-ink-faint);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(1.5rem, 2.6vw, 2rem);
