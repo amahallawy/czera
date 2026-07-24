@@ -364,6 +364,34 @@ video.hero__media {
   outline: 0;
 }
 .chapter--dark .chapter__media::after { display: none; }
+/* Collection's image is a self-contained dark still-life. `contain` shows
+ * the whole composition (nothing cropped, unlike `cover`), and the warm
+ * near-black fill blends the letterbox into the dark chapter so the frame
+ * still reads full-bleed. #0b0806 is matched to the photo's shadow, not a
+ * brand token. On phones the section is tall, so anchor the still-life to
+ * the bottom and let the copy sit on the dark space above it. */
+/* Collection artwork — one warm still-life of the range. Desktop fills the
+ * frame edge-to-edge with `cover` (the crop trims a little headroom/table but
+ * keeps both the towels and the robe). Phones keep it contained and bottom-
+ * anchored so nothing is cropped on a tall screen; #0b0806 fills the letterbox
+ * there. Image set here (not inline). */
+.chapter--dark .chapter__media.media-image {
+  background-repeat: no-repeat;
+  background-color: #0b0806;
+  background-image: url("../../assets/img/collection-range.jpg");
+}
+@media (max-width: 768px) {
+  .chapter--dark .chapter__media.media-image {
+    background-size: contain;
+    background-position: center bottom;
+  }
+}
+@media (min-width: 769px) {
+  .chapter--dark .chapter__media.media-image {
+    background-size: cover;
+    background-position: center;
+  }
+}
 /* Mirror of the chapter--light veil strategy: heavy enough that white
  * type stays legible on whatever placeholder photography happens to
  * crop in (white marble, dark stone, anything in between), soft enough
@@ -376,13 +404,24 @@ video.hero__media {
   position: absolute;
   inset: 0;
   z-index: -1;
+  /* Two layers: a soft center-weighted pool darkens the zone behind the
+   * centered copy so the ivory text stays legible over bright imagery,
+   * while the warm subject keeps glowing at the edges; a gentle vertical
+   * veil grounds the whole frame. */
   background:
+    radial-gradient(ellipse 82% 74% at 50% 48%,
+      rgba(1,1,0,0.52) 0%,
+      rgba(1,1,0,0.14) 62%,
+      rgba(1,1,0,0) 100%),
     linear-gradient(180deg,
-      rgba(1,1,0,0.45) 0%,
-      rgba(1,1,0,0.62) 50%,
-      rgba(1,1,0,0.55) 100%);
+      rgba(1,1,0,0.42) 0%,
+      rgba(1,1,0,0.56) 55%,
+      rgba(1,1,0,0.54) 100%);
 }
 .chapter--dark .chapter__title { color: var(--color-on-dark); }
+/* Eyebrow on a dark chapter reads muted ivory, not gold — the crown is the
+ * single gold accent (design.md 3.1). */
+.chapter--dark .eyebrow { color: rgba(244, 242, 236, 0.7); }
 
 /* Centered overlay text block */
 .chapter__content {
@@ -457,8 +496,11 @@ video.hero__media {
   transition: color var(--dur-base) var(--ease-out), gap var(--dur-base) var(--ease-out);
 }
 .chapter__link:hover { color: var(--color-gold-deep); gap: var(--space-3); }
-.chapter__link--on-dark { color: var(--color-gold); }
-.chapter__link--on-dark:hover { color: var(--color-on-dark); }
+/* On a dark chapter the link rests ivory (its underline is currentColor) so
+ * the crown stays the section's single gold accent; gold appears only on
+ * hover. See design.md 3.1 "one accent per screen". */
+.chapter__link--on-dark { color: var(--color-on-dark); }
+.chapter__link--on-dark:hover { color: var(--color-gold-sand); }
 
 /* ---------------- Split chapter (image + text/dl) ----------------
  * Image lives on the trailing edge (right in LTR, left in RTL) for
