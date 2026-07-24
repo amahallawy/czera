@@ -216,7 +216,7 @@ The landing's narrative engine. Five chapter shapes:
 | Variant | Layout | Surface |
 |---|---|---|
 | `chapter--light` | Centered copy on ivory, full-bleed media block | Light |
-| `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark` and `eyebrow--gold` |
+| `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark`. Single gold accent is the **crown**; the eyebrow reads muted ivory and the link rests ivory (gold on hover only), per §3.1 one-accent-per-screen. |
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
 | `chapter--editorial` | Heading row + 3-column entries (no card chrome) | Light |
 | `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. Stacks (image over copy) below 768px. | Light |
