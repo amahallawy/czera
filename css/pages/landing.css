@@ -364,12 +364,6 @@ video.hero__media {
   outline: 0;
 }
 .chapter--dark .chapter__media::after { display: none; }
-/* Collection's image is a self-contained dark still-life. `contain` shows
- * the whole composition (nothing cropped, unlike `cover`), and the warm
- * near-black fill blends the letterbox into the dark chapter so the frame
- * still reads full-bleed. #0b0806 is matched to the photo's shadow, not a
- * brand token. On phones the section is tall, so anchor the still-life to
- * the bottom and let the copy sit on the dark space above it. */
 /* Collection artwork — one warm still-life of the range. Desktop fills the
  * frame edge-to-edge with `cover` (the crop trims a little headroom/table but
  * keeps both the towels and the robe). Phones keep it contained and bottom-
