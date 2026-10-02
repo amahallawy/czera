@@ -2,8 +2,17 @@
 
 **Date**: 2026-05-09
 **Project**: Czera Maison ([projects/czera/](../../../))
-**Status**: Spec — not yet implemented
+**Status**: Implemented (shipped in PRs #1 and #2)
 **Brand source of truth**: [design.md](../../../design.md)
+
+> **As built — read this before regenerating or adding a beat.** This spec names
+> **Seedance 2** as the image-to-video model throughout. In practice all four AI
+> beats were generated with **Kling** via Lovart. The stills did come from
+> **Nano Banana 2** via Lovart, as specified. The Seedance-specific guidance below
+> (the `Camera: / Subject: / Avoid:` prompt blocks, the model-selection warnings,
+> the cost lines) is kept as the original design record, not as instructions.
+> New or regenerated beats should use Kling-style prompts: natural-language
+> filmic direction, with a motion-strength hint at the end.
 
 ---
 

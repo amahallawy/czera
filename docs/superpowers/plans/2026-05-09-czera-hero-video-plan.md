@@ -2,6 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 > **Note:** This plan is a hybrid AI-production + small engineering swap, *not* a typical TDD code feature. Production tasks use **gate checks** (verification by acceptance criteria) instead of test-first. Only the engineering phase (HTML/CSS swap) follows traditional verify-by-test discipline.
+> **As built:** this plan says **Seedance 2** for image-to-video. All four AI beats were actually generated with **Kling** via Lovart (stills: Nano Banana 2 via Lovart, as planned). Treat the Seedance steps in Task 5 as the original plan, not as instructions. New or regenerated beats should use Kling-style prompts: natural-language filmic direction, with a motion-strength hint at the end. See the spec's "As built" note.
 
 **Goal:** Replace the Czera landing-page hero background image with a 30-second silent looping video built from 5 cinematic beats — generated via Lovart (Nano Banana 2 + Seedance 2), assembled in CapCut Pro, and wired into the static site with a `prefers-reduced-motion` fallback.
 
