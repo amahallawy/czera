@@ -1,0 +1,11 @@
+# Company status report: read by the Company dashboard and checked before every PR.
+# Keep it current (at least every 14 days). See /project-status in the Company workspace.
+schema: 1
+updated: 2026-10-02
+goal: "Finish the landing page and bring the catalog and product pages in line with the brief, ready to launch"
+due: 2026-10-31
+progress: 55
+progress_note: "Hero, Our story and Collection done; Material/Journal photos, Hospitality section and catalog/product pages still to do"
+health: at-risk
+blockers:
+next_release: none
