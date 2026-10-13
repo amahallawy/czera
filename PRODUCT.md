@@ -2,100 +2,107 @@
 
 ## Register
 
-brand
+brand + showroom
+
+## Source of truth
+
+Every product name, price, size, weight and claim on the site comes from the
+client's own material: `assets/czera products/<product>/info.txt` (with its
+photos) and `assets/CZERA’s Catalogue 15-09-2026.pdf`. The site's earlier copy
+(Egyptian cotton, Nile Delta, 600–800 GSM, a B2B hospitality brief) was
+placeholder design content and does not apply. Full design decisions:
+[docs/superpowers/specs/2026-10-13-czera-showroom-design.md](docs/superpowers/specs/2026-10-13-czera-showroom-design.md).
 
 ## Users
 
-**Primary:** hospitality / B2B specifiers — boutique hotels, riads, interior designers,
-and procurement leads sourcing linens for projects in Cairo, the GCC, and the broader
-Levant region.
+**Primary:** home and gift buyers in Egypt. Someone buying towels or a robe
+for their own home, or a boxed set for a wedding, a birthday or an
+anniversary.
 
-**Secondary:** the domestic Egyptian premium home buyer who finds the brand through
-hospitality reference or word of mouth.
+**Secondary:** bulk and corporate buyers (wedding favours, company gifts,
+hotels and spas) who order in quantity through WhatsApp.
 
-**Context:** a designer specifying linens for a 60-suite boutique hotel scans the site
-between meetings, on mobile, on 4G. They are not browsing — they are checking material
-specifics (GSM, weave, finish, region of origin) and assessing whether Czera is the
-kind of supplier they can recommend to their client. The site has roughly one minute
-to make that case.
+**Context:** most visitors arrive on a phone, often from Instagram, and want
+three things fast: what it looks like, what it costs, and how to order it.
+Many are buying a gift and care as much about the box and ribbon as about
+the towel.
 
-**Job to be done:** confirm Czera is a contract-credible Egyptian cotton brand with
-the documented material specifics and editorial legitimacy to recommend, then start
-a WhatsApp conversation or request a sample set.
+**Job to be done:** find the right towel, robe or gift set (or build a custom
+box), see the price, put it in the bag, and send the order on WhatsApp.
 
-## Product Purpose
+## Product purpose
 
-Czera Maison is a premium Egyptian cotton towel brand — woven in Egypt at 600–800 GSM,
-finished by hand. The site exists to make the brand legible to hospitality buyers
-(and to the home buyers they overlap with) through editorial storytelling that
-demonstrates material and geographic specificity, leading to a WhatsApp inquiry or
-sample request — not to an immediate purchase.
+Czera makes 100% cotton towels, bathrobes and gift sets: towels at 650+ GSM,
+robes at 1200 GSM that fit up to 130 kg, presented in a black Czera gift box
+with satin ribbon. The site is a **showroom**: every product with its photo,
+contents and price in EGP; a bag the visitor fills as they browse; and one
+button that sends the whole bag as an order on WhatsApp. There is no online
+payment or checkout.
 
-Success: a buyer leaves understanding what Czera is, where it comes from, that it can
-supply at scale, and that the brand is worth saving for a client conversation.
+Success: a visitor leaves with an order sent on WhatsApp, or with a clear
+idea of what they will order and how.
 
-## Brand Personality
+## Brand personality
 
-**Specific · Made · Egyptian.**
+**The hotel experience, at home.**
 
-Provenance-first. Materially specific. Czera does not claim luxury — it shows the GSM,
-the Nile Delta origin, the hand finish, and lets the reader draw the conclusion.
-Heritage-modern restraint. Premium without flexing. The voice reads like a textile
-mill that also happens to publish a quarterly journal: factual, certain, unhurried.
+Warm, refined, gift-ready. The catalogue's own lines set the tone: "Every
+detail feels like home", "It's all in the details", "Everyday moments deserve
+extraordinary comfort". Calm and confident, never loud.
 
-No exclamation marks. No "discover", "elevate", "indulge", "experience luxury".
-Headings state facts. The site speaks product, never commerce.
+Voice rules:
+
+- Use the client's catalogue phrasing as the starting point; tidy it, don't
+  invent new claims.
+- No exclamation marks. Avoid hype words: "discover", "elevate", "indulge",
+  "best in class". "Luxury" appears only in the brand line "Luxury towels &
+  bath essentials".
+- State the real facts plainly: sizes, GSM, what is in the box, the price.
+- Don't claim what the material doesn't say (origin, "by hand") until the
+  client confirms it.
 
 ## Anti-references
 
-Czera must NOT look or feel like any of these:
+Czera must NOT look or feel like:
 
-- **DTC bath-brand lifestyle (Brooklinen, Parachute, Snowe).** Millennial-warm
-  photography, soft pastels, "sleep better" copy, founder-letter About pages. Treats
-  towels as a lifestyle accessory, not as a spec.
-- **Industrial B2B supplier sites (Standard Textile, Welspun).** Catalog-dump
-  aesthetic, no brand story, PDFs as primary content, "request a quote" as the only
-  CTA. Functional but unreadable as a brand.
-- **Hotel-amenity wholesaler (Boca Terry, Monarch Cypress).** Robe-and-slipper-
-  catalog aesthetic, low-res product grids, dated typography. The "we sell to hotels"
-  surface that has no brand at all.
-- **Generic "AI luxury" bath sites.** Cormorant Garamond + gold gradient +
-  serif-on-cream + "Indulge in luxury" headlines. Training-data reflex; instant
-  brand dilution.
+- **A discount shop.** Rows of black "Buy now" buttons, red sale badges,
+  countdown timers, "Trending now" strips.
+- **Industrial B2B supplier sites (Standard Textile, Welspun).** Catalogue
+  dumps, PDFs as primary content, "request a quote" as the only action.
+- **Hotel-amenity wholesalers.** Low-res product grids, dated typography, no
+  brand at all.
+- **Generic "AI luxury" bath sites.** Cormorant Garamond, gold gradients,
+  "Indulge in luxury" headlines.
 
-Czera's position sits between editorial-magazine and atelier-supplier — closer to a
-print catalog from a textile mill that also publishes a quarterly than to any of the
-above categories.
+The references Czera does follow: Abyss Habidecor for editorial pacing on the
+home page, Frette for the collection grid and product page.
 
-## Design Principles
+## Design principles
 
-1. **Show provenance, never claim it.** Material specifics (GSM, region, finish,
-   weave) do the work that adjectives ("luxurious", "premium") cannot. If a section
-   needs the word "luxury" to land, the section has failed.
-2. **Editorial, not promotional.** Headings state facts. Copy reads like a magazine
-   spread or a textile catalog — not like a landing page. No CTAs that read as
-   marketing voice ("Discover", "Shop now", "Get started").
-3. **Quiet is the trust signal.** A spec-led buyer trusts what is *not* said as much
-   as what is. Whitespace, single accents, restrained motion. If a section can be
-   removed without losing meaning, remove it.
-4. **Speak credibly to hospitality without literalising it.** Spec lists, GSM bands,
-   finishing details, and capacity-implying phrasing signal contract-credibility to a
-   designer — without the page ever needing the words "B2B", "wholesale", or
-   "trade program".
-5. **Arabic is a peer, not a translation.** RTL is designed-with, not paste-
-   translated. A Cairo-based designer should feel the Arabic surface was made for
-   them, not retrofitted from English.
+1. **Real data only.** Names, prices and claims come from the client's files.
+   If the material doesn't say it, the site doesn't either.
+2. **Show it, price it, make it easy to order.** Every product shows its
+   photo, its contents and its price; adding to the bag is one tap.
+3. **Quiet commerce.** Ordering is always close but never shouts: a gold
+   "Add to bag ›" text link on cards, one solid button per screen, no
+   pop-ups.
+4. **Gifts lead.** Half the range is boxed sets; the box and ribbon are part
+   of the product and get photographed and described as such.
+5. **Arabic is a peer, not a translation.** RTL is designed-with, not
+   paste-translated. The Arabic version follows as its own phase once the
+   English pages are approved.
 
-## Accessibility & Inclusion
+## Accessibility & inclusion
 
-WCAG 2.1 AA basics — focus states, alt text, contrast ≥ 7:1 for ink-on-bg, reduced-
-motion, sequential headings — are documented in `DESIGN.md` §11 and treated as a
+WCAG 2.1 AA basics (focus states, alt text, contrast, reduced motion,
+sequential headings) are documented in `design.md` §11 and treated as a
 baseline.
 
 **Strategic commitment specific to Czera's audience:**
 
-- **Low-bandwidth Cairo and regional networks are a design constraint, not an
-  afterthought.** The site is image-heavy and editorial. Buyers in Cairo, the GCC,
-  and the wider region load on 4G with real data costs. Progressive image loading,
-  image budgets per page, lazy-load below the fold, and no autoplay video on cellular
-  are strategic decisions — they shape what the site is, not what it does at the end.
+- **Phones on mobile data are the default.** Most visitors come from
+  Instagram on 4G. Progressive image loading, per-page image budgets,
+  lazy-loading below the fold, and no autoplay video on cellular shape what
+  the site is, not what it does at the end.
+- **The bag and the WhatsApp order must work on any phone browser**, with no
+  account, and survive page reloads.

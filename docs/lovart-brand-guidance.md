@@ -4,12 +4,14 @@ Paste the block below into Lovart's brand-builder "Design guidance" / "Brand ins
 
 Two versions: a **full** version (~1900 chars) for fields with no tight character limit, and a **short** version (~900 chars) if Lovart caps the field.
 
+> Updated 2026-10-13 to match the client's real catalogue: no Egyptian-cotton or Nile Delta claims, and the subject list follows the catalogue's own photography (warm stone bathrooms, sea light, gift boxes, striped beach towels). See `PRODUCT.md` for the source-of-truth rule.
+
 ---
 
 ## Full version
 
 ```
-Czera Maison is a premium Egyptian cotton towel brand. Heritage-modern. Quiet, certain, materially specific. Editorial, not promotional. Premium without flexing.
+Czera is a premium brand of 100% cotton towels, bathrobes and boxed gift sets: the hotel experience, at home. Warm, calm, refined. Editorial, not promotional. Premium without flexing.
 
 Palette (use these only):
 - Soft Ivory background #F4F2EC
@@ -21,19 +23,19 @@ Gold rule: maximum one gold accent per image. A gold thread plus a gold border p
 
 Lighting: warm color temperature only. Side-lit or top-down. Soft shadow. Painterly. Golden hour, late afternoon, or warm window light. 35mm film stock feel — soft grain, deep depth of field. Long soft shadows are welcome. Never flat product-on-white, never cool light, never harsh fluorescent, never drone aerials.
 
-Subjects: Egyptian cotton fields, Nile Delta heritage. Hands at traditional wooden floor looms. Cairo workshop interiors with warm window light. Macro on cotton terry weave. Single deep-gold thread on ivory cotton. Stacks of folded ivory towels on worn dark wood or marble. Robes hung on hooks. Bath scenes with morning light. Single rose petal on white cotton (signature). Hands folding, hands placing, hands at the loom.
+Subjects: warm stone bathrooms with soft sea light. Stacks of folded white towels on stone, marble or worn wood. Robes (white and black) hung on hooks. The black Czera gift box with satin ribbon, burgundy or gold. Blue-and-white and yellow-and-white striped beach towels on a lounger by the sea. Macro on cotton terry. Cotton bolls. Single rose petal on white cotton (signature). Hands folding, hands placing.
 
 No faces — keep people anonymous: hands, forearms, silhouettes only.
 
 Composition: tight crops on texture; loose breathing crops on lifestyle. Never center-locked symmetric product shots. Always leave a calm zone for the eye to rest. Painterly stillness, not commercial energy.
 
-Style references: Loro Piana brand films, Hermès maison films, Frette product editorial, Abyss Habidecor lookbooks, Egyptian and Levantine craft documentary photography.
+Style references: Loro Piana brand films, Hermès maison films, Frette product editorial, Abyss Habidecor lookbooks, Mediterranean resort photography.
 
 Always avoid:
 - Marketing aesthetic: "discover", "elevate", "indulge", "experience luxury", "best in class"
 - Stock photography look, agency aesthetic, watermarks
 - Logos, labels, or brand text in frame (the Czera mark is added in post-production, never inside the AI generation)
-- Cool tones, blue skies dominant, surreal HDR, neon
+- Cool-toned interiors, surreal HDR, neon (a calm sea glimpse behind a warm interior is fine, as in the catalogue)
 - Drone shots, helicopter aerials, wide overhead landscape
 - Multiple gold accents in one image
 - Modern industrial settings — factories, machinery, fluorescent lighting
@@ -42,7 +44,7 @@ Always avoid:
 - Cormorant Garamond, Playfair Display, EB Garamond, or any "AI-luxury" serif if any text appears
 - Exclamation-mark energy in any visible text
 
-Voice (for any text inside images, though we generally avoid text-in-image): quiet, factual, materially specific. Periods, never exclamation marks. State the spec, not adjectives. "Egyptian cotton, woven in Egypt" — not "Discover luxury today".
+Voice (for any text inside images, though we generally avoid text-in-image): quiet, factual, materially specific. Periods, never exclamation marks. State the spec, not adjectives. "100% cotton, 1200 GSM" — not "Discover luxury today".
 ```
 
 ---
@@ -50,19 +52,19 @@ Voice (for any text inside images, though we generally avoid text-in-image): qui
 ## Short version (if the field is character-limited)
 
 ```
-Czera Maison: premium Egyptian cotton towel brand. Heritage-modern, quiet, materially specific. Editorial, never promotional.
+Czera: premium 100% cotton towels, bathrobes and boxed gift sets. The hotel experience, at home. Warm, calm, refined. Editorial, never promotional.
 
 Palette: Soft Ivory #F4F2EC, Warm Beige #E7E1D5, Deep Charcoal #2B2B2B, Royal Gold #D4AF36, Deep Gold #BA7C17. Maximum one gold accent per image — gold is rare.
 
 Lighting: warm temperature only. Side-lit or top-down. Soft shadow. Golden hour, late afternoon, or warm window light. 35mm film stock feel, soft grain, deep depth of field. Never flat product-on-white, never cool light, never drone shots.
 
-Subjects: Egyptian cotton fields. Hands at wooden floor looms (no faces). Cairo workshop interiors. Macro on cotton terry weave. Single deep-gold thread on ivory. Stacks of folded ivory towels on worn dark wood. Robes on hooks, bath scenes with morning light. Single rose petal on white cotton.
+Subjects: warm stone bathrooms with sea light. Stacks of folded white towels on stone or wood. Robes on hooks. Black Czera gift box with satin ribbon. Striped beach towels by the sea. Macro on cotton terry. Single rose petal on white cotton.
 
 Composition: tight on texture, loose on lifestyle. Never center-locked. Always a calm zone. Painterly stillness.
 
 References: Loro Piana, Hermès, Frette, Abyss Habidecor.
 
-Avoid: marketing aesthetic, stock photography, drone shots, blue/cool tones, faces, logos or text in frame, multiple golds, factories, fluorescent light, white seamless backgrounds, product-on-white, watermarks.
+Avoid: marketing aesthetic, stock photography, drone shots, cool-toned interiors, faces, logos or text in frame, multiple golds, factories, fluorescent light, white seamless backgrounds, product-on-white, watermarks.
 ```
 
 ---

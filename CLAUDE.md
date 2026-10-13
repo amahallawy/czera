@@ -6,9 +6,12 @@ project-specific concretions.
 **Published to:** https://github.com/amahallawy/czera
 **Default branch:** main
 
-Czera Maison — premium Egyptian cotton towels. E-commerce-style static site
-(HTML / CSS / vanilla JS), bilingual English/Arabic, with hero + brand
-storytelling and a Frette-inspired product catalogue.
+Czera — 100% cotton towels, bathrobes and boxed gift sets. A showroom-style
+static site (HTML / CSS / vanilla JS), bilingual English/Arabic: editorial
+home page, Frette-inspired collection and product pages, a bag whose order
+is sent on WhatsApp, and Build Your Own Box. Product facts come only from
+the client's files (see `PRODUCT.md`); the design is in
+`docs/superpowers/specs/2026-10-13-czera-showroom-design.md`.
 
 ## Merge policy — concrete markers
 
@@ -69,8 +72,11 @@ stays one file.
 
 ```
 projects/czera/
-├── index.html                # landing
-├── catalog.html              # collection grid (Frette-inspired)
+├── index.html                # home
+├── catalog.html              # collection (sidebar filters + grid)
+├── product.html              # product page (one template)
+├── build-your-box.html       # Build Your Own Box
+├── about.html                # About + bulk orders + contact
 ├── css/
 │   ├── tokens.css            # design tokens (vars only)
 │   ├── base.css              # reset + base typography
