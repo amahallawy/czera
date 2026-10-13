@@ -14,18 +14,21 @@ exist to protect.
 
 ## 1. Brand at a glance
 
-**Czera Maison** — premium Egyptian cotton towels for the home and
-hospitality. Woven in Egypt at 600–800 GSM. Bilingual (English default,
-Arabic mirror). Direct-to-consumer storefront with editorial brand
-storytelling on the landing page and a Frette-style catalogue grid.
+**Czera** — 100% cotton towels (650+ GSM), bathrobes (1200 GSM) and
+gift sets in the black Czera box. Bilingual (English default, Arabic
+mirror). A showroom: editorial brand storytelling on the home page, a
+Frette-style collection and product page, a bag, and orders sent on
+WhatsApp. Facts come only from the client's product files and catalogue
+PDF (see [`PRODUCT.md`](PRODUCT.md)); the full page-by-page design is in
+[the showroom spec](docs/superpowers/specs/2026-10-13-czera-showroom-design.md).
 
 | | |
 |---|---|
-| **Voice** | Quiet, certain, materially specific. No exclamation marks. No "discover", "elevate", "indulge", "experience luxury". Say what the product is and where it comes from. |
-| **Posture** | Heritage-modern. Restrained. Premium without flexing. |
-| **Surface** | Ivory-on-charcoal, gold reserved for one accent per screen. |
-| **Tagline** | *Luxury in every touch.* |
-| **Region** | Cairo, Egypt. WhatsApp-first commerce. EGP pricing. |
+| **Voice** | Warm, calm, factual. No exclamation marks. No "discover", "elevate", "indulge". Start from the catalogue's own lines; state sizes, GSM, contents and price. |
+| **Posture** | The hotel experience, at home. Refined, gift-ready, never loud. |
+| **Surface** | Ivory pages, near-black for the gift-box moments, gold kept rare. |
+| **Brand line** | *Luxury towels & bath essentials.* Catalogue line: *Every detail feels like home.* |
+| **Region** | Egypt. WhatsApp orders. EGP pricing. |
 
 ---
 
@@ -36,6 +39,8 @@ storytelling on the landing page and a Frette-style catalogue grid.
 | [abysshabidecor.com](https://www.abysshabidecor.com/home) | Chapter rhythm (full-bleed media → centered copy → next chapter), restrained type scale, single-accent color discipline | Their full-page video maximalism — Czera leans more print-editorial |
 | [frette.com/en_US/towels](https://www.frette.com/en_US/towels) | Catalogue grid density, hover behaviour, filter chrome, product-name treatment, body-copy weight | Their cooler grey palette — Czera is warm ivory + gold |
 | [@czera_maison](https://www.instagram.com/czera_maison) | Photography mood (warm light, soft shadows, fabric closeups), gold-on-ivory product staging | Anything that resembles a typical mass-market towel ad |
+| Client catalogue PDF (15-09-2026) | Product names, contents, the four promises and their icons, warm stone-and-sea lifestyle photography, copy lines | Text, icons and the scanner stamp printed on the pages: crop to the photo |
+| Client's "Make your own box" mockup | The four-step Build Your Own Box structure | Its placeholder total |
 | Czera brand book (in `graphics/`) | Palette, typography, crown mark, wordmark, pattern motifs | — |
 
 ---
@@ -61,10 +66,13 @@ hex literal.
 | `--color-ink-faint` | `#A3A099` | Placeholder, divider on light. |
 | `--color-on-dark` | `#F4F2EC` | Foreground on charcoal surfaces. |
 
-**Gold is sacred.** A landing screen has one gold moment (hero crown,
-single CTA, or one chapter eyebrow). Never gold buttons + gold dividers
-+ gold underlines on the same screen. Color audit (impeccable
-`/colorize`, `/quieter`) enforces this.
+**Gold is sacred.** A screen has one **solid** gold moment (a gold
+button on a dark band, or the hero crown). Never gold buttons + gold
+dividers + gold underlines on the same screen. The one standing
+exception is the small deep-gold "Add to bag ›" text link on product
+cards: it is the site's commerce cue and repeats per card, but it is
+text, never a filled button. Color audit (impeccable `/colorize`,
+`/quieter`) enforces this.
 
 ### 3.2 Typography
 
@@ -95,7 +103,10 @@ comes from size + tracking, not from weight.
 
 - **Wordmark**: `assets/logo/czera-wordmark-ivory.jpg` — used in the
   header. Sits with `mix-blend-mode: multiply` so the ivory plate
-  blends into the page surface.
+  blends into the page surface. `czera-wordmark-white.png` has a fake
+  checkerboard baked into the pixels and must not be used; a clean
+  transparent PNG or SVG is needed for dark surfaces (open client
+  request, spec §11).
 - **Crown** (`.brand-crown`): inline SVG, defined in markup. Used
   anywhere the wordmark would be too heavy — chapter eyebrows, footer,
   hero. Variants: default ivory, `--sm` size, `--deep` gold.
@@ -124,24 +135,27 @@ them.
    wasted space.
 2. **One accent per screen.** Gold is rare. A gold CTA + a gold
    underline + a gold eyebrow on the same fold = redo.
-3. **Editorial, not promotional.** Headings state facts ("Egyptian
-   cotton, woven in Egypt") not slogans ("Discover Luxury Today!").
-4. **Materially specific.** "600–800 GSM, Nile Delta, finished by
-   hand." Show the spec, not adjectives.
+3. **Editorial, not promotional.** Headings state facts or the
+   catalogue's own lines ("The hotel experience, at home.") not slogans
+   ("Discover Luxury Today!").
+4. **Real facts, plainly.** "100% cotton · 90 × 160 cm · 650 EGP",
+   "1200 GSM, fits up to 130 kg". Only what the client's files say.
 5. **Heading weight is 300, always.** See §3.2.
-6. **No card chrome unless earned.** Editorial entries (`/journal`)
-   sit on the page surface — no shadow, no border, no rounded
-   container. The image and the kicker do the work.
+6. **No card chrome unless earned.** Product cards sit on the page
+   surface — no shadow, no border, no rounded container. The photo,
+   name, price and the gold text link do the work.
 7. **Motion is restrained.** Reveal-on-scroll, slow ken-burns on
    chapter media, hover micro-states. No springs, no bounces, no
    parallax beyond the ken-burn.
 8. **RTL is a peer, not an afterthought.** Anything that uses
    `margin-left` instead of `margin-inline-start` is a bug.
-9. **Photography or nothing.** A chapter without a real photo uses an
-   Unsplash placeholder during dev — but ships only with a real
-   client photograph or a deliberate empty media slot.
-10. **Speak product, not commerce.** "Bath, hand, robe" — not "Best
-    Sellers" or "Trending Now."
+9. **Client photography only.** Every image comes from the client's
+   product photos or a crop of the catalogue PDF. No Unsplash in
+   production.
+10. **Quiet commerce.** Ordering is always one tap away but never
+    shouts: text links in grids, one solid button per screen, no
+    pop-ups, no sale badges. A single "Bestseller" tag is allowed;
+    "Trending now" strips are not.
 
 ---
 
@@ -150,6 +164,7 @@ them.
 ### 5.1 Container
 
 - `--content-max: 1320px` — outer container.
+- Collection: a left filter sidebar (~200px) beside the grid.
 - `--content-narrow: 720px` — editorial paragraph block.
 - `--content-reading: 65ch` — comfortable measure for body copy.
 - `--gutter: clamp(1rem, 4vw, 3rem)` — page side padding.
@@ -172,11 +187,13 @@ to fit "more above the fold."
 
 - Header: `grid-template-columns: 1fr auto 1fr` — nav, brand mark,
   utilities. Symmetric.
-- Catalogue grid: 2 / 3 / 4 columns at sm / md / lg, with no gaps
-  between cells (Frette flush-grid pattern). Hover lifts the image
-  by 1.02 scale, fades in the alt-image (when present).
-- Editorial row: `grid-template-columns: repeat(3, 1fr)` at desktop,
-  stacked on mobile.
+- Collection grid: 2 columns on phones, 3 beside the sidebar from md
+  up, with a small gap between cards. Hover lifts the image by 1.02
+  scale and fades in the second photo. One full-width Build Your Own
+  Box band after the first row (hidden when fewer than four products
+  match the filter).
+- Product page: photos stacked in a ~55% column; the buying panel
+  stays in view in the other column.
 
 ---
 
@@ -197,17 +214,17 @@ The brand's heritage feel relies on a simple, near-empty header.
 
 ### 6.2 Hero
 
-Full viewport, media background (image now, video later — see comment
-in [`index.html`](index.html) for the video swap-in pattern). Crown
-mark above title. Title in Montserrat 300 at `--fs-3xl` / `--fs-4xl`.
-Scroll cue at the bottom (`Scroll`, small caps, animated).
+Full viewport, the 30s brand film as background. Headline bottom-left
+("The hotel experience, at home."), a one-line fact line, and two
+actions: "Shop the collection" (light filled) and "Build your own box"
+(outline). Nothing else on the film.
 
-### 6.3 Value strip
+### 6.3 Promises (replaces the old value strip)
 
-A single bordered row directly under the hero. Four icon + label items
-at desktop, scrollable on mobile. Always factual ("100% Egyptian
-cotton", "600–800 GSM", "Free shipping over EGP 2,500", "Order on
-WhatsApp"). Never marketing copy.
+Four line icons with labels, as in the client catalogue: 100% cotton ·
+Highly absorbent · Long-lasting · Hotel quality (650+ GSM towels,
+1200 GSM robes). Used on the home page (with a four-photo strip under
+it) and on About. Factual, never marketing copy.
 
 ### 6.4 Chapters
 
@@ -218,23 +235,27 @@ The landing's narrative engine. Five chapter shapes:
 | `chapter--light` | Centered copy on ivory, full-bleed media block | Light |
 | `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark`. Single gold accent is the **crown**; the eyebrow reads muted ivory and the link rests ivory (gold on hover only), per §3.1 one-accent-per-screen. |
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
-| `chapter--editorial` | Heading row + 3-column entries (no card chrome) | Light |
+| `chapter--editorial` | Heading row + 3-column entries (no card chrome). Unused while the Journal is off the site. | Light |
+| Build-your-box band | Near-black band in the black-gift-box look: copy and four numbered steps on one side, gift-box photo on the other, one gold button. Used on Home and as the break in the Collection grid. | Dark |
 | `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. Stacks (image over copy) below 768px. | Light |
 
 Each chapter starts with `<span class="eyebrow">…</span>`, then the
 crown mark, then the title, then the body. Skipping the eyebrow makes
 chapters blur into each other.
 
-### 6.5 Buttons
+### 6.5 Buttons and links
 
-Two only:
+- **Solid ink** (`#010100`, ivory text): the main action on light
+  surfaces: "Add to bag · price", "Add box to bag", "Continue".
+- **Solid gold**: the main action on a dark band ("Start your box").
+  One per screen.
+- **Outline**: the second action beside a solid one (hero).
+- **WhatsApp green**: only the final "Send order on WhatsApp" in the
+  bag.
+- **Gold text link with `›`**: "Add to bag ›" on product cards, "Or
+  order just this on WhatsApp ›", "See all gift sets ›".
 
-- `.btn.btn--gold` — primary CTA. Filled gold, charcoal text. One per
-  screen.
-- `.btn.btn--on-dark` — secondary, ivory outline on dark surface.
-
-No tertiary "ghost" button. If a third action is needed, it is a text
-link with a `→` glyph (`.chapter__link`), not a button.
+No ghost-button stacks. A third action is a text link, not a button.
 
 ### 6.6 Spec list (`<dl class="spec-list">`)
 
@@ -243,22 +264,66 @@ divider between rows. Reads like a Frette product fact-sheet.
 
 ### 6.7 Footer
 
-Four-column grid: brand block / Shop / Company / Newsletter. Below: copy
-line + socials + city. The brand block reuses the crown mark + the
-"CZERA" wordmark-text + the tagline — same elements as the header,
-restated.
+Dark. Four columns: brand block (wordmark, "Luxury towels & bath
+essentials", one line) / Shop / Help (How to order, Sizes & care,
+Delivery, About) / Contact (WhatsApp, Instagram, Facebook, plus an
+"Order on WhatsApp" outline button). Bottom row: © line and the
+English · العربية switch. No newsletter form (the site has nowhere to
+send it). On Home it sits under the three-step "How to order" band.
 
-### 6.8 Catalog
+### 6.8 Product card
 
-Frette-flush grid. Card = image + product name (Italiana) + price
-(Montserrat 400, no commas in EGP for now) + size variants on hover.
-No "Add to Cart" buttons in the grid — click into PDP.
+Used everywhere a product appears (Home gift sets, Collection, related
+products). Photo (4:5, second photo on hover), name (Italiana), one
+spec line, price ("1,450 EGP"), and a gold "Add to bag ›" text link
+beside the price. Clicking anywhere else opens the product page. No
+buttons, no badges except a single optional "Bestseller" tag.
 
-### 6.9 PDP (product detail)
+### 6.9 Collection page
 
-Two-column desktop layout. Image gallery left (sticky), product info
-right. Spec list under the buy box. "You may also like" row at
-bottom — no upsell modals, no popups.
+Title, then a left sidebar with Category, Price and Colour filters.
+Each option shows its count, computed from the product data; options
+that would return nothing are greyed out. On phones the sidebar
+becomes a "Filters" button that opens a panel.
+
+### 6.10 Product page
+
+Photos stacked large on the left; the buying panel stays in view on
+the right: category, name, price, short description, "In the box"
+list for sets, quantity, "Add to bag · price", the "Or order just this
+on WhatsApp ›" link, four quick facts, the delivery line. Under that,
+fold-out sections: Description and Features open, Sizes & care and
+Delivery & payment closed. At the bottom: a dark "Add this to a box of
+your own" band (towels and beach towels pre-fill the box; robes and
+sets just link) beside Recently viewed (Bestsellers for first-time
+visitors). No upsell modals, no pop-ups.
+
+### 6.11 Bag panel
+
+The bag icon in the header shows the item count. Adding an item shows a
+short black confirmation near the bag ("Black Bathrobe added to your
+bag · View bag"). The bag opens as a panel that slides in from the
+right, in two steps: (1) items with photo, name, spec, quantity,
+remove, line price, total, "Continue"; (2) delivery details: name,
+phone, address, city required, note optional, then the green "Send
+order on WhatsApp" button, which opens WhatsApp with the order written
+out. The bag is kept in the visitor's browser.
+
+### 6.12 Gift-set tabs (Home)
+
+Two tabs above a row of four product cards: *For the home* and *Robes
+& beach*. Tab labels are small caps with a count; the active tab has an
+ink underline.
+
+### 6.13 Build Your Own Box
+
+The client's mockup structure: four numbered steps on the left (box,
+towels with quantity, colour, ribbon) as bordered option tiles (the
+selected tile has an ink outline); a preview on the right with the box
+photo, the running item list, the total, "Box and ribbon included
+free", and "Add box to bag". The preview stays in view; on phones it
+becomes a total bar pinned to the bottom (the one allowed exception
+to §14's sticky-bar rule).
 
 ---
 
@@ -280,32 +345,39 @@ horizontal scroll storytelling, parallax beyond ken-burn.
 
 ## 8. Imagery
 
-- **Subjects**: stacked towels, fabric closeups, hands folding, bath
-  scenes, robe hung on a hook, a single rose petal on white cotton.
+- **Sources**: the client's product photos (`assets/czera products/`)
+  and crops of the catalogue PDF. Catalogue pages carry printed text,
+  icons and a CamScanner stamp: crop to the photo area so none of it
+  shows. Some product photos also have printed panels (e.g. the black
+  robe's "1200 gm / 130 kg"); prefer the clean shot.
+- **Subjects**: stacked towels, fabric closeups, bath scenes, robes on
+  hooks, gift boxes with ribbon, striped beach towels by the sea.
 - **Light**: warm, side-lit, soft shadow. Never flat product-on-white.
 - **Crop**: tight on texture; loose on lifestyle. No center-locked
   product photos.
 - **Aspect**: hero is 16:9 desktop / 4:5 mobile; chapter media is
   3:2; editorial entries are 4:5.
-- **Placeholders**: Unsplash links allowed during build (see
-  `index.html`); production swaps in client photography from
-  `assets/img/`. `graphics/` is the staging dump — never reference
-  files there from production HTML.
+- **Files**: page-ready copies live in `assets/img/products/` and
+  `assets/img/catalogue/`. Client originals move to `graphics/`, the
+  staging dump — never reference files there from production HTML.
+  The Unsplash placeholders still in `index.html` are removed in the
+  showroom build.
 
 ---
 
 ## 9. Voice and microcopy
 
-- Sentences end with a period. No `!`. (Hero subtitle, value strip,
+- Sentences end with a period. No `!`. (Hero subtitle, promises,
   chapter bodies — all flat declarative.)
-- Numerals use thin spacing for ranges (`600–800`) and the en-dash
-  (`&ndash;`), never a hyphen.
-- Currency: `EGP 2,500` — three-letter code, space, comma-grouped.
-- CTAs are imperative + concrete: "Shop the collection", "Our
-  story", "Subscribe →". Never "Click here", "Learn more", "Get
-  started".
-- Product names are Italiana, sentence case, no quotes ("Nile
-  Bath Towel", not "NILE BATH TOWEL" or "Nile™ Bath Towel").
+- Ranges use the en-dash (`500–1,500`, `&ndash;`), never a hyphen.
+  Sizes use the multiplication sign: `90 × 160 cm`.
+- Currency: `1,450 EGP` — comma-grouped amount, space, three-letter
+  code (matches the client's mockup).
+- CTAs are imperative + concrete: "Shop the collection", "Add to bag",
+  "Start your box", "Send order on WhatsApp". Never "Click here",
+  "Learn more", "Get started", "Buy now".
+- Product names are Italiana, title case as in the catalogue, no
+  "Luxury" prefix ("The Complete Czera Set", "3 Bath Sheets Set").
 
 ---
 
@@ -321,7 +393,7 @@ horizontal scroll storytelling, parallax beyond ken-burn.
 - Arabic typography uses Cairo via the token swap in
   [`tokens.css`](css/tokens.css). No font-stack hand-overrides per
   component.
-- Numerals stay Latin (`600–800 GSM`) on the Arabic surface for
+- Numerals stay Latin (`1200 GSM`, `1,450 EGP`) on the Arabic surface for
   spec consistency — confirm with brand if Arabic-Indic numerals
   are wanted later.
 
@@ -350,9 +422,12 @@ Non-negotiables:
 ```
 projects/czera/
 ├── design.md                ← this file
-├── index.html               landing
-├── catalog.html             collection grid (Frette-style)
-├── product.html             PDP
+├── PRODUCT.md               who the site is for, voice, source of truth
+├── index.html               home
+├── catalog.html             collection (sidebar filters + grid)
+├── product.html             product page (one template, all products)
+├── build-your-box.html      Build Your Own Box (new)
+├── about.html               About + bulk orders + contact (new)
 ├── css/
 │   ├── tokens.css           brand tokens (vars only)
 │   ├── base.css             reset + global typography + motion
@@ -366,8 +441,9 @@ projects/czera/
 │   └── catalog.js           filters + grid behaviour
 ├── assets/                  ← shipped, optimised, page-ready
 │   ├── logo/                processed brand marks
-│   ├── img/                 photography (Unsplash placeholders today)
-│   └── video/               hero video (later)
+│   ├── img/products/        product photos, web size
+│   ├── img/catalogue/       cropped catalogue photography
+│   └── video/               hero film
 └── graphics/                ← raw client material — NEVER referenced from HTML
     ├── crown.jpeg           crown reference
     ├── WhatsApp Image …     brand book pages
@@ -382,23 +458,35 @@ into `assets/img/` before it appears in markup.
 
 ## 13. Page intents
 
-### Landing (`index.html`)
-Editorial brand storytelling, chapter-paced. Five blocks: hero, value
-strip, story chapter (light), collection chapter (dark), material
-chapter (split), journal chapter (editorial 3-up), footer. Goal: a
-visitor who has never heard of Czera leaves understanding what the
-product is, where it comes from, and that it's premium — without a
-single sales line.
+Section-by-section choices are in the
+[showroom spec](docs/superpowers/specs/2026-10-13-czera-showroom-design.md).
 
-### Catalog (`catalog.html`)
-Frette-style flush grid. Filters: weight (GSM band), size, color.
-Cards click into PDP. No "Add to Cart" in the grid. Goal: browse and
-compare without distraction.
+### Home (`index.html`)
+Editorial, chapter-paced, in seven blocks: hero film, shop by category
+(editorial grid, gift sets lead), gift sets (two tabs), Build Your Own
+Box (dark band), our story (text over image), the four promises with a
+photo strip, how to order (three steps) + footer. Goal: a first-time
+visitor sees the range, the prices and how to order within one scroll.
+
+### Collection (`catalog.html`)
+Sidebar filters (category, price, colour) beside a three-column grid
+of product cards with "Add to bag ›", broken once by the Build Your
+Own Box band. Goal: browse, compare prices, add to the bag.
 
 ### Product (`product.html`)
-PDP with sticky image gallery, product name (Italiana), price, sizes,
-GSM, care, and a buy button. Spec list mirrors the chapter–split
-format. Goal: make the spec the hero.
+Large stacked photos, a buying panel that stays in view, fold-out
+details, and a related band at the bottom. Goal: everything needed to
+decide, with "Add to bag" always beside it.
+
+### Build Your Own Box (`build-your-box.html`)
+Four steps and a live preview with the running total; price is the
+sum of the towels, box and ribbon free. Goal: a custom gift box in the
+bag in under a minute.
+
+### About (`about.html`)
+Photo header, two short chapters from the catalogue's copy, the
+bulk-orders band and contact details. Goal: who Czera is and how to
+order in quantity.
 
 ---
 
@@ -415,7 +503,12 @@ If you see any of these in a draft, push back:
   luxury", "best in class"
 - Exclamation marks
 - Stock-grade product-on-white photography
-- Sticky bottom-bar CTAs ("Buy Now") on mobile
+- Sticky bottom-bar CTAs ("Buy Now") on mobile (sole exception: the
+  Build Your Own Box total bar, §6.13)
+- Filled "Add to bag" buttons on every product card (use the gold text
+  link, §6.8)
+- Claims the client's material doesn't make (origin, "by hand",
+  thread counts)
 - Cookie banners that take over the screen (a thin top strip is fine)
 - Auto-playing audio
 - Pop-up newsletter modals on first visit
