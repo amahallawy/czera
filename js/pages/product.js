@@ -27,7 +27,8 @@ if (!p) {
   const sideTitle = recent.length ? 'Recently viewed' : 'Gift sets';
   const category = CATEGORIES.find(c => c.id === p.category).label;
   const boxSize = BOX_SIZES.find(s => s.slug === p.slug) || (p.category === 'beach' ? BOX_SIZES.find(s => s.id === 'beach') : null);
-  const boxHref = p.boxable && boxSize ? `build-your-box.html?add=${boxSize.id}` : 'build-your-box.html';
+  const stripe = p.slug === 'blue-stripe-beach-towel' ? '&colour=blue' : p.slug === 'yellow-stripe-beach-towel' ? '&colour=yellow' : '';
+  const boxHref = p.boxable && boxSize ? `build-your-box.html?add=${boxSize.id}${stripe}` : 'build-your-box.html';
   const contents = p.contents ? `<div class="pdp__incl"><h2>In the box</h2><ul>${p.contents.map(c =>
     `<li>${c.qty} × ${escapeHtml(c.label)} <span>${escapeHtml(c.spec)}</span></li>`).join('')}</ul></div>` : '';
 
@@ -47,7 +48,6 @@ if (!p) {
         </div>
         <a class="link pdp__wa" data-order-one href="#" target="_blank" rel="noopener">Or order just this on WhatsApp ›</a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
-        <details class="acc" open><summary>Description</summary><p>${escapeHtml(p.description)}</p></details>
         <details class="acc" open><summary>Features</summary><ul>${p.features.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul></details>
         <details class="acc"><summary>Sizes &amp; care</summary><p>${escapeHtml(p.spec)}. ${escapeHtml(CONFIG.careText)}.</p></details>
         <details class="acc"><summary>Delivery &amp; payment</summary><p>${escapeHtml(CONFIG.deliveryText)}. ${escapeHtml(CONFIG.paymentText)}.</p></details>

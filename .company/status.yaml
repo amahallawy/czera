@@ -4,8 +4,8 @@ schema: 1
 updated: 2026-10-14
 goal: "Build the showroom from the approved spec: Home, Collection, Product, bag with WhatsApp orders, Build Your Own Box and About (English)"
 due: 2026-10-16
-progress: 20
-progress_note: "Design and spec approved (PR #10); build plan next, no pages built yet"
+progress: 90
+progress_note: "All pages built; awaiting review and the client's real WhatsApp number, delivery and payment details"
 health: on-track
 blockers:
 next_release: none
