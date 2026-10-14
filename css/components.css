@@ -616,22 +616,43 @@ body.menu-open { overflow: hidden; }
   margin: 0;
   padding: 0;
   list-style: none;
+  counter-reset: step;
 }
-.steps li { display: flex; gap: var(--space-3); align-items: flex-start; font-size: var(--fs-xs); line-height: var(--lh-base); }
-.steps li > i {
-  flex: none;
+/* Numbered gold circle comes from CSS; markup is <li><b>Label</b>Caption</li>. */
+.steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-3);
+  align-content: start;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-base);
+  color: var(--color-ink-mute);
+}
+.steps li::before {
+  content: counter(step);
+  grid-row: 1 / span 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 24px; height: 24px;
   border: 1px solid currentColor;
   border-radius: 50%;
-  font-style: normal;
   font-size: var(--fs-2xs);
-  color: var(--color-gold);
+  color: var(--color-gold-deep);
 }
-.steps li b { display: block; font-weight: 500; letter-spacing: 0.04em; }
-.steps li span span { color: var(--color-gold-sand); }
+.steps li b {
+  grid-column: 2;
+  display: block;
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-strong);
+}
+.band--dark .steps li { color: rgba(244, 242, 236, 0.7); }
+.band--dark .steps li::before { color: var(--color-gold); }
+.band--dark .steps li b { color: var(--color-on-dark); }
 @media (max-width: 768px) {
   .band--dark { grid-template-columns: 1fr; }
   .band__copy { padding: var(--space-7) var(--gutter); }
