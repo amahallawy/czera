@@ -36,14 +36,14 @@ if (!p) {
       <div class="pdp__photos">${p.images.map((src, i) =>
         `<img src="${escapeHtml(src)}" alt="${i === 0 ? escapeHtml(p.name) : ''}" ${i ? 'loading="lazy"' : ''} />`).join('')}</div>
       <div class="pdp__panel">
-        <p class="crumb"><a href="catalog.html?category=${p.category}">${escapeHtml(category)}</a></p>
+        <p class="crumb"><a href="catalog.html?category=${escapeHtml(p.category)}">${escapeHtml(category)}</a></p>
         <h1 class="pdp__name">${escapeHtml(p.name)}</h1>
         <p class="pdp__price">${formatEGP(p.price)}</p>
         <p class="pdp__lede">${escapeHtml(p.description)}</p>
         ${contents}
         <div class="pdp__buy">
           <div class="qty"><button type="button" data-step="-1" aria-label="One less">−</button><span data-qty-value>1</span><button type="button" data-step="1" aria-label="One more">+</button></div>
-          <button type="button" class="btn btn--ink" data-add-to-bag="${p.slug}" data-qty="1">Add to bag · <span data-buy-total>${formatEGP(p.price)}</span></button>
+          <button type="button" class="btn btn--ink" data-add-to-bag="${escapeHtml(p.slug)}" data-qty="1">Add to bag · <span data-buy-total>${formatEGP(p.price)}</span></button>
         </div>
         <a class="link pdp__wa" data-order-one href="#" target="_blank" rel="noopener">Or order just this on WhatsApp ›</a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
