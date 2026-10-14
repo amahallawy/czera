@@ -505,8 +505,9 @@ video.hero__media {
   }
 }
 
-@media (max-width: 768px) {
-  /* Phones: stop just short of a full screen so the next section peeks in. */
+@media (max-width: 768px) and (orientation: portrait) {
+  /* Portrait phones: stop just short of a full screen so the next section peeks in.
+     Landscape keeps the full height; the copy needs it. */
   .hero { min-height: 88vh; min-height: 88svh; }
 }
 

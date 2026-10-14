@@ -6,16 +6,22 @@ import { CONFIG } from '../config.js';
 
 initShell({ hasHero: true });
 
-// Hero film: autoplay only where it is cheap and welcome. Phones, Save-Data and
-// reduced-data visitors get the poster and a "Play film" control instead; reduced
-// motion keeps the poster with no control (CSS hides the video).
+// Hero film: autoplay only where it is cheap and welcome. Touch devices, narrow
+// screens, slow/cellular connections, Save-Data and reduced-data visitors get the
+// poster and a "Play film" control instead. Everyone else autoplays and gets a
+// "Pause film" control (WCAG 2.2.2). Reduced motion keeps the poster, no control
+// (CSS hides the video and the button).
 const heroVideo = document.querySelector('video.hero__media');
 const heroPlay = document.querySelector('[data-hero-play]');
 if (heroVideo) {
   const mq = q => window.matchMedia && window.matchMedia(q).matches;
+  const conn = navigator.connection;
   const reducedMotion = mq('(prefers-reduced-motion: reduce)');
-  const saveData = Boolean(navigator.connection && navigator.connection.saveData);
-  const holdBack = mq('(max-width: 768px)') || saveData || mq('(prefers-reduced-data: reduce)');
+  const holdBack = mq('(max-width: 768px)')
+    || mq('(hover: none) and (pointer: coarse)')
+    || mq('(prefers-reduced-data: reduce)')
+    || Boolean(conn && (conn.saveData || conn.type === 'cellular'
+      || /^(slow-2g|2g|3g)$/.test(conn.effectiveType || '')));
 
   const attachSources = () => {
     if (heroVideo.querySelector('source')) return;
@@ -34,21 +40,20 @@ if (heroVideo) {
   };
 
   if (!reducedMotion) {
-    if (!holdBack) {
-      play().catch(() => { /* autoplay refused: the poster stays */ });
-    } else if (heroPlay) {
+    if (heroPlay) {
       const label = heroPlay.querySelector('[data-hero-play-label]');
+      const setLabel = text => { label.textContent = text; };
       heroPlay.hidden = false;
+      heroVideo.addEventListener('play', () => setLabel('Pause film'));
+      heroVideo.addEventListener('pause', () => setLabel('Play film'));
+      // Source load failures fire `error` on the <source>, which does not bubble.
+      heroVideo.addEventListener('error', () => { setLabel('Play film'); }, true);
       heroPlay.addEventListener('click', () => {
-        if (heroVideo.paused) {
-          play().then(() => { label.textContent = 'Pause film'; })
-            .catch(() => { label.textContent = 'Play film'; });
-        } else {
-          heroVideo.pause();
-          label.textContent = 'Play film';
-        }
+        if (heroVideo.paused) play().catch(() => setLabel('Play film'));
+        else heroVideo.pause();
       });
     }
+    if (!holdBack) play().catch(() => { /* autoplay refused: the poster stays */ });
   }
 }
 
