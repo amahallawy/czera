@@ -34,3 +34,7 @@ node_modules/
 
 # Video render scratch (intermediate beats, pass logs, verify frames)
 assets/video/_working/
+
+# npm / wrangler installs (Cloudflare build installs wrangler here)
+node_modules/
+.wrangler/

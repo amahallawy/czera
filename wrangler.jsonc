@@ -1,0 +1,10 @@
+// Cloudflare Workers static-assets deploy for the client preview.
+// No Worker script: Cloudflare serves the files directly. `.assetsignore`
+// keeps everything that is not the site out of the upload.
+{
+  "name": "czera",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}
