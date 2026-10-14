@@ -47,7 +47,7 @@ if (heroVideo) {
       heroVideo.addEventListener('play', () => setLabel('Pause film'));
       heroVideo.addEventListener('pause', () => setLabel('Play film'));
       // Source load failures fire `error` on the <source>, which does not bubble.
-      heroVideo.addEventListener('error', () => { setLabel('Play film'); }, true);
+      heroVideo.addEventListener('error', () => { setLabel(heroVideo.paused ? 'Play film' : 'Pause film'); }, true);
       heroPlay.addEventListener('click', () => {
         if (heroVideo.paused) play().catch(() => setLabel('Play film'));
         else heroVideo.pause();
