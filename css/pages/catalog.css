@@ -58,6 +58,7 @@
 }
 .collection__grid {
   display: grid;
+  grid-auto-flow: row dense;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-6) var(--space-5);
 }

@@ -455,6 +455,7 @@ video.hero__media {
     min-height: 0;
     padding: 0 0 clamp(var(--space-7), 9vw, var(--space-9));
     overflow: visible;
+    overflow-x: clip;
   }
   .chapter--story .chapter__media {
     position: relative;

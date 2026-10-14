@@ -13,6 +13,7 @@
   --color-gold:         #D4AF36;   /* Classic Royal Gold — primary accent (sparingly) */
   --color-gold-sand:    #D8C28A;   /* Sand Gold — subtle accent, dividers */
   --color-gold-deep:    #BA7C17;   /* Deep Gold — emphasis, hover, active */
+  --color-gold-text:    #8A5C12;   /* small gold text — AA on ivory / surface-soft */
 
   --color-ink:          #2B2B2B;   /* Deep Charcoal — body text */
   --color-ink-strong:   #010100;   /* Near-black — headings on light bg */
