@@ -21,6 +21,9 @@ const BAND = `<div class="grid-band band band--dark">
   <img class="band__media" src="assets/img/products/hand-and-bath-sheet-set-1.jpg" alt="" /></div>`;
 
 function render() {
+  const active = document.activeElement;
+  const focusKey = active && active.matches && active.matches('[data-facet]')
+    ? { facet: active.dataset.facet, value: active.value } : null;
   const counts = facetCounts(PRODUCTS, state);
   document.querySelector('[data-filter-groups]').innerHTML = GROUPS.map(g => `
     <fieldset class="filter-group"><legend>${g.title}</legend>
@@ -38,6 +41,11 @@ function render() {
   const cards = results.map(renderProductCard);
   if (results.length >= 4) cards.splice(3, 0, BAND);
   document.querySelector('[data-grid]').innerHTML = cards.join('');
+  if (focusKey) {
+    const next = [...document.querySelectorAll('[data-facet]')]
+      .find(i => i.dataset.facet === focusKey.facet && i.value === focusKey.value);
+    if (next && !next.disabled) next.focus();
+  }
   document.querySelector('[data-result-count]').textContent = `${results.length} ${results.length === 1 ? 'product' : 'products'}`;
 }
 
