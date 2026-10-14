@@ -48,7 +48,6 @@ if (!p) {
         </div>
         <a class="link pdp__wa" data-order-one href="#" target="_blank" rel="noopener">Or order just this on WhatsApp ›</a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
-        <details class="acc" open><summary>Description</summary><p>${escapeHtml(p.description)}</p></details>
         <details class="acc" open><summary>Features</summary><ul>${p.features.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul></details>
         <details class="acc"><summary>Sizes &amp; care</summary><p>${escapeHtml(p.spec)}. ${escapeHtml(CONFIG.careText)}.</p></details>
         <details class="acc"><summary>Delivery &amp; payment</summary><p>${escapeHtml(CONFIG.deliveryText)}. ${escapeHtml(CONFIG.paymentText)}.</p></details>

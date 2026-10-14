@@ -53,7 +53,7 @@ export const PRODUCTS = [
   },
   {
     slug: 'his-and-hers-robes', name: 'His & Hers Robes', category: 'gift-sets', price: 2000,
-    spec: '2 robes · 1200 GSM', colours: ['white', 'black'], images: img('his-and-hers-robes', 2, 1, 3),
+    spec: '2 robes · 1200 GSM', colours: ['white', 'black'], images: img('his-and-hers-robes', 2, 3),
     description: 'Two 100% cotton bathrobes, one white and one black, at 1200 GSM, presented in the black Czera gift box with satin ribbons.',
     features: ['Premium 100% cotton', '1200 GSM', 'Fits up to 130 kg', 'Thick and plush', 'Gift-ready packaging', 'For weddings and anniversaries'],
     contents: [
