@@ -15,9 +15,9 @@ const FIELDS = [
 
 export function initBagPanel(bag) {
   document.body.insertAdjacentHTML('beforeend', `
-    <div class="bag-backdrop" data-bag-backdrop hidden></div>
-    <aside class="bag-panel" data-bag-panel role="dialog" aria-modal="true" aria-labelledby="bag-title" hidden>
-      <div class="bag-panel__head"><h2 id="bag-title" class="bag-panel__title">Your bag</h2>
+    <div class="bag-backdrop" data-bag-backdrop aria-hidden="true"></div>
+    <aside class="bag-panel" data-bag-panel role="dialog" aria-modal="true" aria-labelledby="bag-title" aria-hidden="true">
+      <div class="bag-panel__head"><h2 id="bag-title" class="bag-panel__title" tabindex="-1">Your bag</h2>
         <button type="button" class="bag-panel__close" data-bag-close aria-label="Close bag">×</button></div>
       <div class="bag-panel__body" data-bag-body></div>
     </aside>`);
@@ -64,15 +64,36 @@ export function initBagPanel(bag) {
 
   function render() { if (step === 1) renderItems(); else renderDetails(); }
 
+  const isOpen = () => panel.classList.contains('is-open');
+  const lineEl = key => [...body.querySelectorAll('.bag-line')].find(el => el.dataset.key === key);
+  // Re-render, then put keyboard focus back where it was (render replaces the whole body).
+  function renderKeepingFocus(key, ctl, fallbackKey) {
+    render();
+    const target = lineEl(key)?.querySelector(ctl) || lineEl(fallbackKey)?.querySelector('[data-remove]')
+      || panel.querySelector('#bag-title');
+    target?.focus();
+  }
+
+  let inerted = [];
+  function setBackground(on) {
+    if (!on) { inerted.forEach(el => { el.inert = false; }); inerted = []; return; }
+    inerted = [...document.body.children].filter(el => el !== panel && el !== backdrop && !el.inert);
+    inerted.forEach(el => { el.inert = true; });
+  }
+
   function open(from) {
     trigger = from; step = 1; sent = false; render();
-    panel.hidden = false; backdrop.hidden = false;
+    panel.setAttribute('aria-hidden', 'false');
+    panel.classList.add('is-open'); backdrop.classList.add('is-open');
     document.body.classList.add('bag-open');
+    setBackground(true);
     panel.querySelector('[data-bag-close]').focus();
   }
   function close() {
-    panel.hidden = true; backdrop.hidden = true;
+    panel.classList.remove('is-open'); backdrop.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('bag-open');
+    setBackground(false);
     const back = trigger && trigger.offsetParent !== null ? trigger : document.querySelector('.bag-button');
     back?.focus();
   }
@@ -81,15 +102,22 @@ export function initBagPanel(bag) {
     const opener = e.target.closest('[data-bag-open]');
     if (opener) { e.preventDefault(); open(opener); return; }
     if (e.target.closest('[data-bag-close]') || e.target === backdrop) { close(); return; }
-    if (panel.hidden) return;
+    if (!isOpen()) return;
     const line = e.target.closest('.bag-line');
     if (line && e.target.closest('[data-qty]')) {
+      const btn = e.target.closest('[data-qty]');
       const cur = bag.lines().find(l => describeLine(l).key === line.dataset.key);
-      bag.setQty(line.dataset.key, cur.qty + Number(e.target.closest('[data-qty]').dataset.qty));
-      render();
-    } else if (line && e.target.closest('[data-remove]')) { bag.remove(line.dataset.key); render(); }
+      if (!cur) return;
+      const next = line.nextElementSibling?.dataset?.key || line.previousElementSibling?.dataset?.key;
+      bag.setQty(line.dataset.key, cur.qty + Number(btn.dataset.qty));
+      renderKeepingFocus(line.dataset.key, `[data-qty="${btn.dataset.qty}"]`, next);
+    } else if (line && e.target.closest('[data-remove]')) {
+      const next = line.nextElementSibling?.classList.contains('bag-line') ? line.nextElementSibling.dataset.key : null;
+      bag.remove(line.dataset.key);
+      renderKeepingFocus(next, '[data-remove]', next);
+    }
     else if (e.target.closest('[data-continue]')) { step = 2; render(); body.querySelector('input')?.focus(); }
-    else if (e.target.closest('[data-back]')) { step = 1; render(); }
+    else if (e.target.closest('[data-back]')) { step = 1; render(); body.querySelector('[data-continue]')?.focus(); }
     else if (e.target.closest('[data-clear]')) { bag.clear(); close(); }
   });
 
@@ -100,8 +128,18 @@ export function initBagPanel(bag) {
     const { ok, errors } = validateDetails(values);
     if (!ok) { renderDetails(values, errors); body.querySelector('[aria-invalid="true"]')?.focus(); return; }
     window.open(orderLink(buildOrderMessage(bag.lines(), values)), '_blank', 'noopener');
-    sent = true; renderDetails(values);
+    sent = true; renderDetails(values); body.querySelector('[type="submit"]')?.focus();
   });
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(); });
+  document.addEventListener('keydown', e => { if (!isOpen()) return;
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Tab' && !('inert' in HTMLElement.prototype)) {
+      const f = [...panel.querySelectorAll('button, a[href], input')].filter(el => !el.disabled);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (!panel.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 }

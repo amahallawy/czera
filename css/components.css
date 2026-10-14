@@ -739,7 +739,18 @@ body.menu-open { overflow: hidden; }
 /* ---------------- Bag panel ---------------- */
 body.bag-open { overflow: hidden; }
 .bag-backdrop { position: fixed; inset: 0; z-index: 90; background: var(--color-overlay); }
-.bag-backdrop[hidden], .bag-panel[hidden] { display: none; }
+/* Closed: kept rendered but off-screen and unfocusable; is-open slides it in. */
+.bag-backdrop { opacity: 0; visibility: hidden; }
+.bag-backdrop.is-open { opacity: 1; visibility: visible; }
+.bag-panel { visibility: hidden; transform: translateX(100%); }
+[dir="rtl"] .bag-panel { transform: translateX(-100%); }
+.bag-panel.is-open, [dir="rtl"] .bag-panel.is-open { visibility: visible; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .bag-panel { transition: transform var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base); }
+  .bag-panel.is-open { transition: transform var(--dur-base) var(--ease-out), visibility 0s; }
+  .bag-backdrop { transition: opacity var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base); }
+  .bag-backdrop.is-open { transition: opacity var(--dur-base) var(--ease-out), visibility 0s; }
+}
 .bag-panel {
   position: fixed; inset-block: 0; inset-inline-end: 0; z-index: 100;
   inline-size: min(400px, 100vw); display: flex; flex-direction: column;
