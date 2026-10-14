@@ -769,9 +769,6 @@ body.bag-open { overflow: hidden; }
 .bag-panel__empty { margin-block-end: var(--space-5); color: var(--color-ink-mute); }
 .bag-panel__back { display: block; margin: var(--space-4) auto 0; font-size: var(--fs-sm); color: var(--color-ink-mute); }
 .bag-panel__back:hover { color: var(--color-gold-deep); }
-.bag-panel__sent { margin-block-start: var(--space-4); font-size: var(--fs-sm); color: var(--color-ink); }
-.bag-panel__sent a { text-decoration: underline; }
-.bag-panel__sent button { text-decoration: underline; color: var(--color-gold-deep); }
 .bag-line { display: grid; grid-template-columns: 56px 1fr auto; gap: var(--space-3); padding-block: var(--space-3); border-block-end: var(--border-divider); }
 .bag-line__img { inline-size: 56px; block-size: 56px; object-fit: cover; background: var(--color-surface); }
 .bag-line__title { font-size: var(--fs-sm); font-weight: 500; color: var(--color-ink-strong); }
@@ -780,3 +777,21 @@ body.bag-open { overflow: hidden; }
 .bag-line__remove:hover { color: var(--color-gold-deep); }
 .bag-line__price { font-size: var(--fs-sm); white-space: nowrap; }
 .bag-total { display: flex; justify-content: space-between; padding-block: var(--space-4); font-size: var(--fs-md); }
+
+/* Bag send moment: order summary and confirmation (design.md §6.11) */
+.order-summary { margin-block-end: var(--space-5); padding-block: var(--space-3); border-block: var(--border-divider); font-size: var(--fs-sm); }
+.order-summary__list { list-style: none; margin: 0; padding: 0; }
+.order-summary__row { display: flex; justify-content: space-between; gap: var(--space-3); padding-block: var(--space-1); }
+.order-summary__row span:last-child { white-space: nowrap; }
+.order-summary__more { color: var(--color-ink-mute); font-size: var(--fs-xs); margin-block-start: var(--space-1); }
+.order-summary__total { display: flex; justify-content: space-between; margin-block-start: var(--space-2); color: var(--color-ink-strong); }
+.bag-confirm__title { font-size: var(--fs-lg); font-weight: 300; color: var(--color-ink-strong); margin-block-end: var(--space-3); }
+.bag-confirm__title:focus-visible { outline: 2px solid var(--color-gold-text); outline-offset: 4px; }
+.bag-confirm__text { font-size: var(--fs-sm); margin-block-end: var(--space-5); }
+.bag-confirm__label { font-size: var(--fs-xs); color: var(--color-ink-mute); margin-block-end: var(--space-2); }
+.bag-confirm__preview { max-block-size: 14rem; overflow: auto; margin-block: 0 var(--space-4); margin-inline: 0; padding: var(--space-3); background: var(--color-surface); font: inherit; font-size: var(--fs-xs); color: var(--color-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+.bag-confirm__preview:focus-visible { outline: 2px solid var(--color-gold-text); outline-offset: 2px; }
+.bag-confirm__fallback { font-size: var(--fs-sm); margin-block-end: var(--space-5); }
+.bag-confirm__fallback a { text-decoration: underline; color: var(--color-gold-text); display: inline-block; min-block-size: 44px; line-height: 44px; }
+.bag-confirm__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.bag-confirm__actions .btn { flex: 1 1 8rem; min-block-size: 44px; padding-inline: var(--space-4); white-space: nowrap; }

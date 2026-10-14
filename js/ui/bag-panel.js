@@ -3,6 +3,8 @@ import { formatEGP } from '../lib/format.js';
 import { escapeHtml } from '../lib/escape.js';
 import { validateDetails } from '../lib/checkout.js';
 import { buildOrderMessage, orderLink } from '../lib/whatsapp.js';
+import { summariseLines } from '../lib/summary.js';
+import { readDetails, writeDetails } from '../lib/details.js';
 import { CONFIG } from '../config.js';
 
 const FIELDS = [
@@ -19,15 +21,21 @@ export function initBagPanel(bag) {
     <aside class="bag-panel" data-bag-panel role="dialog" aria-modal="true" aria-labelledby="bag-title" aria-hidden="true">
       <div class="bag-panel__head"><h2 id="bag-title" class="bag-panel__title" tabindex="-1">Your bag</h2>
         <button type="button" class="bag-panel__close" data-bag-close aria-label="Close bag">×</button></div>
+      <div class="sr-only" aria-live="polite" data-bag-live></div>
       <div class="bag-panel__body" data-bag-body></div>
     </aside>`);
   const panel = document.querySelector('[data-bag-panel]');
   const backdrop = document.querySelector('[data-bag-backdrop]');
   const body = document.querySelector('[data-bag-body]');
+  const live = document.querySelector('[data-bag-live]');
   let step = 1;
   let trigger = null;
-  let sent = false;
   let sentLink = '';
+  let sentMessage = '';
+  let sessionStore = null;
+  try { sessionStore = window.sessionStorage; } catch { /* blocked: keep details in memory only */ }
+  let details = readDetails(sessionStore);
+  const remember = values => { details = { ...details, ...values }; writeDetails(sessionStore, details); };
 
   function renderItems() {
     const lines = bag.lines();
@@ -50,17 +58,41 @@ export function initBagPanel(bag) {
       <button type="button" class="btn btn--ink btn--block" data-continue>Continue ›</button>`;
   }
 
-  function renderDetails(values = {}, errors = {}) {
+  function renderSummary() {
+    const lines = bag.lines();
+    const { shown, more } = summariseLines(lines);
+    const rows = shown.map(l => { const d = describeLine(l);
+      return `<li class="order-summary__row"><span>${d.qty} × ${escapeHtml(d.title)}</span><span>${formatEGP(d.total)}</span></li>`; }).join('');
+    return `<section class="order-summary" aria-label="Order summary"><ul class="order-summary__list">${rows}</ul>
+      ${more ? `<p class="order-summary__more">and ${more} more</p>` : ''}
+      <p class="order-summary__total"><span>Total</span><b>${formatEGP(bagTotal(lines))}</b></p></section>`;
+  }
+
+  function renderDetails(values = details, errors = {}) {
     const inputs = FIELDS.map(f => `
       <label class="field"><span class="field__label">${escapeHtml(f.label)}${f.required ? ' *' : ''}</span>
         <input name="${f.id}" type="${f.type || 'text'}" autocomplete="${f.autocomplete}" value="${escapeHtml(values[f.id] || '')}" ${f.required ? 'required' : ''} aria-invalid="${errors[f.id] ? 'true' : 'false'}" />
         ${errors[f.id] ? `<span class="field__error">${escapeHtml(errors[f.id])}</span>` : ''}</label>`).join('');
     body.innerHTML = `<p class="bag-panel__step">Step 2 of 2</p><h3 class="bag-panel__sub">Delivery details</h3>
+      ${renderSummary()}
       <form data-details novalidate>${inputs}
         <p class="bag-panel__note">${escapeHtml(CONFIG.deliveryText)}</p>
         <button type="submit" class="btn btn--whatsapp btn--block">Send order on WhatsApp</button>
-        <button type="button" class="bag-panel__back" data-back>‹ Back to bag</button></form>
-      ${sent ? `<p class="bag-panel__sent">If WhatsApp didn't open, <a href="${escapeHtml(sentLink)}" target="_blank" rel="noopener">tap here to send your order.</a> <button type="button" data-clear>Clear bag</button></p>` : ''}`;
+        <button type="button" class="bag-panel__back" data-back>‹ Back to bag</button></form>`;
+  }
+
+  function renderConfirmation() {
+    body.innerHTML = `<div class="bag-confirm">
+      <h3 class="bag-confirm__title" data-confirm-title tabindex="-1">Your order is ready in WhatsApp</h3>
+      <p class="bag-confirm__text">Tap Send in WhatsApp to place it. We'll reply on WhatsApp to confirm delivery and payment.</p>
+      <p class="bag-confirm__label" id="bag-preview-label">Your message</p>
+      <pre class="bag-confirm__preview" tabindex="0" role="region" aria-labelledby="bag-preview-label">${escapeHtml(sentMessage)}</pre>
+      <p class="bag-confirm__fallback">WhatsApp didn't open? <a href="${escapeHtml(sentLink)}" target="_blank" rel="noopener">Tap here to send your order.</a></p>
+      <div class="bag-confirm__actions">
+        <button type="button" class="btn btn--ink" data-clear>Clear bag</button>
+        <button type="button" class="btn btn--ghost" data-keep>Keep bag</button></div></div>`;
+    live.textContent = 'Your order is ready in WhatsApp. Tap Send in WhatsApp to place it.';
+    body.querySelector('[data-confirm-title]').focus();
   }
 
   function render() { if (step === 1) renderItems(); else renderDetails(); }
@@ -83,7 +115,7 @@ export function initBagPanel(bag) {
   }
 
   function open(from) {
-    trigger = from; step = 1; sent = false; sentLink = ''; render();
+    trigger = from; step = 1; sentLink = ''; sentMessage = ''; live.textContent = ''; render();
     panel.setAttribute('aria-hidden', 'false');
     panel.classList.add('is-open'); backdrop.classList.add('is-open');
     document.body.classList.add('bag-open');
@@ -120,23 +152,30 @@ export function initBagPanel(bag) {
     else if (e.target.closest('[data-continue]')) { step = 2; render(); body.querySelector('input')?.focus(); }
     else if (e.target.closest('[data-back]')) { step = 1; render(); body.querySelector('[data-continue]')?.focus(); }
     else if (e.target.closest('[data-clear]')) { bag.clear(); close(); }
+    else if (e.target.closest('[data-keep]')) { close(); }
+  });
+
+  document.addEventListener('input', e => {
+    if (e.target.closest('[data-details]')) remember({ [e.target.name]: e.target.value });
   });
 
   document.addEventListener('submit', e => {
     if (!e.target.matches('[data-details]')) return;
     e.preventDefault();
     const values = Object.fromEntries(new FormData(e.target));
+    remember(values);
     const { ok, errors } = validateDetails(values);
     if (!ok) { renderDetails(values, errors); body.querySelector('[aria-invalid="true"]')?.focus(); return; }
-    sentLink = orderLink(buildOrderMessage(bag.lines(), values));
+    sentMessage = buildOrderMessage(bag.lines(), values);
+    sentLink = orderLink(sentMessage);
     window.open(sentLink, '_blank', 'noopener');
-    sent = true; renderDetails(values); body.querySelector('[type="submit"]')?.focus();
+    renderConfirmation();
   });
 
   document.addEventListener('keydown', e => { if (!isOpen()) return;
     if (e.key === 'Escape') { close(); return; }
     if (e.key === 'Tab' && !('inert' in HTMLElement.prototype)) {
-      const f = [...panel.querySelectorAll('button, a[href], input')].filter(el => !el.disabled);
+      const f = [...panel.querySelectorAll('button, a[href], input, [tabindex="0"]')].filter(el => !el.disabled);
       if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
       if (!panel.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
