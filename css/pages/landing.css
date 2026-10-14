@@ -28,7 +28,8 @@ video.hero__media {
   object-fit: cover;
 }
 
-/* Soft vignette plus a bottom scrim so the copy reads over the film. */
+/* Soft vignette plus a deep bottom scrim (to ~70% of the height) so white copy keeps
+ * >= 4.5:1 over the film's lightest, cream frames. */
 .hero__overlay {
   position: absolute;
   inset: 0;
@@ -36,8 +37,10 @@ video.hero__media {
   pointer-events: none;
   background:
     linear-gradient(to top,
-      color-mix(in srgb, var(--color-ink-strong) 55%, transparent) 0%,
-      transparent 48%),
+      color-mix(in srgb, var(--color-ink-strong) 86%, transparent) 0%,
+      color-mix(in srgb, var(--color-ink-strong) 68%, transparent) 40%,
+      color-mix(in srgb, var(--color-ink-strong) 28%, transparent) 58%,
+      transparent 72%),
     radial-gradient(ellipse 130% 100% at 50% 40%,
       transparent 55%,
       color-mix(in srgb, var(--color-ink-strong) 18%, transparent) 100%);
@@ -68,7 +71,7 @@ video.hero__media {
   font-size: var(--fs-base);
   line-height: var(--lh-loose);
   color: var(--color-on-dark);
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .hero__actions {
   display: flex;
@@ -77,7 +80,34 @@ video.hero__media {
   margin-block-start: var(--space-2);
 }
 
+/* Play / pause control for the film (shown by home.js; keeps a >= 44px target). */
+.hero__play {
+  position: absolute;
+  z-index: 3;
+  inset-inline-end: var(--gutter);
+  inset-block-start: calc(var(--header-height) + var(--space-3));
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  padding-inline: var(--space-4);
+  font: inherit;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-on-dark);
+  background: color-mix(in srgb, var(--color-ink-strong) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-on-dark) 60%, transparent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.hero__play:hover { background: color-mix(in srgb, var(--color-ink-strong) 80%, transparent); }
+.hero__play:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+.hero__play[hidden] { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
+  .hero__play { display: none; }
   /* Hide the looping video and show the poster as a static background. */
   .hero__media { display: none; }
   .hero {
@@ -473,6 +503,12 @@ video.hero__media {
     margin: 0 auto;
     padding: clamp(var(--space-6), 8vw, var(--space-8)) var(--gutter) 0;
   }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  /* Portrait phones: stop just short of a full screen so the next section peeks in.
+     Landscape keeps the full height; the copy needs it. */
+  .hero { min-height: 88vh; min-height: 88svh; }
 }
 
 @media (max-width: 560px) {
