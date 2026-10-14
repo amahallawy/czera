@@ -1,0 +1,97 @@
+import { findProduct } from './products.js';
+import { validateBox, boxKey, boxPrice, boxLabel, boxItemsText } from './box.js';
+
+export const BAG_KEY = 'czera.bag.v1';
+export const MAX_QTY = 20;
+
+export function lineKey(line) {
+  return line.type === 'box' ? `box:${boxKey(line.box)}` : `product:${line.slug}`;
+}
+
+function cleanQty(q) {
+  return Number.isInteger(q) && q >= 1 ? Math.min(q, MAX_QTY) : 0;
+}
+
+function cleanLine(line) {
+  if (!line || typeof line !== 'object') return null;
+  const qty = cleanQty(line.qty);
+  if (!qty) return null;
+  if (line.type === 'product' && findProduct(line.slug)) return { type: 'product', slug: line.slug, qty };
+  if (line.type === 'box' && validateBox(line.box).ok) {
+    const b = line.box;
+    return { type: 'box', box: { box: b.box, ribbon: b.ribbon, colour: b.colour, items: { ...b.items } }, qty };
+  }
+  return null;
+}
+
+function read(storage) {
+  try {
+    const raw = storage?.getItem(BAG_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.map(cleanLine).filter(Boolean) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function createBag(storage) {
+  let items = read(storage);
+  const listeners = new Set();
+
+  function commit() {
+    try { storage?.setItem(BAG_KEY, JSON.stringify(items)); } catch { /* storage unavailable: keep in memory (AgDR-0002) */ }
+    listeners.forEach(fn => fn());
+  }
+
+  return {
+    lines: () => items.map(l => (l.type === 'box' ? { ...l, box: { ...l.box, items: { ...l.box.items } } } : { ...l })),
+    count: () => items.reduce((n, l) => n + l.qty, 0),
+    add(line) {
+      const clean = cleanLine(line);
+      if (!clean) return;
+      const key = lineKey(clean);
+      const existing = items.find(l => lineKey(l) === key);
+      if (existing) existing.qty = Math.min(existing.qty + clean.qty, MAX_QTY);
+      else items.push(clean);
+      commit();
+    },
+    setQty(key, qty) {
+      const q = cleanQty(qty);
+      items = q ? items.map(l => (lineKey(l) === key ? { ...l, qty: q } : l)) : items.filter(l => lineKey(l) !== key);
+      commit();
+    },
+    remove(key) {
+      items = items.filter(l => lineKey(l) !== key);
+      commit();
+    },
+    clear() {
+      items = [];
+      commit();
+    },
+    subscribe(fn) {
+      listeners.add(fn);
+      return () => listeners.delete(fn);
+    },
+  };
+}
+
+export function describeLine(line) {
+  if (line.type === 'box') {
+    const unit = boxPrice(line.box);
+    return {
+      key: lineKey(line), title: 'Custom box',
+      spec: `${line.box.box} box, ${line.box.ribbon} ribbon · ${boxItemsText(line.box)} · ${line.box.colour}`,
+      image: 'assets/img/products/complete-czera-set-2.jpg',
+      unitPrice: unit, qty: line.qty, total: unit * line.qty, messageLabel: boxLabel(line.box),
+    };
+  }
+  const p = findProduct(line.slug);
+  return {
+    key: lineKey(line), title: p.name, spec: p.spec, image: p.images[0],
+    unitPrice: p.price, qty: line.qty, total: p.price * line.qty, messageLabel: p.name,
+  };
+}
+
+export function bagTotal(lines) {
+  return lines.reduce((sum, l) => sum + describeLine(l).total, 0);
+}
