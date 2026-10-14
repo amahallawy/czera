@@ -52,12 +52,12 @@
 
 .box-size {
   display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: var(--space-4);
-  inline-size: 100%; padding-block: var(--space-3); border-block-end: var(--border-divider);
+  inline-size: 100%; padding-block: var(--space-2); border-block-end: var(--border-divider);
   font-size: var(--fs-sm); color: var(--color-ink-strong);
 }
 .box-size small { color: var(--color-ink-mute); font-size: var(--fs-xs); }
-.box-size.is-disabled { color: var(--color-ink-faint); }
-.box-size.is-disabled small { color: var(--color-ink-faint); }
+.box-size.is-disabled, .box-size.is-disabled small { color: var(--color-ink-mute); }
+.box-size .qty button { inline-size: 44px; block-size: 44px; }
 .box-size .qty button:disabled { color: var(--color-ink-faint); cursor: not-allowed; background: none; }
 
 .box-preview {
@@ -102,7 +102,7 @@
   .has-box-bar { padding-block-end: var(--box-bar-h, 140px); }
   .box-preview { position: static; max-block-size: none; overflow: visible; background: none; border: 0; }
   .box-frame--main, .box-preview h2, .box-preview__free { display: none; }
-  .box-frame--mini { display: block; max-inline-size: 14rem; margin-block-end: var(--space-5); }
+  .box-frame--mini { display: block; max-inline-size: 16rem; margin-block-end: var(--space-5); }
   .box-preview ul { display: none; max-block-size: 40vh; overflow-y: auto; padding-block-end: var(--space-2); border-block-end: var(--border-divider); }
   .box-preview.is-open ul { display: grid; }
   .box-preview__toggle {
