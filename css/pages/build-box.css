@@ -98,7 +98,8 @@
 .box-preview [data-add-box]:disabled { opacity: 0.45; cursor: not-allowed; }
 
 @media (max-width: 900px) {
-  .box-page { grid-template-columns: 1fr; gap: var(--space-5); padding-block-end: calc(var(--box-bar-h, 140px) + var(--space-6)); }
+  .box-page { grid-template-columns: 1fr; gap: var(--space-5); padding-block-end: var(--space-7); }
+  .has-box-bar { padding-block-end: var(--box-bar-h, 140px); }
   .box-preview { position: static; max-block-size: none; overflow: visible; background: none; border: 0; }
   .box-frame--main, .box-preview h2, .box-preview__free { display: none; }
   .box-frame--mini { display: block; max-inline-size: 14rem; margin-block-end: var(--space-5); }

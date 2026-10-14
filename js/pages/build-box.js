@@ -122,7 +122,8 @@ document.addEventListener('click', e => {
   }
 });
 
-// On phones the total bar is fixed; keep the page end clear of it (collapsed height, so an open list doesn't add scroll).
+// On phones the total bar is fixed; keep the whole page (footer included) clear of it (collapsed height, so an open list doesn't add scroll).
+document.body.classList.add('has-box-bar');
 const bar = document.querySelector('.box-preview__body');
 const list = document.querySelector('[data-summary]');
 function syncBarHeight() {
