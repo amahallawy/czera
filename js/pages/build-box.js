@@ -7,6 +7,8 @@ const { bag } = initShell();
 const sel = emptyBox();
 const preset = new URLSearchParams(location.search).get('add');
 if (BOX_SIZES.some(s => s.id === preset)) sel.items[preset] = 1;
+const presetColour = new URLSearchParams(location.search).get('colour');
+if (TOWEL_COLOURS.includes(presetColour) && (!STRIPED.includes(presetColour) || preset === 'beach')) sel.colour = presetColour;
 
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 const choice = (group, value, label) =>

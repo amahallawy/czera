@@ -27,7 +27,8 @@ if (!p) {
   const sideTitle = recent.length ? 'Recently viewed' : 'Gift sets';
   const category = CATEGORIES.find(c => c.id === p.category).label;
   const boxSize = BOX_SIZES.find(s => s.slug === p.slug) || (p.category === 'beach' ? BOX_SIZES.find(s => s.id === 'beach') : null);
-  const boxHref = p.boxable && boxSize ? `build-your-box.html?add=${boxSize.id}` : 'build-your-box.html';
+  const stripe = p.slug === 'blue-stripe-beach-towel' ? '&colour=blue' : p.slug === 'yellow-stripe-beach-towel' ? '&colour=yellow' : '';
+  const boxHref = p.boxable && boxSize ? `build-your-box.html?add=${boxSize.id}${stripe}` : 'build-your-box.html';
   const contents = p.contents ? `<div class="pdp__incl"><h2>In the box</h2><ul>${p.contents.map(c =>
     `<li>${c.qty} × ${escapeHtml(c.label)} <span>${escapeHtml(c.spec)}</span></li>`).join('')}</ul></div>` : '';
 
