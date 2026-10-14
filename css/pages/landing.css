@@ -53,6 +53,8 @@ video.hero__media {
   max-width: 46%;
   padding-block: 0 var(--space-8);
   padding-inline: var(--gutter);
+  /* Align the copy with the page container (and the play control below) on wide screens. */
+  margin-inline-start: max(0px, calc((100% - var(--content-max)) / 2));
   color: var(--color-on-dark);
   display: flex;
   flex-direction: column;
@@ -84,7 +86,7 @@ video.hero__media {
 .hero__play {
   position: absolute;
   z-index: 3;
-  inset-inline-end: var(--gutter);
+  inset-inline-end: max(var(--gutter), calc((100% - var(--content-max)) / 2 + var(--gutter)));
   inset-block-start: calc(var(--header-height) + var(--space-3));
   display: inline-flex;
   align-items: center;
@@ -94,11 +96,13 @@ video.hero__media {
   padding-inline: var(--space-4);
   font: inherit;
   font-size: var(--fs-sm);
+  font-weight: 500;
   letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
   color: var(--color-on-dark);
   background: color-mix(in srgb, var(--color-ink-strong) 55%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-on-dark) 60%, transparent);
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

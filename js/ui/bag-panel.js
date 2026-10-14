@@ -48,8 +48,8 @@ export function initBagPanel(bag) {
       return `<div class="bag-line" data-key="${escapeHtml(d.key)}">
         <img src="${escapeHtml(d.image)}" alt="" class="bag-line__img" />
         <div><p class="bag-line__title">${escapeHtml(d.title)}</p><p class="bag-line__spec">${escapeHtml(d.spec)}</p>
-          <div class="qty"><button type="button" data-qty="-1" aria-label="One less">−</button><span>${d.qty}</span><button type="button" data-qty="1" aria-label="One more">+</button></div>
-          <button type="button" class="bag-line__remove" data-remove>Remove</button></div>
+          <div class="bag-line__ctl"><div class="qty"><button type="button" data-qty="-1" aria-label="One less">−</button><span>${d.qty}</span><button type="button" data-qty="1" aria-label="One more">+</button></div>
+          <button type="button" class="bag-line__remove" data-remove>Remove</button></div></div>
         <span class="bag-line__price">${formatEGP(d.total)}</span></div>`;
     }).join('');
     body.innerHTML = `<p class="bag-panel__step">Step 1 of 2</p>${rows}
