@@ -20,6 +20,7 @@
   --color-ink-faint:    #A3A099;   /* Soft gray — placeholder, divider on light */
 
   --color-on-dark:      #F4F2EC;   /* Foreground on charcoal surfaces */
+  --color-whatsapp:     #1f7a4d;   /* WhatsApp action — deep green, AA on ivory/white */
   --color-overlay:      rgba(1, 1, 0, 0.45); /* Hero text legibility on imagery */
 
   /* ---------- Typography ----------
