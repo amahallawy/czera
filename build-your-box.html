@@ -23,18 +23,30 @@
     <div class="box-steps">
       <span class="eyebrow">Build your own box</span>
       <h1 class="box-page__title">A gift set that's yours alone.</h1>
+      <figure class="box-frame box-frame--mini" data-frame data-box="black" data-ribbon="burgundy">
+        <img src="assets/img/products/complete-czera-set-2.jpg" alt="A black Czera gift box with towels tied in ribbon" data-preview-img />
+        <span class="box-frame__ribbon" aria-hidden="true"></span>
+        <figcaption data-caption>Black box · burgundy ribbon</figcaption>
+      </figure>
       <fieldset class="box-step"><legend><i>1</i> Choose your box</legend><div class="box-options" data-options="box"></div></fieldset>
-      <fieldset class="box-step"><legend><i>2</i> Choose your towels</legend><div class="box-options" data-options="items"></div></fieldset>
-      <fieldset class="box-step"><legend><i>3</i> Choose a colour</legend><div class="box-options" data-options="colour"></div><p class="box-step__note" data-stripe-note hidden>Stripes come in the 100 × 200 beach size only.</p></fieldset>
+      <fieldset class="box-step"><legend><i>2</i> Choose a colour</legend><div class="box-options" data-options="colour"></div><p class="box-step__note" data-colour-note></p><p class="box-step__notice" role="status" data-notice></p></fieldset>
+      <fieldset class="box-step"><legend><i>3</i> Choose your towels</legend><div class="box-options" data-options="items"></div></fieldset>
       <fieldset class="box-step"><legend><i>4</i> Choose a ribbon</legend><div class="box-options" data-options="ribbon"></div></fieldset>
     </div>
-    <aside class="box-preview" aria-live="polite">
-      <img src="assets/img/products/complete-czera-set-2.jpg" alt="A black Czera gift box with towels tied in ribbon" class="box-preview__img" />
+    <aside class="box-preview" data-preview>
+      <figure class="box-frame box-frame--main" data-frame data-box="black" data-ribbon="burgundy">
+        <img src="assets/img/products/complete-czera-set-2.jpg" alt="A black Czera gift box with towels tied in ribbon" data-preview-img />
+        <span class="box-frame__ribbon" aria-hidden="true"></span>
+        <figcaption data-caption>Black box · burgundy ribbon</figcaption>
+      </figure>
       <div class="box-preview__body">
-        <h2>Your box</h2><ul data-summary></ul>
-        <p class="box-preview__total"><span data-piece-count></span><b data-total></b></p>
+        <h2>Your box</h2><ul data-summary id="box-contents"></ul>
+        <button type="button" class="box-preview__toggle" data-contents-toggle aria-expanded="false" aria-controls="box-contents">Show contents</button>
+        <div aria-live="polite" aria-atomic="true" class="box-preview__live">
+          <p class="box-preview__total"><span data-piece-count></span><b data-total></b></p>
+          <p class="box-preview__reason" data-reason></p>
+        </div>
         <p class="box-preview__free">Box and ribbon included free</p>
-        <p class="box-preview__reason" data-reason></p>
         <button type="button" class="btn btn--ink btn--block" data-add-box>Add box to bag</button>
       </div>
     </aside>

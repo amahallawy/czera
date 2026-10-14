@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxLabel, sizeAllowed } from '../js/lib/box.js';
+import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxLabel, sizeAllowed, TOWEL_COLOURS } from '../js/lib/box.js';
 
 const sample = () => ({ ...emptyBox(), items: { face: 2, hand: 1, bath: 1, sheet: 1, beach: 0 } });
 
@@ -25,13 +25,27 @@ test('holds at most six pieces', () => {
   assert.deepEqual(validateBox(sel), { ok: false, reason: 'A box holds up to 6 pieces.' });
 });
 
+test('white comes in face, hand, bath and sheet, never beach', () => {
+  const sel = { ...emptyBox(), colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 2 } };
+  assert.equal(sizeAllowed(sel, 'beach'), false);
+  assert.equal(sizeAllowed(sel, 'sheet'), true);
+  assert.deepEqual(validateBox(sel), { ok: false, reason: 'Beach towels come in blue or yellow stripes only.' });
+  assert.equal(validateBox(sample()).ok, true);
+});
+
 test('striped colours come in the beach size only', () => {
   const sel = { ...sample(), colour: 'blue' };
-  assert.deepEqual(validateBox(sel), { ok: false, reason: 'Striped colours come in the beach size only.' });
+  assert.deepEqual(validateBox(sel), { ok: false, reason: 'Striped towels come in the beach size only.' });
+  assert.equal(validateBox({ ...emptyBox(), colour: 'blue', items: { face: 2, hand: 0, bath: 0, sheet: 0, beach: 0 } }).ok, false);
   assert.equal(sizeAllowed(sel, 'face'), false);
   assert.equal(sizeAllowed(sel, 'beach'), true);
   const beachOnly = { ...emptyBox(), colour: 'yellow', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 2 } };
   assert.deepEqual(validateBox(beachOnly), { ok: true, reason: null });
+});
+
+test('black is not a towel colour', () => {
+  assert.deepEqual(TOWEL_COLOURS, ['white', 'blue', 'yellow']);
+  assert.equal(validateBox({ ...sample(), colour: 'black' }).ok, false);
 });
 
 test('rejects unknown choices and bad quantities', () => {
