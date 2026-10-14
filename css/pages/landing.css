@@ -184,8 +184,8 @@ video.hero__media {
   opacity: 0.9;
 }
 .cat-tile__label b {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 300;
+  letter-spacing: var(--ls-tight);
   font-size: var(--fs-xl);
   line-height: var(--lh-tight);
 }
@@ -387,8 +387,7 @@ video.hero__media {
   stroke-linejoin: round;
 }
 .promise-list b {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 300;
   font-size: var(--fs-lg);
   color: var(--color-ink-strong);
 }
@@ -445,8 +444,7 @@ video.hero__media {
   margin-block-end: var(--space-2);
 }
 .how-steps b {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 300;
   font-size: var(--fs-lg);
   color: var(--color-ink-strong);
 }
