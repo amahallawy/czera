@@ -22,12 +22,7 @@
   <div data-shell-header></div>
 
   <main id="main">
-    <!-- HERO — 30s silent looping brand film. Five beats:
-         (1) cotton field at golden hour, (2) machine stitching gold-thread hem,
-         (3) fingertips on cotton terry, (4) folded ivory towels, (5) draped
-         ivory cotton with the gold wordmark sign-off — now baked into the
-         video itself (fades in ~24–27.6s, holds, fades to clean fabric before
-         the loop). No CSS overlay layer any more.
+    <!-- HERO: 30s silent looping brand film (wordmark sign-off is baked into the video).
          Spec: docs/superpowers/specs/2026-05-09-czera-hero-video-design.md -->
     <section class="hero">
       <video class="hero__media" autoplay muted loop playsinline preload="metadata"
@@ -36,15 +31,48 @@
         <source src="assets/video/hero-30s.mp4" type="video/mp4">
       </video>
       <div class="hero__overlay" aria-hidden="true"></div>
-      <h1 class="hero__masthead">Czera Maison &mdash; Egyptian cotton</h1>
+      <div class="hero__copy">
+        <span class="eyebrow">Towels · Bathrobes · Gift sets</span>
+        <h1 class="hero__title">The hotel experience,<br />at home.</h1>
+        <p class="hero__lede">100% cotton towels and 1200 GSM bathrobes, presented in the black Czera gift box.</p>
+        <div class="hero__actions"><a class="btn btn--light" href="catalog.html">Shop the collection</a><a class="btn btn--outline-light" href="build-your-box.html">Build your own box</a></div>
+      </div>
     </section>
 
-    <!-- CHAPTER 1 — STORY (text-over-image: full-bleed cotton photograph on
-         the leading side, copy overlaid on the trailing ivory void. A scrim
-         gradient fades the image into the page background so image and text
-         read as one warm field. See landing.css `.chapter--story`. -->
+    <section class="section categories" aria-labelledby="cat-title">
+      <header class="section__head"><span class="eyebrow">The collection</span><h2 id="cat-title" class="section__title">Shop by category</h2></header>
+      <div class="cat-grid">
+        <a class="cat-tile cat-tile--big" href="catalog.html?category=gift-sets"><img src="assets/img/products/complete-czera-set-3.jpg" alt="The Complete Czera Set in its black gift box" /><span class="cat-tile__label"><small data-category-meta="gift-sets"></small><b>Gift sets</b><u>Shop gifts</u></span></a>
+        <a class="cat-tile" href="catalog.html?category=towels"><img src="assets/img/catalogue/p07.jpg" alt="Folded white towels on stone" /><span class="cat-tile__label"><small data-category-meta="towels"></small><b>Towels</b><u>Shop towels</u></span></a>
+        <a class="cat-tile" href="catalog.html?category=bathrobes"><img src="assets/img/catalogue/p09.jpg" alt="White bathrobe on a hook" /><span class="cat-tile__label"><small data-category-meta="bathrobes"></small><b>Bathrobes</b><u>Shop robes</u></span></a>
+        <a class="cat-tile cat-tile--wide" href="catalog.html?category=beach"><img src="assets/img/catalogue/p11.jpg" alt="Yellow striped beach towel on a lounger by the sea" /><span class="cat-tile__label"><small data-category-meta="beach"></small><b>Beach</b><u>Shop beach</u></span></a>
+      </div>
+    </section>
+
+    <section class="section gifts" aria-labelledby="gifts-title">
+      <header class="section__head"><span class="eyebrow">Gift sets</span><h2 id="gifts-title" class="section__title">A gift for every occasion</h2></header>
+      <div class="tabs" role="tablist" aria-label="Gift sets">
+        <button role="tab" id="tab-home" aria-controls="panel-gifts" aria-selected="true" data-gift-tab="home">For the home</button>
+        <button role="tab" id="tab-robes" aria-controls="panel-gifts" aria-selected="false" data-gift-tab="robes-beach">Robes &amp; beach</button>
+      </div>
+      <div id="panel-gifts" role="tabpanel" class="card-row" data-gift-panel></div>
+      <p class="gifts__more"><a class="link" href="catalog.html?category=gift-sets">See all gift sets ›</a></p>
+    </section>
+
+    <section class="band band--dark" aria-labelledby="box-title">
+      <div class="band__copy">
+        <span class="eyebrow">Build your own box</span>
+        <h2 id="box-title" class="band__title">A gift set that's<br />yours alone.</h2>
+        <p>Choose the box, the towels, the colour and the ribbon. Box and ribbon are included free.</p>
+        <ol class="steps"><li><b>Box</b>Black or beige</li><li><b>Towels</b>Five sizes, any mix</li><li><b>Colour</b>White, black or stripes</li><li><b>Ribbon</b>Burgundy or gold</li></ol>
+        <a class="btn btn--gold" href="build-your-box.html">Start your box</a>
+      </div>
+      <img class="band__media" src="assets/img/products/hand-and-bath-sheet-set-1.jpg" alt="Towels tied with burgundy Czera ribbon" />
+    </section>
+
+    <!-- STORY: copy over the cotton photograph; see landing.css `.chapter--story`. -->
     <section id="brand" class="chapter chapter--story">
-      <div class="chapter__media" role="img" aria-label="A length of ivory Egyptian cotton terry lies in soft folds on worn pale wood in warm side-light, a calm expanse of plain ivory cloth beside it."></div>
+      <div class="chapter__media" role="img" aria-label="White towels stacked beside a stone bath in warm light"></div>
       <div class="chapter__scrim" aria-hidden="true"></div>
       <div class="chapter__content">
         <span class="eyebrow">Our story</span>
@@ -56,112 +84,41 @@
           <circle cx="22" cy="8" r="1.5"/>
           <circle cx="28" cy="5" r="1.5"/>
         </svg>
-        <h2 class="chapter__title">Egyptian cotton,<br />woven in Egypt.</h2>
+        <h2 class="chapter__title">The hotel experience,<br />brought home.</h2>
         <p class="chapter__body">
-          Czera makes premium towels from long-fibre Egyptian cotton grown in the
-          Nile Delta &mdash; woven at hospitality densities and finished by hand
-          for the home.
+          Czera began with a simple belief: everyday moments deserve the comfort of the world's finest hotels. Our towels, robes and gift sets bring that same calm into your home.
         </p>
         <blockquote class="chapter__pullquote">
-          600&ndash;800 GSM. The weight hospitality is measured in.
+          It's all in the details.
         </blockquote>
-        <a class="chapter__link" href="#material">Our materials &rarr;</a>
+        <a class="chapter__link" href="about.html">About Czera &rarr;</a>
       </div>
     </section>
 
-    <!-- CHAPTER 2 — COLLECTION (dark, centered) -->
-    <section id="collection" class="chapter chapter--dark">
-      <div class="chapter__media media-image" aria-hidden="true"></div>
-      <div class="chapter__content">
-        <span class="eyebrow">Collection</span>
-        <svg class="brand-crown brand-crown--sm" viewBox="0 0 32 22" aria-hidden="true">
-          <path d="M1 20 L2 17 L4 7 L7 14 L10 10 L13 14 L16 4 L19 14 L22 10 L25 14 L28 7 L30 17 L31 20 Z"/>
-          <circle cx="4" cy="5" r="1.5"/>
-          <circle cx="10" cy="8" r="1.5"/>
-          <circle cx="16" cy="2" r="1.5"/>
-          <circle cx="22" cy="8" r="1.5"/>
-          <circle cx="28" cy="5" r="1.5"/>
-        </svg>
-        <h2 class="chapter__title">Bath, hand, robe.</h2>
-        <p class="chapter__body">
-          One range, one standard. Towels weighted for everyday use,
-          robes cut for the home and for hotels.
-        </p>
-        <a class="chapter__link chapter__link--on-dark" href="catalog.html">Shop the collection &rarr;</a>
+    <section class="section promises" aria-labelledby="promise-title">
+      <header class="section__head"><span class="eyebrow">Why Czera</span><h2 id="promise-title" class="section__title">Hotel quality, every piece.</h2></header>
+      <ul class="promise-list">
+        <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M16 30c-5 0-8-3-8-7s3-7 7-7c1-5 5-8 9-8s8 3 9 8c4 0 7 3 7 7s-3 7-8 7"/><path d="M24 22v18M20 36l4 4 4-4"/></svg><b>100% cotton</b><span>Soft, breathable and gentle on skin</span></li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6s-12 14-12 23a12 12 0 0024 0C36 20 24 6 24 6z"/></svg><b>Highly absorbent</b><span>Dries you faster, wash after wash</span></li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38C10 20 22 10 38 10c0 16-10 28-28 28z"/><path d="M10 38l18-18"/></svg><b>Long-lasting</b><span>Keeps its softness over years of use</span></li>
+        <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 18l8-8h16l8 8-16 22z"/><path d="M8 18h32M18 10l6 8 6-8M24 18v22"/></svg><b>Hotel quality</b><span>650+ GSM towels, 1200 GSM robes</span></li>
+      </ul>
+      <div class="photo-strip">
+        <img src="assets/img/catalogue/p04.jpg" alt="Face towels on stone" loading="lazy" />
+        <img src="assets/img/catalogue/p05.jpg" alt="Hand towels folded by a basin" loading="lazy" />
+        <img src="assets/img/catalogue/p08.jpg" alt="Bath sheet draped over a tub" loading="lazy" />
+        <img src="assets/img/catalogue/p10.jpg" alt="Black bathrobe" loading="lazy" />
       </div>
     </section>
 
-    <!-- CHAPTER 3 — MATERIAL (split: image + text + dl) -->
-    <section id="material" class="chapter chapter--split">
-      <figure class="chapter__media-side media-image" aria-hidden="true" style="background-image: url('https://images.unsplash.com/photo-1761642932833-fa22d121766b?w=1200&q=80&auto=format&fit=crop');"></figure>
-      <div class="chapter__split-content">
-        <span class="eyebrow">Material</span>
-        <svg class="brand-crown brand-crown--sm brand-crown--deep" viewBox="0 0 32 22" aria-hidden="true">
-          <path d="M1 20 L2 17 L4 7 L7 14 L10 10 L13 14 L16 4 L19 14 L22 10 L25 14 L28 7 L30 17 L31 20 Z"/>
-          <circle cx="4" cy="5" r="1.5"/>
-          <circle cx="10" cy="8" r="1.5"/>
-          <circle cx="16" cy="2" r="1.5"/>
-          <circle cx="22" cy="8" r="1.5"/>
-          <circle cx="28" cy="5" r="1.5"/>
-        </svg>
-        <h2 class="chapter__title chapter__title--small">One cotton,<br />woven well.</h2>
-        <p class="chapter__body">
-          Long-fibre Egyptian cotton from the Nile Delta. Spun, woven, and
-          finished in Egypt at densities of 600 to 800 GSM. Absorbency
-          improves through the first three washes.
-        </p>
-        <dl class="spec-list">
-          <div>
-            <dt>Composition</dt>
-            <dd>100% Egyptian cotton</dd>
-          </div>
-          <div>
-            <dt>Weight</dt>
-            <dd>600&ndash;800 GSM</dd>
-          </div>
-          <div>
-            <dt>Origin</dt>
-            <dd>Nile Delta, Egypt</dd>
-          </div>
-          <div>
-            <dt>Care</dt>
-            <dd>Machine wash warm, tumble low</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- CHAPTER 4 — JOURNAL (3 editorial entries, no card chrome) -->
-    <section id="journal" class="chapter chapter--editorial">
-      <header class="chapter__heading">
-        <span class="eyebrow">Journal</span>
-        <svg class="brand-crown brand-crown--sm brand-crown--deep" viewBox="0 0 32 22" aria-hidden="true">
-          <path d="M1 20 L2 17 L4 7 L7 14 L10 10 L13 14 L16 4 L19 14 L22 10 L25 14 L28 7 L30 17 L31 20 Z"/>
-          <circle cx="4" cy="5" r="1.5"/>
-          <circle cx="10" cy="8" r="1.5"/>
-          <circle cx="16" cy="2" r="1.5"/>
-          <circle cx="22" cy="8" r="1.5"/>
-          <circle cx="28" cy="5" r="1.5"/>
-        </svg>
-        <h2 class="chapter__title chapter__title--small">Care notes and field reports.</h2>
-      </header>
-      <div class="editorial-row">
-        <a class="editorial-entry" href="#">
-          <div class="editorial-entry__media media-image" style="background-image: url('https://images.unsplash.com/photo-1699805134759-a86751c1b413?w=800&q=80&auto=format&fit=crop');"></div>
-          <span class="editorial-entry__kicker">Field</span>
-          <h3 class="editorial-entry__title">Where the cotton comes from</h3>
-        </a>
-        <a class="editorial-entry" href="#">
-          <div class="editorial-entry__media media-image" style="background-image: url('https://images.unsplash.com/photo-1752805869096-9b149e6effa1?w=800&q=80&auto=format&fit=crop');"></div>
-          <span class="editorial-entry__kicker">Care</span>
-          <h3 class="editorial-entry__title">How to wash an Egyptian cotton towel</h3>
-        </a>
-        <a class="editorial-entry" href="#">
-          <div class="editorial-entry__media media-image" style="background-image: url('https://images.unsplash.com/photo-1513885045260-6b3086b24c17?w=800&q=80&auto=format&fit=crop');"></div>
-          <span class="editorial-entry__kicker">Gifting</span>
-          <h3 class="editorial-entry__title">Gift sets and packaging</h3>
-        </a>
-      </div>
+    <section class="section how" id="how-to-order" aria-labelledby="how-title">
+      <header class="section__head"><span class="eyebrow">How to order</span><h2 id="how-title" class="section__title">Three steps, all on WhatsApp.</h2></header>
+      <ol class="how-steps">
+        <li><i>1</i><b>Add to bag</b><span>Pick towels, robes or a gift set, or build your own box.</span></li>
+        <li><i>2</i><b>Send your bag on WhatsApp</b><span>Your order is written into the message for you.</span></li>
+        <li><i>3</i><b>We confirm and deliver</b><span data-delivery-text></span></li>
+      </ol>
+      <p class="how__bulk"><b>Ordering for a wedding, a company or a hotel?</b> Custom quantities and ribbon colours. <a class="link" href="about.html#bulk">Bulk orders ›</a></p>
     </section>
   </main>
 
