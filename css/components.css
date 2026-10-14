@@ -175,6 +175,9 @@ body:not(.has-hero) .menu-toggle:hover { background: var(--color-surface); color
   overflow-y: auto;
 }
 .site-menu.is-open { transform: translateX(0); }
+/* `display: flex` above would override the hidden attribute and leave the
+ * off-screen panel's shadow along the page edge. */
+.site-menu[hidden], .site-menu-backdrop[hidden] { display: none; }
 
 .site-menu__head {
   display: flex;
@@ -544,6 +547,8 @@ body.menu-open { overflow: hidden; }
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    /* Snap cards to the gutter, not the scroller's edge, so the first card keeps its inset. */
+    scroll-padding-inline: var(--gutter);
     gap: var(--space-4);
     padding-block-end: var(--space-3);
     margin-inline: calc(var(--gutter) * -1);

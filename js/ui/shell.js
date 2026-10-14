@@ -51,7 +51,7 @@ function footerHtml() {
         <li><a href="index.html#how-to-order">How to order</a></li><li><a href="about.html#sizes">Sizes &amp; care</a></li>
         <li><a href="about.html#delivery">Delivery</a></li><li><a href="about.html">About Czera</a></li></ul></div>
       <div><h4 class="footer__heading">Contact</h4><ul class="footer__list">
-        <li>WhatsApp ${escapeHtml(CONFIG.whatsappDisplay)}</li>
+        <li><a href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" rel="noopener" aria-label="${escapeHtml(`WhatsApp ${CONFIG.whatsappDisplay} (opens in a new tab)`)}">WhatsApp ${escapeHtml(CONFIG.whatsappDisplay)}</a></li>
         ${CONFIG.social.map(s => `<li><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener" aria-label="${escapeHtml(`${s.label} ${s.handle} (opens in a new tab)`)}">${escapeHtml(s.label)} ${escapeHtml(s.handle)}</a></li>`).join('')}</ul>
         <a class="btn btn--outline-gold" href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" rel="noopener">Order on WhatsApp</a></div>
     </div>

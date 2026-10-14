@@ -4,9 +4,19 @@ export function initMenu() {
   const menu = document.querySelector('[data-site-menu]');
   const menuClose = document.querySelector('[data-menu-close]');
   const menuBackdrop = document.querySelector('[data-menu-backdrop]');
+  // One pending hide at a time: a quick close, reopen, close must not let the
+  // first close's timer hide the panel mid-slide.
+  let hideTimer;
+  let onEnd;
+  const cancelHide = () => {
+    clearTimeout(hideTimer);
+    if (onEnd) menu?.removeEventListener('transitionend', onEnd);
+    onEnd = null;
+  };
 
   function openMenu() {
     if (!menu || !menuBackdrop) return;
+    cancelHide();
     menu.hidden = false;
     menuBackdrop.hidden = false;
     // Force layout flush so the transition runs from the start position
@@ -29,15 +39,25 @@ export function initMenu() {
     menuBackdrop.setAttribute('aria-hidden', 'true');
     menuToggle?.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
-    // Hide after the transition completes so screen readers skip the panel
-    const onEnd = () => {
+    // Hide after the slide-out completes so screen readers skip the panel (and its
+    // shadow is not drawn). With no transition (reduced motion) hide at once; the
+    // timeout covers a transitionend that never arrives.
+    cancelHide();
+    const hide = () => {
+      cancelHide();
       if (!menu.classList.contains('is-open')) {
         menu.hidden = true;
         menuBackdrop.hidden = true;
       }
-      menu.removeEventListener('transitionend', onEnd);
     };
-    menu.addEventListener('transitionend', onEnd);
+    onEnd = (e) => { if (e.target === menu && e.propertyName === 'transform') hide(); };
+    const duration = parseFloat(getComputedStyle(menu).transitionDuration) || 0;
+    if (duration === 0) {
+      hide();
+    } else {
+      menu.addEventListener('transitionend', onEnd);
+      hideTimer = setTimeout(hide, duration * 1000 + 100);
+    }
     menuToggle?.focus();
   }
 

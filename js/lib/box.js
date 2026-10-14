@@ -35,6 +35,30 @@ export function sizeAllowed(sel, sizeId) {
   return (SIZES_BY_COLOUR[sel.colour] || []).includes(sizeId);
 }
 
+const PLURAL = { face: 'face towels', hand: 'hand towels', bath: 'bath towels', sheet: 'bath sheets', beach: 'beach towels' };
+const listText = words => (words.length < 2 ? words.join('') : `${words.slice(0, -1).join(', ')} and ${words.at(-1)}`);
+
+// Sizes already in the box (`items` is the selection's { sizeId: qty } map) that `colour` does not come in.
+export function colourConflicts(colour, items) {
+  const sizes = SIZES_BY_COLOUR[colour] || [];
+  return BOX_SIZES.filter(s => (items?.[s.id] || 0) > 0 && !sizes.includes(s.id)).map(s => s.id);
+}
+
+// Why `colour` can't be chosen for the towels already in the box, or null when it can.
+export function colourBlockReason(colour, items) {
+  if (!TOWEL_COLOURS.includes(colour)) return 'Not available.';
+  const conflicts = colourConflicts(colour, items);
+  if (!conflicts.length) return null;
+  const labels = conflicts.map(id => BOX_SIZES.find(s => s.id === id).label.toLowerCase());
+  const lead = STRIPED.includes(colour) ? 'Stripes come in the beach size only.' : `No ${listText(labels)} size in ${colour}.`;
+  return `${lead} Remove the ${listText(conflicts.map(id => PLURAL[id]))} first.`;
+}
+
+// The towel colours that can hold everything already in the box (all of them when it is empty).
+export function allowedColours(items) {
+  return TOWEL_COLOURS.filter(c => colourBlockReason(c, items) === null);
+}
+
 export function validateBox(sel) {
   const invalid = { ok: false, reason: 'Invalid choice.' };
   if (!sel || typeof sel !== 'object' || !sel.items) return invalid;

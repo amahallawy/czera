@@ -30,10 +30,11 @@
   align-self: start;
   display: grid;
   gap: var(--space-4);
-  max-block-size: calc(100vh - var(--header-height) - 2 * var(--space-5));
-  overflow-y: auto;
   padding-inline: var(--space-1);
 }
+/* Taller than the viewport (product.js measures): scroll with the page rather than
+ * sticking with its lower half out of reach. No inner scrollbar either way. */
+.pdp__panel.is-tall { position: static; }
 .pdp__panel > * { margin: 0; }
 .pdp__name {
   font-family: var(--font-display);
@@ -65,7 +66,8 @@
 .pdp__incl li span { color: var(--color-ink-mute); }
 
 .pdp__buy { display: flex; gap: var(--space-3); align-items: stretch; flex-wrap: wrap; }
-.pdp__buy .btn { flex: 1 1 14rem; }
+.pdp__buy .btn { flex: 1 1 14rem; gap: var(--space-2); }
+.pdp__buy-label, .pdp__buy-total { white-space: nowrap; }
 .pdp__wa { justify-self: start; }
 .pdp__ship { font-size: var(--fs-xs); color: var(--color-ink-mute); }
 
@@ -125,6 +127,6 @@
     aspect-ratio: 4 / 5;
     scroll-snap-align: start;
   }
-  .pdp__panel { position: static; max-block-size: none; overflow-y: visible; padding-inline: 0; }
+  .pdp__panel { position: static; padding-inline: 0; }
   .pdp-related { grid-template-columns: 1fr; }
 }

@@ -42,7 +42,10 @@ if (heroVideo) {
   if (!reducedMotion) {
     if (heroPlay) {
       const label = heroPlay.querySelector('[data-hero-play-label]');
-      const setLabel = text => { label.textContent = text; };
+      const setLabel = text => {
+        label.textContent = text;
+        heroPlay.dataset.state = text === 'Pause film' ? 'playing' : 'paused';
+      };
       heroPlay.hidden = false;
       heroVideo.addEventListener('play', () => setLabel('Pause film'));
       heroVideo.addEventListener('pause', () => setLabel('Play film'));
