@@ -83,7 +83,7 @@ export function initBagPanel(bag) {
   }
 
   function open(from) {
-    trigger = from; step = 1; sent = false; render();
+    trigger = from; step = 1; sent = false; sentLink = ''; render();
     panel.setAttribute('aria-hidden', 'false');
     panel.classList.add('is-open'); backdrop.classList.add('is-open');
     document.body.classList.add('bag-open');
@@ -128,7 +128,8 @@ export function initBagPanel(bag) {
     const values = Object.fromEntries(new FormData(e.target));
     const { ok, errors } = validateDetails(values);
     if (!ok) { renderDetails(values, errors); body.querySelector('[aria-invalid="true"]')?.focus(); return; }
-    window.open(orderLink(buildOrderMessage(bag.lines(), values)), '_blank', 'noopener');
+    sentLink = orderLink(buildOrderMessage(bag.lines(), values));
+    window.open(sentLink, '_blank', 'noopener');
     sent = true; renderDetails(values); body.querySelector('[type="submit"]')?.focus();
   });
 

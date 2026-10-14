@@ -768,6 +768,7 @@ body.bag-open { overflow: hidden; }
 .bag-panel__back { display: block; margin: var(--space-4) auto 0; font-size: var(--fs-sm); color: var(--color-ink-mute); }
 .bag-panel__back:hover { color: var(--color-gold-deep); }
 .bag-panel__sent { margin-block-start: var(--space-4); font-size: var(--fs-sm); color: var(--color-ink); }
+.bag-panel__sent a { text-decoration: underline; }
 .bag-panel__sent button { text-decoration: underline; color: var(--color-gold-deep); }
 .bag-line { display: grid; grid-template-columns: 56px 1fr auto; gap: var(--space-3); padding-block: var(--space-3); border-block-end: var(--border-divider); }
 .bag-line__img { inline-size: 56px; block-size: 56px; object-fit: cover; background: var(--color-surface); }
