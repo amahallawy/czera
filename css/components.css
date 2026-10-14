@@ -789,9 +789,9 @@ body.bag-open { overflow: hidden; }
 .bag-confirm__title:focus-visible { outline: 2px solid var(--color-gold-text); outline-offset: 4px; }
 .bag-confirm__text { font-size: var(--fs-sm); margin-block-end: var(--space-5); }
 .bag-confirm__label { font-size: var(--fs-xs); color: var(--color-ink-mute); margin-block-end: var(--space-2); }
-.bag-confirm__preview { max-block-size: 14rem; overflow: auto; margin: 0 0 var(--space-4); padding: var(--space-3); background: var(--color-surface); font: inherit; font-size: var(--fs-xs); color: var(--color-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+.bag-confirm__preview { max-block-size: 14rem; overflow: auto; margin-block: 0 var(--space-4); margin-inline: 0; padding: var(--space-3); background: var(--color-surface); font: inherit; font-size: var(--fs-xs); color: var(--color-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
 .bag-confirm__preview:focus-visible { outline: 2px solid var(--color-gold-text); outline-offset: 2px; }
 .bag-confirm__fallback { font-size: var(--fs-sm); margin-block-end: var(--space-5); }
 .bag-confirm__fallback a { text-decoration: underline; color: var(--color-gold-text); display: inline-block; min-block-size: 44px; line-height: 44px; }
 .bag-confirm__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-.bag-confirm__actions .btn { flex: 1 1 8rem; min-block-size: 44px; }
+.bag-confirm__actions .btn { flex: 1 1 8rem; min-block-size: 44px; padding-inline: var(--space-4); white-space: nowrap; }

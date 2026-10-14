@@ -21,11 +21,13 @@ export function initBagPanel(bag) {
     <aside class="bag-panel" data-bag-panel role="dialog" aria-modal="true" aria-labelledby="bag-title" aria-hidden="true">
       <div class="bag-panel__head"><h2 id="bag-title" class="bag-panel__title" tabindex="-1">Your bag</h2>
         <button type="button" class="bag-panel__close" data-bag-close aria-label="Close bag">×</button></div>
+      <div class="sr-only" aria-live="polite" data-bag-live></div>
       <div class="bag-panel__body" data-bag-body></div>
     </aside>`);
   const panel = document.querySelector('[data-bag-panel]');
   const backdrop = document.querySelector('[data-bag-backdrop]');
   const body = document.querySelector('[data-bag-body]');
+  const live = document.querySelector('[data-bag-live]');
   let step = 1;
   let trigger = null;
   let sentLink = '';
@@ -80,15 +82,16 @@ export function initBagPanel(bag) {
   }
 
   function renderConfirmation() {
-    body.innerHTML = `<div class="bag-confirm" role="status">
+    body.innerHTML = `<div class="bag-confirm">
       <h3 class="bag-confirm__title" data-confirm-title tabindex="-1">Your order is ready in WhatsApp</h3>
       <p class="bag-confirm__text">Tap Send in WhatsApp to place it. We'll reply on WhatsApp to confirm delivery and payment.</p>
-      <p class="bag-confirm__label">Your message</p>
-      <pre class="bag-confirm__preview" tabindex="0" aria-label="Preview of your message">${escapeHtml(sentMessage)}</pre>
+      <p class="bag-confirm__label" id="bag-preview-label">Your message</p>
+      <pre class="bag-confirm__preview" tabindex="0" role="region" aria-labelledby="bag-preview-label">${escapeHtml(sentMessage)}</pre>
       <p class="bag-confirm__fallback">WhatsApp didn't open? <a href="${escapeHtml(sentLink)}" target="_blank" rel="noopener">Tap here to send your order.</a></p>
       <div class="bag-confirm__actions">
         <button type="button" class="btn btn--ink" data-clear>Clear bag</button>
         <button type="button" class="btn btn--ghost" data-keep>Keep bag</button></div></div>`;
+    live.textContent = 'Your order is ready in WhatsApp. Tap Send in WhatsApp to place it.';
     body.querySelector('[data-confirm-title]').focus();
   }
 
@@ -112,7 +115,7 @@ export function initBagPanel(bag) {
   }
 
   function open(from) {
-    trigger = from; step = 1; sentLink = ''; sentMessage = ''; render();
+    trigger = from; step = 1; sentLink = ''; sentMessage = ''; live.textContent = ''; render();
     panel.setAttribute('aria-hidden', 'false');
     panel.classList.add('is-open'); backdrop.classList.add('is-open');
     document.body.classList.add('bag-open');
@@ -172,7 +175,7 @@ export function initBagPanel(bag) {
   document.addEventListener('keydown', e => { if (!isOpen()) return;
     if (e.key === 'Escape') { close(); return; }
     if (e.key === 'Tab' && !('inert' in HTMLElement.prototype)) {
-      const f = [...panel.querySelectorAll('button, a[href], input')].filter(el => !el.disabled);
+      const f = [...panel.querySelectorAll('button, a[href], input, [tabindex="0"]')].filter(el => !el.disabled);
       if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
       if (!panel.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
