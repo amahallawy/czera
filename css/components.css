@@ -204,10 +204,9 @@ body:not(.has-hero) .menu-toggle:hover { background: var(--color-surface); color
   gap: var(--space-5);
 }
 .site-menu__link {
-  font-family: var(--font-display, "Italiana", serif);
-  font-size: clamp(1.5rem, 4vw, var(--fs-2xl));
-  font-weight: 400;
-  letter-spacing: var(--ls-wide);
+  font-size: clamp(1.375rem, 3.5vw, var(--fs-xl));
+  font-weight: 300;
+  letter-spacing: var(--ls-tight);
   color: var(--color-ink);
   position: relative;
   padding-block: var(--space-2);
@@ -506,6 +505,8 @@ body.menu-open { overflow: hidden; }
   line-height: var(--lh-snug);
   color: var(--color-ink-strong);
 }
+/* Digits in product names: Montserrat lining figures (Italiana's old-style "3" reads as "ȝ"). */
+.card__name .num, .pdp__name .num { font-family: var(--font-sans); font-weight: 300; font-size: 0.86em; letter-spacing: 0; }
 .card__spec { margin: 0; font-size: var(--fs-xs); color: var(--color-ink-mute); }
 .card__row {
   display: flex;

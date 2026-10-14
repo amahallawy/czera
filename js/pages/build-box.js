@@ -2,6 +2,7 @@ import { initShell, showToast } from '../ui/shell.js';
 import { emptyBox, BOX_SIZES, BOX_COLOURS, RIBBONS, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
+import { fitSticky } from '../ui/sticky-fit.js';
 
 const { bag } = initShell();
 const sel = emptyBox();
@@ -140,3 +141,6 @@ window.addEventListener('resize', syncBarHeight);
 
 render();
 syncBarHeight();
+
+// Desktop: the preview stays sticky only while it fits (no inner scrollbar).
+fitSticky(document.querySelector('[data-preview]'));

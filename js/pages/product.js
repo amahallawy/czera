@@ -3,7 +3,8 @@ import { renderProductCard } from '../ui/card.js';
 import { PRODUCTS, CATEGORIES } from '../data/products.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
-import { escapeHtml } from '../lib/escape.js';
+import { escapeHtml, nameHtml } from '../lib/escape.js';
+import { fitSticky } from '../ui/sticky-fit.js';
 import { buildOrderMessage, orderLink } from '../lib/whatsapp.js';
 import { readRecent, pushRecent } from '../lib/recent.js';
 import { BOX_SIZES } from '../lib/box.js';
@@ -38,7 +39,7 @@ if (!p) {
         `<img src="${escapeHtml(src)}" alt="${i === 0 ? escapeHtml(p.name) : ''}" ${i ? 'loading="lazy"' : ''} />`).join('')}</div>
       <div class="pdp__panel">
         <p class="crumb"><a href="catalog.html?category=${escapeHtml(p.category)}">${escapeHtml(category)}</a></p>
-        <h1 class="pdp__name">${escapeHtml(p.name)}</h1>
+        <h1 class="pdp__name">${nameHtml(p.name)}</h1>
         <p class="pdp__price">${formatEGP(p.price)}</p>
         <p class="pdp__lede">${escapeHtml(p.description)}</p>
         ${contents}
@@ -76,14 +77,5 @@ if (!p) {
   });
   sync();
 
-  // Keep the buying panel sticky only while it fits under the header; a taller panel
-  // (long features, open fold-outs) scrolls with the page so all of it stays reachable.
-  const panel = root.querySelector('.pdp__panel');
-  const fitPanel = () => {
-    const top = parseFloat(getComputedStyle(panel).top) || 0;
-    panel.classList.toggle('is-tall', top + panel.offsetHeight > window.innerHeight);
-  };
-  if ('ResizeObserver' in window) new ResizeObserver(fitPanel).observe(panel);
-  window.addEventListener('resize', fitPanel);
-  fitPanel();
+  fitSticky(root.querySelector('.pdp__panel'));
 }

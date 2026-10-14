@@ -17,7 +17,7 @@ const GROUPS = [
 ];
 const BAND = `<div class="grid-band band band--dark">
   <div class="band__copy"><span class="eyebrow">Build your own box</span><h2 class="band__title">Can't choose? Make your own.</h2>
-  <p>Pick the box, colour, towels and ribbon. Box and ribbon are included free.</p><a class="btn btn--gold" href="build-your-box.html">Start your box</a></div>
+  <p>Pick the box, colour, towels and ribbon. Towels come in white, or striped for the beach, one colour per box. Box and ribbon are included free.</p><a class="btn btn--gold" href="build-your-box.html">Start your box</a></div>
   <img class="band__media" src="assets/img/products/hand-and-bath-sheet-set-1.jpg" alt="" /></div>`;
 
 function render() {
