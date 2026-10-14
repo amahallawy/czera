@@ -5,7 +5,11 @@ export const CONFIG = {
   deliveryText: 'Across Egypt in 2–5 days, next day in Cairo & Giza', // PLACEHOLDER
   paymentText: 'Cash on delivery or InstaPay',                          // PLACEHOLDER
   careText: 'Machine wash warm, tumble dry low',                        // PLACEHOLDER
-  instagram: 'czera_maison',
+  social: [
+    { label: 'Instagram', handle: '@czera_maison', url: 'https://www.instagram.com/czera_maison' },
+    { label: 'Facebook', handle: 'CzeraMaison', url: 'https://www.facebook.com/CzeraMaison' },
+    { label: 'TikTok', handle: '@czera23', url: 'https://www.tiktok.com/@czera23' },
+  ],
   boxMinPieces: 2, // DRAFT until the client confirms (spec §8)
   boxMaxPieces: 6, // DRAFT until the client confirms (spec §8)
 };
