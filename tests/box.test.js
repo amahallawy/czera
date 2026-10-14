@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxLabel, sizeAllowed, TOWEL_COLOURS } from '../js/lib/box.js';
+import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxLabel, sizeAllowed, TOWEL_COLOURS, colourConflicts, colourBlockReason, allowedColours } from '../js/lib/box.js';
 
 const sample = () => ({ ...emptyBox(), items: { face: 2, hand: 1, bath: 1, sheet: 1, beach: 0 } });
 
@@ -59,4 +59,35 @@ test('key, items text and label are stable and readable', () => {
   assert.equal(boxKey(sample()), 'black|burgundy|white|face:2,hand:1,bath:1,sheet:1');
   assert.equal(boxItemsText(sample()), '2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet');
   assert.equal(boxLabel(sample()), 'Custom box (black box, burgundy ribbon): 2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet, white');
+});
+
+const none = () => emptyBox().items;
+const withItems = extra => ({ ...none(), ...extra });
+
+test('an empty box can take any towel colour', () => {
+  assert.deepEqual(allowedColours(none()), ['white', 'blue', 'yellow']);
+  for (const c of TOWEL_COLOURS) assert.equal(colourBlockReason(c, none()), null);
+});
+
+test('white towels in the box rule out the striped colours, with a reason naming them', () => {
+  const items = withItems({ face: 2, sheet: 1 });
+  assert.deepEqual(allowedColours(items), ['white']);
+  assert.deepEqual(colourConflicts('blue', items), ['face', 'sheet']);
+  assert.equal(colourBlockReason('white', items), null);
+  assert.equal(colourBlockReason('blue', items), 'Stripes come in the beach size only. Remove the face towels and bath sheets first.');
+  assert.equal(colourBlockReason('yellow', withItems({ face: 1, hand: 1, bath: 1 })),
+    'Stripes come in the beach size only. Remove the face towels, hand towels and bath towels first.');
+});
+
+test('beach towels in the box rule out white, but not the other stripe', () => {
+  const items = withItems({ beach: 2 });
+  assert.deepEqual(allowedColours(items), ['blue', 'yellow']);
+  assert.deepEqual(colourConflicts('white', items), ['beach']);
+  assert.equal(colourBlockReason('white', items), 'No beach size in white. Remove the beach towels first.');
+  assert.equal(colourBlockReason('yellow', items), null);
+});
+
+test('colour checks tolerate missing items and unknown colours', () => {
+  assert.deepEqual(colourConflicts('white', undefined), []);
+  assert.equal(colourBlockReason('black', none()), 'Not available.');
 });

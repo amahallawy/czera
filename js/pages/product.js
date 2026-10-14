@@ -44,7 +44,7 @@ if (!p) {
         ${contents}
         <div class="pdp__buy">
           <div class="qty"><button type="button" data-step="-1" aria-label="One less">−</button><span data-qty-value>1</span><button type="button" data-step="1" aria-label="One more">+</button></div>
-          <button type="button" class="btn btn--ink" data-add-to-bag="${escapeHtml(p.slug)}" data-qty="1">Add to bag · <span data-buy-total>${formatEGP(p.price)}</span></button>
+          <button type="button" class="btn btn--ink" data-add-to-bag="${escapeHtml(p.slug)}" data-qty="1"><span class="pdp__buy-label">Add to bag</span><span class="pdp__buy-sep" aria-hidden="true">·</span><span class="pdp__buy-total" data-buy-total>${formatEGP(p.price)}</span></button>
         </div>
         <a class="link pdp__wa" data-order-one href="#" target="_blank" rel="noopener">Or order just this on WhatsApp ›</a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
@@ -75,4 +75,15 @@ if (!p) {
     if (step) { qty = Math.min(20, Math.max(1, qty + Number(step.dataset.step))); sync(); }
   });
   sync();
+
+  // Keep the buying panel sticky only while it fits under the header; a taller panel
+  // (long features, open fold-outs) scrolls with the page so all of it stays reachable.
+  const panel = root.querySelector('.pdp__panel');
+  const fitPanel = () => {
+    const top = parseFloat(getComputedStyle(panel).top) || 0;
+    panel.classList.toggle('is-tall', top + panel.offsetHeight > window.innerHeight);
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(fitPanel).observe(panel);
+  window.addEventListener('resize', fitPanel);
+  fitPanel();
 }

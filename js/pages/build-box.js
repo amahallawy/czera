@@ -1,5 +1,5 @@
 import { initShell, showToast } from '../ui/shell.js';
-import { emptyBox, BOX_SIZES, BOX_COLOURS, RIBBONS, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, validateBox, sizeAllowed } from '../lib/box.js';
+import { emptyBox, BOX_SIZES, BOX_COLOURS, RIBBONS, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
 
@@ -18,22 +18,34 @@ if (BOX_SIZES.some(s => s.id === preset)) {
   sel.colour = presetColour;
 }
 
-let notice = '';
-const colourName = c => (STRIPED.includes(c) ? `${c} stripes` : c);
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-const choice = (group, value, label) =>
-  `<button type="button" class="box-option" data-group="${group}" data-value="${value}" aria-pressed="${sel[group] === value}">
+const choice = (group, value, label, attrs = '') =>
+  `<button type="button" class="box-option" data-group="${group}" data-value="${value}" aria-pressed="${sel[group] === value}"${attrs}>
      <span class="swatch swatch--${value}" aria-hidden="true"></span>${label}</button>`;
+// A towel colour that can't hold the towels already in the box is disabled, with the reason
+// shown under the colour row and tied to the button for screen readers (colours that share a
+// reason share one line). Nothing is ever removed silently.
+function renderColours() {
+  const reasons = [];
+  const buttons = TOWEL_COLOURS.map(v => {
+    const label = STRIPED.includes(v) ? `${cap(v)} stripe` : cap(v);
+    const reason = colourBlockReason(v, sel.items);
+    if (!reason) return choice('colour', v, label);
+    if (!reasons.includes(reason)) reasons.push(reason);
+    return choice('colour', v, label, ` disabled aria-describedby="colour-reason-${reasons.indexOf(reason)}"`);
+  });
+  document.querySelector('[data-options="colour"]').innerHTML = buttons.join('');
+  document.querySelector('[data-colour-reasons]').innerHTML =
+    reasons.map((r, i) => `<li id="colour-reason-${i}">${r}</li>`).join('');
+}
 
 function render() {
   document.querySelector('[data-options="box"]').innerHTML = BOX_COLOURS.map(v => choice('box', v, cap(v))).join('');
   document.querySelector('[data-options="ribbon"]').innerHTML = RIBBONS.map(v => choice('ribbon', v, cap(v))).join('');
-  document.querySelector('[data-options="colour"]').innerHTML = TOWEL_COLOURS.map(v =>
-    choice('colour', v, STRIPED.includes(v) ? `${cap(v)} stripe` : cap(v))).join('');
+  renderColours();
   document.querySelector('[data-colour-note]').textContent = STRIPED.includes(sel.colour)
     ? 'Stripes come in the 100 × 200 beach size only.'
     : 'Beach towels come in blue or yellow stripes only.';
-  document.querySelector('[data-notice]').textContent = notice;
   document.querySelector('[data-options="items"]').innerHTML = BOX_SIZES.map(s => {
     const allowed = sizeAllowed(sel, s.id);
     const q = sel.items[s.id];
@@ -88,21 +100,13 @@ function renderKeepingFocus() {
 document.addEventListener('click', e => {
   const opt = e.target.closest('[data-group]');
   if (opt) {
-    notice = '';
+    if (opt.disabled) return;
     sel[opt.dataset.group] = opt.dataset.value;
-    if (opt.dataset.group === 'colour') {
-      const removed = BOX_SIZES.filter(s => sel.items[s.id] > 0 && !sizeAllowed(sel, s.id));
-      if (removed.length) {
-        notice = `Removed ${removed.map(s => `${sel.items[s.id]} × ${s.label}`).join(', ')}: not available in ${colourName(sel.colour)}.`;
-        removed.forEach(s => { sel.items[s.id] = 0; });
-      }
-    }
     renderKeepingFocus();
     return;
   }
   const step = e.target.closest('[data-size]');
   if (step) {
-    notice = '';
     const id = step.dataset.size;
     sel.items[id] = Math.max(0, sel.items[id] + Number(step.dataset.delta));
     renderKeepingFocus();
