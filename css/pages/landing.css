@@ -1,17 +1,13 @@
-/* Czera — Landing page styles */
+/* Czera — Home page styles. Shared pieces (.section, .card*, .band*, .steps,
+ * buttons) live in components.css; only home-only layout is here. */
 
 /* ---------------- Hero ---------------- */
 .hero {
   position: relative;
-  /* Fill the viewport. `dvh` lets the hero re-measure when mobile browser
-   * chrome hides on scroll (iOS Safari especially), so the next section
-   * doesn't peek in below the fold. `vh` is the fallback for older browsers. */
+  /* `dvh` re-measures when mobile browser chrome hides; `vh` is the fallback. */
   min-height: 100vh;
   min-height: 100dvh;
   display: grid;
-  /* Single column that can shrink below the headline's intrinsic max-content
-   * width — without this, narrow viewports overflow horizontally and the
-   * `overflow: hidden` below would clip the wrap point. */
   grid-template-columns: minmax(0, 1fr);
   align-items: end;
   overflow: hidden;
@@ -32,211 +28,177 @@ video.hero__media {
   object-fit: cover;
 }
 
-/* The Beat 5 brand sign-off (gold wordmark on draped ivory cotton) is now
- * baked into the hero video itself — it fades in ~24–27.6s, holds, then
- * clears to clean fabric before the loop. The old CSS `.hero__signoff`
- * overlay layer (white wordmark over a charcoal plate) has been removed. */
-
-/* Visible page H1, tucked at hero bottom-left as a small tracked-caps
- * masthead. Carries the page's semantic H1 (SEO + screen readers) while
- * sitting unobtrusively under the brand film. */
-.hero__masthead {
-  position: absolute;
-  inset-block-end: var(--space-5);
-  inset-inline-start: var(--gutter);
-  margin: 0;
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: var(--fs-2xs);
-  font-weight: 300;
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
-  opacity: 0.78;
-  z-index: 3;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-/* Subtle vignette for depth — soft darkening at corners that barely
- * registers against the ivory plate of Beat 5 but adds dimension to
- * Beats 1–4. Replaces the heavier title-legibility overlay since the
- * hero now plays clean (no overlay text). */
+/* Soft vignette plus a bottom scrim so the copy reads over the film. */
 .hero__overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
+    linear-gradient(to top,
+      color-mix(in srgb, var(--color-ink-strong) 55%, transparent) 0%,
+      transparent 48%),
     radial-gradient(ellipse 130% 100% at 50% 40%,
       transparent 55%,
-      rgba(1, 1, 0, 0.18) 100%);
+      color-mix(in srgb, var(--color-ink-strong) 18%, transparent) 100%);
 }
 
-.hero__content {
+.hero__copy {
+  position: relative;
+  z-index: 2;
+  justify-self: start;
+  max-width: 46%;
+  padding-block: 0 var(--space-8);
+  padding-inline: var(--gutter);
   color: var(--color-on-dark);
-  padding-block: var(--space-9);
-  max-width: 760px;
-  /* Grid items default to min-width: auto (= max-content of children).
-   * The headline's intrinsic width on mobile is wider than the column,
-   * so without this the title overflows horizontally instead of wrapping. */
-  min-width: 0;
-  /* Cycle the whole content block out during Beat 5 (24–30s) so the brand
-   * sign-off has the screen alone. Opacity here multiplies with the
-   * children's heroReveal opacity, so the load-stagger still plays cleanly
-   * at first paint. */
-  animation: heroOverlayCycle 30s linear infinite;
-}
-
-/* Crown sits above the hero title — scaled up so the brand mark
- * registers against the photographic backdrop. Falls back at narrow
- * viewports so the crown doesn't overpower a phone-sized hero. */
-.hero__content > .brand-crown {
-  display: block;
-  margin: 0 0 var(--space-4) 0;
-  --brand-crown-size: clamp(56px, 7vw, 96px);
-}
-/* Hero headline — Montserrat Light 300 (per design.md §3.2: Italiana
- * is reserved for product names; display feel comes from size +
- * tracking, not from a serif). Inherits font-family, font-weight, and
- * letter-spacing (--ls-display) from base.css h1.
- *
- * Fluid range: ~32px on the smallest phones, scaling to 72px on
- * desktop. The 8vw rate hits 72px at ~900px viewport and stays there. */
-.hero__title {
-  font-size: clamp(2rem, 8vw, var(--fs-4xl));
-  color: var(--color-on-dark);
-  margin-bottom: var(--space-5);
-  /* Defensive wrap on narrow viewports — Montserrat Light + negative
-   * tracking at this scale can push past the parent content width
-   * faster than auto-wrap reacts. */
-  max-width: 100%;
-  overflow-wrap: break-word;
-}
-.hero__subtitle {
-  font-size: var(--fs-md);
-  color: rgba(244, 242, 236, 0.85);
-  max-width: 52ch;
-  margin-bottom: var(--space-7);
-  line-height: var(--lh-loose);
-}
-.hero__cta-row {
-  display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-}
-
-.hero__scroll-cue {
-  position: absolute;
-  left: 50%;
-  bottom: var(--space-5);
-  transform: translateX(-50%);
-  color: rgba(244, 242, 236, 0.7);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
 }
-.hero__scroll-cue::after {
-  content: "";
-  width: 1px; height: 56px;
-  background: linear-gradient(to bottom, var(--color-gold), transparent);
-  animation: scroll-pulse 3.6s ease-in-out infinite;
-  transform-origin: top;
+.hero__copy .eyebrow { color: var(--color-on-dark); opacity: 0.85; }
+.hero__title {
+  font-size: clamp(2rem, 4.6vw, var(--fs-3xl));
+  color: var(--color-on-dark);
+  overflow-wrap: break-word;
 }
-@keyframes scroll-pulse {
-  0%, 100% { opacity: 0.25; transform: scaleY(0.6); }
-  50%      { opacity: 0.9;  transform: scaleY(1); }
+.hero__lede {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--fs-base);
+  line-height: var(--lh-loose);
+  color: var(--color-on-dark);
+  opacity: 0.9;
 }
-
-/* ================================================================
- * Hero load stagger — single signature page-load sequence.
- * Crown → headline → subtitle → CTAs. ~1.1s total.
- * ================================================================ */
-.hero__content > .brand-crown,
-.hero__title,
-.hero__subtitle,
-.hero__cta-row {
-  opacity: 0;
-  transform: translateY(12px);
-  animation: heroReveal 700ms var(--ease-out) forwards;
-}
-.hero__content > .brand-crown { animation-delay: 60ms; }
-.hero__title                  { animation-delay: 220ms; }
-.hero__subtitle               { animation-delay: 420ms; }
-.hero__cta-row                { animation-delay: 620ms; }
-
-@keyframes heroReveal {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* ================================================================
- * Hero loop cycle — synced to the video's 30s loop.
- * 0–24s   (0–80%):  Beats 1–4 play, title overlay visible.
- * 24–28.5s (80–95%): Beat 5 ivory plate, wordmark sign-off held.
- * 28.5–30s (95–100%): wordmark fades out, title fades back in.
- * Opacity-only animation (no transform interpolation) so the cycle
- * loops cleanly across iterations — `infinite` keyframe interpolation
- * with `transform: scale()` was producing visible jitter at the loop
- * seam in earlier runs.
- *
- * Sync is best-effort CSS (animation-timeline: video would be ideal
- * but isn't broadly supported). Drift across many loops is acceptable
- * for a hero — pages aren't watched for hours.
- * ================================================================ */
-@keyframes heroOverlayCycle {
-  0%, 79%   { opacity: 1; }
-  80%, 96%  { opacity: 0; }
-  98%, 100% { opacity: 1; }
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block-start: var(--space-2);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__content > .brand-crown,
-  .hero__title,
-  .hero__subtitle,
-  .hero__cta-row {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-  /* Reduced motion: hide the looping video, render the poster as a
-   * static background; hide the sign-off animation; freeze the content
-   * cycle so the title is always visible. */
+  /* Hide the looping video and show the poster as a static background. */
   .hero__media { display: none; }
   .hero {
     background-image: url("../../assets/img/hero-poster.jpg");
     background-size: cover;
     background-position: center;
   }
-  .hero__content { animation: none; opacity: 1; }
 }
 
-/* ================================================================
- * Ken burns on chapter media — imperceptible 14s breath.
- * ================================================================ */
-.chapter__media,
-.chapter__media-side {
-  transform-origin: center;
-  animation: kenBurns 18s ease-in-out infinite alternate;
-}
-@keyframes kenBurns {
-  from { transform: scale(1); }
-  to   { transform: scale(1.06); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .chapter__media,
-  .chapter__media-side { animation: none; transform: none; }
+/* ---------------- Section frame ---------------- */
+.categories,
+.gifts,
+.promises,
+.how {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
-/* ================================================================
- * Chapter system — Abyss & Habidecor-style scrolling editorial
- * Each chapter is a full-bleed photographic frame with a small
- * centered text overlay. No card chrome between chapters.
- * ================================================================ */
+/* ---------------- Shop by category ---------------- */
+.cat-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: var(--space-4);
+  height: 520px;
+}
+.cat-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: var(--color-on-dark);
+  background: var(--color-surface);
+}
+.cat-tile--big { grid-row: 1 / 3; }
+.cat-tile--wide { grid-column: 2 / 4; }
+.cat-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.cat-tile:hover img { transform: scale(1.03); }
+.cat-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    transparent 45%,
+    color-mix(in srgb, var(--color-ink-strong) 55%, transparent) 100%);
+}
+.cat-tile__label {
+  position: absolute;
+  inset-inline-start: var(--space-5);
+  inset-block-end: var(--space-4);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+.cat-tile__label small {
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.cat-tile__label b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-tight);
+}
+.cat-tile--big .cat-tile__label b { font-size: var(--fs-2xl); }
+.cat-tile__label u {
+  margin-block-start: var(--space-2);
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
 
+/* ---------------- Gift sets ---------------- */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-block-end: var(--space-6);
+  border-bottom: var(--border-divider);
+}
+.tabs [role="tab"] {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-block-end: -1px;
+  padding: 0 0 var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.tabs [role="tab"]:hover { color: var(--color-ink-strong); }
+.tabs [role="tab"][aria-selected="true"] {
+  color: var(--color-ink-strong);
+  border-bottom-color: var(--color-ink-strong);
+}
+.gifts__more { margin: var(--space-6) 0 0; text-align: center; }
+
+/* ---------------- Story chapter ----------------
+ * Text over image: the cotton photograph is full-bleed on the leading side;
+ * the copy sits over the trailing ivory void. A scrim gradient fades the image
+ * into the page background so image and copy read as one warm field. The
+ * composition mirrors on RTL. */
 .chapter {
   position: relative;
   isolation: isolate;
@@ -247,30 +209,33 @@ video.hero__media {
   overflow: hidden;
   text-align: center;
 }
+.chapter__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  transform-origin: center;
+  animation: kenBurns 18s ease-in-out infinite alternate;
+}
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter__media { animation: none; transform: none; }
+}
 
-/* Story chapter — text over image. The cotton photograph is full-bleed on
- * the leading side; the copy sits over the trailing ivory void. A scrim
- * gradient fades the image into the page background (--color-bg) so image
- * and copy read as one warm field and the dark text stays legible. The
- * whole composition mirrors on the RTL (Arabic) surface. */
 .chapter--story {
-  position: relative;
-  isolation: isolate;
   min-height: clamp(34rem, 62vh, 46rem);
   padding-block: clamp(var(--space-8), 10vw, var(--space-10));
   padding-inline: var(--gutter);
-  display: grid;
   align-items: center;
   justify-items: end;              /* copy on the inline-end side; flips on RTL */
-  text-align: center;
-  overflow: hidden;
   background: var(--color-bg);
 }
 .chapter--story .chapter__media {
-  /* base .chapter__media already sets position:absolute; inset:0; z-index:-2 */
-  background-image: url("../../assets/img/story-cotton-drape.jpg");
+  background-image: url("../../assets/img/catalogue/p02.jpg");
   background-size: cover;
-  background-position: left center;   /* keep the subject on the leading edge */
+  background-position: left center;
   background-repeat: no-repeat;
   background-color: var(--color-surface-soft);
 }
@@ -296,126 +261,8 @@ video.hero__media {
   text-align: center;
   gap: var(--space-4);
 }
-
-/* RTL: mirror the composition — subject on the right, copy on the left. */
 [dir="rtl"] .chapter--story .chapter__media { background-position: right center; }
 [dir="rtl"] .chapter--story .chapter__scrim { transform: scaleX(-1); }
-
-/* Mobile: overlaying copy on a phone-width image risks legibility, so stack
- * instead — image on top, copy below on the ivory surface. */
-@media (max-width: 768px) {
-  .chapter--story {
-    display: block;
-    min-height: 0;
-    padding: 0 0 clamp(var(--space-7), 9vw, var(--space-9));
-    overflow: visible;
-  }
-  .chapter--story .chapter__media {
-    position: relative;
-    inset: auto;
-    z-index: auto;
-    width: 100%;
-    aspect-ratio: 3 / 2;
-    background-position: center;
-  }
-  [dir="rtl"] .chapter--story .chapter__media { background-position: center; }
-  .chapter--story .chapter__scrim { display: none; }
-  .chapter--story .chapter__content {
-    width: auto;
-    max-width: 34rem;
-    margin: 0 auto;
-    padding: clamp(var(--space-6), 8vw, var(--space-8)) var(--gutter) 0;
-  }
-}
-
-/* Full-bleed background */
-.chapter__media {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-}
-
-/* Light chapters override the placeholder caption colour for blend */
-.chapter--light { background: var(--color-bg); }
-.chapter--light .chapter__media { background: var(--color-surface-soft); }
-/* Veil over chapter media. Heavy enough that body + pullquote stay
- * readable on bright placeholder photography (cotton fields, marble,
- * etc.) but soft enough that real client photography still feels like
- * a photograph, not a wash. Re-evaluate once production imagery lands. */
-.chapter--light::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg,
-      rgba(244,242,236,0.55) 0%,
-      rgba(244,242,236,0.70) 50%,
-      rgba(244,242,236,0.55) 100%);
-}
-
-/* Dark chapter — placeholder is darker, headline reverses */
-.chapter--dark {
-  background: var(--color-ink-strong);
-  color: var(--color-on-dark);
-}
-.chapter--dark .chapter__media {
-  background: linear-gradient(160deg, #2B2B2B 0%, #1a1a1a 100%);
-  outline: 0;
-}
-.chapter--dark .chapter__media::after { display: none; }
-/* Collection artwork — one warm still-life of the range. Desktop fills the
- * frame edge-to-edge with `cover` (the crop trims a little headroom/table but
- * keeps both the towels and the robe). Phones keep it contained and bottom-
- * anchored so nothing is cropped on a tall screen; #0b0806 fills the letterbox
- * there. Image set here (not inline). */
-.chapter--dark .chapter__media.media-image {
-  background-repeat: no-repeat;
-  background-color: #0b0806;
-  background-image: url("../../assets/img/collection-range.jpg");
-}
-@media (max-width: 768px) {
-  .chapter--dark .chapter__media.media-image {
-    background-size: contain;
-    background-position: center bottom;
-  }
-}
-@media (min-width: 769px) {
-  .chapter--dark .chapter__media.media-image {
-    background-size: cover;
-    background-position: center;
-  }
-}
-/* Mirror of the chapter--light veil strategy: heavy enough that white
- * type stays legible on whatever placeholder photography happens to
- * crop in (white marble, dark stone, anything in between), soft enough
- * that the photograph is still a photograph. Re-evaluate when real
- * client imagery lands. The Montserrat Light 300 chapter title has
- * thinner strokes than the previous Italiana 400, which raised the
- * minimum contrast required. */
-.chapter--dark::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  /* Two layers: a soft center-weighted pool darkens the zone behind the
-   * centered copy so the ivory text stays legible over bright imagery,
-   * while the warm subject keeps glowing at the edges; a gentle vertical
-   * veil grounds the whole frame. */
-  background:
-    radial-gradient(ellipse 82% 74% at 50% 48%,
-      rgba(1,1,0,0.52) 0%,
-      rgba(1,1,0,0.14) 62%,
-      rgba(1,1,0,0) 100%),
-    linear-gradient(180deg,
-      rgba(1,1,0,0.42) 0%,
-      rgba(1,1,0,0.56) 55%,
-      rgba(1,1,0,0.54) 100%);
-}
-.chapter--dark .chapter__title { color: var(--color-on-dark); }
-/* Eyebrow on a dark chapter reads muted ivory, not gold — the crown is the
- * single gold accent (design.md 3.1). */
-.chapter--dark .eyebrow { color: rgba(244, 242, 236, 0.7); }
 
 /* Centered overlay text block */
 .chapter__content {
@@ -427,21 +274,12 @@ video.hero__media {
 }
 .chapter__content .eyebrow { display: inline-block; }
 .chapter__content .brand-crown { margin: var(--space-2) 0 0; }
-.chapter__content .chapter__link { margin-top: var(--space-3); }
+.chapter__content .chapter__link { margin-block-start: var(--space-3); }
 
-/* Chapter title — Montserrat Light 300 (per design.md §3.2: Italiana
- * is reserved for product names + a single editorial flourish, which is
- * spent on the new .chapter__pullquote in the Story chapter). Inherits
- * font-family, font-weight, line-height, letter-spacing, and color
- * from base.css h2; only the chapter-specific size + measure are local. */
 .chapter__title {
   font-size: clamp(2rem, 5vw, var(--fs-3xl));
   max-width: 18ch;
 }
-.chapter__title--small {
-  font-size: clamp(1.75rem, 3.5vw, var(--fs-2xl));
-}
-
 .chapter__body {
   font-family: var(--font-sans);
   font-weight: 300;
@@ -451,14 +289,8 @@ video.hero__media {
   max-width: 38ch;
   margin: 0 auto;
 }
-.chapter--dark .chapter__body { color: rgba(244, 242, 236, 0.78); }
 
-/* ---------------- Pull-quote (the page's allowed Italiana flourish) ----------------
- * design.md §3.2 reserves Italiana for product names + a single
- * editorial flourish per page. This is that flourish. Neutral hairline
- * rules above + below frame it without ornament. Gold is spent once per
- * screen on the chapter crown (design.md §3.1), so the frame stays ink,
- * not gold. */
+/* Pull-quote: the page's single Italiana flourish. */
 .chapter__pullquote {
   margin: var(--space-5) 0 var(--space-3);
   max-width: 28ch;
@@ -486,164 +318,166 @@ video.hero__media {
   color: var(--color-ink-strong);
   border-bottom: 1px solid currentColor;
   padding-bottom: var(--space-2);
-  margin-top: var(--space-2);
+  margin-block-start: var(--space-2);
   transition: color var(--dur-base) var(--ease-out), gap var(--dur-base) var(--ease-out);
 }
 .chapter__link:hover { color: var(--color-gold-deep); gap: var(--space-3); }
-/* On a dark chapter the link rests ivory (its underline is currentColor) so
- * the crown stays the section's single gold accent; gold appears only on
- * hover. See design.md 3.1 "one accent per screen". */
-.chapter__link--on-dark { color: var(--color-on-dark); }
-.chapter__link--on-dark:hover { color: var(--color-gold-sand); }
 
-/* ---------------- Split chapter (image + text/dl) ----------------
- * Image lives on the trailing edge (right in LTR, left in RTL) for
- * editorial rhythm — abyss alternates split direction between sections,
- * and Czera's other chapters are centered, so this one carries the
- * asymmetric beat for the page. The grid + `direction` mirror handles
- * RTL automatically when explicit columns are used (no logical-property
- * gymnastics needed here). */
-.chapter--split {
-  min-height: 80vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  place-items: stretch;          /* override parent .chapter { place-items: center } */
-  gap: 0;
+/* ---------------- Why Czera ---------------- */
+.promise-list {
+  list-style: none;
+  margin: 0 0 var(--space-7);
   padding: 0;
-  text-align: left;
-  background: var(--color-bg);
-}
-.chapter--split .chapter__media-side    { grid-column: 2; }
-.chapter--split .chapter__split-content { grid-column: 1; }
-
-.chapter__media-side {
-  position: relative;
-  margin: 0;
-  width: 100%;
-  min-height: 60vh;
-  align-self: stretch;
-}
-.chapter__media-side.media-placeholder { display: flex; }
-
-.chapter__split-content {
-  align-self: center;
-  padding: clamp(var(--space-7), 6vw, var(--space-9)) clamp(var(--space-6), 6vw, var(--space-9));
-  max-width: 36rem;
   display: grid;
-  gap: var(--space-5);
-  justify-items: start;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  text-align: center;
 }
-.chapter__split-content .eyebrow { display: inline-block; }
-.chapter__split-content .brand-crown { margin: var(--space-1) 0; }
-
-/* ---------------- Spec list (used in split chapter) ---------------- */
-.spec-list {
-  margin: var(--space-6) 0 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-5) var(--space-6);
-  width: 100%;
-  border-top: var(--border-divider);
-  padding-top: var(--space-5);
+.promise-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
 }
-.spec-list dt {
-  font-family: var(--font-sans);
-  font-size: var(--fs-2xs);
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
-  color: var(--color-ink-mute);
-  margin-bottom: var(--space-2);
+.promise-list svg {
+  width: 44px;
+  height: 44px;
+  margin-block-end: var(--space-2);
+  fill: none;
+  stroke: var(--color-gold-deep);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.spec-list dd {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-weight: 300;
-  font-size: var(--fs-base);
-  letter-spacing: var(--ls-tight);
+.promise-list b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-lg);
   color: var(--color-ink-strong);
 }
-
-/* ---------------- Editorial chapter (journal row) ---------------- */
-.chapter--editorial {
-  display: block;
-  text-align: left;
-  background: var(--color-bg);
-  min-height: auto;
-  padding-block: clamp(var(--space-9), 10vw, var(--space-10));
+.promise-list span {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+  color: var(--color-ink-mute);
+  max-width: 24ch;
 }
-.chapter__heading {
-  max-width: var(--content-max);
-  margin: 0 auto clamp(var(--space-6), 5vw, var(--space-8));
-  padding: 0 var(--gutter);
+.photo-strip {
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-3);
-  text-align: center;
-  justify-items: center;
 }
-.chapter__heading .eyebrow { display: inline-block; }
-.chapter__heading .brand-crown { margin-block: var(--space-1) var(--space-2); }
+.photo-strip img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
 
-.editorial-row {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
+/* ---------------- How to order ---------------- */
+.how-steps {
+  list-style: none;
+  margin: 0 auto var(--space-7);
+  padding: 0;
+  max-width: 900px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(var(--space-5), 3vw, var(--space-7));
+  gap: var(--space-6);
+  text-align: center;
 }
-
-.editorial-entry {
-  display: grid;
-  gap: var(--space-3);
-  text-decoration: none;
-  color: var(--color-ink);
-  transition: opacity var(--dur-base) var(--ease-out);
+.how-steps li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
 }
-.editorial-entry:hover { opacity: 0.78; }
-.editorial-entry__media {
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  transition: transform 320ms var(--ease-out);
+.how-steps i {
+  font-style: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  color: var(--color-gold-deep);
+  margin-block-end: var(--space-2);
 }
-.editorial-entry:hover .editorial-entry__media {
-  transform: scale(1.02);
+.how-steps b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-lg);
+  color: var(--color-ink-strong);
 }
-.editorial-entry__kicker {
-  margin-top: var(--space-3);
-  font-family: var(--font-sans);
-  font-size: var(--fs-2xs);
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
+.how-steps span {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
   color: var(--color-ink-mute);
 }
-.editorial-entry__title {
-  font-family: var(--font-sans);
-  font-weight: 300;
-  font-size: var(--fs-md);
-  letter-spacing: var(--ls-tight);
-  color: var(--color-ink-strong);
-  max-width: 22ch;
+.how__bulk {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-block-start: var(--space-5);
+  border-top: var(--border-divider);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-mute);
 }
+.how__bulk b { font-weight: 500; color: var(--color-ink-strong); }
+.how__bulk .link { margin-inline-start: var(--space-2); }
 
 /* ---------------- Responsive ---------------- */
-@media (max-width: 900px) {
-  .chapter { min-height: 70vh; }
-  .chapter--split { grid-template-columns: 1fr; }
-  /* Below desktop the split collapses to a single column; let the items
-   * fall back to source order (figure first, then content). Without this
-   * the explicit grid-column placements above force an implicit column 2. */
-  .chapter--split .chapter__media-side,
-  .chapter--split .chapter__split-content { grid-column: auto; }
-  .chapter__media-side { min-height: 50vh; }
-  .chapter__split-content { padding-block: var(--space-7) var(--space-9); }
-  .editorial-row { grid-template-columns: 1fr; gap: var(--space-7); }
-  .spec-list { grid-template-columns: 1fr 1fr; }
+@media (max-width: 1024px) {
+  .promise-list { grid-template-columns: repeat(2, 1fr); }
+  .hero__copy { max-width: 70%; }
+}
+
+@media (max-width: 768px) {
+  .cat-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    height: auto;
+  }
+  .cat-tile,
+  .cat-tile--big,
+  .cat-tile--wide {
+    grid-row: auto;
+    grid-column: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .how-steps { grid-template-columns: 1fr; }
+  .photo-strip { grid-template-columns: repeat(2, 1fr); }
+
+  /* Stack the story: image on top, copy below on the ivory surface. */
+  .chapter--story {
+    display: block;
+    min-height: 0;
+    padding: 0 0 clamp(var(--space-7), 9vw, var(--space-9));
+    overflow: visible;
+  }
+  .chapter--story .chapter__media {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    background-position: center;
+  }
+  [dir="rtl"] .chapter--story .chapter__media { background-position: center; }
+  .chapter--story .chapter__scrim { display: none; }
+  .chapter--story .chapter__content {
+    width: auto;
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: clamp(var(--space-6), 8vw, var(--space-8)) var(--gutter) 0;
+  }
 }
 
 @media (max-width: 560px) {
-  .chapter { min-height: 64vh; padding-inline: var(--gutter); }
+  .hero__copy { max-width: 100%; padding-block-end: var(--space-7); }
+  .hero__actions { flex-direction: column; align-self: stretch; }
+  .hero__actions .btn { width: 100%; justify-content: center; text-align: center; }
+  .promise-list { grid-template-columns: 1fr 1fr; gap: var(--space-5) var(--space-4); }
   .chapter__title { font-size: clamp(1.75rem, 8vw, 2.5rem); }
-  .spec-list { grid-template-columns: 1fr; gap: var(--space-4); }
-  .hero__cta-row { flex-direction: column; align-items: flex-start; }
-  .hero__cta-row .btn { width: 100%; justify-content: center; }
 }
