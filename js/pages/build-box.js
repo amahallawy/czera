@@ -122,4 +122,16 @@ document.addEventListener('click', e => {
   }
 });
 
+// On phones the total bar is fixed; keep the page end clear of it (collapsed height, so an open list doesn't add scroll).
+const bar = document.querySelector('.box-preview__body');
+const list = document.querySelector('[data-summary]');
+function syncBarHeight() {
+  const open = document.querySelector('[data-preview]').classList.contains('is-open');
+  const extra = open && getComputedStyle(list).display !== 'none' ? list.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty('--box-bar-h', `${Math.max(0, Math.ceil(bar.getBoundingClientRect().height - extra))}px`);
+}
+if ('ResizeObserver' in window) new ResizeObserver(syncBarHeight).observe(bar);
+window.addEventListener('resize', syncBarHeight);
+
 render();
+syncBarHeight();
