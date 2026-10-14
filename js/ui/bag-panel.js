@@ -27,6 +27,7 @@ export function initBagPanel(bag) {
   let step = 1;
   let trigger = null;
   let sent = false;
+  let sentLink = '';
 
   function renderItems() {
     const lines = bag.lines();
@@ -59,7 +60,7 @@ export function initBagPanel(bag) {
         <p class="bag-panel__note">${escapeHtml(CONFIG.deliveryText)}</p>
         <button type="submit" class="btn btn--whatsapp btn--block">Send order on WhatsApp</button>
         <button type="button" class="bag-panel__back" data-back>‹ Back to bag</button></form>
-      ${sent ? '<p class="bag-panel__sent">WhatsApp opened with your order. <button type="button" data-clear>Clear bag</button></p>' : ''}`;
+      ${sent ? `<p class="bag-panel__sent">If WhatsApp didn't open, <a href="${escapeHtml(sentLink)}" target="_blank" rel="noopener">tap here to send your order.</a> <button type="button" data-clear>Clear bag</button></p>` : ''}`;
   }
 
   function render() { if (step === 1) renderItems(); else renderDetails(); }
