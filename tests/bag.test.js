@@ -92,3 +92,12 @@ test('subscribers hear every change', () => {
   bag.add({ type: 'product', slug: 'face-towel', qty: 1 });
   assert.equal(calls, 2);
 });
+
+test('stored boxes with retired colour rules are dropped', () => {
+  const stored = JSON.stringify([
+    { type: 'box', box: { box: 'black', ribbon: 'gold', colour: 'black', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 },
+    { type: 'box', box: { box: 'black', ribbon: 'gold', colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 2 } }, qty: 1 },
+    { type: 'box', box: { box: 'black', ribbon: 'gold', colour: 'yellow', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 2 } }, qty: 1 },
+  ]);
+  assert.equal(createBag(memoryStorage({ [BAG_KEY]: stored })).lines().length, 1);
+});

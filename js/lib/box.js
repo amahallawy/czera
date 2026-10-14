@@ -10,8 +10,14 @@ export const BOX_SIZES = [
 ];
 export const BOX_COLOURS = ['black', 'beige'];
 export const RIBBONS = ['burgundy', 'gold'];
-export const TOWEL_COLOURS = ['white', 'black', 'blue', 'yellow'];
-export const STRIPED = ['blue', 'yellow']; // DRAFT: stripes only in the beach size (spec §8)
+// DRAFT: which sizes exist in each towel colour, from the catalogue. Awaiting client confirmation (spec §8).
+export const SIZES_BY_COLOUR = {
+  white: ['face', 'hand', 'bath', 'sheet'],
+  blue: ['beach'],
+  yellow: ['beach'],
+};
+export const TOWEL_COLOURS = Object.keys(SIZES_BY_COLOUR);
+export const STRIPED = ['blue', 'yellow'];
 
 export function emptyBox() {
   return { box: 'black', ribbon: 'burgundy', colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 0 } };
@@ -26,7 +32,7 @@ export function boxPrice(sel) {
 }
 
 export function sizeAllowed(sel, sizeId) {
-  return !STRIPED.includes(sel.colour) || sizeId === 'beach';
+  return (SIZES_BY_COLOUR[sel.colour] || []).includes(sizeId);
 }
 
 export function validateBox(sel) {
@@ -41,7 +47,9 @@ export function validateBox(sel) {
   if (n < CONFIG.boxMinPieces) return { ok: false, reason: `Choose at least ${CONFIG.boxMinPieces} pieces.` };
   if (n > CONFIG.boxMaxPieces) return { ok: false, reason: `A box holds up to ${CONFIG.boxMaxPieces} pieces.` };
   if (BOX_SIZES.some(s => (sel.items[s.id] || 0) > 0 && !sizeAllowed(sel, s.id))) {
-    return { ok: false, reason: 'Striped colours come in the beach size only.' };
+    return { ok: false, reason: STRIPED.includes(sel.colour)
+      ? 'Striped towels come in the beach size only.'
+      : 'Beach towels come in blue or yellow stripes only.' };
   }
   return { ok: true, reason: null };
 }
