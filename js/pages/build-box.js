@@ -29,6 +29,8 @@ function render() {
       <span>${q}</span><button type="button" data-size="${s.id}" data-delta="1" aria-label="One more ${s.label}" ${allowed ? '' : 'disabled'}>+</button></span></div>`;
   }).join('');
 
+  document.querySelector('[data-stripe-note]').hidden = !STRIPED.includes(sel.colour);
+
   const chosen = BOX_SIZES.filter(s => sel.items[s.id] > 0);
   document.querySelector('[data-summary]').innerHTML =
     `<li>${cap(sel.box)} box · ${sel.ribbon} ribbon <span>free</span></li>` +
@@ -68,7 +70,6 @@ document.addEventListener('click', e => {
   const opt = e.target.closest('[data-group]');
   if (opt) {
     sel[opt.dataset.group] = opt.dataset.value;
-    if (STRIPED.includes(sel.colour)) BOX_SIZES.forEach(s => { if (s.id !== 'beach') sel.items[s.id] = 0; });
     renderKeepingFocus();
     return;
   }

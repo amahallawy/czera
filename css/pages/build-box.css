@@ -77,6 +77,7 @@
 .box-preview__total { display: flex; justify-content: space-between; align-items: baseline; padding-block-start: var(--space-3); border-block-start: var(--border-divider); font-size: var(--fs-sm); }
 .box-preview__total b { font-weight: 400; font-size: var(--fs-lg); color: var(--color-ink-strong); }
 .box-preview__free { font-size: var(--fs-xs); color: var(--color-gold-deep); letter-spacing: var(--ls-wide); text-transform: uppercase; }
+.box-step__note { margin: var(--space-3) 0 0; font-size: var(--fs-xs); color: var(--color-ink-mute); }
 .box-preview__reason { font-size: var(--fs-xs); color: var(--color-ink-mute); min-block-size: 1.2em; }
 .box-preview [data-add-box]:disabled { opacity: 0.45; cursor: not-allowed; }
 
