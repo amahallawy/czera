@@ -1,10 +1,16 @@
 # Changelog
 
-Czera is deployed continuously: every merge to `main` goes live on Cloudflare.
-Entries are dated, newest first. Each PR that changes the site adds one at the top.
+All notable changes to the Czera site. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow
+[Semantic Versioning](https://semver.org/). Every merge to `main` goes live on
+Cloudflare; each PR adds its entry under `[Unreleased]`, and a release PR turns
+that section into a version.
 
-## 2026-10-15
+## [Unreleased]
 
+## [1.0.0] — 2026-10-15
+
+- Sent to the client for acceptance. The next phase rebuilds the site in WordPress.
 - First public preview on Cloudflare Workers: czera.ahmed-mahallawy-82.workers.dev
   (kept out of search engines with `X-Robots-Tag: noindex`).
 - The showroom as shipped: Home, Collection with filters, Product pages, the bag
