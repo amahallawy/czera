@@ -2,11 +2,10 @@
 # Keep it current (at least every 14 days). See /project-status in the Company workspace.
 schema: 1
 updated: 2026-10-15
-goal: "Build the showroom from the approved spec: Home, Collection, Product, bag with WhatsApp orders, Build Your Own Box and About (English)"
-due: 2026-10-16
-progress: 95
-progress_note: "Live preview on Cloudflare (czera.ahmed-mahallawy-82.workers.dev); only client data left"
-health: at-risk
+goal: "Client accepts the static showroom (v1.0.0), then rebuild it in WordPress"
+due: 2026-10-31
+progress: 10
+progress_note: "v1.0.0 sent to the client for acceptance; WordPress build starts once accepted"
+health: on-track
 blockers:
-  - "Client data: real WhatsApp number, delivery and payment text, photos, box colour/size rules"
 next_release: none
