@@ -8,8 +8,9 @@
  * 1 colour filter, 2 towels, 3 bathrobes, live group limits, "Your box" with remove buttons,
  * Clear selection, and a bottom bar on phones. "Add box to bag" posts the WPC box product with
  * wooco_ids "id/qty/componentKey,..."; snippet 5 (czera_box_config) checks the same rules on the server.
- * After a successful add the shopper is sent back to the page (post, redirect, get), and the
- * box product's own page redirects here, so the plugin's picker is never shown.
+ * After a successful add the shopper is sent back to the page (post, redirect, get) and sees the
+ * CZERA toast instead of WooCommerce's notice box; errors show inline above step 1. The box
+ * product's own page redirects here, so the plugin's picker is never shown.
  */
 
 if ( ! function_exists( 'czera_box_builder_rows' ) ) {
@@ -73,15 +74,30 @@ add_shortcode( 'czera_box_builder', function () {
 	}
 	$data   = [ 'min' => $cfg['min'], 'caps' => $caps, 'items' => $items ];
 	$image  = wp_get_attachment_image( 23, 'large', false, [ 'alt' => 'Folded CZERA towels' ] );
-	// No WooCommerce session in REST renders (box_checks page), so only print notices when there is one.
-	$notice = ( function_exists( 'WC' ) && WC()->session ) ? wc_print_notices( true ) : '';
+	// No WooCommerce session in REST renders (box_checks page), so only read notices when there is one.
+	// A success notice becomes the CZERA toast; errors and other notices show inline above step 1.
+	// Clearing them stops WooCommerce printing its own notice box anywhere else on the page.
+	$added    = false;
+	$messages = [];
+	if ( function_exists( 'WC' ) && WC()->session ) {
+		$added    = (bool) wc_get_notices( 'success' );
+		$messages = array_merge( wc_get_notices( 'error' ), wc_get_notices( 'notice' ) );
+		wc_clear_notices();
+	}
 	// The page shows this shopper's notices after post, redirect, get, so LiteSpeed must not cache it:
 	// a cached copy would replay an old "added" notice or hide a new one.
 	do_action( 'litespeed_control_set_nocache', 'czera box builder' );
 	ob_start();
 	?>
-<div class="czera-box-builder" data-box-builder>
-	<div class="czera-box-builder__notices"><?php echo $notice; // WooCommerce escapes its own notices. ?></div>
+<div class="czera-box-builder" data-box-builder<?php echo $added ? ' data-box-added="1"' : ''; ?>>
+	<?php if ( $messages ) : ?>
+	<div class="czera-box-messages" role="alert">
+		<?php foreach ( $messages as $n ) : ?>
+		<p><?php echo wc_kses_notice( $n['notice'] ?? '' ); ?></p>
+		<?php endforeach; ?>
+	</div>
+	<?php endif; ?>
+	<div class="czera-box-toast" data-box-toast role="status" hidden><span data-box-toast-text></span> <button type="button" class="czera-box-toast__link" data-box-toast-bag data-cart-url="<?php echo esc_url( wc_get_cart_url() ); ?>">View bag ›</button></div>
 	<noscript><p class="czera-box-noscript">Turn on JavaScript to build a box.</p></noscript>
 	<div class="box-page">
 		<div class="box-steps">
@@ -279,6 +295,30 @@ add_shortcode( 'czera_box_builder', function () {
 	window.addEventListener('resize', syncBar);
 	render();
 	syncBar();
+
+	// "View bag" presses the header's own Bag link, so Astra opens the same slide-in bag
+	// (or, where Astra sends that link to the cart page, goes there too).
+	const toast = $('[data-box-toast]');
+	const toBag = $('[data-box-toast-bag]');
+	toBag.addEventListener('click', () => {
+		const link = Array.from(document.querySelectorAll('.ast-site-header-cart a.cart-container')).find(a => a.offsetParent);
+		if (link) link.click();
+		else window.location.href = toBag.dataset.cartUrl;
+	});
+	// After an add the page comes back (post, redirect, get) marked data-box-added: show the toast
+	// for 3.5 s, just under the header. The text goes in now so screen readers announce it.
+	if (root.dataset.boxAdded) {
+		const head = Array.from(document.querySelectorAll('#masthead .ast-primary-header-bar')).find(h => h.offsetHeight);
+		if (head) toast.style.top = Math.max(0, head.getBoundingClientRect().bottom) + 12 + 'px';
+		toast.querySelector('[data-box-toast-text]').textContent = 'Your box was added to your bag';
+		toast.hidden = false;
+		// Never pull the toast out from under keyboard focus: wait until focus leaves it.
+		const hide = () => {
+			if (toast.contains(document.activeElement)) toast.addEventListener('focusout', hide, { once: true });
+			else toast.hidden = true;
+		};
+		setTimeout(hide, 3500);
+	}
 })();
 </script>
 	<?php
