@@ -1,0 +1,24 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. */
+/* ---------- Bag toast (site-wide, CZERA bag snippet) ---------- */
+/* The showroom toast after every add to the bag (window.czeraToast): above the header (99), below
+   Astra's bag backdrop (999). The snippet's script moves it to 12px under the header as it is when
+   shown. It sits in the footer, outside .entry-content, so Astra's max-width: none never reaches it. */
+.czera-toast {
+  position: fixed; inset-block-start: 121px; inset-inline-end: clamp(16px, 4vw, 48px); z-index: 100;
+  display: flex; align-items: center; gap: 16px; max-width: calc(100vw - 2 * clamp(16px, 4vw, 48px));
+  padding: 12px 16px; background: #010100; color: #f4f2ec;
+  font-size: 12px; line-height: 1.5; box-shadow: 0 10px 40px rgba(1, 1, 0, 0.10);
+}
+.admin-bar .czera-toast { inset-block-start: 153px; }
+.czera-toast[hidden] { display: none; }
+.czera-toast .czera-toast__link {
+  padding: 15px 8px; margin: -15px -8px; border: 0; border-radius: 0; background: none; box-shadow: none;
+  cursor: pointer; white-space: nowrap; font: inherit; line-height: 1.2;
+  color: #d8c28a; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.czera-toast .czera-toast__link:hover, .czera-toast .czera-toast__link:focus { background: none; color: #f4f2ec; }
+.czera-toast .czera-toast__link:focus-visible { outline: 2px solid #d8c28a; outline-offset: 2px; }
+@media (max-width: 899px) {
+  .czera-toast { inset-inline-start: clamp(16px, 4vw, 48px); justify-content: space-between; }
+}
+/* ---------- end bag toast */

@@ -9,8 +9,9 @@
  * Clear selection, and a bottom bar on phones. "Add box to bag" posts the WPC box product with
  * wooco_ids "id/qty/componentKey,..."; snippet 5 (czera_box_config) checks the same rules on the server.
  * After a successful add the shopper is sent back to the page (post, redirect, get) and sees the
- * CZERA toast instead of WooCommerce's notice box; errors show inline above step 1. The box
- * product's own page redirects here, so the plugin's picker is never shown.
+ * site-wide CZERA toast (window.czeraToast, from the "CZERA bag" snippet) instead of WooCommerce's
+ * notice box; errors show inline above step 1. The box product's own page redirects here, so the
+ * plugin's picker is never shown.
  */
 
 if ( ! function_exists( 'czera_box_builder_rows' ) ) {
@@ -121,7 +122,6 @@ add_shortcode( 'czera_box_builder', function () {
 		<?php endforeach; ?>
 	</div>
 	<?php endif; ?>
-	<div class="czera-box-toast" data-box-toast role="status" hidden><span data-box-toast-text></span> <button type="button" class="czera-box-toast__link" data-box-toast-bag data-cart-url="<?php echo esc_url( wc_get_cart_url() ); ?>">View bag ›</button></div>
 	<noscript><p class="czera-box-noscript">Turn on JavaScript to build a box.</p></noscript>
 	<div class="box-page">
 		<div class="box-steps">
@@ -320,40 +320,15 @@ add_shortcode( 'czera_box_builder', function () {
 	render();
 	syncBar();
 
-	// "View bag" presses the header's own Bag link, so Astra opens the same slide-in bag
-	// (or, where Astra sends that link to the cart page, goes there too).
-	const toast = $('[data-box-toast]');
-	const toBag = $('[data-box-toast-bag]');
-	toBag.addEventListener('click', () => {
-		const link = Array.from(document.querySelectorAll('.ast-site-header-cart a.cart-container')).find(a => a.offsetParent);
-		if (!link) {
-			window.location.href = toBag.dataset.cartUrl;
-			return;
-		}
-		link.click();
-		toast.hidden = true;
-	});
-	// After a box add the page comes back (post, redirect, get) marked data-box-added: show the toast
-	// for 3.5 s, just under the header. It waits for load, so the header has settled, and the text
-	// goes in a frame after the toast is shown, so screen readers announce it.
+	// After a box add the page comes back (post, redirect, get) marked data-box-added: show the
+	// site-wide toast. It is defined in the footer, after this script, so ask once the page is parsed;
+	// it then waits for load + 300 ms itself. Without the "CZERA bag" snippet there is no toast.
 	if (root.dataset.boxAdded) {
-		const text = toast.querySelector('[data-box-toast-text]');
-		const show = () => {
-			const head = Array.from(document.querySelectorAll('#masthead .ast-primary-header-bar')).find(h => h.offsetHeight);
-			if (head) toast.style.top = Math.max(0, head.getBoundingClientRect().bottom) + 12 + 'px';
-			text.textContent = '';
-			toast.hidden = false;
-			requestAnimationFrame(() => { text.textContent = 'Your box was added to your bag'; });
-			// Never pull the toast out from under keyboard focus: wait until focus leaves it.
-			const hide = () => {
-				if (toast.contains(document.activeElement)) toast.addEventListener('focusout', hide, { once: true });
-				else toast.hidden = true;
-			};
-			setTimeout(hide, 3500);
+		const announce = () => {
+			if (typeof window.czeraToast === 'function') window.czeraToast('Your box was added to your bag');
 		};
-		const start = () => setTimeout(show, 300);
-		if (document.readyState === 'complete') start();
-		else window.addEventListener('load', start, { once: true });
+		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', announce, { once: true });
+		else announce();
 	}
 })();
 </script>
