@@ -158,7 +158,11 @@ def check_page():
                    'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"',
                    # The toast markup itself comes from the "CZERA bag" snippet on wp_footer, which the
                    # REST render does not run, so only the builder's call to it can be checked here.
-                   'czeraToast('):
+                   'czeraToast(',
+                   # The locked state (#64): a box in the bag fills the builder, locks it and offers
+                   # "Remove box from bag". The REST render has no cart, so only the markup and script
+                   # for that state can be checked here; the locked state itself is checked in a browser.
+                   'Remove box from bag', 'In your bag'):
         assert needle in html, f'{needle!r} missing from the page'
     # Guards the markup only: the REST render has no WooCommerce session, so no notice is ever
     # queued here. Whether an add shows the toast is checked in a browser.

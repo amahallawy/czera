@@ -28,6 +28,9 @@ that section into a version.
 - WordPress store (czeramaison.com): after adding a box, Build your box shows
   the CZERA toast ("Your box was added to your bag", with View bag) instead of
   WooCommerce's notice box; any other message shows inline in the CZERA style.
+- WordPress store (czeramaison.com): Build your box keeps your choices after
+  adding the box, locked while that box is in your bag; Remove box from bag
+  takes it out and lets you change it.
 - WordPress store (czeramaison.com): Build your box page, in the CZERA design.
   Choose a colour to see its towel sizes, then towels and bathrobes; counts
   start at 0, up to 6 towels and 2 bathrobes in total, at least 2 items, and
