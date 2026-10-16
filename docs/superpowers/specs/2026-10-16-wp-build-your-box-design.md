@@ -80,7 +80,8 @@ stock normally.
   Montserrat, gold accents, "Add to bag" wording). Class prefix `czera-box-`.
 
 ### 3.5 Server-side check
-The plugin enforces the limits only in the browser. A short snippet, run
+The plugin's server check covers each item's own maximum only, not the group
+totals, the minimum or foreign products. A short snippet, run
 through the free **Code Snippets** plugin, hooks
 `woocommerce_add_to_cart_validation` for the box product and rejects the
 request unless: towels ≤ 6, bathrobes ≤ 2, total ≥ 2, and every item belongs
@@ -114,3 +115,69 @@ before changing.
 ## 6. Open questions for the client
 - Confirm the box needs no extra fee and the packing text on the page.
 - Confirm the Home band steps in §3.6.
+
+## As built (2026-10-16)
+
+### Product and page
+- Box product: WooCommerce ID 210, a WPC Composite product. Component keys:
+  Towels `8cdo`, Bathrobes `jt1j`.
+- Page 74 (`/build-your-box/`): intro in Spectra containers plus the shortcode
+  `[product_page id="210"]`.
+
+### Snippets (Code Snippets plugin)
+- **CZERA box rules** (ID 5, global): server-side check on
+  `woocommerce_add_to_cart_validation` for product 210. Rejects more than 6
+  towels, more than 2 bathrobes, fewer than 2 items in total, and any product
+  outside the two groups.
+- **CZERA box labels** (ID 6, global): changes the button text to "Add box to
+  bag" on product 210 only. The composite class applies its own
+  `wooco_product_single_add_to_cart_text` filter, not the WooCommerce one, so
+  the snippet hooks both.
+- **CZERA box keyboard** (ID 7, front end, page 74 only): makes each item
+  reachable by keyboard. The photo is the checkbox (role, label, `aria-checked`
+  synced with the plugin's selected class); Enter or Space selects it. The
+  minus and plus links get names, and the controls are skipped while the item
+  is unselected.
+
+### WPC Composite settings changed
+- Cart display: `hide_component` = `yes_list`; mini cart = yes; order = yes;
+  count = composite (the bag counts one box, not its items).
+- `show_short_description` = yes (the size line on each card).
+- Localization: `alert_min` "Add at least [min] items to your box.";
+  `alert_max` "Up to [max] items per box."; `alert_m_max` "[name]: up to [max]
+  per box."
+
+### LiteSpeed Cache
+- `/wp-json/wc/store/` added to Do Not Cache URIs. The Store API cart response
+  was being cached publicly, so one visitor's bag could be served to another.
+
+### Additional CSS
+- One block in `custom_css[astra]`, between `/* ---------- Build your box page
+  (design: ...) ---------- */` and `/* ---------- end build your box page */`.
+  Everything else in the Customizer CSS is untouched.
+- Sticky offset 125px (the header is 109px tall once scrolled); 157px with the
+  admin bar.
+
+### Notes
+- Two wordings exist for a limit. The browser shows the plugin's localised
+  text ("Towels: up to 6 per box.", "Bathrobes: up to 2 per box."). The server
+  check returns its own text ("Up to 6 towels per box.", "Up to 2 bathrobes per
+  box."). Both are acceptable.
+- `tools/wp/box_checks.py page` falls back to the REST-rendered content because
+  logged-out front-end requests are redirected to coming-soon.
+
+### Checks run (section 5)
+All run on the live store, logged in, with the bag empty beforehand.
+
+| Case | Result |
+|---|---|
+| 1 item | Pass. Button disabled (class `wooco-disabled`, pointer events off); reason "Add at least 2 items to your box." |
+| 7 towels | Pass. 6 bath towels plus 1 face towel: button disabled, alert "Towels: up to 6 per box." (a typed quantity of 7 is clamped to 6) |
+| 3 bathrobes | Pass. 2 white plus 1 black: button disabled, alert "Bathrobes: up to 2 per box." |
+| Crafted request | Pass via `box_checks.py rules`. |
+| 2 bath towels + 1 black bathrobe | Pass. Mini cart and `/cart/` each show one "Build your CZERA box" line, components "2 × Bath Towel", "1 × Black Bathrobe"; line total and subtotal 1,940 EGP; bag count 1. Removed afterwards; bag empty. |
+| Order placed (test) | Not run. The owner has not approved a test order. |
+| Editor | Pass. Page 74 opens with 6 blocks, 0 invalid, no "Attempt recovery". |
+| Phone layout | Pass at 390px (same-origin iframe). Cards sit two per row, no horizontal overflow; the total, button and reason form a fixed bottom bar; at the end of the page the footer ends above the bar. |
+
+`box_checks.py` results: plugins OK, product OK (210), rules OK, page OK.
