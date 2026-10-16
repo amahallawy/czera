@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- Keyboard focus on the header's Menu, logo and Bag now shows a gold ring over
+  the hero film, where the ink ring was hard to see; it turns ink again once
+  the header is ivory.
+- The "added to your bag" message no longer floats above the open side menu;
+  it is dimmed behind it like the rest of the page.
+
 - Header: the CZERA logo now sits in the centre, with a "Menu" button on the
   left and the bag on the right, on every screen size. The inline top menu is
   gone; the links live in a side menu that slides in from the left (from the

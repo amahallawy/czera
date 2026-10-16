@@ -561,7 +561,9 @@ body.menu-open { overflow: hidden; }
   position: fixed;
   inset-block-start: calc(var(--header-height) + var(--space-3));
   inset-inline-end: var(--gutter);
-  z-index: 80;
+  /* Above the header (50), below the menu backdrop (60) and the bag panel,
+   * so an open panel dims it like the rest of the page. */
+  z-index: 55;
   display: flex;
   align-items: center;
   gap: var(--space-4);
