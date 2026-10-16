@@ -71,6 +71,9 @@ def check_rules():
         (f'63/2/{t},25/1/{t}', 1, 0),             # foreign product (gift set) -> rejected
         (f'63/2/{t},60/0/{t}', 1, 1),             # zero quantity ignored -> added
         (f'63/2/{t}', 2, 2),                      # two valid boxes -> both added
+        (f'63/4/{t},60/3/{t}', 1, 0),             # 7 towels split over two lines -> rejected
+        (f'51/1/{r},54/2/{r}', 1, 0),             # 3 robes split over two lines -> rejected
+        (f'63/4/{t},60/-3/{t}', 1, 0),            # negative qty bypass (plugin cleans '-3' to '3') -> rejected
     ]
     for ids, times, expected in cases:
         got = add_box(ids, times)
