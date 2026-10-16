@@ -75,10 +75,9 @@ add_shortcode( 'czera_box_builder', function () {
 	$image  = wp_get_attachment_image( 23, 'large', false, [ 'alt' => 'Folded CZERA towels' ] );
 	// No WooCommerce session in REST renders (box_checks page), so only print notices when there is one.
 	$notice = ( function_exists( 'WC' ) && WC()->session ) ? wc_print_notices( true ) : '';
-	// A notice shows once; LiteSpeed would otherwise cache this page with it (privately) and replay it.
-	if ( '' !== trim( (string) $notice ) ) {
-		do_action( 'litespeed_control_set_nocache', 'czera box builder notice' );
-	}
+	// The page shows this shopper's notices after post, redirect, get, so LiteSpeed must not cache it:
+	// a cached copy would replay an old "added" notice or hide a new one.
+	do_action( 'litespeed_control_set_nocache', 'czera box builder' );
 	ob_start();
 	?>
 <div class="czera-box-builder" data-box-builder>
