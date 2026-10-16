@@ -80,7 +80,22 @@ def check_rules():
         assert got == expected, f'{ids} x{times}: expected {expected} box(es), got {got}'
     print('rules OK')
 
-CHECKS = {'plugins': check_plugins, 'product': check_product, 'rules': check_rules}
+def check_page():
+    req = urllib.request.Request(f'{SITE}/build-your-box/?nocache={uuid.uuid4().hex}', headers={'Authorization': AUTH})
+    html = urllib.request.urlopen(req).read().decode('utf-8', 'ignore')
+    via = 'front end'
+    if '/coming-soon/' in html and len(html) < 500:
+        # Coming-soon mode serves logged-out requests (an application password does
+        # not log the front end in) a redirect stub. Fall back to the page's REST
+        # render, which runs the same blocks and [product_page] shortcode server-side.
+        html = api('/wp/v2/pages?slug=build-your-box')[0]['content']['rendered']
+        via = 'REST render; front end is behind coming-soon'
+    assert 'czera-box-intro' in html, 'intro missing'
+    assert 'wooco' in html, 'builder form missing'
+    assert 'Choose up to six towels and two bathrobes' in html, 'intro line missing'
+    print(f'page OK ({via})')
+
+CHECKS = {'plugins': check_plugins, 'product': check_product, 'rules': check_rules, 'page': check_page}
 
 if __name__ == '__main__':
     CHECKS[sys.argv[1]]()
