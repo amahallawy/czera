@@ -101,12 +101,12 @@ comes from size + tracking, not from weight.
 
 ### 3.3 Marks
 
-- **Wordmark**: `assets/logo/czera-wordmark-ivory.jpg` — used in the
-  header. Sits with `mix-blend-mode: multiply` so the ivory plate
-  blends into the page surface. `czera-wordmark-white.png` has a fake
-  checkerboard baked into the pixels and must not be used; a clean
-  transparent PNG or SVG is needed for dark surfaces (open client
-  request, spec §11).
+- **Wordmark**: two transparent PNGs, centred in the header.
+  `assets/logo/czera-wordmark-alt.png` (light) reads over the hero
+  film; `assets/logo/czera-wordmark-gold.png` takes over on the ivory
+  surface (once scrolled, and on every page without a hero).
+  `czera-wordmark-white.png` has a fake checkerboard baked into the
+  pixels and must not be used.
 - **Crown** (`.brand-crown`): inline SVG, defined in markup. Used
   anywhere the wordmark would be too heavy — chapter eyebrows, footer,
   hero. Variants: default ivory, `--sm` size, `--deep` gold.
@@ -185,8 +185,9 @@ to fit "more above the fold."
 
 ### 5.4 Grid
 
-- Header: `grid-template-columns: 1fr auto 1fr` — nav, brand mark,
-  utilities. Symmetric.
+- Header: `grid-template-columns: 1fr auto 1fr` — menu button, brand
+  mark, bag. Symmetric: equal outer columns keep the wordmark on the
+  page's centre line whatever the bag count.
 - Collection grid: 2 columns on phones, 3 beside the sidebar from md
   up, with a small gap between cards. Hover lifts the image by 1.02
   scale and fades in the second photo. One full-width Build Your Own
@@ -204,13 +205,30 @@ section explains *what each is for and when to use it.*
 
 ### 6.1 Site header
 
-Sticky, translucent ivory (`rgba(244, 242, 236, 0.92)` + backdrop
-blur). 88px tall. Three-zone grid: nav-left / wordmark-center /
-icons-right. Nav links hover with a gold underline that scales from
-center.
+Fixed, 88px tall. Transparent with ivory text over the hero film, then
+translucent ivory (`rgba(244, 242, 236, 0.94)` + backdrop blur) once
+scrolled and on every page without a hero. Three zones at **every
+screen size**: menu button left ("☰ MENU", small caps), wordmark
+centred, bag right ("BAG" + gold count circle). Below 480px both
+labels drop and only the icons show. There is **no inline nav**: the
+header carries only the brand and two controls (changed 2026-10-16,
+amahallawy/czera#48).
 
-**Don't**: drop-down megamenus, wide search bars, account avatars.
-The brand's heritage feel relies on a simple, near-empty header.
+**Slide-in menu.** The site's only primary nav, on every screen size.
+Opens from the inline start (left in English, right in Arabic) so the
+bag panel keeps the other side; a dimmed backdrop covers the page. It
+lists the four categories, Build your box and About in large light
+type with hairline rules. It is a modal dialog: focus moves to its
+close button, the page behind is `inert`, and Esc, the close button,
+the backdrop or a link closes it and returns focus to the menu button.
+
+**Why**: the brand's heritage feel relies on a simple, near-empty
+header. A centred wordmark with the nav one tap away reads as a
+boutique, not a shop window, and one menu pattern on every device is
+one thing to learn and to rebuild in WordPress.
+
+**Don't**: drop-down megamenus, wide search bars, account avatars, or
+bringing back an inline nav beside the centred wordmark.
 
 ### 6.2 Hero
 
@@ -333,7 +351,7 @@ to §14's sticky-bar rule).
 |---|---|---|
 | `.reveal` (opacity + 20px Y) | Section enters viewport | IntersectionObserver in [`js/main.js`](js/main.js); 700ms `--ease-out`. |
 | Ken-burns on `.chapter__media` | Chapter media in view | Slow `transform: scale()` + `translate()`, ~20s loop. Imperceptible per frame. |
-| Header underline | Nav hover | `transform: scaleX(0 → 1)` from center, `--dur-base`. |
+| Menu slide | Menu button | Panel slides in from the inline start, 360ms `--ease-out`; backdrop fades in. Instant under reduced motion. |
 | Image hover lift | Catalogue cards | `transform: scale(1.02)` on the inner img, 320ms `--ease-out`. |
 | `prefers-reduced-motion` | Always respected | All transitions clamped to `0.01ms`; reveal becomes instant. |
 
@@ -386,7 +404,8 @@ horizontal scroll storytelling, parallax beyond ken-burn.
 - Default surface: `<html lang="en">`. Arabic surface: `<html
   lang="ar" dir="rtl">`.
 - Mirror, don't translate-and-paste. RTL flips the entire layout
-  (header zones, chapter–split, footer grid, catalog filters).
+  (header zones, chapter–split, footer grid, catalog filters). The
+  menu panel and the bag panel swap sides with it.
 - Use logical properties everywhere: `margin-inline-start`,
   `padding-inline-end`, `border-inline-start`. **No** `margin-left`
   in component CSS.
@@ -414,6 +433,9 @@ Non-negotiables:
 - Form inputs always have a `<label>` (visible or `sr-only`); icon
   buttons always have `aria-label`.
 - `prefers-reduced-motion` respected (see §7).
+- Slide-in panels (menu, bag) are modal: the page behind is `inert`
+  while one is open, Esc closes it, and focus returns to the button
+  that opened it. One `nav` landmark labelled "Primary" per page.
 
 ---
 
