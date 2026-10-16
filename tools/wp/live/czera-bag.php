@@ -4,10 +4,11 @@
 
 /**
  * CZERA bag: product buttons say "Add to bag", and every add to the bag shows the CZERA toast.
- * The buttons' own text, aria-label and name come from WooCommerce here, so the collection pages
- * no longer draw the label in CSS. The toast is printed once per page on wp_footer and defines
- * window.czeraToast(text); WooCommerce's AJAX add (the added_to_cart event) calls it, and the box
- * builder (snippet 8) calls it after a box add. Its look is the "Bag toast" Additional CSS block.
+ * The buttons' own text, aria-label and name come from WooCommerce here, so the collection pages and
+ * the Home gift sets no longer draw the label in CSS. The toast is printed once per page on wp_footer
+ * and defines window.czeraToast(text); WooCommerce's AJAX add (the added_to_cart event) and the
+ * product blocks' Store API add (wc-blocks_added_to_cart) call it, and the box builder (snippet 8)
+ * calls it after a box add. Its look is the "Bag toast" Additional CSS block.
  */
 
 if ( ! function_exists( 'czera_bag_wording' ) ) {
@@ -48,6 +49,12 @@ add_filter( 'woocommerce_loop_add_to_cart_args', function ( $args, $product = nu
 	}
 	return $args;
 }, 10, 2 );
+
+// The product button block (Home gift sets) swaps its text to "1 in cart" once the product is in the
+// bag. The CZERA buttons always read "Add to bag", as they did when CSS drew the label.
+add_filter( 'gettext', function ( $translation, $text, $domain ) {
+	return '%s in cart' === $text && 'woocommerce' === $domain ? 'Add to bag' : $translation;
+}, 10, 3 );
 
 // After the footer scripts (priority 20), so jQuery and WooCommerce's add-to-cart script are there.
 add_action( 'wp_footer', function () {
@@ -96,12 +103,31 @@ add_action( 'wp_footer', function () {
 		if (document.readyState === 'complete') show(message);
 		else window.addEventListener('load', () => setTimeout(() => show(message), 300), { once: true });
 	};
+	// One add, one toast, whichever event reports it.
+	let last = 0;
+	const added = name => {
+		const now = Date.now();
+		if (now - last < 250) return;
+		last = now;
+		window.czeraToast(name ? `${name} added to your bag` : 'Added to your bag');
+	};
 	if (window.jQuery) {
 		jQuery(document.body).on('added_to_cart', (e, fragments, hash, $button) => {
-			const name = $button && $button.length ? String($button.data('product_name') || $button.attr('data-product_name') || '') : '';
-			window.czeraToast(name ? `${name} added to your bag` : 'Added to your bag');
+			added($button && $button.length ? String($button.data('product_name') || $button.attr('data-product_name') || '') : '');
 		});
 	}
+	// The product blocks add through the Store API and send no button with their event, so remember
+	// the name on the button that was pressed.
+	let pressed = '';
+	document.addEventListener('click', e => {
+		const b = e.target.closest ? e.target.closest('.wc-block-components-product-button__button') : null;
+		if (b) pressed = b.getAttribute('data-product_name') || '';
+	}, true);
+	document.body.addEventListener('wc-blocks_added_to_cart', () => {
+		const name = pressed;
+		pressed = '';
+		added(name);
+	});
 })();
 </script>
 	<?php
