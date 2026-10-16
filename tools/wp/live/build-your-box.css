@@ -1,167 +1,172 @@
-/* Reference copy of the live "Build your box page" block in Additional CSS (Customizer, custom_css[astra]) on czeramaison.com.
-   The site database is authoritative; update both together. */
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. */
+/* ---------- Build your box page (revision 1: the static build-your-box design, [czera_box_builder]) ---------- */
+.czera-box-builder {
+  --color-bg: #f4f2ec; --color-surface: #e7e1d5; --color-surface-soft: #faf8f3;
+  --color-gold: #d4af36; --color-gold-sand: #d8c28a; --color-gold-deep: #ba7c17; --color-gold-text: #8a5c12;
+  --color-ink: #2b2b2b; --color-ink-strong: #010100; --color-ink-mute: #6b6b6b; --color-ink-faint: #a3a099;
+  --color-on-dark: #f4f2ec; --swatch-blue: #2f5d8a; --swatch-yellow: #e3b93c;
+  --fs-2xs: 11px; --fs-xs: 12px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 17px;
+  --fs-lg: 21px; --fs-xl: 28px; --fs-2xl: 38px;
+  --lh-tight: 1.1; --lh-base: 1.5; --ls-tight: -0.01em; --ls-wide: 0.06em; --ls-widest: 0.18em;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px;
+  --space-6: 32px; --space-7: 48px; --space-9: 96px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --border-hairline: 1px solid #d8c28a; --border-divider: 1px solid rgba(43, 43, 43, 0.12);
+  --font-display: "Italiana", "Didot", "Bodoni 72", "Times New Roman", serif;
+  --czera-box-top: 125px; /* sticky header is 109px once scrolled, + 16px */
+  max-width: 1320px; margin-inline: auto; padding-inline: var(--gutter);
+  color: var(--color-ink); font-size: var(--fs-base); line-height: var(--lh-base);
+}
+/* Astra's full-width layout sets max-width: none on .entry-content > * (0,3,0); this outranks it. */
+body .entry-content[data-ast-blocks-layout] > .czera-box-builder { max-width: 1320px; }
+.admin-bar .czera-box-builder { --czera-box-top: 157px; }
+.czera-box-builder__notices:empty { display: none; }
+.czera-box-builder__notices { padding-block-start: var(--space-5); }
+.czera-box-noscript { padding-block: var(--space-5); font-size: var(--fs-sm); }
 
-/* ---------- Build your box page (design: intro, item cards, total panel sticky beside them; bottom bar under 900px) ---------- */
-/* Intro: class-scoped (no page id) so the block editor shows the same look. */
-.czera-box-intro .czera-section-head { align-items: flex-start; margin-bottom: 0; }
-.czera-box-intro .czera-section-title { margin: 0; }
-.czera-box-intro__line { max-width: 40rem; font-size: 17px; line-height: 1.5; }
+/* Resets against the theme's button and fieldset styles. */
+.czera-box-builder button { font: inherit; border-radius: 0; box-shadow: none; text-transform: none; letter-spacing: normal; line-height: 1.2; }
+.czera-box-builder fieldset, .czera-box-builder legend { border: 0; }
+.czera-box-builder figure { margin: 0; }
 
-/* The box product form, embedded with [product_page]. Every rule below is scoped to page 74. */
-.page-id-74 .entry-content > .woocommerce { max-width: 1320px; margin-inline: auto; padding: 0 clamp(1rem, 4vw, 3rem) 96px; }
-.page-id-74 .single-product div.product { margin: 0; }
-/* Single-product chrome the intro already covers, or that a builder page does not need. */
-.page-id-74 .single-product .woocommerce-product-gallery,
-.page-id-74 .single-product .woocommerce-breadcrumb,
-.page-id-74 .single-product .single-product-category,
-.page-id-74 .single-product .product_title,
-.page-id-74 .single-product .summary > .price,
-.page-id-74 .single-product .woocommerce-product-details__short-description,
-.page-id-74 .single-product .product_meta,
-.page-id-74 .single-product .woocommerce-tabs,
-.page-id-74 .single-product .related,
-.page-id-74 .single-product .upsells,
-.page-id-74 .single-product .wooco-selected,
-.page-id-74 .single-product form.cart > .quantity,
-.page-id-74 .wooco-qty-wrap .wooco-minus,
-.page-id-74 .wooco-qty-wrap .wooco-plus,
-.page-id-74 .wooco_component_product_selection_grid_item_link,
-.page-id-74 .wooco_component_product_selection_grid_item_desc > span:empty { display: none !important; }
+.czera-box-builder .eyebrow { font-size: var(--fs-2xs); font-weight: 500; letter-spacing: var(--ls-widest); text-transform: uppercase; color: var(--color-ink-mute); }
+.czera-box-builder .box-page {
+  display: grid; grid-template-columns: 1.25fr 1fr; gap: var(--space-7);
+  padding-block: var(--space-7) var(--space-9); align-items: start;
+}
+.czera-box-builder .box-page__title {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(28px, 3.5vw, var(--fs-2xl)); line-height: var(--lh-tight);
+  color: var(--color-ink-strong); margin-block: var(--space-2) var(--space-6);
+}
+.czera-box-builder .box-step { padding: 0; margin: 0 0 var(--space-6); min-inline-size: 0; }
+.czera-box-builder .box-step legend {
+  display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); inline-size: 100%;
+  padding: 0; margin-block-end: var(--space-3);
+  font-size: var(--fs-sm); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-ink-strong);
+}
+.czera-box-builder .box-step__name { display: inline-flex; align-items: center; gap: var(--space-3); }
+.czera-box-builder .box-step legend i {
+  display: inline-grid; place-items: center; inline-size: 26px; block-size: 26px; border-radius: 50%;
+  background: var(--color-ink-strong); color: var(--color-bg); font-style: normal; font-size: var(--fs-xs);
+}
+.czera-box-builder .box-step__limit { font-size: var(--fs-xs); letter-spacing: var(--ls-wide); text-transform: none; color: var(--color-ink-mute); }
+.czera-box-builder .box-step__limit b { font-weight: 500; color: var(--color-ink-strong); }
+.czera-box-builder .box-step__note { margin: var(--space-3) 0 0; font-size: var(--fs-xs); color: var(--color-ink-mute); }
+.czera-box-builder .box-step__full { margin: var(--space-3) 0 0; font-size: var(--fs-xs); color: var(--color-ink); }
+.czera-box-builder .box-step__full:empty { display: none; }
 
-/* Sticky offset: below the sticky header (109px tall once scrolled) + 16px; the logged-in admin bar adds 32px. */
-.page-id-74 { --czera-box-top: 125px; }
-.admin-bar.page-id-74 { --czera-box-top: 157px; }
+.czera-box-builder .box-options { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.czera-box-builder .box-option {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-block-size: 44px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-ink-faint); background: var(--color-surface-soft);
+  font-size: var(--fs-sm); color: var(--color-ink-strong); cursor: pointer;
+}
+.czera-box-builder .box-option:hover { border-color: var(--color-ink-strong); background: var(--color-surface-soft); color: var(--color-ink-strong); }
+.czera-box-builder .box-option[aria-pressed="true"] { border-color: var(--color-ink-strong); box-shadow: inset 0 0 0 1px var(--color-ink-strong); }
+.czera-box-builder .box-option:disabled { color: var(--color-ink-mute); border-style: dashed; border-color: var(--color-ink-faint); background: transparent; cursor: not-allowed; }
+.czera-box-builder .box-option:disabled .swatch { opacity: 0.45; }
+.czera-box-builder .swatch { inline-size: 18px; block-size: 18px; border-radius: 50%; border: 1px solid var(--color-ink-faint); flex: none; }
+.czera-box-builder .swatch--white { background: var(--color-surface-soft); }
+.czera-box-builder .swatch--blue { background: repeating-linear-gradient(90deg, var(--swatch-blue) 0 4px, var(--color-surface-soft) 4px 6px); }
+.czera-box-builder .swatch--yellow { background: repeating-linear-gradient(90deg, var(--swatch-yellow) 0 4px, var(--color-surface-soft) 4px 6px); }
 
-/* Two columns: items, then the total panel (summary, add button, reason) sticky beside them. */
-.page-id-74 .single-product div.product .summary {
-  float: none; width: 100%; margin: 0; padding: 0;
-  display: grid; grid-template-columns: minmax(0, 1fr) 340px; column-gap: 48px; align-items: start;
+.czera-box-builder .box-size {
+  display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: var(--space-4);
+  inline-size: 100%; padding-block: var(--space-2); border-block-end: var(--border-divider);
+  font-size: var(--fs-sm); color: var(--color-ink-strong);
 }
-.page-id-74 .single-product .wooco-wrap { display: contents; }
-.page-id-74 .wooco-components { grid-column: 1; grid-row: 1; margin: 0; }
-.page-id-74 .single-product .wooco-summary,
-.page-id-74 .single-product form.cart,
-.page-id-74 .single-product .wooco-alert { grid-column: 2; grid-row: 1; align-self: start; position: sticky; box-sizing: border-box; }
-/* Stacked in one grid cell: each sits below the one before (fixed heights) and sticks at the same offset. */
-.page-id-74 .single-product .wooco-summary {
-  top: var(--czera-box-top); height: 96px; margin: 0;
-  display: grid; align-content: center; gap: 4px; padding: 0 24px;
-  background: #faf8f3; border: 1px solid #d8c28a; border-bottom: 0;
-  font-size: 13px; color: #2b2b2b;
+.czera-box-builder .box-size small { color: var(--color-ink-mute); font-size: var(--fs-xs); }
+.czera-box-builder .box-size__label small { display: block; margin-block-start: 2px; }
+.czera-box-builder .box-size.is-disabled, .czera-box-builder .box-size.is-disabled small { color: var(--color-ink-mute); }
+.czera-box-builder .qty { display: inline-flex; align-items: center; border: 1px solid var(--color-ink-faint); }
+.czera-box-builder .qty span { min-inline-size: 2ch; text-align: center; font-size: var(--fs-sm); }
+.czera-box-builder .qty button {
+  inline-size: 44px; block-size: 44px; padding: 0; border: 0; background: none;
+  font-size: var(--fs-md); color: var(--color-ink-strong); cursor: pointer;
 }
-.page-id-74 .wooco-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.page-id-74 .wooco-total .amount { font-size: 21px; font-weight: 400; color: #010100; }
-.page-id-74 .wooco-count { color: #6b6b6b; font-size: 12px; }
-.page-id-74 .single-product form.cart {
-  top: calc(var(--czera-box-top) + 96px); height: 80px; margin: 96px 0 0;
-  display: flex; align-items: flex-start; padding: 0 24px 24px;
-  background: #faf8f3; border: 1px solid #d8c28a; border-top: 0;
-}
-.page-id-74 .single-product .wooco-alert {
-  top: calc(var(--czera-box-top) + 176px); margin: 176px 0 0 !important; padding: 12px 0 0 !important;
-  background: none; border: 0; font-size: 12px; line-height: 1.5; color: #2b2b2b;
-  height: auto !important; /* the plugin can leave a half-finished slide height inline */
-}
+.czera-box-builder .qty button:hover { background: var(--color-surface); color: var(--color-ink-strong); }
+.czera-box-builder .qty button:disabled { color: var(--color-ink-faint); cursor: not-allowed; background: none; }
 
-/* Add button: gold on ink, 13px, 16px x 48px. */
-.page-id-74 .single-product .single_add_to_cart_button {
-  flex: 1 1 auto; width: 100%; min-height: 48px; margin: 0 !important; padding: 16px 48px; border: 1px solid #010100; border-radius: 0;
-  background: #010100; color: #d4af36;
-  font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2;
+.czera-box-builder .box-preview {
+  position: sticky; top: var(--czera-box-top);
+  background: var(--color-surface-soft); border: var(--border-hairline);
 }
-.page-id-74 .single-product .single_add_to_cart_button:hover { background: #d4af36; border-color: #d4af36; color: #010100; }
-/* Not ready yet: dashed outline and grey label (the reason shows under the button). */
-.page-id-74 .single-product .single_add_to_cart_button.wooco-disabled,
-.page-id-74 .single-product .single_add_to_cart_button.wooco-disabled:hover { background: transparent; border: 1px dashed #6b6b6b; color: #6b6b6b; opacity: 1 !important; cursor: not-allowed; }
-
-/* Component headings: Towels, Bathrobes. */
-.page-id-74 .wooco_component { margin: 0 0 48px; padding: 0; }
-.page-id-74 .wooco_component_name { margin: 0 0 16px; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #010100; }
-
-/* Item cards: photo 4:5, name, size/colour line, price, - / + controls. */
-.page-id-74 .wooco_component_product_selection_grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; width: 100%; font-size: 13px;
+.czera-box-builder .box-preview.is-tall { position: static; }
+.czera-box-builder .box-frame { padding: var(--space-3); background: var(--color-ink-strong); border: 1px solid var(--color-ink-faint); }
+.czera-box-builder .box-frame img { display: block; inline-size: 100%; block-size: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.czera-box-builder .box-frame--mini { display: none; }
+.czera-box-builder .box-preview__toggle { display: none; }
+.czera-box-builder .box-preview__body { padding: var(--space-5); display: grid; gap: var(--space-3); margin: 0; }
+.czera-box-builder .box-preview__body > * { margin: 0; }
+.czera-box-builder .box-preview__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.czera-box-builder .box-preview h2 { margin: 0; font-weight: 300; letter-spacing: var(--ls-tight); font-size: var(--fs-xl); color: var(--color-ink-strong); }
+.czera-box-builder .box-clear {
+  min-block-size: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  font-size: var(--fs-xs); letter-spacing: var(--ls-wide); text-transform: uppercase;
+  color: var(--color-ink-strong); text-decoration: underline; text-underline-offset: 3px;
 }
-.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item {
-  width: auto !important; margin: 0; padding: 0 0 16px; display: flex; flex-direction: column;
-  text-align: left; background: #faf8f3; border: 1px solid rgba(43, 43, 43, 0.12);
+.czera-box-builder .box-clear:hover { background: none; color: var(--color-ink-strong); }
+.czera-box-builder .box-clear:disabled { color: var(--color-ink-faint); text-decoration: none; cursor: not-allowed; }
+.czera-box-builder .box-preview ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); font-size: var(--fs-sm); }
+.czera-box-builder .box-preview li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); min-block-size: 44px; }
+.czera-box-builder .box-preview li span { color: var(--color-ink-mute); white-space: nowrap; }
+.czera-box-builder .box-preview li .box-line__name { flex: 1; color: var(--color-ink); white-space: normal; }
+.czera-box-builder .box-empty { color: var(--color-ink-mute); }
+.czera-box-builder .box-preview li.box-empty { min-block-size: 0; }
+.czera-box-builder .box-remove {
+  inline-size: 32px; block-size: 32px; flex: none; display: inline-grid; place-items: center; padding: 0;
+  background: none; border: 1px solid var(--color-ink-faint); color: var(--color-ink-strong); font-size: 16px; line-height: 1; cursor: pointer;
 }
-.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item.wooco_item_selected { border-color: #010100; box-shadow: inset 0 0 0 1px #010100; }
-.page-id-74 .wooco_component_product_selection_grid_item_image { margin: 0; }
-.page-id-74 .wooco_component_product_selection_grid_item_image img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
-.page-id-74 .wooco_component_product_selection_grid_item_info { display: flex; flex-direction: column; gap: 4px; flex: 1; padding: 16px 16px 0; }
-.page-id-74 .wooco_component_product_selection_grid_item_name {
-  font-family: "Czera Name Digits", "Italiana", serif; font-size: 21px; font-weight: 400; line-height: 1.2; color: #010100;
+.czera-box-builder .box-remove:hover { background: none; border-color: var(--color-ink-strong); color: var(--color-ink-strong); }
+.czera-box-builder .box-preview__live { display: grid; gap: var(--space-2); }
+.czera-box-builder .box-preview__live > * { margin: 0; }
+.czera-box-builder .box-preview__total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-block-start: var(--space-3); border-block-start: var(--border-divider); font-size: var(--fs-sm);
 }
-.page-id-74 .wooco_component_product_selection_grid_item_desc { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: #010100; }
-.page-id-74 .wooco_component_product_selection_grid_item_desc > span + span { font-size: 12px; color: #6b6b6b; }
-/* Size / colour line: each product's short description (WPC setting "Show short description"), shown above the price. */
-.page-id-74 .wooco_component_product_short_description { order: -1; font-size: 12px; line-height: 1.4; color: #6b6b6b; }
-.page-id-74 .wooco_component_product_short_description p { margin: 0; }
-/* Selected mark: an empty square, a tick once chosen (shape, not only colour). */
-.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item::before {
-  top: 12px; right: 12px; width: 28px; height: 28px; line-height: 26px; font-size: 15px;
-  border: 1px solid #6b6b6b; border-radius: 0; background: #faf8f3; color: transparent;
+.czera-box-builder .box-preview__total b { font-weight: 400; font-size: var(--fs-lg); color: var(--color-ink-strong); }
+.czera-box-builder .box-preview__reason { font-size: var(--fs-xs); color: var(--color-ink-mute); min-block-size: 1.2em; }
+.czera-box-builder .btn {
+  display: flex; align-items: center; justify-content: center; inline-size: 100%; min-block-size: 48px;
+  padding: var(--space-4); border: 1px solid var(--color-ink-strong); background: var(--color-ink-strong); color: var(--color-on-dark);
+  font-size: var(--fs-sm); font-weight: 500; letter-spacing: var(--ls-wide); text-transform: uppercase; cursor: pointer;
 }
-.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item.wooco_item_selected::before { background: #010100; border-color: #010100; color: #f4f2ec; }
-
-/* - / + controls: 44px targets. */
-.page-id-74 .wooco_component_product_selection_grid_item_qty { margin-top: 12px; justify-content: flex-start; }
-.page-id-74 .wooco-qty-wrap .quantity.buttons_added { display: flex; align-items: stretch; margin: 0; }
-.page-id-74 .wooco-qty-wrap .quantity.buttons_added .minus,
-.page-id-74 .wooco-qty-wrap .quantity.buttons_added .plus {
-  display: flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; height: 44px; margin: 0 !important; padding: 0; position: static;
-  border: 1px solid #a3a099; background: #faf8f3; color: #010100; font-size: 18px; line-height: 1; text-decoration: none;
+.czera-box-builder .btn:hover { background: var(--color-gold-deep); border-color: var(--color-gold-deep); color: var(--color-on-dark); }
+.czera-box-builder .btn:disabled, .czera-box-builder .btn:disabled:hover {
+  opacity: 0.45; cursor: not-allowed; background: var(--color-ink-strong); border-color: var(--color-ink-strong); color: var(--color-on-dark);
 }
-.page-id-74 .wooco-qty-wrap .quantity.buttons_added .qty {
-  width: 48px; min-width: 48px; height: 44px; min-height: 44px; margin: 0 !important; padding: 0;
-  border: 1px solid #a3a099; border-inline: 0; border-radius: 0; background: #faf8f3; color: #010100; font-size: 15px; text-align: center;
-}
-
-/* Visible keyboard focus (deep gold reads on ivory). */
-.page-id-74 .single-product a:focus-visible,
-.page-id-74 .single-product button:focus-visible,
-.page-id-74 .single-product input:focus-visible { outline: 2px solid #8a5c12; outline-offset: 2px; }
-
-/* Keyboard picking (snippet "CZERA box keyboard" makes each photo a checkbox): ring the whole card where :has() works. */
-.page-id-74 .czera-box-pick:focus-visible { outline: 2px solid #8a5c12; outline-offset: -4px; }
-@supports selector(:has(*)) {
-  .page-id-74 .wooco_component_product_selection_item:has(.czera-box-pick:focus-visible) { outline: 2px solid #8a5c12; outline-offset: 2px; }
-  .page-id-74 .czera-box-pick:focus-visible { outline: none; }
-}
-/* The reason box stays rendered so screen readers hear it (live region); empty, it takes no space. */
-.page-id-74 .single-product .wooco-alert { display: block !important; }
-.page-id-74 .single-product .wooco-alert:empty { padding: 0 !important; border: 0 !important; }
-
-/* Narrow desktops: two cards per row so the - / + controls keep their 44px size. */
-@media (min-width: 900px) and (max-width: 1039px) {
-  .page-id-74 .wooco_component_product_selection_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.czera-box-builder .box-option:focus-visible, .czera-box-builder .qty button:focus-visible, .czera-box-builder .box-remove:focus-visible,
+.czera-box-builder .box-clear:focus-visible, .czera-box-builder .box-preview__toggle:focus-visible, .czera-box-builder .btn:focus-visible {
+  outline: 2px solid var(--color-gold-text); outline-offset: 2px;
 }
 
-/* Under 900px: items stack, the panel becomes a fixed bottom bar; the page gets matching bottom padding. */
 @media (max-width: 899px) {
-  .page-id-74 .single-product div.product .summary { display: block; }
-  .page-id-74 .wooco_component_product_selection_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .page-id-74 .wooco_component_product_selection_grid_item_info { padding: 12px 12px 0; }
-  .page-id-74 .wooco_component_product_selection_grid_item_name { font-size: 17px; }
-  .page-id-74 .single-product .wooco-summary,
-  .page-id-74 .single-product form.cart,
-  .page-id-74 .single-product .wooco-alert {
-    position: fixed; left: 0; right: 0; z-index: 40; margin: 0 !important; top: auto;
-    padding-inline: clamp(1rem, 4vw, 3rem) !important; background: #f4f2ec; border: 0;
+  .czera-box-builder .box-page { grid-template-columns: 1fr; gap: var(--space-5); padding-block-end: var(--space-7); }
+  .czera-has-box-bar { padding-block-end: var(--czera-box-bar-h, 140px); }
+  .czera-has-box-bar #ast-scroll-top { display: none !important; }
+  .czera-box-builder .box-preview { position: static; background: none; border: 0; }
+  .czera-box-builder .box-frame--main, .czera-box-builder .box-preview h2 { display: none; }
+  .czera-box-builder .box-frame--mini { display: block; max-inline-size: 256px; margin-block-end: var(--space-5); }
+  .czera-box-builder .box-preview ul {
+    display: none; max-block-size: 40vh; overflow-y: auto;
+    padding-block-end: var(--space-2); border-block-end: var(--border-divider);
   }
-  .page-id-74 .single-product form.cart { bottom: 0; height: auto; padding-top: 0; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
-  .page-id-74 .single-product .single_add_to_cart_button { min-height: 48px; padding: 14px 24px; }
-  .page-id-74 .single-product .wooco-summary {
-    bottom: calc(60px + env(safe-area-inset-bottom, 0px)); height: 52px;
-    display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #d8c28a;
+  .czera-box-builder .box-preview.is-open ul { display: grid; }
+  .czera-box-builder .box-preview__toggle {
+    display: block; min-block-size: 44px; padding: 0; background: none; border: 0; cursor: pointer; text-align: start;
+    font-size: var(--fs-xs); letter-spacing: var(--ls-wide); text-transform: uppercase;
+    color: var(--color-ink-strong); text-decoration: underline; text-underline-offset: 3px;
   }
-  .page-id-74 .wooco-total { justify-content: flex-start; gap: 8px; }
-  .page-id-74 .single-product .wooco-alert { bottom: calc(112px + env(safe-area-inset-bottom, 0px)); padding-top: 8px !important; padding-bottom: 0 !important; border-top: 1px solid #d8c28a; }
-  body.page-id-74 { padding-bottom: calc(184px + env(safe-area-inset-bottom, 0px)); }
-  .page-id-74 #ast-scroll-top { bottom: calc(196px + env(safe-area-inset-bottom, 0px)); }
-}
-@media (max-width: 379px) {
-  .page-id-74 .wooco_component_product_selection_grid { grid-template-columns: minmax(0, 1fr); }
+  .czera-box-builder .box-preview__toggle:hover { background: none; color: var(--color-ink-strong); }
+  .czera-box-builder .box-preview__body {
+    position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 40;
+    background: var(--color-bg); border-block-start: var(--border-hairline);
+    padding: var(--space-3) var(--gutter) calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    gap: var(--space-2);
+  }
+  .czera-box-builder .box-preview__total { border: 0; padding: 0; }
+  .czera-box-builder .box-preview__reason { min-block-size: 0; }
 }
 /* ---------- end build your box page */

@@ -23,11 +23,13 @@ that section into a version.
   has a single "Primary" navigation.
 - `design.md`, `PRODUCT.md` and the showroom spec describe the new header.
 
-- WordPress store (czeramaison.com): Build your box page. A box of up to 6
-  towels and 2 bathrobes, at least 2 items, priced as the sum of its items,
-  reaches the bag as one line with its contents listed. The box rules are
-  checked on the server, and the cart API is no longer cached. Live checks in
-  `tools/wp/box_checks.py`.
+- WordPress store (czeramaison.com): Build your box page, in the CZERA design.
+  Choose a colour to see its towel sizes, then towels and bathrobes; counts
+  start at 0, up to 6 towels and 2 bathrobes in total, at least 2 items, and
+  the price is the sum of the items. Your box lists each item with a remove
+  button and a clear-selection button. The box reaches the bag as one line with
+  its contents listed. The box rules are checked on the server, and the cart
+  API is no longer cached. Live checks in `tools/wp/box_checks.py`.
 
 ## [1.0.0] — 2026-10-15
 

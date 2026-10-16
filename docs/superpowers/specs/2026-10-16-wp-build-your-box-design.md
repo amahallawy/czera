@@ -67,6 +67,7 @@ The items remain hidden lines underneath, so WooCommerce reduces each item's
 stock normally.
 
 ### 3.4 The page `/build-your-box/` (page 74)
+> Superseded on 2026-10-16 by `2026-10-16-wp-build-your-box-revision-design.md` (our own picker following the static design). The text below describes the first build.
 - **Intro** (Spectra blocks): eyebrow "Build your own box", title
   "A gift set that's yours alone.", line "Choose up to six towels and two
   bathrobes. We pack them together in one CZERA box."
