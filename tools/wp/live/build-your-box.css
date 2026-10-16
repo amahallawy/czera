@@ -1,0 +1,167 @@
+/* Reference copy of the live "Build your box page" block in Additional CSS (Customizer, custom_css[astra]) on czeramaison.com.
+   The site database is authoritative; update both together. */
+
+/* ---------- Build your box page (design: intro, item cards, total panel sticky beside them; bottom bar under 900px) ---------- */
+/* Intro: class-scoped (no page id) so the block editor shows the same look. */
+.czera-box-intro .czera-section-head { align-items: flex-start; margin-bottom: 0; }
+.czera-box-intro .czera-section-title { margin: 0; }
+.czera-box-intro__line { max-width: 40rem; font-size: 17px; line-height: 1.5; }
+
+/* The box product form, embedded with [product_page]. Every rule below is scoped to page 74. */
+.page-id-74 .entry-content > .woocommerce { max-width: 1320px; margin-inline: auto; padding: 0 clamp(1rem, 4vw, 3rem) 96px; }
+.page-id-74 .single-product div.product { margin: 0; }
+/* Single-product chrome the intro already covers, or that a builder page does not need. */
+.page-id-74 .single-product .woocommerce-product-gallery,
+.page-id-74 .single-product .woocommerce-breadcrumb,
+.page-id-74 .single-product .single-product-category,
+.page-id-74 .single-product .product_title,
+.page-id-74 .single-product .summary > .price,
+.page-id-74 .single-product .woocommerce-product-details__short-description,
+.page-id-74 .single-product .product_meta,
+.page-id-74 .single-product .woocommerce-tabs,
+.page-id-74 .single-product .related,
+.page-id-74 .single-product .upsells,
+.page-id-74 .single-product .wooco-selected,
+.page-id-74 .single-product form.cart > .quantity,
+.page-id-74 .wooco-qty-wrap .wooco-minus,
+.page-id-74 .wooco-qty-wrap .wooco-plus,
+.page-id-74 .wooco_component_product_selection_grid_item_link,
+.page-id-74 .wooco_component_product_selection_grid_item_desc > span:empty { display: none !important; }
+
+/* Sticky offset: below the sticky header (109px tall once scrolled) + 16px; the logged-in admin bar adds 32px. */
+.page-id-74 { --czera-box-top: 125px; }
+.admin-bar.page-id-74 { --czera-box-top: 157px; }
+
+/* Two columns: items, then the total panel (summary, add button, reason) sticky beside them. */
+.page-id-74 .single-product div.product .summary {
+  float: none; width: 100%; margin: 0; padding: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) 340px; column-gap: 48px; align-items: start;
+}
+.page-id-74 .single-product .wooco-wrap { display: contents; }
+.page-id-74 .wooco-components { grid-column: 1; grid-row: 1; margin: 0; }
+.page-id-74 .single-product .wooco-summary,
+.page-id-74 .single-product form.cart,
+.page-id-74 .single-product .wooco-alert { grid-column: 2; grid-row: 1; align-self: start; position: sticky; box-sizing: border-box; }
+/* Stacked in one grid cell: each sits below the one before (fixed heights) and sticks at the same offset. */
+.page-id-74 .single-product .wooco-summary {
+  top: var(--czera-box-top); height: 96px; margin: 0;
+  display: grid; align-content: center; gap: 4px; padding: 0 24px;
+  background: #faf8f3; border: 1px solid #d8c28a; border-bottom: 0;
+  font-size: 13px; color: #2b2b2b;
+}
+.page-id-74 .wooco-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.page-id-74 .wooco-total .amount { font-size: 21px; font-weight: 400; color: #010100; }
+.page-id-74 .wooco-count { color: #6b6b6b; font-size: 12px; }
+.page-id-74 .single-product form.cart {
+  top: calc(var(--czera-box-top) + 96px); height: 80px; margin: 96px 0 0;
+  display: flex; align-items: flex-start; padding: 0 24px 24px;
+  background: #faf8f3; border: 1px solid #d8c28a; border-top: 0;
+}
+.page-id-74 .single-product .wooco-alert {
+  top: calc(var(--czera-box-top) + 176px); margin: 176px 0 0 !important; padding: 12px 0 0 !important;
+  background: none; border: 0; font-size: 12px; line-height: 1.5; color: #2b2b2b;
+  height: auto !important; /* the plugin can leave a half-finished slide height inline */
+}
+
+/* Add button: gold on ink, 13px, 16px x 48px. */
+.page-id-74 .single-product .single_add_to_cart_button {
+  flex: 1 1 auto; width: 100%; min-height: 48px; margin: 0 !important; padding: 16px 48px; border: 1px solid #010100; border-radius: 0;
+  background: #010100; color: #d4af36;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2;
+}
+.page-id-74 .single-product .single_add_to_cart_button:hover { background: #d4af36; border-color: #d4af36; color: #010100; }
+/* Not ready yet: dashed outline and grey label (the reason shows under the button). */
+.page-id-74 .single-product .single_add_to_cart_button.wooco-disabled,
+.page-id-74 .single-product .single_add_to_cart_button.wooco-disabled:hover { background: transparent; border: 1px dashed #6b6b6b; color: #6b6b6b; opacity: 1 !important; cursor: not-allowed; }
+
+/* Component headings: Towels, Bathrobes. */
+.page-id-74 .wooco_component { margin: 0 0 48px; padding: 0; }
+.page-id-74 .wooco_component_name { margin: 0 0 16px; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #010100; }
+
+/* Item cards: photo 4:5, name, size/colour line, price, - / + controls. */
+.page-id-74 .wooco_component_product_selection_grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; width: 100%; font-size: 13px;
+}
+.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item {
+  width: auto !important; margin: 0; padding: 0 0 16px; display: flex; flex-direction: column;
+  text-align: left; background: #faf8f3; border: 1px solid rgba(43, 43, 43, 0.12);
+}
+.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item.wooco_item_selected { border-color: #010100; box-shadow: inset 0 0 0 1px #010100; }
+.page-id-74 .wooco_component_product_selection_grid_item_image { margin: 0; }
+.page-id-74 .wooco_component_product_selection_grid_item_image img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+.page-id-74 .wooco_component_product_selection_grid_item_info { display: flex; flex-direction: column; gap: 4px; flex: 1; padding: 16px 16px 0; }
+.page-id-74 .wooco_component_product_selection_grid_item_name {
+  font-family: "Czera Name Digits", "Italiana", serif; font-size: 21px; font-weight: 400; line-height: 1.2; color: #010100;
+}
+.page-id-74 .wooco_component_product_selection_grid_item_desc { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: #010100; }
+.page-id-74 .wooco_component_product_selection_grid_item_desc > span + span { font-size: 12px; color: #6b6b6b; }
+/* Size / colour line: each product's short description (WPC setting "Show short description"), shown above the price. */
+.page-id-74 .wooco_component_product_short_description { order: -1; font-size: 12px; line-height: 1.4; color: #6b6b6b; }
+.page-id-74 .wooco_component_product_short_description p { margin: 0; }
+/* Selected mark: an empty square, a tick once chosen (shape, not only colour). */
+.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item::before {
+  top: 12px; right: 12px; width: 28px; height: 28px; line-height: 26px; font-size: 15px;
+  border: 1px solid #6b6b6b; border-radius: 0; background: #faf8f3; color: transparent;
+}
+.page-id-74 .wooco_component_product_selection_grid .wooco_component_product_selection_grid_item.wooco_item_selected::before { background: #010100; border-color: #010100; color: #f4f2ec; }
+
+/* - / + controls: 44px targets. */
+.page-id-74 .wooco_component_product_selection_grid_item_qty { margin-top: 12px; justify-content: flex-start; }
+.page-id-74 .wooco-qty-wrap .quantity.buttons_added { display: flex; align-items: stretch; margin: 0; }
+.page-id-74 .wooco-qty-wrap .quantity.buttons_added .minus,
+.page-id-74 .wooco-qty-wrap .quantity.buttons_added .plus {
+  display: flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; height: 44px; margin: 0 !important; padding: 0; position: static;
+  border: 1px solid #a3a099; background: #faf8f3; color: #010100; font-size: 18px; line-height: 1; text-decoration: none;
+}
+.page-id-74 .wooco-qty-wrap .quantity.buttons_added .qty {
+  width: 48px; min-width: 48px; height: 44px; min-height: 44px; margin: 0 !important; padding: 0;
+  border: 1px solid #a3a099; border-inline: 0; border-radius: 0; background: #faf8f3; color: #010100; font-size: 15px; text-align: center;
+}
+
+/* Visible keyboard focus (deep gold reads on ivory). */
+.page-id-74 .single-product a:focus-visible,
+.page-id-74 .single-product button:focus-visible,
+.page-id-74 .single-product input:focus-visible { outline: 2px solid #8a5c12; outline-offset: 2px; }
+
+/* Keyboard picking (snippet "CZERA box keyboard" makes each photo a checkbox): ring the whole card where :has() works. */
+.page-id-74 .czera-box-pick:focus-visible { outline: 2px solid #8a5c12; outline-offset: -4px; }
+@supports selector(:has(*)) {
+  .page-id-74 .wooco_component_product_selection_item:has(.czera-box-pick:focus-visible) { outline: 2px solid #8a5c12; outline-offset: 2px; }
+  .page-id-74 .czera-box-pick:focus-visible { outline: none; }
+}
+/* The reason box stays rendered so screen readers hear it (live region); empty, it takes no space. */
+.page-id-74 .single-product .wooco-alert { display: block !important; }
+.page-id-74 .single-product .wooco-alert:empty { padding: 0 !important; border: 0 !important; }
+
+/* Narrow desktops: two cards per row so the - / + controls keep their 44px size. */
+@media (min-width: 900px) and (max-width: 1039px) {
+  .page-id-74 .wooco_component_product_selection_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Under 900px: items stack, the panel becomes a fixed bottom bar; the page gets matching bottom padding. */
+@media (max-width: 899px) {
+  .page-id-74 .single-product div.product .summary { display: block; }
+  .page-id-74 .wooco_component_product_selection_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .page-id-74 .wooco_component_product_selection_grid_item_info { padding: 12px 12px 0; }
+  .page-id-74 .wooco_component_product_selection_grid_item_name { font-size: 17px; }
+  .page-id-74 .single-product .wooco-summary,
+  .page-id-74 .single-product form.cart,
+  .page-id-74 .single-product .wooco-alert {
+    position: fixed; left: 0; right: 0; z-index: 40; margin: 0 !important; top: auto;
+    padding-inline: clamp(1rem, 4vw, 3rem) !important; background: #f4f2ec; border: 0;
+  }
+  .page-id-74 .single-product form.cart { bottom: 0; height: auto; padding-top: 0; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .page-id-74 .single-product .single_add_to_cart_button { min-height: 48px; padding: 14px 24px; }
+  .page-id-74 .single-product .wooco-summary {
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px)); height: 52px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #d8c28a;
+  }
+  .page-id-74 .wooco-total { justify-content: flex-start; gap: 8px; }
+  .page-id-74 .single-product .wooco-alert { bottom: calc(112px + env(safe-area-inset-bottom, 0px)); padding-top: 8px !important; padding-bottom: 0 !important; border-top: 1px solid #d8c28a; }
+  body.page-id-74 { padding-bottom: calc(184px + env(safe-area-inset-bottom, 0px)); }
+  .page-id-74 #ast-scroll-top { bottom: calc(196px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 379px) {
+  .page-id-74 .wooco_component_product_selection_grid { grid-template-columns: minmax(0, 1fr); }
+}
+/* ---------- end build your box page */
