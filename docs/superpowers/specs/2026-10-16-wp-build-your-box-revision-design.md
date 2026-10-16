@@ -133,3 +133,19 @@ Browser checks (logged in, live page):
 7. Phone (390px): the bottom bar shows, Show contents works, and the footer is not covered.
 8. Keyboard only: steps 2 to 6 work with Tab, Enter and Space, and focus is never lost.
 9. `/product/build-your-czera-box/` redirects to `/build-your-box/`.
+
+## As built (revision 1)
+
+- Snippet 5 "CZERA box rules" now defines `czera_box_config()`: box 210, min 2, groups `8cdo` towels cap 6 [57, 60, 63, 66, 69, 72], `jt1j` bathrobes cap 2 [51, 54]. Cap messages come from the config ("Towels: up to 6 per box.", "Bathrobes: up to 2 per box.").
+- Snippet 8 "CZERA box builder" (global): shortcode `[czera_box_builder]`, product-page redirect (302 to /build-your-box/), and redirect back to /build-your-box/ after adding the box. Reference copy `tools/wp/live/czera-box-builder.php`.
+- Page 74 holds one `core/shortcode` block, `[czera_box_builder]`. The Spectra intro is gone.
+- Additional CSS block between the Build your box markers replaced with the static design (copy `tools/wp/live/build-your-box.css`).
+- Snippets 6 "CZERA box labels" and 7 "CZERA box keyboard" are deactivated and in the Code Snippets trash. They were not permanently deleted; the owner can empty the trash in wp-admin. `box_checks.py snippets` treats a retired snippet as absent, or trashed and inactive.
+- Unchanged: WPC settings (cart and order display `yes_list`), LiteSpeed exclusions, box product 210.
+- Page 74 is never page-cached: the builder calls `litespeed_control_set_nocache`. A cached copy replayed or hid the add-to-bag notices.
+- The Additional CSS block also carries an Astra override, `body .entry-content[data-ast-blocks-layout] > .czera-box-builder { max-width: 1320px; }`. Astra's full-width layout otherwise stretches the builder edge to edge.
+- Sizes are in px, not rem, because Astra's phone root font is 14.592px.
+- On phones Clear selection sits on the left, as in the mockup.
+- On this page Astra's scroll-to-top button is hidden on phones, because it covered + and ×.
+- A hand-crafted request for 7 of one towel shows WPC's own "You cannot add this composite products to the cart." That is because WPC's per-item limit rejects it first. Split requests show "Towels: up to 6 per box." The builder itself cannot send either.
+- Checks: `box_checks.py all` OK on 2026-10-16; browser checks in Task 2 Step 6 and Task 3 Step 4 passed.
