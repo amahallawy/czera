@@ -74,6 +74,9 @@ def check_rules():
         (f'63/4/{t},60/3/{t}', 1, 0),             # 7 towels split over two lines -> rejected
         (f'51/1/{r},54/2/{r}', 1, 0),             # 3 robes split over two lines -> rejected
         (f'63/4/{t},60/-3/{t}', 1, 0),            # negative qty bypass (plugin cleans '-3' to '3') -> rejected
+        (f'63/1.5/{t},54/0.5/{r}', 1, 0),         # fractional quantities summing to 2 -> rejected
+        (f'51/2/{t},63/1/{t}', 1, 0),             # robes under the Towels key -> rejected
+        (f'63/2/{r}', 1, 0),                      # towels under the Bathrobes key -> rejected
     ]
     for ids, times, expected in cases:
         got = add_box(ids, times)
