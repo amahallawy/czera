@@ -8,6 +8,21 @@ that section into a version.
 
 ## [Unreleased]
 
+- Keyboard focus on the header's Menu, logo and Bag now shows a gold ring over
+  the hero film, where the ink ring was hard to see; it turns ink again once
+  the header is ivory.
+- The "added to your bag" message no longer floats above the open side menu;
+  it is dimmed behind it like the rest of the page.
+
+- Header: the CZERA logo now sits in the centre, with a "Menu" button on the
+  left and the bag on the right, on every screen size. The inline top menu is
+  gone; the links live in a side menu that slides in from the left (from the
+  right in Arabic).
+- The side menu now behaves as a proper dialog: keyboard focus stays inside it
+  while it is open and returns to the Menu button when it closes, and the page
+  has a single "Primary" navigation.
+- `design.md`, `PRODUCT.md` and the showroom spec describe the new header.
+
 - WordPress store (czeramaison.com): Build your box page. A box of up to 6
   towels and 2 bathrobes, at least 2 items, priced as the sum of its items,
   reaches the bag as one line with its contents listed. The box rules are

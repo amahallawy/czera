@@ -91,6 +91,11 @@ home page, Frette for the collection grid and product page.
 5. **Arabic is a peer, not a translation.** RTL is designed-with, not
    paste-translated. The Arabic version follows as its own phase once the
    English pages are approved.
+6. **The brand leads the header.** The CZERA wordmark sits centred; the
+   menu is one tap away behind a "Menu" button on every device, and the bag
+   is always visible. Categories stay one tap from Home through the
+   category tiles and the footer's Shop links, so hiding the inline nav
+   costs browsing nothing (2026-10-16).
 
 ## Accessibility & inclusion
 
