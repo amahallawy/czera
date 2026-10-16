@@ -23,6 +23,9 @@ that section into a version.
   has a single "Primary" navigation.
 - `design.md`, `PRODUCT.md` and the showroom spec describe the new header.
 
+- WordPress store (czeramaison.com): after adding a box, Build your box shows
+  the CZERA toast ("Your box was added to your bag", with View bag) instead of
+  WooCommerce's notice box; any other message shows inline in the CZERA style.
 - WordPress store (czeramaison.com): Build your box page, in the CZERA design.
   Choose a colour to see its towel sizes, then towels and bathrobes; counts
   start at 0, up to 6 towels and 2 bathrobes in total, at least 2 items, and
