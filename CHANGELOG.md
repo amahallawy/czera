@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): Build your box page. A box of up to 6
+  towels and 2 bathrobes, at least 2 items, priced as the sum of its items,
+  reaches the bag as one line with its contents listed. The box rules are
+  checked on the server, and the cart API is no longer cached. Live checks in
+  `tools/wp/box_checks.py`.
+
 ## [1.0.0] — 2026-10-15
 
 - Sent to the client for acceptance. The next phase rebuilds the site in WordPress.

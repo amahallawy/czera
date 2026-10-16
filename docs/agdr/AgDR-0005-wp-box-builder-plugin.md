@@ -39,5 +39,8 @@ plugin. The snippet mirrors the plugin's id cleaning.
 - Two plugins added to the site: WPC Composite Products and Code Snippets.
 - The plugin's form is restyled with Additional CSS (`czera-box-` prefix) to
   match the static design.
+- LiteSpeed Cache excludes `/wp-json/wc/store/` site-wide (Do Not Cache URIs):
+  it had cached the Store API cart publicly, so one shopper's bag (and the
+  addresses the cart response carries) could be served to another.
 - If the plugin is abandoned or changes its data model, option (d) is the
   fallback; the rules in the spec stay the same.
