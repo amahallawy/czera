@@ -1,6 +1,6 @@
 # Build your box (WordPress), revision 1: the static design, with group limits
 
-Date: 2026-10-16 · Issue: amahallawy/czera#49 (PR #55) · Revises: `2026-10-16-wp-build-your-box-design.md` §3.4 and its As-built section · Decision record: `docs/agdr/AgDR-0005-wp-box-builder-plugin.md`
+Date: 2026-10-16 · Issue: amahallawy/czera#56 · Follows #49 (PR #55) · Revises: `2026-10-16-wp-build-your-box-design.md` §3.4 and its As-built section · Decision record: `docs/agdr/AgDR-0005-wp-box-builder-plugin.md`
 
 ## 1. Why
 

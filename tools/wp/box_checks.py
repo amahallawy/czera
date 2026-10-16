@@ -157,6 +157,7 @@ def check_page():
     for needle in ('czera-box-builder', 'Build your own box', 'Choose a colour', 'Choose your towels',
                    'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"'):
         assert needle in html, f'{needle!r} missing from the page'
+    assert f'name="add-to-cart" value="{BOX_ID}"' in html, 'the builder form does not post the box product'
     assert 'czera-box-intro' not in html, 'the old Spectra intro is still on the page'
     assert 'wooco-wrap' not in html, "the plugin's own picker is still on the page"
     data = json.loads(html.split('data-box-data>', 1)[1].split('</script>', 1)[0])
@@ -176,7 +177,8 @@ def check_snippets():
     listed = {s['id']: s for s in api('/code-snippets/v1/snippets')}
     for sid, name in RETIRED.items():
         s = listed.get(sid)
-        assert s is None or (s.get('trashed') and not s.get('active')),             f'retired snippet {sid} "{name}" is still in use; deactivate and trash it'
+        assert s is None or (s.get('trashed') and not s.get('active')), \
+            f'retired snippet {sid} "{name}" is still in use; deactivate and trash it'
     for sid, name in SNIPPETS.items():
         s = api(f'/code-snippets/v1/snippets/{sid}')
         assert s['active'] is True, f'snippet {sid} "{s["name"]}" is not active'
