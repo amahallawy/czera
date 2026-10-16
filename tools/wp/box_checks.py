@@ -24,7 +24,7 @@ TOWELS = [57, 60, 63, 66, 69, 72]
 ROBES = [51, 54]
 BOX_ID = int(os.environ.get('CZERA_BOX_ID', '210'))
 LIVE = Path(__file__).resolve().parent / 'live'
-SNIPPETS = {5: 'czera-box-rules.php', 6: 'czera-box-labels.php', 7: 'czera-box-keyboard.php'}
+SNIPPETS = {5: 'czera-box-rules.php', 6: 'czera-box-labels.php', 7: 'czera-box-keyboard.php', 8: 'czera-box-builder.php'}
 
 _auth = None
 
@@ -150,13 +150,18 @@ def check_page():
     if '/coming-soon/' in html and len(html) < 500:
         # Coming-soon mode serves logged-out requests (an application password does
         # not log the front end in) a redirect stub. Fall back to the page's REST
-        # render, which runs the same blocks and [product_page] shortcode server-side.
+        # render, which runs the same blocks and [czera_box_builder] shortcode server-side.
         html = api('/wp/v2/pages?slug=build-your-box')[0]['content']['rendered']
         via = 'REST render; front end is behind coming-soon'
-    assert 'czera-box-intro' in html, 'intro missing'
-    assert 'wooco' in html, 'builder form missing'
-    assert 'Choose up to six towels and two bathrobes' in html, 'intro line missing'
-    assert 'Add box to bag' in html, 'button label missing'
+    for needle in ('czera-box-builder', 'Build your own box', 'Choose a colour', 'Choose your towels',
+                   'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"'):
+        assert needle in html, f'{needle!r} missing from the page'
+    assert 'czera-box-intro' not in html, 'the old Spectra intro is still on the page'
+    assert 'wooco-wrap' not in html, "the plugin's own picker is still on the page"
+    data = json.loads(html.split('data-box-data>', 1)[1].split('</script>', 1)[0])
+    ids = sorted(i['id'] for i in data['items'])
+    assert ids == sorted(TOWELS + ROBES), f'builder items {ids}, expected {sorted(TOWELS + ROBES)}'
+    assert data['caps'] == {'towels': 6, 'bathrobes': 2} and data['min'] == 2, f'builder rules {data}'
     print(f'page OK ({via})')
 
 def reference_code(path):
