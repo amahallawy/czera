@@ -1,0 +1,10 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. */
+/* ---------- Header once scrolled (frosted ivory, faint rule, ink text) ---------- */
+.ast-primary-header-bar.ast-sticky-active .ast-woo-header-cart-info-wrap,
+.ast-primary-header-bar.ast-sticky-active .ast-site-header-cart .cart-container { color: #2b2b2b !important; }
+.ast-primary-header-bar.ast-sticky-active .czera-menu-toggle { color: #2b2b2b; }
+.ast-primary-header-bar.ast-sticky-active .czera-menu-toggle:hover { color: #ba7c17; }
+.ast-theme-transparent-header #masthead .ast-primary-header-bar:not(.ast-sticky-active),
+.ast-theme-transparent-header #masthead .main-header-bar-wrap { border-bottom: 0 !important; }
+.ast-primary-header-bar.ast-sticky-active { border-bottom: 1px solid #a3a099 !important; }
+/* ---------- end header once scrolled */
