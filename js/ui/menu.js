@@ -1,9 +1,19 @@
-// Slide-in menu panel (opens from the right)
+// Slide-in menu panel: the only primary nav, on every screen size. Opens from
+// the inline start (left in English, right in Arabic) and is modal while open.
 export function initMenu() {
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-site-menu]');
   const menuClose = document.querySelector('[data-menu-close]');
   const menuBackdrop = document.querySelector('[data-menu-backdrop]');
+
+  // Everything else on the page is inert while the menu is open, so Tab and
+  // screen readers stay inside it (same approach as the bag panel).
+  let inerted = [];
+  function setBackground(on) {
+    if (!on) { inerted.forEach(el => { el.inert = false; }); inerted = []; return; }
+    inerted = [...document.body.children].filter(el => el !== menu && el !== menuBackdrop && !el.inert);
+    inerted.forEach(el => { el.inert = true; });
+  }
   // One pending hide at a time: a quick close, reopen, close must not let the
   // first close's timer hide the panel mid-slide.
   let hideTimer;
@@ -27,6 +37,7 @@ export function initMenu() {
     menuBackdrop.setAttribute('aria-hidden', 'false');
     menuToggle?.setAttribute('aria-expanded', 'true');
     document.body.classList.add('menu-open');
+    setBackground(true);
     // Focus the close button so keyboard users land in the panel
     menuClose?.focus();
   }
@@ -39,6 +50,7 @@ export function initMenu() {
     menuBackdrop.setAttribute('aria-hidden', 'true');
     menuToggle?.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
+    setBackground(false);
     // Hide after the slide-out completes so screen readers skip the panel (and its
     // shadow is not drawn). With no transition (reduced motion) hide at once; the
     // timeout covers a transitionend that never arrives.
@@ -65,10 +77,17 @@ export function initMenu() {
   if (menuClose) menuClose.addEventListener('click', closeMenu);
   if (menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
 
-  // Close menu via ESC key when open
+  // Close menu via ESC key when open; keep Tab inside it where `inert` is
+  // not supported.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && menu?.classList.contains('is-open')) {
-      closeMenu();
+    if (!menu?.classList.contains('is-open')) return;
+    if (e.key === 'Escape') { closeMenu(); return; }
+    if (e.key === 'Tab' && !('inert' in HTMLElement.prototype)) {
+      const f = [...menu.querySelectorAll('button, a[href]')];
+      const first = f[0], last = f[f.length - 1];
+      if (!menu.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
   });
 

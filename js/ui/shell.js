@@ -9,34 +9,35 @@ import { initBagPanel } from './bag-panel.js';
 
 const BAG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>';
 
-function navLinks(cls = '') {
-  const a = (href, text) => `<a${cls ? ` class="${cls}"` : ''} href="${href}">${escapeHtml(text)}</a>`;
+function navLinks(cls) {
+  const a = (href, text) => `<a class="${cls}" href="${href}">${escapeHtml(text)}</a>`;
   return CATEGORIES.map(c => a(`catalog.html?category=${c.id}`, c.navLabel)).join('')
     + a('build-your-box.html', 'Build your box') + a('about.html', 'About');
 }
 
+// Menu button left, wordmark centred, bag right, on every screen size. The
+// primary nav lives only in the slide-in menu, so the page has one "Primary".
 function headerHtml() {
   return `
   <header class="site-header">
     <div class="container site-header__inner">
+      <button class="menu-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 8h16M4 12h9M4 16h16"/></svg><span class="menu-toggle__label">Menu</span>
+      </button>
       <a href="index.html" class="brand-mark" aria-label="Czera, home">
         <img class="brand-mark__img brand-mark__img--default" src="assets/logo/czera-wordmark-alt.png" alt="Czera" />
         <img class="brand-mark__img brand-mark__img--gold" src="assets/logo/czera-wordmark-gold.png" alt="" aria-hidden="true" />
       </a>
-      <nav class="site-nav" aria-label="Primary">${navLinks()}</nav>
       <button class="bag-button" type="button" data-bag-open aria-label="Open your bag">
         ${BAG_ICON}<span class="bag-button__label">Bag</span><span class="bag-button__count" data-bag-count>0</span>
-      </button>
-      <button class="menu-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 8h16M4 12h9M4 16h16"/></svg>
       </button>
     </div>
   </header>
   <div class="site-menu-backdrop" data-menu-backdrop aria-hidden="true" hidden></div>
-  <aside id="site-menu" class="site-menu" data-site-menu aria-label="Site menu" aria-hidden="true" hidden>
+  <div id="site-menu" class="site-menu" data-site-menu role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" hidden>
     <div class="site-menu__head"><button class="site-menu__close" type="button" data-menu-close aria-label="Close menu">×</button></div>
     <nav class="site-menu__nav" aria-label="Primary">${navLinks('site-menu__link')}</nav>
-  </aside>`;
+  </div>`;
 }
 
 function footerHtml() {

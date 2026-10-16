@@ -8,6 +8,15 @@ that section into a version.
 
 ## [Unreleased]
 
+- Header: the CZERA logo now sits in the centre, with a "Menu" button on the
+  left and the bag on the right, on every screen size. The inline top menu is
+  gone; the links live in a side menu that slides in from the left (from the
+  right in Arabic).
+- The side menu now behaves as a proper dialog: keyboard focus stays inside it
+  while it is open and returns to the Menu button when it closes, and the page
+  has a single "Primary" navigation.
+- `design.md`, `PRODUCT.md` and the showroom spec describe the new header.
+
 ## [1.0.0] — 2026-10-15
 
 - Sent to the client for acceptance. The next phase rebuilds the site in WordPress.

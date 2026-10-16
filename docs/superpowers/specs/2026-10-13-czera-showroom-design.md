@@ -62,7 +62,11 @@ until the client supplies new photos.
 ## 3. Site-wide
 
 - **Navigation**: Towels · Bathrobes · Beach · Gift sets · Build your box ·
-  About, with a **bag icon and item count** on the right.
+  About, in a **slide-in menu** opened by a "Menu" button on the left, on
+  every screen size. The CZERA wordmark is **centred**; the **bag icon and
+  item count** sit on the right. (Changed 2026-10-16, amahallawy/czera#48:
+  the inline nav beside a left-aligned logo was replaced. See `design.md`
+  §6.1.)
 - **Product card** (used everywhere): photo (second photo on hover), name,
   one spec line, price, and a gold **"Add to bag ›"** link. Adding shows a
   short confirmation ("Black Bathrobe added to your bag · View bag").

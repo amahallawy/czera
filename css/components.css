@@ -3,7 +3,8 @@
  */
 
 /* ---------------- Site header ----------------
- * Brand mark left, primary nav centre, bag button + (mobile) hamburger right.
+ * Menu button left, brand mark centred, bag button right, at every width.
+ * The primary nav lives only in the slide-in menu below.
  * Over the hero video it is transparent with ivory text; once scrolled, and
  * always on non-hero pages, it sits on a soft ivory surface with ink text. */
 .site-header {
@@ -46,11 +47,15 @@ body:not(.has-hero) { padding-top: var(--header-height); }
 
 .site-header__inner {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  /* Equal outer columns keep the wordmark on the page's centre line,
+   * whatever the width of the bag count. */
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: var(--space-5);
   height: var(--header-height);
 }
+.site-header__inner > .menu-toggle { justify-self: start; }
+.site-header__inner > .bag-button { justify-self: end; }
 
 .brand-mark {
   display: inline-flex;
@@ -70,24 +75,6 @@ body:not(.has-hero) { padding-top: var(--header-height); }
 body:not(.has-hero) .brand-mark__img--default { opacity: 0; }
 .site-header.is-scrolled .brand-mark__img--gold,
 body:not(.has-hero) .brand-mark__img--gold { opacity: 1; }
-
-.site-nav {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-5);
-}
-.site-nav a {
-  font-size: var(--fs-2xs);
-  font-weight: 500;
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
-  white-space: nowrap;
-  padding-block: var(--space-2);
-  border-bottom: 1px solid transparent;
-  color: var(--hdr-fg);
-}
-.site-nav a:hover { color: var(--color-gold-deep); border-bottom-color: var(--color-gold-deep); }
-body.has-hero .site-header:not(.is-scrolled) .site-nav a:hover { color: var(--color-gold-sand); border-bottom-color: var(--color-gold-sand); }
 
 /* Bag button: icon, label and a count in a deep-gold circle. */
 .bag-button {
@@ -118,36 +105,43 @@ body.has-hero .site-header:not(.is-scrolled) .site-nav a:hover { color: var(--co
   letter-spacing: 0;
 }
 
-/* Hamburger: only below 900px, where the inline nav is hidden. */
+/* Menu button: icon + small-caps label, styled to pair with the bag button. */
 .menu-toggle {
-  display: none;
-  width: 44px; height: 44px;
-  align-items: center; justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  padding-inline: var(--space-2);
   color: var(--hdr-fg);
   background: transparent;
   border: 0;
-  border-radius: 50%;
   cursor: pointer;
-  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  font: inherit;
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  transition: color var(--dur-fast) var(--ease-out);
 }
-.menu-toggle svg { width: 32px; height: 32px; }
-.menu-toggle:hover { background: rgba(244, 242, 236, 0.18); }
-.site-header.is-scrolled .menu-toggle:hover,
-body:not(.has-hero) .menu-toggle:hover { background: var(--color-surface); color: var(--color-gold-deep); }
+.menu-toggle svg { width: 24px; height: 24px; }
+.menu-toggle:hover { color: var(--color-gold-deep); }
+body.has-hero .site-header:not(.is-scrolled) .menu-toggle:hover,
+body.has-hero .site-header:not(.is-scrolled) .bag-button:hover { color: var(--color-gold-sand); }
 
 @media (max-width: 899px) {
-  .site-nav { display: none; }
-  .menu-toggle { display: inline-flex; }
-  .site-header__inner { grid-template-columns: 1fr auto auto; gap: var(--space-2); }
+  .site-header__inner { gap: var(--space-2); }
   .brand-mark__img { height: 56px; }
 }
 @media (max-width: 480px) {
-  .bag-button__label { display: none; }
+  .bag-button__label, .menu-toggle__label { display: none; }
 }
 
 /* ---------------- Slide-in menu panel ----------------
- * Opens from the right when the hamburger is clicked. Holds the
- * primary nav + utility icons. Backdrop dims the page behind. */
+ * The site's only primary nav, at every width. Opens from the inline start
+ * (left in English, right in Arabic); the bag panel keeps the inline end.
+ * Backdrop dims the page behind. */
 .site-menu-backdrop {
   position: fixed;
   inset: 0;
@@ -160,13 +154,14 @@ body:not(.has-hero) .menu-toggle:hover { background: var(--color-surface); color
 
 .site-menu {
   position: fixed;
-  top: 0; right: 0; bottom: 0;
+  inset-block: 0;
+  inset-inline-start: 0;
   width: clamp(280px, 32vw, 460px);
   max-width: 100vw;
   background: var(--color-bg);
   z-index: 70;
-  box-shadow: -16px 0 48px rgba(1, 1, 0, 0.18);
-  transform: translateX(100%);
+  box-shadow: 16px 0 48px rgba(1, 1, 0, 0.18);
+  transform: translateX(-100%);
   transition: transform 360ms var(--ease-out);
   display: flex;
   flex-direction: column;
@@ -174,15 +169,16 @@ body:not(.has-hero) .menu-toggle:hover { background: var(--color-surface); color
   gap: var(--space-7);
   overflow-y: auto;
 }
-.site-menu.is-open { transform: translateX(0); }
+[dir="rtl"] .site-menu { transform: translateX(100%); box-shadow: -16px 0 48px rgba(1, 1, 0, 0.18); }
+.site-menu.is-open, [dir="rtl"] .site-menu.is-open { transform: none; }
 /* `display: flex` above would override the hidden attribute and leave the
  * off-screen panel's shadow along the page edge. */
 .site-menu[hidden], .site-menu-backdrop[hidden] { display: none; }
 
 .site-menu__head {
   display: flex;
-  justify-content: flex-end;
-  margin-inline-end: calc(var(--space-3) * -1);
+  justify-content: flex-start;
+  margin-inline-start: calc(var(--space-3) * -1);
 }
 .site-menu__close {
   width: 44px; height: 44px;
@@ -193,10 +189,11 @@ body:not(.has-hero) .menu-toggle:hover { background: var(--color-surface); color
   border: 0;
   border-radius: 50%;
   cursor: pointer;
+  font-size: var(--fs-xl);
+  line-height: 1;
   transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
 .site-menu__close:hover { background: var(--color-surface); color: var(--color-gold-deep); }
-.site-menu__close svg { width: 22px; height: 22px; }
 
 .site-menu__nav {
   display: flex;
