@@ -158,7 +158,9 @@ def check_page():
                    'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"',
                    'data-box-toast', 'View bag ›'):
         assert needle in html, f'{needle!r} missing from the page'
-    assert 'woocommerce-message' not in html, "WooCommerce's notice box is still on the page; the CZERA toast replaces it"
+    # Guards the markup only: the REST render has no WooCommerce session, so no notice is ever
+    # queued here. Whether an add shows the toast is checked in a browser.
+    assert 'woocommerce-message' not in html, "WooCommerce's notice box markup is on the page; the builder prints its own"
     assert f'name="add-to-cart" value="{BOX_ID}"' in html, 'the builder form does not post the box product'
     assert 'czera-box-intro' not in html, 'the old Spectra intro is still on the page'
     assert 'wooco-wrap' not in html, "the plugin's own picker is still on the page"

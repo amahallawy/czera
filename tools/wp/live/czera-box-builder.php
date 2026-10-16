@@ -45,6 +45,18 @@ add_filter( 'woocommerce_add_to_cart_redirect', function ( $url, $product = null
 	return $url;
 }, 10, 2 );
 
+// Remember that this shopper just added the box, so the builder shows its toast only for the box.
+// AJAX and REST adds do not come back to the builder, so they set nothing.
+add_action( 'woocommerce_add_to_cart', function ( $cart_item_key, $product_id ) {
+	if ( wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return;
+	}
+	if ( function_exists( 'czera_box_config' ) && (int) $product_id === czera_box_config()['box_id']
+		&& function_exists( 'WC' ) && WC()->session ) {
+		WC()->session->set( 'czera_box_added', 1 );
+	}
+}, 10, 2 );
+
 add_shortcode( 'czera_box_builder', function () {
 	if ( ! function_exists( 'czera_box_config' ) || ! function_exists( 'wc_get_product' ) ) {
 		return '';
@@ -75,13 +87,25 @@ add_shortcode( 'czera_box_builder', function () {
 	$data   = [ 'min' => $cfg['min'], 'caps' => $caps, 'items' => $items ];
 	$image  = wp_get_attachment_image( 23, 'large', false, [ 'alt' => 'Folded CZERA towels' ] );
 	// No WooCommerce session in REST renders (box_checks page), so only read notices when there is one.
-	// A success notice becomes the CZERA toast; errors and other notices show inline above step 1.
+	// After a box add, the box's own "added" notice becomes the CZERA toast; every other notice
+	// (errors, or a success left over from another page) shows inline above step 1.
 	// Clearing them stops WooCommerce printing its own notice box anywhere else on the page.
 	$added    = false;
 	$messages = [];
 	if ( function_exists( 'WC' ) && WC()->session ) {
-		$added    = (bool) wc_get_notices( 'success' );
-		$messages = array_merge( wc_get_notices( 'error' ), wc_get_notices( 'notice' ) );
+		$added = (bool) WC()->session->get( 'czera_box_added' );
+		WC()->session->set( 'czera_box_added', null );
+		$box  = wc_get_product( $cfg['box_id'] );
+		$name = $box ? $box->get_name() : '';
+		foreach ( apply_filters( 'woocommerce_notice_types', [ 'error', 'success', 'notice' ] ) as $type ) {
+			foreach ( wc_get_notices( $type ) as $n ) {
+				$text = $n['notice'] ?? '';
+				if ( $added && 'success' === $type && '' !== $name && false !== strpos( $text, $name ) ) {
+					continue;
+				}
+				$messages[] = $text;
+			}
+		}
 		wc_clear_notices();
 	}
 	// The page shows this shopper's notices after post, redirect, get, so LiteSpeed must not cache it:
@@ -92,8 +116,8 @@ add_shortcode( 'czera_box_builder', function () {
 <div class="czera-box-builder" data-box-builder<?php echo $added ? ' data-box-added="1"' : ''; ?>>
 	<?php if ( $messages ) : ?>
 	<div class="czera-box-messages" role="alert">
-		<?php foreach ( $messages as $n ) : ?>
-		<p><?php echo wc_kses_notice( $n['notice'] ?? '' ); ?></p>
+		<?php foreach ( $messages as $text ) : ?>
+		<p><?php echo wc_kses_notice( $text ); ?></p>
 		<?php endforeach; ?>
 	</div>
 	<?php endif; ?>
@@ -302,22 +326,34 @@ add_shortcode( 'czera_box_builder', function () {
 	const toBag = $('[data-box-toast-bag]');
 	toBag.addEventListener('click', () => {
 		const link = Array.from(document.querySelectorAll('.ast-site-header-cart a.cart-container')).find(a => a.offsetParent);
-		if (link) link.click();
-		else window.location.href = toBag.dataset.cartUrl;
+		if (!link) {
+			window.location.href = toBag.dataset.cartUrl;
+			return;
+		}
+		link.click();
+		toast.hidden = true;
 	});
-	// After an add the page comes back (post, redirect, get) marked data-box-added: show the toast
-	// for 3.5 s, just under the header. The text goes in now so screen readers announce it.
+	// After a box add the page comes back (post, redirect, get) marked data-box-added: show the toast
+	// for 3.5 s, just under the header. It waits for load, so the header has settled, and the text
+	// goes in a frame after the toast is shown, so screen readers announce it.
 	if (root.dataset.boxAdded) {
-		const head = Array.from(document.querySelectorAll('#masthead .ast-primary-header-bar')).find(h => h.offsetHeight);
-		if (head) toast.style.top = Math.max(0, head.getBoundingClientRect().bottom) + 12 + 'px';
-		toast.querySelector('[data-box-toast-text]').textContent = 'Your box was added to your bag';
-		toast.hidden = false;
-		// Never pull the toast out from under keyboard focus: wait until focus leaves it.
-		const hide = () => {
-			if (toast.contains(document.activeElement)) toast.addEventListener('focusout', hide, { once: true });
-			else toast.hidden = true;
+		const text = toast.querySelector('[data-box-toast-text]');
+		const show = () => {
+			const head = Array.from(document.querySelectorAll('#masthead .ast-primary-header-bar')).find(h => h.offsetHeight);
+			if (head) toast.style.top = Math.max(0, head.getBoundingClientRect().bottom) + 12 + 'px';
+			text.textContent = '';
+			toast.hidden = false;
+			requestAnimationFrame(() => { text.textContent = 'Your box was added to your bag'; });
+			// Never pull the toast out from under keyboard focus: wait until focus leaves it.
+			const hide = () => {
+				if (toast.contains(document.activeElement)) toast.addEventListener('focusout', hide, { once: true });
+				else toast.hidden = true;
+			};
+			setTimeout(hide, 3500);
 		};
-		setTimeout(hide, 3500);
+		const start = () => setTimeout(show, 300);
+		if (document.readyState === 'complete') start();
+		else window.addEventListener('load', start, { once: true });
 	}
 })();
 </script>

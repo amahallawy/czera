@@ -44,7 +44,7 @@ body .entry-content[data-ast-blocks-layout] .czera-box-builder > .czera-box-toas
 .admin-bar .czera-box-builder .czera-box-toast { inset-block-start: 153px; }
 .czera-box-builder .czera-box-toast[hidden] { display: none; }
 .czera-box-builder .czera-box-toast__link {
-  padding: 0; border: 0; background: none; cursor: pointer; white-space: nowrap;
+  padding: 15px 8px; margin: -15px -8px; border: 0; background: none; cursor: pointer; white-space: nowrap;
   color: var(--color-gold-sand); font-size: var(--fs-2xs); letter-spacing: var(--ls-wide); text-transform: uppercase;
 }
 .czera-box-builder .czera-box-toast__link:hover, .czera-box-builder .czera-box-toast__link:focus { background: none; color: var(--color-on-dark); }
