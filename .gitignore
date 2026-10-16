@@ -38,3 +38,5 @@ assets/video/_working/
 # npm / wrangler installs (Cloudflare build installs wrangler here)
 node_modules/
 .wrangler/
+
+__pycache__/
