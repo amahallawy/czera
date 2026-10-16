@@ -22,7 +22,33 @@ def check_plugins():
     assert not missing, f'not active: {missing}'
     print('plugins OK')
 
-CHECKS = {'plugins': check_plugins}
+TOWELS = [57, 60, 63, 66, 69, 72]
+ROBES = [51, 54]
+BOX_ID = int(os.environ.get('CZERA_BOX_ID', '0'))
+
+def box_meta():
+    p = api(f'/wc/v3/products/{BOX_ID}?context=edit')
+    return p, {m['key']: m['value'] for m in p['meta_data']}
+
+def component_keys():
+    """Return {'Towels': key, 'Bathrobes': key} from the box's wooco_components meta."""
+    _, meta = box_meta()
+    comps = meta['wooco_components']
+    items = comps.items() if isinstance(comps, dict) else enumerate(comps)
+    return {c.get('name'): str(k) for k, c in items}
+
+def check_product():
+    assert BOX_ID, 'set CZERA_BOX_ID'
+    p, meta = box_meta()
+    assert p['type'] == 'composite', p['type']
+    assert p['catalog_visibility'] == 'hidden', p['catalog_visibility']
+    assert p['name'] == 'Build your CZERA box', p['name']
+    assert meta.get('wooco_pricing') == 'exclude', meta.get('wooco_pricing')
+    assert str(meta.get('wooco_qty_min')) == '2' and str(meta.get('wooco_qty_max')) == '8'
+    assert sorted(component_keys()) == ['Bathrobes', 'Towels'], component_keys()
+    print('product OK', BOX_ID)
+
+CHECKS = {'plugins': check_plugins, 'product': check_product}
 
 if __name__ == '__main__':
     CHECKS[sys.argv[1]]()
