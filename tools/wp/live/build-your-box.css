@@ -20,8 +20,35 @@
 /* Astra's full-width layout sets max-width: none on .entry-content > * (0,3,0); this outranks it. */
 body .entry-content[data-ast-blocks-layout] > .czera-box-builder { max-width: 1320px; }
 .admin-bar .czera-box-builder { --czera-box-top: 157px; }
-.czera-box-builder__notices:empty { display: none; }
-.czera-box-builder__notices { padding-block-start: var(--space-5); }
+/* Errors and other notices, inline above step 1. WooCommerce's own button styling is undone. */
+.czera-box-builder .czera-box-messages { display: grid; gap: var(--space-2); padding-block-start: var(--space-5); }
+.czera-box-builder .czera-box-messages p {
+  margin: 0; padding: var(--space-3) var(--space-4); border-inline-start: 2px solid var(--color-gold-sand);
+  background: var(--color-surface-soft); color: var(--color-ink); font-size: var(--fs-sm);
+}
+.czera-box-builder .czera-box-messages a, .czera-box-builder .czera-box-messages .button {
+  display: inline; float: none; margin: 0; padding: 0; border: 0; background: none; box-shadow: none;
+  font: inherit; letter-spacing: normal; text-transform: none;
+  color: var(--color-ink-strong); text-decoration: underline; text-underline-offset: 3px;
+}
+/* The showroom toast after "Add box to bag": above the header (99), below Astra's bag backdrop (999).
+   The builder's script moves it to 12px under the header as it is when shown. */
+.czera-box-builder .czera-box-toast {
+  position: fixed; inset-block-start: 121px; inset-inline-end: var(--gutter); z-index: 100;
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4); background: var(--color-ink-strong); color: var(--color-on-dark);
+  font-size: var(--fs-xs); line-height: var(--lh-base); box-shadow: 0 10px 40px rgba(1, 1, 0, 0.10);
+}
+/* Astra's full-width layout also sets max-width: none on the builder's children (0,4,0); this outranks it. */
+body .entry-content[data-ast-blocks-layout] .czera-box-builder > .czera-box-toast { max-width: calc(100vw - 2 * var(--gutter)); }
+.admin-bar .czera-box-builder .czera-box-toast { inset-block-start: 153px; }
+.czera-box-builder .czera-box-toast[hidden] { display: none; }
+.czera-box-builder .czera-box-toast__link {
+  padding: 15px 8px; margin: -15px -8px; border: 0; background: none; cursor: pointer; white-space: nowrap;
+  color: var(--color-gold-sand); font-size: var(--fs-2xs); letter-spacing: var(--ls-wide); text-transform: uppercase;
+}
+.czera-box-builder .czera-box-toast__link:hover, .czera-box-builder .czera-box-toast__link:focus { background: none; color: var(--color-on-dark); }
+.czera-box-builder .czera-box-toast__link:focus-visible { outline: 2px solid var(--color-gold-sand); outline-offset: 2px; }
 .czera-box-noscript { padding-block: var(--space-5); font-size: var(--fs-sm); }
 
 /* Resets against the theme's button and fieldset styles. */
@@ -168,5 +195,6 @@ body .entry-content[data-ast-blocks-layout] > .czera-box-builder { max-width: 13
   }
   .czera-box-builder .box-preview__total { border: 0; padding: 0; }
   .czera-box-builder .box-preview__reason { min-block-size: 0; }
+  .czera-box-builder .czera-box-toast { inset-inline-start: var(--gutter); justify-content: space-between; }
 }
 /* ---------- end build your box page */
