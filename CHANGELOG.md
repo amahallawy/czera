@@ -8,6 +8,8 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): the gold line under the current menu item
+  now stays under the text when the header shrinks on scroll.
 - Keyboard focus on the header's Menu, logo and Bag now shows a gold ring over
   the hero film, where the ink ring was hard to see; it turns ink again once
   the header is ivory.
