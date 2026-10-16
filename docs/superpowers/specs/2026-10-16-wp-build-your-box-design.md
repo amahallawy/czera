@@ -185,7 +185,7 @@ its copy.
 
 ### LiteSpeed Cache
 - `/wp-json/wc/store/` added to Do Not Cache URIs. The Store API cart response
-  was being cached publicly, so one visitor's bag could be served to another.
+  was being cached publicly, so one visitor's bag could be served to another. `/wp-json/` is now excluded too: authenticated REST GETs (application password) were cached and served publicly to anonymous visitors.
 
 ### Additional CSS
 - One block in `custom_css[astra]`, between `/* ---------- Build your box page

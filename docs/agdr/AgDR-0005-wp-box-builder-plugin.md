@@ -41,6 +41,6 @@ plugin. The snippet mirrors the plugin's id cleaning.
   match the static design.
 - LiteSpeed Cache excludes `/wp-json/wc/store/` site-wide (Do Not Cache URIs):
   it had cached the Store API cart publicly, so one shopper's bag (and the
-  addresses the cart response carries) could be served to another.
+  addresses the cart response carries) could be served to another. `/wp-json/` is excluded as well, because authenticated REST GETs were cached and served publicly to anonymous visitors.
 - If the plugin is abandoned or changes its data model, option (d) is the
   fallback; the rules in the spec stay the same.
