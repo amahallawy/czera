@@ -1,7 +1,7 @@
 # tools/wp/box_checks.py
 """Live checks for the czeramaison.com Build your box page.
 Usage: WP_AUTH='user:app password' CZERA_BOX_ID=<id> python tools/wp/box_checks.py <check>"""
-import base64, json, os, sys, urllib.request, urllib.error
+import base64, http.cookiejar, json, os, sys, urllib.parse, uuid, urllib.request, urllib.error
 
 SITE = 'https://czeramaison.com'
 AUTH = 'Basic ' + base64.b64encode(os.environ['WP_AUTH'].encode()).decode()
@@ -48,7 +48,36 @@ def check_product():
     assert sorted(component_keys()) == ['Bathrobes', 'Towels'], component_keys()
     print('product OK', BOX_ID)
 
-CHECKS = {'plugins': check_plugins, 'product': check_product}
+def add_box(ids, times=1):
+    """Add the box `times` times in one session with a crafted wooco_ids string.
+    Returns the number of boxes in that session's cart."""
+    jar = http.cookiejar.CookieJar()
+    op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+    for _ in range(times):
+        data = urllib.parse.urlencode({'add-to-cart': BOX_ID, 'quantity': 1, 'wooco_ids': ids}).encode()
+        op.open(f'{SITE}/', data).read()
+    # nocache: LiteSpeed would otherwise serve a cached, empty cart for this REST route
+    cart = json.loads(op.open(f'{SITE}/wp-json/wc/store/v1/cart?nocache={uuid.uuid4().hex}').read())
+    return sum(i['quantity'] for i in cart['items'] if i['id'] == BOX_ID)
+
+def check_rules():
+    k = component_keys()
+    t, r = k['Towels'], k['Bathrobes']
+    cases = [
+        (f'63/2/{t},54/1/{r}', 1, 1),            # 2 bath towels + black robe -> added
+        (f'63/7/{t}', 1, 0),                      # 7 towels -> rejected
+        (f'51/3/{r}', 1, 0),                      # 3 robes -> rejected
+        (f'57/1/{t}', 1, 0),                      # 1 item -> rejected
+        (f'63/2/{t},25/1/{t}', 1, 0),             # foreign product (gift set) -> rejected
+        (f'63/2/{t},60/0/{t}', 1, 1),             # zero quantity ignored -> added
+        (f'63/2/{t}', 2, 2),                      # two valid boxes -> both added
+    ]
+    for ids, times, expected in cases:
+        got = add_box(ids, times)
+        assert got == expected, f'{ids} x{times}: expected {expected} box(es), got {got}'
+    print('rules OK')
+
+CHECKS = {'plugins': check_plugins, 'product': check_product, 'rules': check_rules}
 
 if __name__ == '__main__':
     CHECKS[sys.argv[1]]()
