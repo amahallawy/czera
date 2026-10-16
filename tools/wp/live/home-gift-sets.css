@@ -1,0 +1,93 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. */
+/* ---------- Gift sets (design: tabs + 4-column product cards) ---------- */
+/* Product names: Italiana, with digits in Montserrat ("3" in Italiana reads as "ȝ"). */
+@font-face {
+  font-family: "Czera Name Digits";
+  src: url("/wp-content/astra-local-fonts/montserrat/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2") format("woff2");
+  font-weight: 300 400;
+  font-display: swap;
+  unicode-range: U+0030-0039, U+0025;
+}
+
+.czera-gift-tabs .wp-block-spectra-tabs-child-tab-wrapper {
+  justify-content: center; gap: 32px !important; margin: 0 0 32px !important; padding: 0 !important;
+  background: transparent !important; border: 0 !important; border-bottom: 1px solid rgba(43, 43, 43, 0.12) !important;
+}
+.czera-gift-tabs :is(button.wp-block-spectra-tabs-child-tab-button, .default-tabs-child-tab-button) {
+  background: transparent !important; color: #6b6b6b !important;
+  border: 0 !important; border-bottom: 2px solid transparent !important; border-radius: 0 !important;
+  margin-bottom: -1px; padding: 0 0 12px !important; min-height: 0;
+  font-size: 11px !important; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+}
+.czera-gift-tabs :is(button.wp-block-spectra-tabs-child-tab-button, .default-tabs-child-tab-button):hover { color: #010100 !important; }
+.czera-gift-tabs :is(button.wp-block-spectra-tabs-child-tab-button[aria-selected="true"], .default-tabs-child-tab-button.spectra-block-is-active) { color: #010100 !important; border-bottom-color: #010100 !important; }
+.czera-gift-tabs .wp-block-spectra-tabs-child-tabpanel { border: 0 !important; padding: 0 !important; background: transparent !important; }
+
+/* Hide WooCommerce's empty notice placeholder; real messages (with text) still show. */
+.czera-products-grid > .wc-block-components-notices:not(:has(.wc-block-components-notice-banner__content span:not(:empty))) { display: none; }
+.czera-card-list,
+.czera-card-list.wc-block-product-template__responsive {
+  display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 32px 24px !important;
+  margin: 0 !important; padding: 0 !important; list-style: none;
+}
+.czera-card-list > li {
+  width: auto !important; max-width: none !important; margin: 0 !important; padding: 0 !important;
+  display: flex; flex-direction: column; gap: 4px; text-align: left !important; color: #2b2b2b;
+}
+.czera-card__media { margin: 0 !important; background: #e7e1d5; overflow: hidden; }
+.czera-card__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+.czera-card__name {
+  margin: 12px 0 0 !important; text-align: left !important;
+  font-family: "Czera Name Digits", "Italiana", serif !important; font-weight: 400 !important;
+  font-size: 21px !important; line-height: 1.3 !important; letter-spacing: 0 !important; color: #010100;
+}
+.czera-card__name a { color: inherit !important; text-decoration: none; }
+.czera-card__spec, .czera-card__spec p { margin: 0 !important; font-size: 12px !important; line-height: 1.5; color: #6b6b6b !important; text-align: left !important; }
+.czera-card__row { margin: 4px 0 0 !important; gap: 4px 12px !important; justify-content: space-between !important; align-items: center !important; }
+.czera-card__price { margin: 0 !important; font-size: 13px !important; font-weight: 500; letter-spacing: 0.03em; color: #010100 !important; text-align: left !important; }
+.czera-card__add { margin: 0 !important; text-align: right !important; }
+.czera-card__add .wp-block-button__link,
+.czera-card__add .button {
+  background: transparent !important; color: #8a5c12 !important; border: 0 !important; border-bottom: 1px solid currentColor !important;
+  border-radius: 0 !important; padding: 8px 0 1px !important; min-height: 0 !important; white-space: nowrap;
+  font-size: 11px !important; font-weight: 500 !important; letter-spacing: 0.18em !important; text-transform: uppercase !important;
+  line-height: 1 !important; box-shadow: none !important;
+}
+/* The label is the button's own text ("Add to bag", from the CZERA bag snippet); the arrow is decoration,
+   hidden from screen readers where alt text is supported (white-space: pre keeps its space in the flex
+   button). WooCommerce's loading dot and added tick on ::after are undone, loading only dims the button,
+   and the block's text slide after an add is instant, as the label stays the same. */
+.czera-card__add .wp-block-button__link::after,
+.czera-card__add .button::after,
+.czera-card__add :is(.wp-block-button__link, .button):is(.loading, .added)::after {
+  content: " ›"; content: " ›" / ""; display: inline; position: static; width: auto; height: auto; margin: 0;
+  background: none; border-radius: 0; animation: none; font-family: inherit; vertical-align: baseline; white-space: pre;
+}
+.czera-card__add :is(.wp-block-button__link, .button).loading { opacity: 0.5; }
+.czera-card__add .wc-block-components-product-button__button span { animation-duration: 1ms !important; }
+.czera-card__add .wp-block-button__link:hover,
+.czera-card__add .button:hover { color: #010100 !important; }
+/* The toast replaces the "View cart" link; its wrapper goes too, or the column gap jumps the card after an add. */
+.czera-card__add .added_to_cart { display: none !important; }
+.czera-card__add > span:has(> .added_to_cart) { display: none !important; }
+
+@media (max-width: 1024px) { .czera-card-list.wc-block-product-template__responsive { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 600px) {
+  .czera-card-list,
+  .czera-card-list.wc-block-product-template__responsive {
+    display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px !important; padding-bottom: 12px !important;
+  }
+  .czera-card-list > li { flex: 0 0 68%; scroll-snap-align: start; }
+}
+
+/* "See all gift sets ›" (design .link) */
+.czera-more { margin-top: 32px !important; width: 100%; }
+.czera-more a { color: #8a5c12; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.czera-more a:hover { color: #010100; }
+
+
+/* Phones and small tablets */
+@media (max-width: 781px) {
+  .czera-gift-tabs .wp-block-spectra-tabs-child-tab-wrapper { gap: 16px; }
+}
+/* ---------- end gift sets */

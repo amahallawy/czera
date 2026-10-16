@@ -24,7 +24,7 @@ TOWELS = [57, 60, 63, 66, 69, 72]
 ROBES = [51, 54]
 BOX_ID = int(os.environ.get('CZERA_BOX_ID', '210'))
 LIVE = Path(__file__).resolve().parent / 'live'
-SNIPPETS = {5: 'czera-box-rules.php', 8: 'czera-box-builder.php'}
+SNIPPETS = {5: 'czera-box-rules.php', 8: 'czera-box-builder.php', 9: 'czera-bag.php'}
 RETIRED = {6: 'CZERA box labels', 7: 'CZERA box keyboard'}
 
 _auth = None
@@ -156,7 +156,9 @@ def check_page():
         via = 'REST render; front end is behind coming-soon'
     for needle in ('czera-box-builder', 'Build your own box', 'Choose a colour', 'Choose your towels',
                    'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"',
-                   'data-box-toast', 'View bag ›'):
+                   # The toast markup itself comes from the "CZERA bag" snippet on wp_footer, which the
+                   # REST render does not run, so only the builder's call to it can be checked here.
+                   'czeraToast('):
         assert needle in html, f'{needle!r} missing from the page'
     # Guards the markup only: the REST render has no WooCommerce session, so no notice is ever
     # queued here. Whether an add shows the toast is checked in a browser.
@@ -169,6 +171,11 @@ def check_page():
     assert ids == sorted(TOWELS + ROBES), f'builder items {ids}, expected {sorted(TOWELS + ROBES)}'
     assert data['caps'] == {'towels': 6, 'bathrobes': 2} and data['min'] == 2, f'builder rules {data}'
     print(f'page OK ({via})')
+
+def reference_name(path):
+    """The snippet name in a tools/wp/live reference copy's header."""
+    first = path.read_text(encoding='utf-8').splitlines()[1]
+    return first.split('"')[1]
 
 def reference_code(path):
     """The snippet code in a tools/wp/live reference copy, without its header
@@ -184,7 +191,10 @@ def check_snippets():
         assert s is None or (s.get('trashed') and not s.get('active')), \
             f'retired snippet {sid} "{name}" is still in use; deactivate and trash it'
     for sid, name in SNIPPETS.items():
+        want = reference_name(LIVE / name)
+        assert sid in listed, f'snippet {sid} "{want}" is missing'
         s = api(f'/code-snippets/v1/snippets/{sid}')
+        assert s['name'] == want, f'snippet {sid} is "{s["name"]}", expected "{want}"'
         assert s['active'] is True, f'snippet {sid} "{s["name"]}" is not active'
         live = s['code'].replace('\r\n', '\n').strip()
         assert live == reference_code(LIVE / name), \

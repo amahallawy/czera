@@ -35,6 +35,9 @@ that section into a version.
   button and a clear-selection button. The box reaches the bag as one line with
   its contents listed. The box rules are checked on the server, and the cart
   API is no longer cached. Live checks in `tools/wp/box_checks.py`.
+- WordPress store (czeramaison.com): product buttons read "Add to bag" for
+  screen readers too and keep their font after adding; every add to the bag
+  shows the CZERA toast with View bag.
 
 ## [1.0.0] — 2026-10-15
 
