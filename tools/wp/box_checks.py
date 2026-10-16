@@ -24,7 +24,8 @@ TOWELS = [57, 60, 63, 66, 69, 72]
 ROBES = [51, 54]
 BOX_ID = int(os.environ.get('CZERA_BOX_ID', '210'))
 LIVE = Path(__file__).resolve().parent / 'live'
-SNIPPETS = {5: 'czera-box-rules.php', 6: 'czera-box-labels.php', 7: 'czera-box-keyboard.php', 8: 'czera-box-builder.php'}
+SNIPPETS = {5: 'czera-box-rules.php', 8: 'czera-box-builder.php'}
+RETIRED = {6: 'CZERA box labels', 7: 'CZERA box keyboard'}
 
 _auth = None
 
@@ -172,6 +173,10 @@ def reference_code(path):
     return text.partition('\n\n')[2].strip()
 
 def check_snippets():
+    listed = {s['id']: s for s in api('/code-snippets/v1/snippets')}
+    for sid, name in RETIRED.items():
+        s = listed.get(sid)
+        assert s is None or (s.get('trashed') and not s.get('active')),             f'retired snippet {sid} "{name}" is still in use; deactivate and trash it'
     for sid, name in SNIPPETS.items():
         s = api(f'/code-snippets/v1/snippets/{sid}')
         assert s['active'] is True, f'snippet {sid} "{s["name"]}" is not active'
