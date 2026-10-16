@@ -121,9 +121,10 @@ add_shortcode( 'czera_box_builder', function () {
 	// notice becomes the CZERA toast; every other notice (errors, or a success left over from another
 	// page) shows inline above step 1.
 	// Clearing them stops WooCommerce printing its own notice box anywhere else on the page.
-	$added    = false;
-	$removed  = false;
-	$messages = [];
+	$added      = false;
+	$removed    = false;
+	$remove_url = '';
+	$messages   = [];
 	if ( function_exists( 'WC' ) && WC()->session ) {
 		$added   = (bool) WC()->session->get( 'czera_box_added' );
 		$restore = WC()->session->get( 'czera_box_removed' );
@@ -132,15 +133,14 @@ add_shortcode( 'czera_box_builder', function () {
 		WC()->session->set( 'czera_box_removed', null );
 		$box  = wc_get_product( $cfg['box_id'] );
 		$name = $box ? $box->get_name() : '';
-		// The last box line in the bag, if any: the builder shows it, locked. The remove URL carries
-		// WooCommerce's nonce; WooCommerce removes the line on wp_loaded and comes back here.
+		// The last box line in the bag, if any: the builder shows it, locked. Its remove URL carries
+		// WooCommerce's nonce and is printed once, as the link's href; WooCommerce removes the line on
+		// wp_loaded and comes back here.
 		if ( WC()->cart ) {
 			foreach ( WC()->cart->get_cart() as $cart_key => $line ) {
 				if ( (int) ( $line['product_id'] ?? 0 ) === $cfg['box_id'] ) {
-					$data['inBag'] = [
-						'ids'    => is_string( $line['wooco_ids'] ?? null ) ? $line['wooco_ids'] : '',
-						'remove' => esc_url_raw( wc_get_cart_remove_url( $cart_key ) ),
-					];
+					$data['inBag'] = [ 'ids' => is_string( $line['wooco_ids'] ?? null ) ? $line['wooco_ids'] : '' ];
+					$remove_url    = wc_get_cart_remove_url( $cart_key );
 				}
 			}
 		}
@@ -196,7 +196,7 @@ add_shortcode( 'czera_box_builder', function () {
 			<figure class="box-frame box-frame--main"><?php echo $image; ?></figure>
 			<form class="box-preview__body" method="post" action="<?php echo esc_url( home_url( '/build-your-box/' ) ); ?>" data-box-form>
 				<div class="box-preview__head"><h2>Your box</h2><span class="box-preview__status" data-status aria-hidden="true"<?php echo $locked ? '' : ' hidden'; ?>>In your bag</span><button type="button" class="box-clear" data-clear disabled>Clear selection</button></div>
-				<p class="box-locked-note" id="czera-box-locked-note" hidden>This box is in your bag. Remove it to change it.</p>
+				<p class="box-locked-note czera-box-sr" id="czera-box-locked-note"<?php echo $locked ? '' : ' hidden'; ?>>This box is in your bag. Remove it to change it.</p>
 				<ul data-summary id="czera-box-contents"></ul>
 				<button type="button" class="box-preview__toggle" data-contents-toggle aria-expanded="false" aria-controls="czera-box-contents">Show contents</button>
 				<div aria-live="polite" aria-atomic="true" class="box-preview__live">
@@ -208,7 +208,8 @@ add_shortcode( 'czera_box_builder', function () {
 				<input type="hidden" name="quantity" value="1">
 				<input type="hidden" name="wooco_ids" value="" data-ids>
 				<button type="submit" class="btn btn--ink btn--block" data-add-box disabled<?php echo $locked ? ' hidden' : ''; ?>>Add box to bag</button>
-				<a class="btn btn--ink btn--block" data-remove-box href="<?php echo $locked ? esc_url( $data['inBag']['remove'] ) : '#'; ?>"<?php echo $locked ? '' : ' hidden'; ?>>Remove box from bag</a>
+				<?php // nofollow, data-no-instant and no-prefetch: link prefetchers must never follow the remove URL. ?>
+				<a class="btn btn--ink btn--block no-prefetch" rel="nofollow" data-no-instant data-remove-box href="<?php echo $locked ? esc_url( $remove_url ) : '#'; ?>"<?php echo $locked ? '' : ' hidden'; ?>>Remove box from bag</a>
 			</form>
 		</aside>
 	</div>
@@ -229,20 +230,25 @@ add_shortcode( 'czera_box_builder', function () {
 	const qty = {};
 	items.forEach(p => { qty[p.id] = 0; });
 	// Read a box's wooco_ids ("id/qty/componentKey,...") the way the server does: clean it, skip
-	// quantities of 0 or less, and keep only this builder's products.
+	// quantities of 0 or less, and keep only this builder's products. Returns how many parts name a
+	// product the builder no longer offers.
 	function fill(ids) {
+		let missing = 0;
 		String(ids || '').replace(/[^,.%\/0-9a-zA-Z]/g, '').split(',').filter(Boolean).forEach(part => {
 			const bits = part.split('/');
 			const n = parseFloat(bits[1] === undefined ? '1' : bits[1]) || 0;
 			const p = items.find(x => String(x.id) === String(parseInt(bits[0], 10)));
-			if (p && n > 0) qty[p.id] += n;
+			if (n <= 0) return;
+			if (p) qty[p.id] += n;
+			else missing++;
 		});
+		return missing;
 	}
 	// A box in the bag: show it, locked, until "Remove box from bag" takes it out. A box just removed
 	// (and none left): refill its choices, unlocked.
 	const locked = !!data.inBag;
-	if (locked) fill(data.inBag.ids);
-	else if (data.restore) fill(data.restore);
+	const unavailable = locked ? fill(data.inBag.ids) : 0;
+	if (!locked && data.restore) fill(data.restore);
 	const NOTE = 'czera-box-locked-note';
 	let colour = 'white';
 	// Start on a colour whose towels are in the box, so they show straight away.
@@ -293,9 +299,12 @@ add_shortcode( 'czera_box_builder', function () {
 		});
 		const chosen = items.filter(p => qty[p.id] > 0);
 		const removeBtn = p => locked ? '' : `<button type="button" class="box-remove" data-remove="${p.id}" aria-label="Remove ${esc(lineName(p))}">×</button>`;
-		$('[data-summary]').innerHTML = chosen.length
-			? chosen.map(p => `<li><span class="box-line__name">${qty[p.id]} × ${esc(lineName(p))}</span><span>${egp(qty[p.id] * p.price)}</span>${removeBtn(p)}</li>`).join('')
-			: '<li class="box-empty">Nothing chosen yet.</li>';
+		const lines = chosen.map(p => `<li><span class="box-line__name">${qty[p.id]} × ${esc(lineName(p))}</span><span>${egp(qty[p.id] * p.price)}</span>${removeBtn(p)}</li>`);
+		// A box in the bag can name a product the builder no longer offers: say so rather than drop it.
+		if (locked && unavailable > 0) {
+			lines.push(`<li class="box-empty">${unavailable === 1 ? '1 item in this box is' : `${unavailable} items in this box are`} no longer available.</li>`);
+		}
+		$('[data-summary]').innerHTML = lines.length ? lines.join('') : '<li class="box-empty">Nothing chosen yet.</li>';
 		const n = count('towels') + count('bathrobes');
 		const total = chosen.reduce((t, p) => t + qty[p.id] * p.price, 0);
 		$('[data-piece-count]').textContent = `Total · ${n} ${n === 1 ? 'piece' : 'pieces'}`;
@@ -407,7 +416,9 @@ add_shortcode( 'czera_box_builder', function () {
 	// this script, so ask once the page is parsed; it then waits for load + 300 ms itself. Without the
 	// "CZERA bag" snippet there is no toast.
 	const message = root.dataset.boxAdded ? 'Your box was added to your bag'
-		: root.dataset.boxRemoved ? 'Your box was removed from your bag' : '';
+		: root.dataset.boxRemoved
+			? (locked ? 'Your box was removed. Another box is still in your bag.' : 'Your box was removed from your bag')
+			: '';
 	if (message) {
 		const announce = () => {
 			if (typeof window.czeraToast === 'function') window.czeraToast(message);
@@ -415,12 +426,22 @@ add_shortcode( 'czera_box_builder', function () {
 		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', announce, { once: true });
 		else announce();
 	}
-	// Locked, the panel's live region also says "In your bag", once the page has loaded (a live region
-	// filled while the page loads is not announced), after the toast.
+	// Locked, the panel's live region also says "In your bag. Remove it to change it.", once the page
+	// has loaded (a live region filled while the page loads is not announced), after the toast.
 	if (locked) {
-		const say = () => setTimeout(() => { $('[data-status-sr]').textContent = 'In your bag.'; }, 600);
+		const say = () => setTimeout(() => { $('[data-status-sr]').textContent = 'In your bag. Remove it to change it.'; }, 600);
 		if (document.readyState === 'complete') say();
 		else window.addEventListener('load', say, { once: true });
+		// A removal from the slide-in bag (WooCommerce's AJAX remove, or the blocks' Store API remove)
+		// does not come back here, so reload: the page then locks to the next box or unlocks.
+		// jQuery loads in the footer, after this script, so bind once the page is parsed.
+		const reload = () => window.location.reload();
+		const bind = () => {
+			if (window.jQuery) window.jQuery(document.body).on('removed_from_cart', reload);
+			document.body.addEventListener('wc-blocks_removed_from_cart', reload);
+		};
+		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, { once: true });
+		else bind();
 	}
 })();
 </script>
