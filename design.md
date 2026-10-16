@@ -209,8 +209,8 @@ Fixed, 88px tall. Transparent with ivory text over the hero film, then
 translucent ivory (`rgba(244, 242, 236, 0.94)` + backdrop blur) once
 scrolled and on every page without a hero. Three zones at **every
 screen size**: menu button left ("☰ MENU", small caps), wordmark
-centred, bag right ("BAG" + gold count circle). Below 480px both
-labels drop and only the icons show. There is **no inline nav**: the
+centred, bag right ("BAG" + gold count circle). At 480px and below
+both labels drop and only the icons show. There is **no inline nav**: the
 header carries only the brand and two controls (changed 2026-10-16,
 amahallawy/czera#48).
 
@@ -435,7 +435,9 @@ Non-negotiables:
 - `prefers-reduced-motion` respected (see §7).
 - Slide-in panels (menu, bag) are modal: the page behind is `inert`
   while one is open, Esc closes it, and focus returns to the button
-  that opened it. One `nav` landmark labelled "Primary" per page.
+  that opened it. One `nav` landmark labelled "Primary" per page; it
+  lives in the menu panel, so it is exposed only while the menu is
+  open (the Menu button's `aria-expanded` / `aria-controls` point to it).
 
 ---
 
