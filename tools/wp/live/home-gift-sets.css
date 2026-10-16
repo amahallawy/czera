@@ -68,7 +68,8 @@
 .czera-card__add .wp-block-button__link:hover,
 .czera-card__add .button:hover { color: #010100 !important; }
 /* The toast replaces the "View cart" link; its wrapper goes too, or the column gap jumps the card after an add. */
-.czera-card__add .added_to_cart, .czera-card__add > span:has(> .added_to_cart) { display: none !important; }
+.czera-card__add .added_to_cart { display: none !important; }
+.czera-card__add > span:has(> .added_to_cart) { display: none !important; }
 
 @media (max-width: 1024px) { .czera-card-list.wc-block-product-template__responsive { grid-template-columns: repeat(2, 1fr) !important; } }
 @media (max-width: 600px) {
@@ -89,3 +90,4 @@
 @media (max-width: 781px) {
   .czera-gift-tabs .wp-block-spectra-tabs-child-tab-wrapper { gap: 16px; }
 }
+/* ---------- end gift sets */

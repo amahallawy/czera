@@ -50,11 +50,21 @@ add_filter( 'woocommerce_loop_add_to_cart_args', function ( $args, $product = nu
 	return $args;
 }, 10, 2 );
 
-// The product button block (Home gift sets) swaps its text to "1 in cart" once the product is in the
-// bag. The CZERA buttons always read "Add to bag", as they did when CSS drew the label.
+// WooCommerce's "%s in cart" string reads "Add to bag" wherever it is used. The product button block
+// (Home gift sets) shows it once the product is in the bag; the CZERA buttons always read "Add to bag",
+// as they did when CSS drew the label.
 add_filter( 'gettext', function ( $translation, $text, $domain ) {
 	return '%s in cart' === $text && 'woocommerce' === $domain ? 'Add to bag' : $translation;
 }, 10, 3 );
+
+// The toast announces each add, so the product blocks' cart store (which speaks this text through
+// @wordpress/a11y, and skips it when empty) says nothing: one announcement per add, and none says "cart".
+add_filter( 'script_module_data_@wordpress/interactivity', function ( $data ) {
+	if ( isset( $data['config']['woocommerce']['messages']['addedToCartText'] ) ) {
+		$data['config']['woocommerce']['messages']['addedToCartText'] = '';
+	}
+	return $data;
+}, 20 );
 
 // After the footer scripts (priority 20), so jQuery and WooCommerce's add-to-cart script are there.
 add_action( 'wp_footer', function () {
@@ -62,12 +72,14 @@ add_action( 'wp_footer', function () {
 		return;
 	}
 	?>
-<div class="czera-toast" data-czera-toast role="status" hidden><span data-czera-toast-text></span> <button type="button" class="czera-toast__link" data-czera-toast-bag data-cart-url="<?php echo esc_url( wc_get_cart_url() ); ?>">View bag ›</button></div>
+<span class="czera-toast__sr" data-czera-toast-sr role="status"></span>
+<div class="czera-toast" data-czera-toast hidden><span data-czera-toast-text></span> <button type="button" class="czera-toast__link" data-czera-toast-bag data-cart-url="<?php echo esc_url( wc_get_cart_url() ); ?>">View bag ›</button></div>
 <script>
 (function () {
 	const toast = document.querySelector('[data-czera-toast]');
 	if (!toast || window.czeraToast) return;
 	const text = toast.querySelector('[data-czera-toast-text]');
+	const sr = document.querySelector('[data-czera-toast-sr]');
 	const toBag = toast.querySelector('[data-czera-toast-bag]');
 	let shown = 0;
 	// "View bag" presses the header's own Bag link, so Astra opens the same slide-in bag
@@ -79,18 +91,34 @@ add_action( 'wp_footer', function () {
 			return;
 		}
 		link.click();
-		toast.hidden = true;
+		// Move focus into the bag (its close button, once the slide-in has made it visible), else onto
+		// the header Bag link, then hide the toast: focus never falls back to the page.
+		const started = Date.now();
+		const settle = () => {
+			const close = Array.from(document.querySelectorAll('.astra-cart-drawer.active .astra-cart-drawer-close'))
+				.find(c => c.offsetParent && getComputedStyle(c).visibility === 'visible');
+			if (!close && Date.now() - started < 1000) {
+				setTimeout(settle, 50);
+				return;
+			}
+			(close || link).focus();
+			toast.hidden = true;
+		};
+		settle();
 	});
-	// Shown 12px under the header as it is now, for 3.5 s. The text goes in a frame after the toast
-	// is shown, so screen readers announce it. Called before load, it waits for load + 300 ms,
-	// so the header has settled.
+	// Shown 12px under the header as it is now, for 3.5 s. Screen readers hear it from the status
+	// region, which is always on the page: emptied, then filled 100 ms later, so a repeated message is
+	// announced again. Called before load, it waits for load + 300 ms, so the header has settled.
 	function show(message) {
 		const run = ++shown;
 		const head = Array.from(document.querySelectorAll('#masthead .ast-primary-header-bar')).find(h => h.offsetHeight);
 		if (head) toast.style.top = Math.max(0, head.getBoundingClientRect().bottom) + 12 + 'px';
-		text.textContent = '';
+		text.textContent = message;
 		toast.hidden = false;
-		requestAnimationFrame(() => { text.textContent = message; });
+		if (sr) {
+			sr.textContent = '';
+			setTimeout(() => { if (run === shown) sr.textContent = message; }, 100);
+		}
 		// Never pull the toast out from under keyboard focus: wait until focus leaves it.
 		const hide = () => {
 			if (run !== shown) return;
@@ -103,12 +131,15 @@ add_action( 'wp_footer', function () {
 		if (document.readyState === 'complete') show(message);
 		else window.addEventListener('load', () => setTimeout(() => show(message), 300), { once: true });
 	};
-	// One add, one toast, whichever event reports it.
+	// One add, one toast, whichever event reports it. Without a name from the button, a product page
+	// names its own product.
 	let last = 0;
 	const added = name => {
 		const now = Date.now();
 		if (now - last < 250) return;
 		last = now;
+		const title = document.querySelector('.product_title');
+		name = name || (title ? title.textContent.trim() : '');
 		window.czeraToast(name ? `${name} added to your bag` : 'Added to your bag');
 	};
 	if (window.jQuery) {
