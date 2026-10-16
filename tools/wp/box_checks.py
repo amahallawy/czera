@@ -155,8 +155,10 @@ def check_page():
         html = api('/wp/v2/pages?slug=build-your-box')[0]['content']['rendered']
         via = 'REST render; front end is behind coming-soon'
     for needle in ('czera-box-builder', 'Build your own box', 'Choose a colour', 'Choose your towels',
-                   'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"'):
+                   'Choose your bathrobes', 'Clear selection', 'Add box to bag', 'name="wooco_ids"',
+                   'data-box-toast', 'View bag ›'):
         assert needle in html, f'{needle!r} missing from the page'
+    assert 'woocommerce-message' not in html, "WooCommerce's notice box is still on the page; the CZERA toast replaces it"
     assert f'name="add-to-cart" value="{BOX_ID}"' in html, 'the builder form does not post the box product'
     assert 'czera-box-intro' not in html, 'the old Spectra intro is still on the page'
     assert 'wooco-wrap' not in html, "the plugin's own picker is still on the page"
