@@ -486,10 +486,12 @@ Section-by-section choices are in the
 [showroom spec](docs/superpowers/specs/2026-10-13-czera-showroom-design.md).
 
 ### Home (`index.html`)
-Editorial, chapter-paced, in seven blocks: hero film, shop by category
-(editorial grid, gift sets lead), gift sets (two tabs), Build Your Own
-Box (dark band), our story (text over image), the four promises with a
-photo strip, how to order (three steps) + footer. Goal: a first-time
+Editorial, chapter-paced, in seven blocks: hero film, our story (text
+over image), shop by category (editorial grid, gift sets lead), gift
+sets (two tabs), Build Your Own Box (dark band), the four promises with
+a photo strip, how to order (three steps) + footer. The story leads
+the page and About leads the menu (client request, 2026-10-17,
+amahallawy/czera#68). Goal: a first-time
 visitor sees the range, the prices and how to order within one scroll.
 
 ### Collection (`catalog.html`)

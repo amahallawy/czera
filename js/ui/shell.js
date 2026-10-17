@@ -11,8 +11,10 @@ const BAG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 
 function navLinks(cls) {
   const a = (href, text) => `<a class="${cls}" href="${href}">${escapeHtml(text)}</a>`;
-  return CATEGORIES.map(c => a(`catalog.html?category=${c.id}`, c.navLabel)).join('')
-    + a('build-your-box.html', 'Build your box') + a('about.html', 'About');
+  // About leads (client request, #68), then the categories and the box builder.
+  return a('about.html', 'About')
+    + CATEGORIES.map(c => a(`catalog.html?category=${c.id}`, c.navLabel)).join('')
+    + a('build-your-box.html', 'Build your box');
 }
 
 // Menu button left, wordmark centred, bag right, on every screen size. The

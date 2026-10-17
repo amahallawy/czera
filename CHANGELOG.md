@@ -8,6 +8,9 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home: "Our story" now comes straight after the hero, and About is the first
+  item in the side menu (client request).
+
 - WordPress store (czeramaison.com): the header now matches the CZERA design:
   Menu on the left, the wordmark centred and the bag on the right on every
   screen size, with the menu in a slide-in panel.
