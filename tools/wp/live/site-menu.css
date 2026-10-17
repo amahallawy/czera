@@ -4,6 +4,30 @@
    the button is the [czera_menu_toggle] shortcode in Astra's HTML 1 header element. It opens the
    site's only primary nav, a panel from the inline start over a dimmed backdrop, printed on wp_footer
    by the "CZERA menu" snippet: above the sticky header and the bag toast, under the admin bar. */
+
+/* Header frame as in the showroom: an 88px row (also once sticky) on the 1320px container with the
+   showroom gutter, and the wordmark on the page's centre line at the showroom's visible size. The
+   WordPress wordmark files are cropped tighter than the showroom's, so these widths give the same
+   glyph widths: light 67px (52px at 899px and below), gold 56px (44px). */
+#masthead .site-primary-header-wrap.ast-container { max-width: 1320px; padding-inline: clamp(16px, 4vw, 48px); }
+#masthead .ast-primary-header-bar { padding-block: 0; border-bottom-color: #a3a099; }
+/* The mobile header has no inner container: its bar carries the gutter. */
+.ast-header-break-point #masthead .ast-primary-header-bar.main-header-bar { padding: 0 clamp(16px, 4vw, 48px); }
+#masthead .ast-primary-header-bar .site-primary-header-wrap,
+#masthead .ast-primary-header-bar.site-primary-header-wrap { min-height: 88px; }
+#masthead .ast-primary-header-bar .site-branding { padding-block: 0; }
+#masthead .site-header-primary-section-center .site-logo-img { padding-inline-end: 0; }
+.ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 71.4px; max-width: none; height: auto; }
+#masthead .ast-primary-header-bar .site-logo-img .custom-logo-link:not(.transparent-custom-logo) img,
+#masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 64.4px; max-width: none; height: auto; }
+@media (max-width: 899px) {
+  .ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 55.5px; }
+  #masthead .ast-primary-header-bar .site-logo-img .custom-logo-link:not(.transparent-custom-logo) img,
+  #masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 50px; }
+}
+
+/* Menu button. Its HTML 1 wrapper centres it: once sticky, Astra gives the wrapper a taller line box. */
+#masthead .ast-header-html-1 .ast-builder-html-element { display: flex; align-items: center; }
 .ast-primary-header-bar button.czera-menu-toggle {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-width: 44px; min-height: 44px; margin: 0; padding: 0 8px;

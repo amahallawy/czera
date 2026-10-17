@@ -13,13 +13,13 @@
   --gutter: clamp(16px, 4vw, 48px);
   --border-hairline: 1px solid #d8c28a; --border-divider: 1px solid rgba(43, 43, 43, 0.12);
   --font-display: "Italiana", "Didot", "Bodoni 72", "Times New Roman", serif;
-  --czera-box-top: 125px; /* sticky header is 109px once scrolled, + 16px */
+  --czera-box-top: 105px; /* sticky header is 89px once scrolled (88px + its 1px rule), + 16px */
   max-width: 1320px; margin-inline: auto; padding-inline: var(--gutter);
   color: var(--color-ink); font-size: var(--fs-base); line-height: var(--lh-base);
 }
 /* Astra's full-width layout sets max-width: none on .entry-content > * (0,3,0); this outranks it. */
 body .entry-content[data-ast-blocks-layout] > .czera-box-builder { max-width: 1320px; }
-.admin-bar .czera-box-builder { --czera-box-top: 157px; }
+.admin-bar .czera-box-builder { --czera-box-top: 137px; }
 /* Errors and other notices, inline above step 1. WooCommerce's own button styling is undone. */
 .czera-box-builder .czera-box-messages { display: grid; gap: var(--space-2); padding-block-start: var(--space-5); }
 .czera-box-builder .czera-box-messages p {
