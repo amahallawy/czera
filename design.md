@@ -217,7 +217,7 @@ amahallawy/czera#48).
 **Slide-in menu.** The site's only primary nav, on every screen size.
 Opens from the inline start (left in English, right in Arabic) so the
 bag panel keeps the other side; a dimmed backdrop covers the page. It
-lists the four categories, Build your box and About in large light
+lists About, the four categories and Build your box in large light
 type with hairline rules. It is a modal dialog: focus moves to its
 close button, the page behind is `inert`, and Esc, the close button,
 the backdrop or a link closes it and returns focus to the menu button.

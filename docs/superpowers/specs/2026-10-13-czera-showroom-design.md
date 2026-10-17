@@ -79,7 +79,8 @@ until the client supplies new photos.
 
 ## 4. Home (`index.html`)
 
-Order changed 2026-10-17 (client request, amahallawy/czera#68): Our story now follows the hero, and About is the first menu item.
+Order changed 2026-10-17 (client request, amahallawy/czera#68): Our story
+now follows the hero, and About is the first menu item.
 
 | # | Section | Choice |
 |---|---|---|
