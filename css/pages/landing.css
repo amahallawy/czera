@@ -84,6 +84,15 @@ video.hero__media {
   gap: var(--space-3);
   margin-block-start: var(--space-2);
 }
+/* How ordering works, stated once in the first screen (details in How to order). */
+.hero__note {
+  margin: 0;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-on-dark);
+  opacity: 0.85;
+}
+.hero__note span { white-space: nowrap; }   /* wraps at the dot, never mid-phrase */
 
 /* Play / pause control for the film (shown by home.js; keeps a >= 44px target). */
 .hero__play {
@@ -166,9 +175,14 @@ video.hero__media {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom,
-    transparent 45%,
-    color-mix(in srgb, var(--color-ink-strong) 55%, transparent) 100%);
+  /* A fixed-height shade anchored to the label, not a percentage of the tile:
+   * on white towels a 45%→55% fade left the labels near 1.3–2.4:1. Same
+   * stops as the WordPress build, measured there at 5.0–5.9:1. */
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--color-ink-strong) 88%, transparent) 0,
+    color-mix(in srgb, var(--color-ink-strong) 84%, transparent) 60px,
+    color-mix(in srgb, var(--color-ink-strong) 55%, transparent) 120px,
+    transparent 200px);
 }
 .cat-tile__label {
   position: absolute;
@@ -184,7 +198,6 @@ video.hero__media {
   font-size: var(--fs-2xs);
   letter-spacing: var(--ls-widest);
   text-transform: uppercase;
-  opacity: 0.9;
 }
 .cat-tile__label b {
   font-weight: 300;
@@ -301,6 +314,11 @@ video.hero__media {
   text-align: center;
   gap: var(--space-4);
 }
+/* Desktop: ivory air between the hero film and the story photo, so the page
+ * reads hero → pause → chapter instead of two images cut together (§5.2). */
+@media (min-width: 769px) {
+  .chapter--story { margin-block-start: clamp(var(--space-7), 6vw, var(--space-9)); }
+}
 [dir="rtl"] .chapter--story .chapter__media { background-position: right center; }
 [dir="rtl"] .chapter--story .chapter__scrim { transform: scaleX(-1); }
 
@@ -314,7 +332,15 @@ video.hero__media {
 }
 .chapter__content .eyebrow { display: inline-block; }
 .chapter__content .brand-crown { margin: var(--space-2) 0 0; }
-.chapter__content .chapter__link { margin-block-start: var(--space-3); }
+/* The story ends on two ways on: more about Czera, or straight to the gifts. */
+.chapter__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3) var(--space-6);
+  margin-block-start: var(--space-3);
+}
+.chapter__links .chapter__link { margin-block-start: 0; }
 
 .chapter__title {
   font-size: clamp(2rem, 5vw, var(--fs-3xl));
@@ -460,7 +486,7 @@ video.hero__media {
   color: var(--color-ink-mute);
 }
 .how__bulk {
-  max-width: 900px;
+  max-width: 65ch;
   margin: 0 auto;
   padding-block-start: var(--space-5);
   border-top: var(--border-divider);
@@ -532,4 +558,14 @@ video.hero__media {
   .hero__actions .btn { width: 100%; justify-content: center; text-align: center; }
   .promise-list { grid-template-columns: 1fr 1fr; gap: var(--space-5) var(--space-4); }
   .chapter__title { font-size: clamp(1.75rem, 8vw, 2.5rem); }
+  /* Phones: the story sits between the hero and the first prices, so it
+   * stays short: a wider, shallower photo and no pull-quote. */
+  .chapter--story { padding-block-end: var(--space-5); }
+  .chapter--story .chapter__title { text-wrap: balance; }
+  .chapter--story .chapter__title br { display: none; }   /* let the line set naturally */
+  .chapter--story .chapter__media { aspect-ratio: 2 / 1; }
+  .chapter--story .chapter__content { padding-block-start: var(--space-6); gap: var(--space-3); }
+  .chapter--story .chapter__pullquote { display: none; }
+  /* 44px tap targets for the two story links; text stays on its underline. */
+  .chapter__links .chapter__link { min-block-size: 44px; align-items: flex-end; }
 }

@@ -694,9 +694,8 @@ body.menu-open { overflow: hidden; }
 }
 .footer__tag {
   margin: var(--space-2) 0 var(--space-4);
-  font-size: var(--fs-2xs);
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
   color: var(--color-gold);
 }
 .footer__about {
