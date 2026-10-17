@@ -61,8 +61,8 @@ until the client supplies new photos.
 
 ## 3. Site-wide
 
-- **Navigation**: Towels · Bathrobes · Beach · Gift sets · Build your box ·
-  About, in a **slide-in menu** opened by a "Menu" button on the left, on
+- **Navigation**: About · Towels · Bathrobes · Beach · Gift sets · Build
+  your box, in a **slide-in menu** opened by a "Menu" button on the left, on
   every screen size. The CZERA wordmark is **centred**; the **bag icon and
   item count** sit on the right. (Changed 2026-10-16, amahallawy/czera#48:
   the inline nav beside a left-aligned logo was replaced. See `design.md`
@@ -79,13 +79,16 @@ until the client supplies new photos.
 
 ## 4. Home (`index.html`)
 
+Order changed 2026-10-17 (client request, amahallawy/czera#68): Our story
+now follows the hero, and About is the first menu item.
+
 | # | Section | Choice |
 |---|---|---|
 | 1 | Hero | **A**: existing 30s film full-bleed; headline "The hotel experience, at home." bottom-left; buttons "Shop the collection" and "Build your own box". |
-| 2 | Shop by category | **B**: editorial grid. Large Gift sets tile (8 sets, from 1,410 EGP), Towels and Bathrobes tiles, Beach as a wide band. Each tile opens the Collection with that category selected. |
-| 3 | Gift sets | **B**: grouped by occasion with tabs. **Two tabs of four** (assumed, see §11): *For the home* (Complete Set, 3 Bath Towels, 3 Bath Sheets, Hand & Bath Sheet) and *Robes & beach* (His & Hers, both Robe & Beach sets, Beach Towel Set). |
-| 4 | Build your own box | **C**: dark band in the black-box look; four steps (box, towels, colour, ribbon); gold "Start your box" button. |
-| 5 | Our story | **A**: keep the existing text-over-image layout (PR #2); catalogue photo; copy from catalogue p2/p6 ("The hotel experience, brought home", "It's all in the details"). |
+| 2 | Our story | **A**: keep the existing text-over-image layout (PR #2); catalogue photo; copy from catalogue p2/p6 ("The hotel experience, brought home", "It's all in the details"). |
+| 3 | Shop by category | **B**: editorial grid. Large Gift sets tile (8 sets, from 1,410 EGP), Towels and Bathrobes tiles, Beach as a wide band. Each tile opens the Collection with that category selected. |
+| 4 | Gift sets | **B**: grouped by occasion with tabs. **Two tabs of four** (assumed, see §11): *For the home* (Complete Set, 3 Bath Towels, 3 Bath Sheets, Hand & Bath Sheet) and *Robes & beach* (His & Hers, both Robe & Beach sets, Beach Towel Set). |
+| 5 | Build your own box | **C**: dark band in the black-box look; four steps (box, towels, colour, ribbon); gold "Start your box" button. |
 | 6 | Material & craft | **B**: four icon promises as in the catalogue (100% cotton, Highly absorbent, Long-lasting, Hotel quality with 650+ GSM / 1200 GSM) plus a four-photo strip. |
 | 7 | How to order + footer | **B**: three steps: *Add to bag* → *Send your bag on WhatsApp* → *We confirm and deliver*; one line for bulk and corporate orders; then the footer. |
 
