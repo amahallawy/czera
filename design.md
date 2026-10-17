@@ -235,7 +235,9 @@ bringing back an inline nav beside the centred wordmark.
 Full viewport, the 30s brand film as background. Headline bottom-left
 ("The hotel experience, at home."), a one-line fact line, and two
 actions: "Shop the collection" (light filled) and "Build your own box"
-(outline). Nothing else on the film.
+(outline). Under the buttons, one small line says how ordering works:
+"Order on WhatsApp · Delivery across Egypt in 2–5 days" (each phrase
+kept whole when it wraps). Nothing else on the film.
 
 ### 6.3 Promises (replaces the old value strip)
 
@@ -255,7 +257,7 @@ The landing's narrative engine. Five chapter shapes:
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
 | `chapter--editorial` | Heading row + 3-column entries (no card chrome). Unused while the Journal is off the site. | Light |
 | Build-your-box band | Near-black band in the black-gift-box look: copy and four numbered steps on one side, gift-box photo on the other, one gold button. Used on Home and as the break in the Collection grid. | Dark |
-| `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. Stacks (image over copy) below 768px. | Light |
+| `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. On desktop it sits one ivory pause below the hero (`margin-block-start`), so the film and the photo never meet in a hard cut. Stacks (image over copy) at 768px and below; on phones it stays short because it sits before the first prices: a 2:1 photo, no pull-quote, balanced title lines. Ends on two text links, "About Czera ›" and "See the gift sets ›". | Light |
 
 Each chapter starts with `<span class="eyebrow">…</span>`, then the
 crown mark, then the title, then the body. Skipping the eyebrow makes
@@ -283,11 +285,13 @@ divider between rows. Reads like a Frette product fact-sheet.
 ### 6.7 Footer
 
 Dark. Four columns: brand block (wordmark, "Luxury towels & bath
-essentials", one line) / Shop / Help (How to order, Sizes & care,
+essentials" in gold sentence case, one line) / Shop / Help (How to order, Sizes & care,
 Delivery, About) / Contact (WhatsApp, Instagram, Facebook, plus an
 "Order on WhatsApp" outline button). Bottom row: © line and the
 English · العربية switch. No newsletter form (the site has nowhere to
 send it). On Home it sits under the three-step "How to order" band.
+Column headings are `h2` (small caps by style), so the page's heading
+order never skips a level.
 
 ### 6.8 Product card
 
@@ -342,6 +346,16 @@ photo, the running item list, the total, "Box and ribbon included
 free", and "Add box to bag". The preview stays in view; on phones it
 becomes a total bar pinned to the bottom (the one allowed exception
 to §14's sticky-bar rule).
+
+### 6.14 Category tiles (Home)
+
+Photo tiles with a bottom-left label: meta line (count · from price),
+name, "Shop …" link, ivory on the photo. The shade behind the label is a
+fixed-height gradient anchored to the tile's bottom edge (88% ink at 0,
+84% at 60px, 55% at 120px, clear by 200px), not a percentage of the
+tile, so it covers the label the same way on every tile height. The
+labels measure at least 5.3:1 at the brightest pixel behind them. Same
+stops as the WordPress build.
 
 ---
 

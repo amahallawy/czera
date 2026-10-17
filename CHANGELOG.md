@@ -8,6 +8,18 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home hero: one line under the buttons says how ordering works ("Order on
+  WhatsApp · Delivery across Egypt in 2–5 days").
+- Our story is shorter on phones (a wider photo, no pull-quote), so the first
+  prices come about 300px sooner; on desktop it sits after a short ivory
+  pause instead of cutting straight in from the hero film.
+- Our story ends on two links: "About Czera ›" and "See the gift sets ›".
+- Category tiles: a stronger shade behind the labels, so names and prices are
+  readable on the white towel and robe photos (at least 5.3:1).
+- Smaller fixes: the bulk-orders line is set at a readable width, the footer
+  tagline is in sentence case, and the footer column headings no longer skip
+  a heading level.
+
 - Our story now has its own headline, "Everyday moments deserve extraordinary
   comfort.", instead of repeating the hero's, and a shorter line of copy. Its
   title is set at section size so the hero headline stays the largest.
