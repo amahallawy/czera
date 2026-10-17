@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- Our story now has its own headline, "Everyday moments deserve extraordinary
+  comfort.", instead of repeating the hero's, and a shorter line of copy. Its
+  title is set at section size so the hero headline stays the largest.
+- On phones, section titles and the Build-your-box band title are smaller
+  (28px) and the hero headline larger (at least 36px). In the side menu, About sits apart from the shop links.
+
 - Home: "Our story" now comes straight after the hero, and About is the first
   item in the side menu (client request).
 
