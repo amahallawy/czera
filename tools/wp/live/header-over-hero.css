@@ -9,14 +9,4 @@
 .ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .astra-icon { color: #f4f2ec; }
 .ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .czera-menu-toggle:hover,
 .ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .ast-site-header-cart a:hover * { color: #d8c28a; }
-/* Soft halo over the film: a dark shade hugging MENU and BAG keeps them 4.5:1 or more against their
-   surroundings on the bright cotton-field frames, and is lost in the dark ones. Chained drop-shadows
-   compound, so the shade stays tight to the thin strokes. The bag icon is a CSS mask, which would clip
-   its own filter, so the bag's wrapper carries it (icon, label and the gold count circle together). */
-.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .czera-menu-toggle__label,
-.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .czera-menu-toggle svg,
-.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .ast-addon-cart-wrap {
-  filter: drop-shadow(0 0 3px rgba(1, 1, 0, 1)) drop-shadow(0 0 4px rgba(1, 1, 0, 1))
-    drop-shadow(0 0 6px rgba(1, 1, 0, 1)) drop-shadow(0 0 12px rgba(1, 1, 0, 0.6));
-}
 /* ---------- end header over the Home hero */
