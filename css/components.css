@@ -461,9 +461,9 @@ body.menu-open { overflow: hidden; }
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-display);
 }
-/* On phones section titles drop to 28px so the hero headline stays the
- * largest heading (band titles follow the same rule below). */
-@media (max-width: 560px) {
+/* At 768px and below section titles drop to 28px so the hero headline
+ * stays the largest heading (band titles follow the same rule below). */
+@media (max-width: 768px) {
   .section__title { font-size: var(--fs-xl); }
 }
 
@@ -617,7 +617,7 @@ body.menu-open { overflow: hidden; }
   letter-spacing: var(--ls-display);
   color: var(--color-on-dark);
 }
-@media (max-width: 560px) {
+@media (max-width: 768px) {
   .band__title { font-size: var(--fs-xl); }
 }
 .band__media { position: relative; overflow: hidden; min-height: 280px; }

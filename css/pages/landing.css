@@ -63,9 +63,10 @@ video.hero__media {
 }
 .hero__copy .eyebrow { color: var(--color-on-dark); opacity: 0.85; }
 .hero__title {
-  /* The only display-size heading on Home; never smaller than 36px, so it
-   * stays above the 28px section titles on phones. */
-  font-size: clamp(2.25rem, 4.6vw, var(--fs-3xl));
+  /* The only display-size heading on Home. 5vw keeps it above the 38px
+   * section titles from 769px up; the 36px floor keeps it above the 28px
+   * titles at 768px and below. */
+  font-size: clamp(2.25rem, 5vw, var(--fs-3xl));
   color: var(--color-on-dark);
   overflow-wrap: break-word;
 }
@@ -477,6 +478,7 @@ video.hero__media {
 }
 
 @media (max-width: 768px) {
+  .chapter--story .chapter__title { font-size: var(--fs-xl); }
   .cat-grid {
     grid-template-columns: 1fr;
     grid-template-rows: none;
@@ -530,5 +532,4 @@ video.hero__media {
   .hero__actions .btn { width: 100%; justify-content: center; text-align: center; }
   .promise-list { grid-template-columns: 1fr 1fr; gap: var(--space-5) var(--space-4); }
   .chapter__title { font-size: clamp(1.75rem, 8vw, 2.5rem); }
-  .chapter--story .chapter__title { font-size: var(--fs-xl); }
 }
