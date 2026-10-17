@@ -81,3 +81,6 @@ showGroup('home');
 
 const delivery = document.querySelector('[data-delivery-text]');
 if (delivery) delivery.textContent = `We confirm the price and delivery. ${CONFIG.deliveryText}.`;
+// The hero's order line; the static text in index.html is the no-JS fallback.
+const deliveryShort = document.querySelector('[data-delivery-short]');
+if (deliveryShort) deliveryShort.textContent = CONFIG.deliveryShort;

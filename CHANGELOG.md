@@ -15,7 +15,7 @@ that section into a version.
   pause instead of cutting straight in from the hero film.
 - Our story ends on two links: "About Czera ›" and "See the gift sets ›".
 - Category tiles: a stronger shade behind the labels, so names and prices are
-  readable on the white towel and robe photos (at least 5.3:1).
+  readable on the white towel and robe photos (about 5.3:1 at worst).
 - Smaller fixes: the bulk-orders line is set at a readable width, the footer
   tagline is in sentence case, and the footer column headings no longer skip
   a heading level.

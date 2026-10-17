@@ -176,7 +176,9 @@ them.
 That's `4rem → 8rem` of vertical air per section. The chapter rhythm
 on the landing is: full-bleed media → centered copy block → next
 chapter. **Air between chapters is the design** — do not tighten it
-to fit "more above the fold."
+to fit "more above the fold." One deliberate exception: on phones the
+story chapter is kept short because it sits between the hero and the
+first prices (§6.4).
 
 ### 5.3 Spacing scale (4px base)
 
@@ -354,8 +356,8 @@ name, "Shop …" link, ivory on the photo. The shade behind the label is a
 fixed-height gradient anchored to the tile's bottom edge (88% ink at 0,
 84% at 60px, 55% at 120px, clear by 200px), not a percentage of the
 tile, so it covers the label the same way on every tile height. The
-labels measure at least 5.3:1 at the brightest pixel behind them. Same
-stops as the WordPress build.
+labels measure about 5.3:1 at worst (5.29:1, against the brightest pixel
+behind them). Same stops as the WordPress build.
 
 ---
 

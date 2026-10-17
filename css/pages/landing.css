@@ -566,4 +566,6 @@ video.hero__media {
   .chapter--story .chapter__media { aspect-ratio: 2 / 1; }
   .chapter--story .chapter__content { padding-block-start: var(--space-6); gap: var(--space-3); }
   .chapter--story .chapter__pullquote { display: none; }
+  /* 44px tap targets for the two story links; text stays on its underline. */
+  .chapter__links .chapter__link { min-block-size: 44px; align-items: flex-end; }
 }
