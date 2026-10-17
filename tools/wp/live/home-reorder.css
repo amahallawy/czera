@@ -1,0 +1,46 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to the end of the block. The site is authoritative; update both together. Added by amahallawy/czera#74; it overrides earlier blocks, so deleting it restores the previous look. */
+/* ---------- Home order and heading sizes (czera#74: static #68, #70, #72) ---------- */
+/* Our story now follows the hero (page 87) and About leads the Main menu (ID 21). These rules carry
+   the static showroom's follow-ups: design.md sections 5.2, 6.1, 6.2, 6.4 and 6.7. */
+
+/* The hero headline is the page's one display size and the largest heading at every width:
+   5vw keeps it above the 38px titles from 769px up, the 36px floor above the 28px titles below. */
+.czera-hero h1 { font-size: clamp(36px, 5vw, 52px) !important; }   /* px: the root size here is not 16px */
+
+/* Our story sits right under the hero, so its title steps down to section size. */
+.czera-story__title { font-size: 38px !important; max-width: 22ch; }
+
+/* Desktop: an ivory pause between the hero film and the story photo instead of a hard cut. */
+@media (min-width: 769px) {
+  .czera-story { margin-top: clamp(3rem, 6vw, 6rem) !important; }
+}
+
+/* The story ends on two links side by side: About CZERA and the gift sets. */
+.czera-story__links {
+  display: flex !important; flex-direction: row !important; flex-wrap: wrap; justify-content: center; align-items: flex-end;
+  gap: 12px 32px !important; width: auto !important; margin: 8px 0 0 !important; padding: 0 !important;
+}
+.czera-story__links > .czera-story__link { margin: 0 !important; }
+
+/* At 768px and below section, band and story titles are 28px, under the 36px hero headline. */
+@media (max-width: 768px) {
+  .czera-section-title, .czera-box-title, .czera-story__title { font-size: 28px !important; }
+}
+
+/* Phones: the story sits between the hero and the first prices, so it stays short. */
+@media (max-width: 560px) {
+  .czera-story { padding-bottom: 24px !important; }
+  .czera-story .czera-story__media { aspect-ratio: 2 / 1; }
+  .czera-story__content { padding-top: 32px !important; gap: 12px !important; }
+  .czera-story__quote { display: none !important; }
+  .czera-story__title { text-wrap: balance; }
+  .czera-story__title br { display: none; }   /* the text keeps a space before the break */
+  .czera-story__link a { min-height: 44px; align-items: flex-end; }   /* 44px tap targets */
+}
+
+/* Footer tagline in gold sentence case, not capitals. */
+.czera-footer__tag { text-transform: none; font-size: 13px; letter-spacing: 0.06em; }
+
+/* Slide-in menu: About leads on its own, with extra space before the shop links. */
+.czera-site-menu__list > li:first-child { margin-bottom: 24px; }
+/* ---------- end home order */
