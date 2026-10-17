@@ -1,0 +1,98 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. */
+/* ---------- Site menu (slide-in, CZERA menu snippet) ---------- */
+/* design.md §6.1 and §7 "Menu slide". Menu button left, wordmark centred, bag right at every width;
+   the button is the [czera_menu_toggle] shortcode in Astra's HTML 1 header element. It opens the
+   site's only primary nav, a panel from the inline start over a dimmed backdrop, printed on wp_footer
+   by the "CZERA menu" snippet: above the sticky header and the bag toast, under the admin bar. */
+
+/* Header frame as in the showroom: an 88px row (also once sticky) on the 1320px container with the
+   showroom gutter, and the wordmark on the page's centre line at the showroom's visible size. The
+   WordPress wordmark files are cropped tighter than the showroom's, so these widths give the same
+   glyph widths: light 67px (52px at 899px and below), gold 56px (44px). */
+#masthead .site-primary-header-wrap.ast-container { max-width: 1320px; padding-inline: clamp(16px, 4vw, 48px); }
+#masthead .ast-primary-header-bar { padding-block: 0; border-bottom-color: #a3a099; }
+/* The mobile header has no inner container: its bar carries the gutter. */
+.ast-header-break-point #masthead .ast-primary-header-bar.main-header-bar { padding: 0 clamp(16px, 4vw, 48px); }
+#masthead .ast-primary-header-bar .site-primary-header-wrap,
+#masthead .ast-primary-header-bar.site-primary-header-wrap { min-height: 88px; }
+#masthead .ast-primary-header-bar .site-branding { padding-block: 0; }
+#masthead .site-header-primary-section-center .site-logo-img { padding-inline-end: 0; }
+.ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 71.4px; max-width: none; height: auto; }
+#masthead .ast-primary-header-bar .site-logo-img .custom-logo-link:not(.transparent-custom-logo) img,
+#masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 64.4px; max-width: none; height: auto; }
+@media (max-width: 899px) {
+  .ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 55.5px; }
+  #masthead .ast-primary-header-bar .site-logo-img .custom-logo-link:not(.transparent-custom-logo) img,
+  #masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 50px; }
+}
+
+/* Menu button. Its HTML 1 wrapper centres it: once sticky, Astra gives the wrapper a taller line box. */
+#masthead .ast-header-html-1 .ast-builder-html-element { display: flex; align-items: center; }
+.ast-primary-header-bar button.czera-menu-toggle {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 44px; min-height: 44px; margin: 0; padding: 0 8px;
+  border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #2b2b2b; cursor: pointer;
+  font: inherit; font-size: 11px; font-weight: 500; line-height: 1; letter-spacing: 0.18em; text-transform: uppercase;
+  transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ast-primary-header-bar button.czera-menu-toggle:hover { background: transparent; color: #ba7c17; }
+/* Visible focus (design.md, accessibility): ink on ivory, gold over the hero film. */
+.ast-primary-header-bar button.czera-menu-toggle:focus-visible { outline: 1.5px solid #010100; outline-offset: 3px; }
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) button.czera-menu-toggle:focus-visible { outline-color: #d4af36; }
+.czera-menu-toggle svg { flex: none; width: 24px; height: 24px; }
+@media (max-width: 480px) {
+  .czera-menu-toggle__label { display: none; }
+}
+
+.czera-site-menu-backdrop {
+  position: fixed; inset: 0; z-index: 1000; background: rgba(1, 1, 0, 0.5);
+  opacity: 0; transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.czera-site-menu-backdrop.is-open { opacity: 1; }
+.czera-site-menu {
+  position: fixed; inset-block: 0; inset-inline-start: 0; z-index: 1001; box-sizing: border-box;
+  width: clamp(280px, 32vw, 460px); max-width: 100vw; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 48px; padding: 32px 48px 48px;
+  background: #f4f2ec; color: #2b2b2b; box-shadow: 16px 0 48px rgba(1, 1, 0, 0.18);
+  transform: translateX(-100%); transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* The admin bar (logged-in only) sits over the panel's top edge. */
+.admin-bar .czera-site-menu { padding-top: 64px; }
+@media (max-width: 782px) {
+  .admin-bar .czera-site-menu { padding-top: 78px; }
+}
+[dir="rtl"] .czera-site-menu, .rtl .czera-site-menu { transform: translateX(100%); box-shadow: -16px 0 48px rgba(1, 1, 0, 0.18); }
+.czera-site-menu.is-open, [dir="rtl"] .czera-site-menu.is-open, .rtl .czera-site-menu.is-open { transform: none; }
+/* `display: flex` above would override the hidden attribute and leave the off-screen panel's shadow
+   along the page edge. */
+.czera-site-menu[hidden], .czera-site-menu-backdrop[hidden] { display: none; }
+
+.czera-site-menu__head { display: flex; justify-content: flex-start; margin-inline-start: -12px; }
+.czera-site-menu button.czera-site-menu__close {
+  display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+  margin: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; box-shadow: none;
+  color: #2b2b2b; cursor: pointer; font: inherit; font-size: 28px; font-weight: 400; line-height: 1;
+  transition: background 180ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.czera-site-menu button.czera-site-menu__close:hover { background: #e7e1d5; color: #ba7c17; }
+
+.czera-site-menu__list { display: flex; flex-direction: column; gap: 24px; margin: 0; padding: 0; list-style: none; }
+.czera-site-menu__list > li { margin: 0; }
+.czera-site-menu a.czera-site-menu__link {
+  display: block; padding-block: 8px; border-bottom: 1px solid #a3a099;
+  color: #2b2b2b; text-decoration: none;
+  /* px, not rem: Astra shrinks the root font-size on phones; these are the showroom's 22px to 28px. */
+  font-size: clamp(22px, 3.5vw, 28px); font-weight: 300; line-height: 1.5; letter-spacing: -0.01em;
+  transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.czera-site-menu a.czera-site-menu__link:hover { color: #ba7c17; border-bottom-color: #d4af36; }
+.czera-site-menu button.czera-site-menu__close:focus-visible,
+.czera-site-menu a.czera-site-menu__link:focus-visible { outline: 1.5px solid #010100; outline-offset: 3px; }
+
+/* Lock the page's scroll while the panel is open. */
+body.czera-menu-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .czera-site-menu, .czera-site-menu-backdrop { transition: none; }
+}
+/* ---------- end site menu */

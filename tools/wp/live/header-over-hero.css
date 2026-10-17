@@ -1,0 +1,12 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. */
+/* ---------- Header over the Home hero (transparent, ivory text, soft top shade) ---------- */
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) {
+  background: linear-gradient(to bottom, rgba(1, 1, 0, 0.5), rgba(1, 1, 0, 0)) !important;
+  border-bottom-color: transparent !important;
+}
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .czera-menu-toggle,
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .ast-woo-header-cart-info-wrap,
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .astra-icon { color: #f4f2ec; }
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .czera-menu-toggle:hover,
+.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active) .ast-site-header-cart a:hover * { color: #d8c28a; }
+/* ---------- end header over the Home hero */
