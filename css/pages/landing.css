@@ -63,7 +63,10 @@ video.hero__media {
 }
 .hero__copy .eyebrow { color: var(--color-on-dark); opacity: 0.85; }
 .hero__title {
-  font-size: clamp(2rem, 4.6vw, var(--fs-3xl));
+  /* The only display-size heading on Home. 5vw keeps it above the 38px
+   * section titles from 769px up; the 36px floor keeps it above the 28px
+   * titles at 768px and below. */
+  font-size: clamp(2.25rem, 5vw, var(--fs-3xl));
   color: var(--color-on-dark);
   overflow-wrap: break-word;
 }
@@ -317,6 +320,9 @@ video.hero__media {
   font-size: clamp(2rem, 5vw, var(--fs-3xl));
   max-width: 18ch;
 }
+/* Our story sits right under the hero, so its title steps down to section
+ * size and leaves the hero headline as the page's one display moment. */
+.chapter--story .chapter__title { font-size: var(--fs-2xl); max-width: 22ch; }
 .chapter__body {
   font-family: var(--font-sans);
   font-weight: 300;
@@ -472,6 +478,7 @@ video.hero__media {
 }
 
 @media (max-width: 768px) {
+  .chapter--story .chapter__title { font-size: var(--fs-xl); }
   .cat-grid {
     grid-template-columns: 1fr;
     grid-template-rows: none;
