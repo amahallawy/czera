@@ -16,6 +16,10 @@ that section into a version.
   It replaces the one-line placeholder; the page title is hidden so the photo
   sits right under the header. Styles are in a new Additional CSS block,
   copied to `tools/wp/live/about-page.css`.
+- Footer and About page: Instagram, Facebook and TikTok are now icons
+  instead of text, with the same names for screen readers.
+- WordPress store (czeramaison.com): the footer's Instagram, Facebook and
+  TikTok links are icons too, using WordPress's Social Icons block.
 
 - WordPress store (czeramaison.com): Home's story now meets the hero with no
   empty strip on desktop (its photo fades in from the page colour), it ends on
