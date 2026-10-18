@@ -8,6 +8,18 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home: no more empty strip between the hero and Our story on desktop; the
+  story photo now fades in from the page colour instead. The line under the
+  hero buttons is gone, and the story ends on "About Czera ›" only.
+- Build your box: no ribbon choice any more (ribbons are added when
+  available). The builder has three steps (box, colour, towels), and the
+  bag and WhatsApp message no longer mention a ribbon; boxes already in a
+  bag still work. The Home and Collection bands and the bulk-order lines no
+  longer offer ribbon colours.
+- Home: the Build-your-box band is about half as tall (its photo no longer
+  stretches it), with gold kept for the "Start your box" button.
+- Home: category and band photos load only as they come into view.
+
 - WordPress store (czeramaison.com): Home now matches the showroom's new
   order and fixes. Our story comes right after the hero with its new headline
   ("Everyday moments deserve extraordinary comfort."), a one-line body and two

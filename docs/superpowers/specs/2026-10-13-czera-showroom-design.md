@@ -88,7 +88,7 @@ now follows the hero, and About is the first menu item.
 | 2 | Our story | **A**: keep the existing text-over-image layout (PR #2); catalogue photo; copy from catalogue p2/p6 ("The hotel experience, brought home", "It's all in the details"). |
 | 3 | Shop by category | **B**: editorial grid. Large Gift sets tile (8 sets, from 1,410 EGP), Towels and Bathrobes tiles, Beach as a wide band. Each tile opens the Collection with that category selected. |
 | 4 | Gift sets | **B**: grouped by occasion with tabs. **Two tabs of four** (assumed, see §11): *For the home* (Complete Set, 3 Bath Towels, 3 Bath Sheets, Hand & Bath Sheet) and *Robes & beach* (His & Hers, both Robe & Beach sets, Beach Towel Set). |
-| 5 | Build your own box | **C**: dark band in the black-box look; four steps (box, towels, colour, ribbon); gold "Start your box" button. |
+| 5 | Build your own box | **C**: dark band in the black-box look; three steps (box, colour, towels; no ribbon choice since 2026-10-18); gold "Start your box" button. |
 | 6 | Material & craft | **B**: four icon promises as in the catalogue (100% cotton, Highly absorbent, Long-lasting, Hotel quality with 650+ GSM / 1200 GSM) plus a four-photo strip. |
 | 7 | How to order + footer | **B**: three steps: *Add to bag* → *Send your bag on WhatsApp* → *We confirm and deliver*; one line for bulk and corporate orders; then the footer. |
 
@@ -136,7 +136,7 @@ now follows the hero, and About is the first menu item.
   Hello Czera, I'd like to order:
   • 1 × The Complete Czera Set: 1,450 EGP
   • 1 × Black Bathrobe: 1,000 EGP
-  • 1 × Custom box (black box, burgundy ribbon): 2 × Face, 1 × Bath, white: 570 EGP
+  • 1 × Custom box (black box): 2 × Face, 1 × Bath, white: 570 EGP
   Total: 3,020 EGP
 
   Name: …
@@ -150,13 +150,13 @@ now follows the hero, and About is the first menu item.
 
 ## 8. Build Your Own Box (`build-your-box.html`, new)
 
-- **Layout, A** (the client's mockup): four steps down the left (box: black
-  or beige; towels: five sizes with quantity; colour; ribbon: burgundy or
-  gold), a preview with the running item list and total on the right that
+- **Layout, A** (the client's mockup): three steps down the left (box: black
+  or beige; colour; towels: five sizes with quantity), a preview with the running item list and total on the right that
   stays in view. On phones the preview becomes a total bar at the bottom.
-- Price = sum of the chosen towels; "Box and ribbon included free".
-- **"Add box to bag"** adds one bag line that lists the box, ribbon, colour
-  and contents.
+- Price = sum of the chosen towels; "Box included free".
+- **"Add box to bag"** adds one bag line that lists the box, colour and
+  contents.
+- No ribbon choice (owner, 2026-10-18): ribbons are added when available.
 - Opening the page from a product's related band pre-fills that towel.
 - Drafts until the client confirms: stripes only in the 100 × 200 size; 2 to
   6 pieces per box. There is no photo of the beige box yet; the preview uses
