@@ -2,7 +2,7 @@ import { describeLine, bagTotal } from '../lib/bag.js';
 import { formatEGP } from '../lib/format.js';
 import { escapeHtml } from '../lib/escape.js';
 import { validateDetails } from '../lib/checkout.js';
-import { buildOrderMessage, orderLink } from '../lib/whatsapp.js';
+import { buildOrderMessage, orderMailto, isLongMailto } from '../lib/email.js';
 import { summariseLines } from '../lib/summary.js';
 import { readDetails, writeDetails } from '../lib/details.js';
 import { CONFIG } from '../config.js';
@@ -54,7 +54,7 @@ export function initBagPanel(bag) {
     }).join('');
     body.innerHTML = `<p class="bag-panel__step">Step 1 of 2</p>${rows}
       <div class="bag-total"><span>Total</span><b>${formatEGP(bagTotal(lines))}</b></div>
-      <p class="bag-panel__note">Delivery fee confirmed on WhatsApp · ${escapeHtml(CONFIG.paymentText)}</p>
+      <p class="bag-panel__note">Delivery fee confirmed by email · ${escapeHtml(CONFIG.paymentText)}</p>
       <button type="button" class="btn btn--ink btn--block" data-continue>Continue ›</button>`;
   }
 
@@ -77,22 +77,54 @@ export function initBagPanel(bag) {
       ${renderSummary()}
       <form data-details novalidate>${inputs}
         <p class="bag-panel__note">${escapeHtml(CONFIG.deliveryText)}</p>
-        <button type="submit" class="btn btn--whatsapp btn--block">Send order on WhatsApp</button>
+        <button type="submit" class="btn btn--send btn--block">Send order by email<span class="sr-only"> (opens your email app)</span></button>
         <button type="button" class="bag-panel__back" data-back>‹ Back to bag</button></form>`;
   }
 
   function renderConfirmation() {
     body.innerHTML = `<div class="bag-confirm">
-      <h3 class="bag-confirm__title" data-confirm-title tabindex="-1">Your order is ready in WhatsApp</h3>
-      <p class="bag-confirm__text">Tap Send in WhatsApp to place it. We'll reply on WhatsApp to confirm delivery and payment.</p>
-      <p class="bag-confirm__label" id="bag-preview-label">Your message</p>
-      <pre class="bag-confirm__preview" tabindex="0" role="region" aria-labelledby="bag-preview-label">${escapeHtml(sentMessage)}</pre>
-      <p class="bag-confirm__fallback">WhatsApp didn't open? <a href="${escapeHtml(sentLink)}" target="_blank" rel="noopener">Tap here to send your order.</a></p>
+      <h3 class="bag-confirm__title" data-confirm-title tabindex="-1">Your order is ready in your email app</h3>
+      <p class="bag-confirm__text">Tap Send in your email app to place it. We'll reply by email to confirm delivery and payment.</p>
+      ${isLongMailto(sentLink) ? `<p class="bag-confirm__text">This is a long order, and some email apps cut long emails short. Check that every item arrived in the email, or copy the order below into it.</p>` : ''}
+      <p class="bag-confirm__label" id="bag-preview-label">Your order</p>
+      <pre class="bag-confirm__preview" tabindex="0" role="region" aria-labelledby="bag-preview-label" data-preview>${escapeHtml(sentMessage)}</pre>
+      <button type="button" class="bag-confirm__copy" data-copy>Copy order</button>
+      <p class="bag-confirm__fallback">Email app didn't open? Copy the order and send it to ${escapeHtml(CONFIG.contactEmail)}, or <a href="${escapeHtml(sentLink)}">try again<span class="sr-only"> (opens your email app)</span></a>.</p>
       <div class="bag-confirm__actions">
         <button type="button" class="btn btn--ink" data-clear>Clear bag</button>
         <button type="button" class="btn btn--ghost" data-keep>Keep bag</button></div></div>`;
-    live.textContent = 'Your order is ready in WhatsApp. Tap Send in WhatsApp to place it.';
+    live.textContent = 'Your order is ready in your email app. Tap Send there to place it.';
     body.querySelector('[data-confirm-title]').focus();
+  }
+
+  // A mailto: link opens the email app without leaving the page. Clicked from a link inside the
+  // panel (not window.open, which leaves an empty tab behind in some browsers).
+  function openEmailApp(link) {
+    const a = document.createElement('a');
+    a.href = link;
+    a.hidden = true;
+    panel.append(a);
+    a.click();
+    a.remove();
+  }
+
+  // For visitors with no email app set up, or a long order an email app cut short (lib/email.js).
+  async function copyOrder(button) {
+    try {
+      await navigator.clipboard.writeText(sentMessage);
+      button.textContent = 'Copied';
+      live.textContent = 'Order copied.';
+    } catch {
+      // Clipboard blocked (or not offered over plain http): select the text so it can be copied by hand.
+      const preview = body.querySelector('[data-preview]');
+      const range = document.createRange();
+      range.selectNodeContents(preview);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      preview.focus();
+      live.textContent = 'The order is selected. Copy it with your device.';
+    }
   }
 
   function render() { if (step === 1) renderItems(); else renderDetails(); }
@@ -153,6 +185,7 @@ export function initBagPanel(bag) {
     else if (e.target.closest('[data-back]')) { step = 1; render(); body.querySelector('[data-continue]')?.focus(); }
     else if (e.target.closest('[data-clear]')) { bag.clear(); close(); }
     else if (e.target.closest('[data-keep]')) { close(); }
+    else if (e.target.closest('[data-copy]')) { copyOrder(e.target.closest('[data-copy]')); }
   });
 
   document.addEventListener('input', e => {
@@ -167,8 +200,8 @@ export function initBagPanel(bag) {
     const { ok, errors } = validateDetails(values);
     if (!ok) { renderDetails(values, errors); body.querySelector('[aria-invalid="true"]')?.focus(); return; }
     sentMessage = buildOrderMessage(bag.lines(), values);
-    sentLink = orderLink(sentMessage);
-    window.open(sentLink, '_blank', 'noopener');
+    sentLink = orderMailto(sentMessage);
+    openEmailApp(sentLink);
     renderConfirmation();
   });
 

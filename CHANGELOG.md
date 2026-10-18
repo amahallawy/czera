@@ -8,6 +8,26 @@ that section into a version.
 
 ## [Unreleased]
 
+- Orders and questions now go by email to support@czeramaison.com, and the
+  site no longer mentions WhatsApp (owner decision, #84). The bag's last
+  button, "Send order by email", opens your email app addressed to
+  support@czeramaison.com with the subject "Order from czeramaison.com" and
+  the order already written in the body: every item with its quantity and
+  price, the total, your name, phone, address, city and note. The
+  confirmation step that follows shows the order with a "Copy order" button,
+  and the address and a "try again" link if your email app did not open;
+  very long orders, which some email apps cut short, get a line asking you to
+  check every item arrived. On the product page the small link is now "Or
+  order just this by email ›".
+- Contact buttons say "Contact us": the footer shows the email address and a
+  "Contact us" button, and About's bulk-orders band has a "Contact us"
+  button that starts an email titled "Bulk or corporate order". About's
+  contact strip shows Email instead of WhatsApp, and How to order reads
+  "Three steps, all by email." with "Send your bag by email" as step two.
+- About: the Follow icons' hover colour is darker (4.4:1 on the beige
+  strip, up from 2.7:1). Footer: the Contact us button sits 16px under the
+  social icons instead of 32px.
+
 - WordPress store (czeramaison.com): the About page is built from the design:
   a photo hero ("About CZERA", "Every detail feels like home."), the "Our
   belief" and "The details" chapters (with the care line), the dark

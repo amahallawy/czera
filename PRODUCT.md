@@ -20,7 +20,7 @@ for their own home, or a boxed set for a wedding, a birthday or an
 anniversary.
 
 **Secondary:** bulk and corporate buyers (wedding favours, company gifts,
-hotels and spas) who order in quantity through WhatsApp.
+hotels and spas) who order in quantity by email.
 
 **Context:** most visitors arrive on a phone, often from Instagram, and want
 three things fast: what it looks like, what it costs, and how to order it.
@@ -28,7 +28,7 @@ Many are buying a gift and care as much about the box and ribbon as about
 the towel.
 
 **Job to be done:** find the right towel, robe or gift set (or build a custom
-box), see the price, put it in the bag, and send the order on WhatsApp.
+box), see the price, put it in the bag, and send the order by email.
 
 ## Product purpose
 
@@ -36,10 +36,11 @@ Czera makes 100% cotton towels, bathrobes and gift sets: towels at 650+ GSM,
 robes at 1200 GSM that fit up to 130 kg, presented in a black Czera gift box
 with satin ribbon. The site is a **showroom**: every product with its photo,
 contents and price in EGP; a bag the visitor fills as they browse; and one
-button that sends the whole bag as an order on WhatsApp. There is no online
-payment or checkout.
+button that sends the whole bag as an order by email to
+support@czeramaison.com (it opens the visitor's email app with the order
+already written). There is no online payment or checkout.
 
-Success: a visitor leaves with an order sent on WhatsApp, or with a clear
+Success: a visitor leaves with an order sent by email, or with a clear
 idea of what they will order and how.
 
 ## Brand personality
@@ -109,5 +110,5 @@ baseline.
   Instagram on 4G. Progressive image loading, per-page image budgets,
   lazy-loading below the fold, and no autoplay video on cellular shape what
   the site is, not what it does at the end.
-- **The bag and the WhatsApp order must work on any phone browser**, with no
+- **The bag and the email order must work on any phone browser**, with no
   account, and survive page reloads.

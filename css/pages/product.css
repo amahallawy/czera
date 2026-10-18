@@ -68,7 +68,7 @@
 .pdp__buy { display: flex; gap: var(--space-3); align-items: stretch; flex-wrap: wrap; }
 .pdp__buy .btn { flex: 1 1 14rem; gap: var(--space-2); }
 .pdp__buy-label, .pdp__buy-total { white-space: nowrap; }
-.pdp__wa { justify-self: start; }
+.pdp__email { justify-self: start; }
 .pdp__ship { font-size: var(--fs-xs); color: var(--color-ink-mute); }
 
 /* ---------------- Fold-outs ---------------- */

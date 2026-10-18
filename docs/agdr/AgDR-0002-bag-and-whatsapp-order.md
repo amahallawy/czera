@@ -19,3 +19,9 @@ Option (b). The spec's showroom has no backend; the bag survives reloads; the or
 - Prices are recomputed from the product data on every render; stored lines hold slugs and quantities only.
 - Storage key is `czera.bag.v1`.
 - An in-memory fallback is used when storage access throws.
+
+## Update, 2026-10-18 (#84)
+
+The owner replaced WhatsApp with email. The `localStorage` bag stays as decided; the order now
+leaves as a `mailto:support@czeramaison.com` link (subject "Order from czeramaison.com", the same
+message as the body), built in `js/lib/email.js`. The `wa.me` link is gone.
