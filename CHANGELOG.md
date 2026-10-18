@@ -8,6 +8,16 @@ that section into a version.
 
 ## [Unreleased]
 
+- Collection: the band's title reads "Can’t choose? Make your own." with a
+  curly apostrophe, on the design and the WordPress store. design.md's
+  component table now points to the compact Collection band in §6.15 (#93).
+- WordPress store (czeramaison.com): on phones the shop and category pages
+  no longer scroll sideways. Each product card's price and "Add to bag" now
+  share a line only when both fit, and "Add to bag" moves below the price
+  otherwise, as on the design; before, the card ran about 6px past the
+  screen. The sidebar Category filter lists Towels, Beach, Bathrobes,
+  Gift sets, the order of the grid; the menu is unchanged (#93).
+
 - Collection: the "Build your own box" band now comes after all the products,
   full width, whatever the filters show (before, it sat after the first row
   and disappeared when fewer than four products matched). The Category filter

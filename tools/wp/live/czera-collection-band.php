@@ -28,7 +28,7 @@ if ( ! function_exists( 'czera_collection_band' ) ) {
 		<section class="czera-box-band czera-collection-band" aria-labelledby="czera-collection-band-title">
 			<div class="czera-box-copy">
 				<p class="czera-eyebrow"><?php echo esc_html( 'Build your own box' ); ?></p>
-				<h2 class="czera-box-title" id="czera-collection-band-title"><?php echo esc_html( "Can't choose? Make your own." ); ?></h2>
+				<h2 class="czera-box-title" id="czera-collection-band-title"><?php echo esc_html( "Can’t choose? Make your own." ); ?></h2>
 				<p class="czera-box-lede"><?php echo esc_html( 'Choose the colour, the sizes, the towels and the bathrobes.' ); ?></p>
 				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button czera-btn-gold" href="<?php echo esc_url( home_url( '/build-your-box/' ) ); ?>"><?php echo esc_html( 'Start your box' ); ?></a></div>
 			</div>
