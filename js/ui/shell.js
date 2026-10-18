@@ -3,6 +3,7 @@ import { CONFIG } from '../config.js';
 import { createBag } from '../lib/bag.js';
 import { findProduct } from '../lib/products.js';
 import { escapeHtml } from '../lib/escape.js';
+import { socialLinksHtml } from './social.js';
 import { initMenu } from './menu.js';
 import { initReveal, initHeaderScroll } from './reveal.js';
 import { initBagPanel } from './bag-panel.js';
@@ -55,7 +56,8 @@ function footerHtml() {
         <li><a href="about.html#delivery">Delivery</a></li><li><a href="about.html">About Czera</a></li></ul></div>
       <div><h2 class="footer__heading">Contact</h2><ul class="footer__list">
         <li><a href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" rel="noopener" aria-label="${escapeHtml(`WhatsApp ${CONFIG.whatsappDisplay} (opens in a new tab)`)}">WhatsApp ${escapeHtml(CONFIG.whatsappDisplay)}</a></li>
-        ${CONFIG.social.map(s => `<li><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener" aria-label="${escapeHtml(`${s.label} ${s.handle} (opens in a new tab)`)}">${escapeHtml(s.label)} ${escapeHtml(s.handle)}</a></li>`).join('')}</ul>
+        </ul>
+        <ul class="footer__social" aria-label="CZERA on social media">${socialLinksHtml(CONFIG.social)}</ul>
         <a class="btn btn--outline-gold" href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" rel="noopener">Order on WhatsApp</a></div>
     </div>
     <div class="container footer__bottom"><span>© <span data-current-year></span> Czera</span><span>English · <span lang="ar">العربية</span></span></div>

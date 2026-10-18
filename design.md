@@ -287,12 +287,18 @@ divider between rows. Reads like a Frette product fact-sheet.
 
 Dark. Four columns: brand block (wordmark, "Luxury towels & bath
 essentials" in gold sentence case, one line) / Shop / Help (How to order, Sizes & care,
-Delivery, About) / Contact (WhatsApp, Instagram, Facebook, plus an
-"Order on WhatsApp" outline button). Bottom row: © line and the
+Delivery, About) / Contact (the WhatsApp number, a row of social icons
+for Instagram, Facebook and TikTok, then an "Order on WhatsApp" outline
+button). Bottom row: © line and the
 English · العربية switch. No newsletter form (the site has nowhere to
 send it). On Home it sits under the three-step "How to order" band.
 Column headings are `h2` (small caps by style), so the page's heading
 order never skips a level.
+Social media are icons, not text (owner, 2026-10-18): WordPress core's
+social-link drawings (the same ones the store's Social Icons block
+uses), 22px in 44px targets, ivory 78% like the footer links and gold
+on hover; each link's accessible name is the old text ("Instagram
+@czera_maison (opens in a new tab)").
 
 ### 6.8 Product card
 
