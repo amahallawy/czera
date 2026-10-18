@@ -194,8 +194,10 @@ first prices (§6.4).
 - Collection grid: 2 columns on phones, 3 beside the sidebar from md
   up, with a small gap between cards. Hover lifts the image by 1.02
   scale and fades in the second photo. One full-width Build Your Own
-  Box band after the first row (hidden when fewer than four products
-  match the filter).
+  Box band after the last product card, for every filter result (with
+  one to three matches it follows them; with none it stands alone).
+  The Category filter lists Towels, Beach, Bathrobes, Gift sets, the
+  grid's order; the menu and footer keep their own order (#91).
 - Product page: photos stacked in a ~55% column; the buying panel
   stays in view in the other column.
 
@@ -258,7 +260,7 @@ The landing's narrative engine. Five chapter shapes:
 | `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark`. Single gold accent is the **crown**; the eyebrow reads muted ivory and the link rests ivory (gold on hover only), per §3.1 one-accent-per-screen. |
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
 | `chapter--editorial` | Heading row + 3-column entries (no card chrome). Unused while the Journal is off the site. | Light |
-| Build-your-box band | Near-black band in the black-gift-box look: copy and three numbered steps (box, colour, towels) on one side, gift-box photo on the other, one gold button. Used on Home and as the break in the Collection grid. | Dark |
+| Build-your-box band | Near-black band in the black-gift-box look: copy and three numbered steps (box, colour, towels) on one side, gift-box photo on the other, one gold button. Used on Home and, full width after the last product card, in the Collection grid. | Dark |
 | `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. On desktop it meets the hero with no gap and its photo fades in from ivory over the top 140px (`mask-image`), so the film and the photo never meet in a hard cut; an ivory strip between them read as a layout bug (critique 2026-10-18). Stacks (image over copy) at 768px and below; on phones it stays short because it sits before the first prices: a 2:1 photo, no pull-quote, balanced title lines. Ends on one text link, "About Czera ›" (the gift-sets tile follows one screen later). | Light |
 
 Each chapter starts with `<span class="eyebrow">…</span>`, then the
@@ -384,6 +386,12 @@ copy sets the band's height (about 470px on desktop) and the photo
 fills its half with `object-fit: cover`; at 768px and below the photo
 sits on top at 4:3. One accent: the eyebrow and step numbers are muted
 ivory, gold only on the button.
+
+On the Collection the band is the compact version (no steps, the photo
+capped at 240px tall) and closes the grid: it spans every column after
+the last product card, whatever the filter leaves, so browsing always
+ends on the invitation to build a box (#91). The WordPress shop and
+category pages carry the same band after their product grid.
 
 ---
 
@@ -540,8 +548,8 @@ after; the story's headline must not repeat the hero's.
 
 ### Collection (`catalog.html`)
 Sidebar filters (category, price, colour) beside a three-column grid
-of product cards with "Add to bag ›", broken once by the Build Your
-Own Box band. Goal: browse, compare prices, add to the bag.
+of product cards with "Add to bag ›", closed by the Build Your Own
+Box band after the last card. Goal: browse, compare prices, add to the bag.
 
 ### Product (`product.html`)
 Large stacked photos, a buying panel that stays in view, fold-out

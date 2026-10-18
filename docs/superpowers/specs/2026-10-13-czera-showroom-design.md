@@ -105,12 +105,15 @@ now follows the hero, and About is the first menu item.
 - **Header & filters, C**: title plus a **left sidebar** with Category, Price
   (under 500 / 500–1,500 / over 1,500) and Colour (white, black, striped).
   Each option shows its count; options that would return nothing are greyed
-  out. Counts are computed from the product data, never hard-coded. On phones
-  the sidebar becomes a "Filters" button that opens a panel.
+  out. Category lists Towels, Beach, Bathrobes, Gift sets (the grid's order;
+  #91), while the menu and footer keep their own order. Counts are computed
+  from the product data, never hard-coded. On phones the sidebar becomes a
+  "Filters" button that opens a panel.
 - **Card, B**: the site-wide card with "Add to bag ›".
-- **Grid, B**: three columns beside the sidebar, with one full-width dark
-  **Build Your Own Box** band after the first row. The band hides when the
-  current filter leaves fewer than four products.
+- **Grid, B**: three columns beside the sidebar, closed by one full-width dark
+  **Build Your Own Box** band after the last product card, for every filter
+  result (#91; it was after the first row and hid below four products). On
+  the WordPress store the shop and category pages end with the same band.
 
 ## 6. Product page (`product.html`, one template for all 16)
 

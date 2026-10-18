@@ -8,6 +8,17 @@ that section into a version.
 
 ## [Unreleased]
 
+- Collection: the "Build your own box" band now comes after all the products,
+  full width, whatever the filters show (before, it sat after the first row
+  and disappeared when fewer than four products matched). The Category filter
+  lists Towels, Beach, Bathrobes, Gift sets, the order of the grid; the menu
+  and footer are unchanged (#91).
+- WordPress store (czeramaison.com): the shop page and every product category
+  page end with the same band after the products: "Can't choose? Make your
+  own.", the store builder's line, the band photo and a "Start your box"
+  button to the Build your box page. It is not shown on product pages, the
+  cart or checkout (#91).
+
 - Collection: with no filters, products are listed white towels first, then
   the striped beach towels, then bathrobes, then gift boxes (towels by size).
   Filtered results keep that order.

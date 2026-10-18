@@ -32,6 +32,18 @@ function matches(p, state, ignore) {
 const COLLECTION_ORDER = ['towels', 'beach', 'bathrobes', 'gift-sets'];
 const rank = p => { const i = COLLECTION_ORDER.indexOf(p.category); return i < 0 ? COLLECTION_ORDER.length : i; };
 
+// The Category filter lists the categories in the grid's order (#91). CATEGORIES itself keeps the
+// menu and footer order, so it is sorted here rather than changed.
+export function collectionCategories() {
+  return [...CATEGORIES].sort((a, b) => rank({ category: a.id }) - rank({ category: b.id }));
+}
+
+// The grid's items: every product card, then the Build-your-box band (full width) after the last one,
+// whatever the count (#91). With no matches the band stands alone.
+export function gridItems(cards, band) {
+  return [...cards, band];
+}
+
 export function filterProducts(products, state) {
   return products.filter(p => matches(p, state)).sort((a, b) => rank(a) - rank(b));
 }
