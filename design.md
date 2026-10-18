@@ -106,6 +106,13 @@ comes from size + tracking, not from weight.
   `assets/logo/czera-wordmark-alt.png` (light) reads over the hero
   film; `assets/logo/czera-wordmark-gold.png` takes over on the ivory
   surface (once scrolled, and on every page without a hero).
+  In the header both are 90px tall (70px at 899px and below), which
+  draws the light glyph about 84px wide (66px) and the gold one about
+  71px (55px): 1.25 times the first 72px and 56px, at the owner's
+  request (amahallawy/czera#99). The PNGs carry transparent padding
+  above and below the glyph, so a negative block margin keeps the
+  link's box, and its focus ring, at 72px (56px) inside the 88px
+  header. The WordPress store matches these glyph widths.
   `czera-wordmark-white.png` has a fake checkerboard baked into the
   pixels and must not be used.
 - **Crown** (`.brand-crown`): inline SVG, defined in markup. Used

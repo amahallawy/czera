@@ -45,10 +45,12 @@ logged-in Customizer with `wp.customize('astra-settings[<key>]').set(value)` and
     `clamp(16px, 4vw, 48px)` gutter;
   - the wordmark centred on the page (Astra's 16px `padding-right` on
     `.site-logo-img` is removed in the centre zone);
-  - the wordmark at the static glyph widths: light (transparent Home) 71.4px
-    wide (67px glyph), gold 64.4px (56.5px glyph); at 899px and below 55.5px
-    and 50px (52px and 44px glyphs). The WordPress files are cropped tighter
-    than the static ones, hence the different image widths.
+  - the wordmark at the static glyph widths: light (transparent Home) 89.25px
+    wide (84px glyph), gold 80.5px (70.5px glyph); at 899px and below 69.38px
+    and 62.5px (65px and 55px glyphs). The WordPress files are cropped tighter
+    than the static ones, hence the different image widths. These are 1.25
+    times the first widths (71.4 / 64.4 / 55.5 / 50px), at the owner's request
+    (#99).
   - Dependants: "Build your box page" `--czera-box-top` 125/157px -> 105/137px
     (sticky header 89px + 16px; +32px admin bar) and "Bag toast" fallback top
     121/153px -> 101/133px (+12px).

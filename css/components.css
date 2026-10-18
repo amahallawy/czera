@@ -62,8 +62,13 @@ body:not(.has-hero) { padding-top: var(--header-height); }
   align-items: center;
   position: relative;
 }
+/* The wordmark is 90px tall (70px at 899px and below), 1.25 times the earlier
+ * 72px and 56px (#99). The artwork carries transparent padding above and below
+ * the glyph, so a negative block margin keeps the link's box, and its focus
+ * ring, at the old 72px (56px) inside the 88px header while the glyph grows. */
 .brand-mark__img {
-  height: 72px;
+  height: 90px;
+  margin-block: -9px;
   width: auto;
   display: block;
   transition: opacity var(--dur-base) var(--ease-out);
@@ -132,7 +137,7 @@ body.has-hero .site-header:not(.is-scrolled) .bag-button:hover { color: var(--co
 
 @media (max-width: 899px) {
   .site-header__inner { gap: var(--space-2); }
-  .brand-mark__img { height: 56px; }
+  .brand-mark__img { height: 70px; margin-block: -7px; }
 }
 @media (max-width: 480px) {
   .bag-button__label, .menu-toggle__label { display: none; }
