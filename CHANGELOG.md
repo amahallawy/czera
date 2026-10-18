@@ -8,6 +8,21 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home: the hero plays the full 30-second film, looping, ending on ivory
+  linen with the gold CZERA sign-off (the 24-second film is retired). The
+  play/pause control is now a quiet, icon-only round button at the bottom
+  right ("Pause film" / "Play film", 44px, gold focus ring); on phones it
+  sits beside "Build your own box". While the bright sign-off plays, the
+  header shade deepens so MENU and BAG stay readable (4.5:1 or better), then
+  lifts when the film loops. On phones the hero shade reaches higher so the
+  copy stays readable on every frame. Reduced motion still shows the poster
+  with no film and no button (#96).
+- WordPress store (czeramaison.com): the Home hero plays the same 30-second
+  film, with the same quiet play/pause button (there was none before) and
+  the same deeper header shade during the sign-off. Tablets and phones keep
+  the towel photograph; reduced motion shows it on every screen, with no
+  button (#96).
+
 - Accessibility: buttons on the black bands (Home's "Start your box", the
   Collection band, About's bulk-order "Contact us") show the gold focus
   ring when reached by keyboard, on the design and the WordPress store; the
