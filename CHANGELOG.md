@@ -28,6 +28,20 @@ that section into a version.
   strip, up from 2.7:1). Footer: the Contact us button sits 16px under the
   social icons instead of 32px.
 
+- WordPress store (czeramaison.com): orders and questions go by email there
+  too, and the About page no longer mentions WhatsApp (as #84 did for the
+  showroom). About's bulk-orders band reads "Custom quantities, quoted by
+  email." and its gold "Contact us" button starts an email to
+  support@czeramaison.com titled "Bulk or corporate order"; the contact
+  strip's first column is Email with the address as a link. The footer's
+  Contact column shows support@czeramaison.com, the social icons, then a
+  "Contact us" outline button 16px below them. Email links tell screen
+  readers they open your email app. Social icons get the design's focus ring
+  (gold in the footer, ink on About) and About's icons turn #8A5C12 on hover
+  (4.4:1 on the beige strip). Styles: `tools/wp/live/about-page.css`,
+  `tools/wp/live/footer-social.css` and a new
+  `tools/wp/live/footer-contact.css`.
+
 - WordPress store (czeramaison.com): the About page is built from the design:
   a photo hero ("About CZERA", "Every detail feels like home."), the "Our
   belief" and "The details" chapters (with the care line), the dark

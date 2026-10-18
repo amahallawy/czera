@@ -17,4 +17,6 @@
   min-width: 44px; min-height: 44px; padding: 0 !important; color: inherit !important;
 }
 .czera-footer .czera-footer__social .wp-block-social-link-anchor svg { width: 1em; height: 1em; fill: currentColor; }
+/* Keyboard focus (czera#86): the design's gold ring on the dark footer, 1.5px with a 3px offset. */
+.czera-footer .czera-footer__social .wp-block-social-link-anchor:focus-visible { outline: 1.5px solid #d4af36 !important; outline-offset: 3px; }
 /* ---------- end footer social */

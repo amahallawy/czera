@@ -1,7 +1,7 @@
 /* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#82. */
 /* ---------- About page (czera#82) ---------- */
 /* design: about.html + css/pages/about.css. Photo hero, two 50/50 chapters, the dark bulk-orders band and
-   the beige contact strip (WhatsApp, Follow as icons, Delivery). Spectra's container padding, gap and
+   the beige contact strip (Email, Follow as icons, Delivery). Spectra's container padding, gap and
    alignment are reset so each section lays out as in the design. */
 .czera-about-hero, .czera-about-chapter, .czera-about-bulk, .czera-about-contact {
   width: 100% !important; max-width: none !important; margin: 0 !important; box-sizing: border-box;
@@ -84,7 +84,8 @@
   color: #010100 !important; text-decoration: underline !important; text-underline-offset: 3px;
 }
 /* Follow: Instagram, Facebook and TikTok as icons (core Social Icons block, logos only), 22px drawings in
-   44px targets, ink on beige, gold-deep on hover; the first glyph lines up with the heading above. */
+   44px targets, ink on beige, gold-text #8a5c12 on hover (4.4:1 on the beige strip, czera#86); the first
+   glyph lines up with the heading above. Keyboard focus is the design's ink ring (1.5px, 3px offset). */
 .czera-about-contact .czera-about-social {
   display: flex !important; flex-wrap: wrap; gap: 8px !important;
   margin: 0 0 0 -11px !important; padding: 0 !important; font-size: 22px !important;
@@ -93,12 +94,13 @@
   margin: 0 !important; padding: 0 !important; background: none !important;
   color: #010100 !important; transition: color 0.2s ease;
 }
-.czera-about-contact .czera-about-social .wp-social-link:hover { color: #ba7c17 !important; transform: none; }
+.czera-about-contact .czera-about-social .wp-social-link:hover { color: #8a5c12 !important; transform: none; }
 .czera-about-contact .czera-about-social .wp-block-social-link-anchor {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 44px; min-height: 44px; padding: 0 !important; color: inherit !important;
 }
 .czera-about-contact .czera-about-social .wp-block-social-link-anchor svg { width: 1em; height: 1em; fill: currentColor; }
+.czera-about-contact a:focus-visible { outline: 1.5px solid #010100 !important; outline-offset: 3px; }
 
 @media (max-width: 768px) {
   .czera-about-hero .czera-about-hero__copy { right: clamp(16px, 4vw, 48px); }
