@@ -265,6 +265,13 @@ frame. Only the shade changes: no halo or shadow on the labels. On phones
 the bottom scrim climbs higher, so the taller copy stays readable on every
 frame.
 
+**WordPress store.** The Home hero (Spectra container `czera-hero`) plays
+the same 30s film above 782px, Spectra's desktop band; tablets and phones
+keep the towel poster. The "CZERA hero" Code Snippet adds the same quiet
+button and sign-off class, and keeps the poster with no button under
+reduced motion; the look is the "Hero film" Additional CSS block (see
+`tools/wp/live/czera-hero.php` and `hero-film.css`).
+
 ### 6.3 Promises (replaces the old value strip)
 
 Four line icons with labels, as in the client catalogue: 100% cotton ·

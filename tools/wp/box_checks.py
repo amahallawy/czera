@@ -24,7 +24,8 @@ TOWELS = [57, 60, 63, 66, 69, 72]
 ROBES = [51, 54]
 BOX_ID = int(os.environ.get('CZERA_BOX_ID', '210'))
 LIVE = Path(__file__).resolve().parent / 'live'
-SNIPPETS = {5: 'czera-box-rules.php', 8: 'czera-box-builder.php', 9: 'czera-bag.php', 10: 'czera-menu.php'}
+SNIPPETS = {5: 'czera-box-rules.php', 8: 'czera-box-builder.php', 9: 'czera-bag.php', 10: 'czera-menu.php',
+            13: 'czera-hero.php'}
 RETIRED = {6: 'CZERA box labels', 7: 'CZERA box keyboard'}
 
 _auth = None
