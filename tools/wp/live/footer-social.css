@@ -1,0 +1,20 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#80. */
+/* ---------- Footer social icons (czera#80) ---------- */
+/* design.md section 6.7: Instagram, Facebook and TikTok as icons in the footer's Contact column, a core
+   Social Icons block (logos only) in widget block-7. 22px drawings in 44px targets, ivory 78% like the
+   footer links, gold on hover; the first glyph lines up with the column's text edge. */
+.czera-footer .czera-footer__social {
+  display: flex !important; flex-wrap: wrap; gap: 8px !important;
+  margin: 12px 0 16px -11px !important; padding: 0 !important; font-size: 22px !important;
+}
+.czera-footer .czera-footer__social .wp-social-link {
+  margin: 0 !important; padding: 0 !important; background: none !important;
+  color: rgba(244, 242, 236, 0.78) !important; transition: color 0.2s ease;
+}
+.czera-footer .czera-footer__social .wp-social-link:hover { color: #d4af36 !important; transform: none; }
+.czera-footer .czera-footer__social .wp-block-social-link-anchor {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; padding: 0 !important; color: inherit !important;
+}
+.czera-footer .czera-footer__social .wp-block-social-link-anchor svg { width: 1em; height: 1em; fill: currentColor; }
+/* ---------- end footer social */
