@@ -8,6 +8,11 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): Home's story now meets the hero with no
+  empty strip on desktop (its photo fades in from the page colour), it ends on
+  "About CZERA ›" only, and the Build-your-box band keeps gold for its button
+  alone.
+
 - Home: no more empty strip between the hero and Our story on desktop; the
   story photo now fades in from the page colour instead. The line under the
   hero buttons is gone, and the story ends on "About Czera ›" only.

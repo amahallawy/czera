@@ -1,5 +1,5 @@
 /* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to the end of the block. The site is authoritative; update both together. Added by amahallawy/czera#74; it overrides earlier blocks, so deleting it restores the previous look. */
-/* ---------- Home order and heading sizes (czera#74: static #68, #70, #72) ---------- */
+/* ---------- Home order and heading sizes (czera#74, #78: static #68, #70, #72, #76) ---------- */
 /* Our story now follows the hero (page 87) and About leads the Main menu (ID 21). These rules carry
    the static showroom's follow-ups: design.md sections 5.2, 6.1, 6.2, 6.4 and 6.7. */
 
@@ -10,12 +10,16 @@
 /* Our story sits right under the hero, so its title steps down to section size. */
 .czera-story__title { font-size: 38px !important; max-width: 22ch; }
 
-/* Desktop: an ivory pause between the hero film and the story photo instead of a hard cut. */
+/* Desktop: the story meets the hero with no gap; its photo fades in from ivory over the top 140px,
+   so the film and the photo never meet in a hard cut (owner's choice, czera#78). */
 @media (min-width: 769px) {
-  .czera-story { margin-top: clamp(3rem, 6vw, 6rem) !important; }
+  .czera-story .czera-story__media {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+  }
 }
 
-/* The story ends on two links side by side: About CZERA and the gift sets. */
+/* The story's links row (one link since czera#78: About CZERA). */
 .czera-story__links {
   display: flex !important; flex-direction: row !important; flex-wrap: wrap; justify-content: center; align-items: flex-end;
   gap: 12px 32px !important; width: auto !important; margin: 8px 0 0 !important; padding: 0 !important;
@@ -40,6 +44,10 @@
 
 /* Footer tagline in gold sentence case, not capitals. */
 .czera-footer__tag { text-transform: none; font-size: 13px; letter-spacing: 0.06em; }
+
+/* Build-your-box band: one accent. Eyebrow and step numbers in muted ivory; gold only on the button. */
+.czera-box-band .czera-eyebrow { color: rgba(244, 242, 236, 0.7) !important; }
+.czera-box-band .czera-step__num { color: rgba(244, 242, 236, 0.7) !important; }
 
 /* Slide-in menu: About leads on its own, with extra space before the shop links. */
 .czera-site-menu__list > li:first-child { margin-bottom: 24px; }
