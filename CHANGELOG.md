@@ -8,6 +8,10 @@ that section into a version.
 
 ## [Unreleased]
 
+- Header: the CZERA wordmark between MENU and BAG is 25% larger on every
+  screen, light over the hero and gold once scrolled (90px tall, 70px at
+  899px and below; it was 72px and 56px). The header stays 88px and the
+  mark stays centred, clear of MENU and BAG down to 320px (#99).
 - Home: the hero plays the full 30-second film, looping, ending on ivory
   linen with the gold CZERA sign-off (the 24-second film is retired). The
   play/pause control is now a quiet, icon-only round button at the bottom
