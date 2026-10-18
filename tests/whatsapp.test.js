@@ -15,7 +15,7 @@ test('message matches the spec format with details', () => {
     "Hello Czera, I'd like to order:",
     '• 1 × The Complete Czera Set: 1,450 EGP',
     '• 1 × Black Bathrobe: 1,000 EGP',
-    '• 1 × Custom box (black box, burgundy ribbon): 2 × Face, 1 × Bath, white: 570 EGP',
+    '• 1 × Custom box (black box): 2 × Face, 1 × Bath, white: 570 EGP',
     'Total: 3,020 EGP',
     '',
     'Name: Sara',

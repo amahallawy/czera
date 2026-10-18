@@ -237,9 +237,8 @@ bringing back an inline nav beside the centred wordmark.
 Full viewport, the 30s brand film as background. Headline bottom-left
 ("The hotel experience, at home."), a one-line fact line, and two
 actions: "Shop the collection" (light filled) and "Build your own box"
-(outline). Under the buttons, one small line says how ordering works:
-"Order on WhatsApp · Delivery across Egypt in 2–5 days" (each phrase
-kept whole when it wraps). Nothing else on the film.
+(outline). Nothing else on the film: no order or delivery line under
+the buttons (owner decision, 2026-10-18; How to order covers it).
 
 ### 6.3 Promises (replaces the old value strip)
 
@@ -258,8 +257,8 @@ The landing's narrative engine. Five chapter shapes:
 | `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark`. Single gold accent is the **crown**; the eyebrow reads muted ivory and the link rests ivory (gold on hover only), per §3.1 one-accent-per-screen. |
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
 | `chapter--editorial` | Heading row + 3-column entries (no card chrome). Unused while the Journal is off the site. | Light |
-| Build-your-box band | Near-black band in the black-gift-box look: copy and four numbered steps on one side, gift-box photo on the other, one gold button. Used on Home and as the break in the Collection grid. | Dark |
-| `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. On desktop it sits one ivory pause below the hero (`margin-block-start`), so the film and the photo never meet in a hard cut. Stacks (image over copy) at 768px and below; on phones it stays short because it sits before the first prices: a 2:1 photo, no pull-quote, balanced title lines. Ends on two text links, "About Czera ›" and "See the gift sets ›". | Light |
+| Build-your-box band | Near-black band in the black-gift-box look: copy and three numbered steps (box, colour, towels) on one side, gift-box photo on the other, one gold button. Used on Home and as the break in the Collection grid. | Dark |
+| `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. On desktop it meets the hero with no gap and its photo fades in from ivory over the top 140px (`mask-image`), so the film and the photo never meet in a hard cut; an ivory strip between them read as a layout bug (critique 2026-10-18). Stacks (image over copy) at 768px and below; on phones it stays short because it sits before the first prices: a 2:1 photo, no pull-quote, balanced title lines. Ends on one text link, "About Czera ›" (the gift-sets tile follows one screen later). | Light |
 
 Each chapter starts with `<span class="eyebrow">…</span>`, then the
 crown mark, then the title, then the body. Skipping the eyebrow makes
@@ -341,11 +340,12 @@ ink underline.
 
 ### 6.13 Build Your Own Box
 
-The client's mockup structure: four numbered steps on the left (box,
-towels with quantity, colour, ribbon) as bordered option tiles (the
-selected tile has an ink outline); a preview on the right with the box
-photo, the running item list, the total, "Box and ribbon included
-free", and "Add box to bag". The preview stays in view; on phones it
+The client's mockup structure: three numbered steps on the left (box,
+colour, towels with quantity) as bordered option tiles (the selected
+tile has an ink outline); a preview on the right with the box photo,
+the running item list, the total, "Box included free", and "Add box to
+bag". There is no ribbon step: ribbons are added when available and are
+never a customer choice (owner, 2026-10-18). The preview stays in view; on phones it
 becomes a total bar pinned to the bottom (the one allowed exception
 to §14's sticky-bar rule).
 
@@ -358,6 +358,15 @@ fixed-height gradient anchored to the tile's bottom edge (88% ink at 0,
 tile, so it covers the label the same way on every tile height. The
 labels measure about 5.3:1 at worst (5.29:1, against the brightest pixel
 behind them). Same stops as the WordPress build.
+
+### 6.15 Build-your-box band (Home, Collection)
+
+The one dark band: copy on the left (eyebrow, title, one line, the
+steps Box / Colour / Towels, "Start your box"), photo on the right. The
+copy sets the band's height (about 470px on desktop) and the photo
+fills its half with `object-fit: cover`; at 768px and below the photo
+sits on top at 4:3. One accent: the eyebrow and step numbers are muted
+ivory, gold only on the button.
 
 ---
 
@@ -522,8 +531,8 @@ details, and a related band at the bottom. Goal: everything needed to
 decide, with "Add to bag" always beside it.
 
 ### Build Your Own Box (`build-your-box.html`)
-Four steps and a live preview with the running total; price is the
-sum of the towels, box and ribbon free. Goal: a custom gift box in the
+Three steps (box, colour, towels) and a live preview with the running
+total; price is the sum of the towels, the box free. Goal: a custom gift box in the
 bag in under a minute.
 
 ### About (`about.html`)

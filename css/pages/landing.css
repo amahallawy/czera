@@ -84,15 +84,6 @@ video.hero__media {
   gap: var(--space-3);
   margin-block-start: var(--space-2);
 }
-/* How ordering works, stated once in the first screen (details in How to order). */
-.hero__note {
-  margin: 0;
-  font-size: var(--fs-xs);
-  letter-spacing: var(--ls-wide);
-  color: var(--color-on-dark);
-  opacity: 0.85;
-}
-.hero__note span { white-space: nowrap; }   /* wraps at the dot, never mid-phrase */
 
 /* Play / pause control for the film (shown by home.js; keeps a >= 44px target). */
 .hero__play {
@@ -314,10 +305,13 @@ video.hero__media {
   text-align: center;
   gap: var(--space-4);
 }
-/* Desktop: ivory air between the hero film and the story photo, so the page
- * reads hero → pause → chapter instead of two images cut together (§5.2). */
+/* Desktop: the story meets the hero with no gap; its photo fades in from ivory over the top 140px
+ * so the film and the photo never meet in a hard cut (owner's choice, critique 2026-10-18). */
 @media (min-width: 769px) {
-  .chapter--story { margin-block-start: clamp(var(--space-7), 6vw, var(--space-9)); }
+  .chapter--story .chapter__media {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+  }
 }
 [dir="rtl"] .chapter--story .chapter__media { background-position: right center; }
 [dir="rtl"] .chapter--story .chapter__scrim { transform: scaleX(-1); }

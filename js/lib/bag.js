@@ -19,16 +19,30 @@ function cleanLine(line) {
   if (line.type === 'product' && findProduct(line.slug)) return { type: 'product', slug: line.slug, qty };
   if (line.type === 'box' && validateBox(line.box).ok) {
     const b = line.box;
-    return { type: 'box', box: { box: b.box, ribbon: b.ribbon, colour: b.colour, items: { ...b.items } }, qty };
+    // An older bag may still carry a ribbon field; it is dropped (there is no ribbon choice).
+    return { type: 'box', box: { box: b.box, colour: b.colour, items: { ...b.items } }, qty };
   }
   return null;
+}
+
+// Saved lines that now share a key (e.g. two boxes that differed only by the retired ribbon field)
+// become one line, so a quantity change or removal acts on exactly one row.
+function merge(lines) {
+  const byKey = new Map();
+  for (const line of lines) {
+    const key = lineKey(line);
+    const existing = byKey.get(key);
+    if (existing) existing.qty = Math.min(existing.qty + line.qty, MAX_QTY);
+    else byKey.set(key, line);
+  }
+  return [...byKey.values()];
 }
 
 function read(storage) {
   try {
     const raw = storage?.getItem(BAG_KEY);
     const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.map(cleanLine).filter(Boolean) : [];
+    return Array.isArray(parsed) ? merge(parsed.map(cleanLine).filter(Boolean)) : [];
   } catch {
     return [];
   }
@@ -80,7 +94,7 @@ export function describeLine(line) {
     const unit = boxPrice(line.box);
     return {
       key: lineKey(line), title: 'Custom box',
-      spec: `${line.box.box} box, ${line.box.ribbon} ribbon · ${boxItemsText(line.box)} · ${line.box.colour}`,
+      spec: `${line.box.box} box · ${boxItemsText(line.box)} · ${line.box.colour}`,
       image: 'assets/img/products/complete-czera-set-2.jpg',
       unitPrice: unit, qty: line.qty, total: unit * line.qty, messageLabel: boxLabel(line.box),
     };

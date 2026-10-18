@@ -66,10 +66,11 @@ test('custom boxes are lines with their own key and price', () => {
   const bag = createBag(memoryStorage());
   bag.add({ type: 'box', box: box(), qty: 1 });
   const [line] = bag.lines();
-  assert.equal(lineKey(line), 'box:black|burgundy|white|face:2,bath:1');
+  assert.equal(lineKey(line), 'box:black|white|face:2,bath:1');
   const d = describeLine(line);
   assert.equal(d.total, 570);
-  assert.equal(d.messageLabel, 'Custom box (black box, burgundy ribbon): 2 × Face, 1 × Bath, white');
+  assert.equal(d.messageLabel, 'Custom box (black box): 2 × Face, 1 × Bath, white');
+  assert.equal(d.spec, 'black box · 2 × Face, 1 × Bath · white');
 });
 
 test('describeLine and bagTotal compute prices from current data', () => {
@@ -91,6 +92,35 @@ test('subscribers hear every change', () => {
   off();
   bag.add({ type: 'product', slug: 'face-towel', qty: 1 });
   assert.equal(calls, 2);
+});
+
+test('a box saved with the old ribbon field still loads, without the ribbon', () => {
+  const stored = JSON.stringify([
+    { type: 'box', box: { box: 'black', ribbon: 'burgundy', colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 },
+  ]);
+  const bag = createBag(memoryStorage({ [BAG_KEY]: stored }));
+  const [line] = bag.lines();
+  assert.equal(bag.lines().length, 1);
+  assert.equal('ribbon' in line.box, false);
+  bag.add({ type: 'box', box: box(), qty: 1 });   // the same box chosen today joins the saved line
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, 2);
+});
+
+test('two saved boxes that differed only by ribbon become one line', () => {
+  const old = ribbon => ({ type: 'box', box: { box: 'black', ribbon, colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 });
+  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([old('burgundy'), old('gold')]) }));
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, 2);
+  bag.setQty('box:black|white|face:2,bath:1', 3);   // one press acts on one line
+  assert.equal(bag.count(), 3);
+});
+
+test('merging saved lines never goes past the per-line limit', () => {
+  const line = { type: 'product', slug: 'face-towel', qty: MAX_QTY };
+  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([line, line]) }));
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, MAX_QTY);
 });
 
 test('stored boxes with retired colour rules are dropped', () => {

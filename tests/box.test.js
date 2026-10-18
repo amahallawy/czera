@@ -4,15 +4,22 @@ import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxL
 
 const sample = () => ({ ...emptyBox(), items: { face: 2, hand: 1, bath: 1, sheet: 1, beach: 0 } });
 
-test('price is the sum of the chosen towels; box and ribbon are free', () => {
+test('price is the sum of the chosen towels; the box is free', () => {
   assert.equal(boxPrice(sample()), 1450);
   assert.equal(pieceCount(sample()), 5);
 });
 
-test('defaults: black box, burgundy ribbon, white, no pieces', () => {
+test('defaults: black box, white, no pieces, and no ribbon choice', () => {
   const b = emptyBox();
-  assert.equal(b.box, 'black'); assert.equal(b.ribbon, 'burgundy'); assert.equal(b.colour, 'white');
+  assert.equal(b.box, 'black'); assert.equal(b.colour, 'white');
+  assert.equal('ribbon' in b, false);
   assert.equal(pieceCount(b), 0);
+});
+
+test('a ribbon field from an older bag is ignored, not required', () => {
+  assert.equal(validateBox({ ...sample(), ribbon: 'gold' }).ok, true);
+  assert.equal(validateBox(sample()).ok, true);
+  assert.equal(boxKey({ ...sample(), ribbon: 'gold' }), boxKey(sample()));
 });
 
 test('needs at least two pieces', () => {
@@ -56,9 +63,9 @@ test('rejects unknown choices and bad quantities', () => {
 });
 
 test('key, items text and label are stable and readable', () => {
-  assert.equal(boxKey(sample()), 'black|burgundy|white|face:2,hand:1,bath:1,sheet:1');
+  assert.equal(boxKey(sample()), 'black|white|face:2,hand:1,bath:1,sheet:1');
   assert.equal(boxItemsText(sample()), '2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet');
-  assert.equal(boxLabel(sample()), 'Custom box (black box, burgundy ribbon): 2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet, white');
+  assert.equal(boxLabel(sample()), 'Custom box (black box): 2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet, white');
 });
 
 const none = () => emptyBox().items;
