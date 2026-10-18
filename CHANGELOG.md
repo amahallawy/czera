@@ -8,6 +8,15 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): Home now matches the showroom's new
+  order and fixes. Our story comes right after the hero with its new headline
+  ("Everyday moments deserve extraordinary comfort."), a one-line body and two
+  links (About CZERA, See the gift sets); About is first in the menu, set
+  apart from the shop links. The hero headline stays the largest heading at
+  every width, the story is shorter on phones, an ivory pause separates it from
+  the hero on desktop, and the footer tagline is in sentence case. No order
+  line under the hero buttons on the store.
+
 - Home hero: one line under the buttons says how ordering works ("Order on
   WhatsApp · Delivery across Egypt in 2–5 days").
 - Our story is shorter on phones (a wider photo, no pull-quote), so the first
