@@ -8,8 +8,8 @@ that section into a version.
 
 ## [Unreleased]
 
-- Footer: Instagram, Facebook and TikTok are now icons instead of text,
-  with the same names for screen readers.
+- Footer and About page: Instagram, Facebook and TikTok are now icons
+  instead of text, with the same names for screen readers.
 - WordPress store (czeramaison.com): the footer's Instagram, Facebook and
   TikTok links are icons too, using WordPress's Social Icons block.
 
