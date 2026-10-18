@@ -263,7 +263,9 @@ so it is full when the linen appears, and fades out when the film loops
 back). MENU, BAG and their icons keep at least 4.5:1 on every sign-off
 frame. Only the shade changes: no halo or shadow on the labels. On phones
 the bottom scrim climbs higher, so the taller copy stays readable on every
-frame.
+frame. On portrait phones, where the film plays only when tapped, the
+sign-off wordmark sits behind the eyebrow and headline; the copy stays
+readable and this is accepted (owner decision, 2026-10-18).
 
 **WordPress store.** The Home hero (Spectra container `czera-hero`) plays
 the same 30s film above 782px, Spectra's desktop band; tablets and phones
