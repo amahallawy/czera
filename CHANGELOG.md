@@ -12,6 +12,10 @@ that section into a version.
   screen, light over the hero and gold once scrolled (90px tall, 70px at
   899px and below; it was 72px and 56px). The header stays 88px and the
   mark stays centred, clear of MENU and BAG down to 320px (#99).
+- WordPress store (czeramaison.com): the header wordmark is 25% larger too,
+  light on the Home hero and gold once scrolled and on every other page; its
+  width still matches the design's within half a pixel. The header stays
+  88px (#99).
 - Home: the hero plays the full 30-second film, looping, ending on ivory
   linen with the gold CZERA sign-off (the 24-second film is retired). The
   play/pause control is now a quiet, icon-only round button at the bottom

@@ -8,7 +8,8 @@
 /* Header frame as in the showroom: an 88px row (also once sticky) on the 1320px container with the
    showroom gutter, and the wordmark on the page's centre line at the showroom's visible size. The
    WordPress wordmark files are cropped tighter than the showroom's, so these widths give the same
-   glyph widths: light 67px (52px at 899px and below), gold 56px (44px). */
+   glyph widths: light 84px (66px at 899px and below), gold 71px (55px), 1.25 times the first size
+   (amahallawy/czera#99). */
 #masthead .site-primary-header-wrap.ast-container { max-width: 1320px; padding-inline: clamp(16px, 4vw, 48px); }
 #masthead .ast-primary-header-bar { padding-block: 0; border-bottom-color: #a3a099; }
 /* The mobile header has no inner container: its bar carries the gutter. */
@@ -17,13 +18,13 @@
 #masthead .ast-primary-header-bar.site-primary-header-wrap { min-height: 88px; }
 #masthead .ast-primary-header-bar .site-branding { padding-block: 0; }
 #masthead .site-header-primary-section-center .site-logo-img { padding-inline-end: 0; }
-.ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 71.4px; max-width: none; height: auto; }
+.ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 89.25px; max-width: none; height: auto; }
 #masthead .ast-primary-header-bar .site-logo-img .custom-logo-link:not(.transparent-custom-logo) img,
-#masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 64.4px; max-width: none; height: auto; }
+#masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 80.5px; max-width: none; height: auto; }
 @media (max-width: 899px) {
-  .ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 55.5px; }
+  .ast-theme-transparent-header #masthead .site-logo-img .transparent-custom-logo img { width: 69.38px; }
   #masthead .ast-primary-header-bar .site-logo-img .custom-logo-link:not(.transparent-custom-logo) img,
-  #masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 50px; }
+  #masthead .ast-primary-header-bar .site-logo-img .sticky-custom-logo img { width: 62.5px; }
 }
 
 /* Menu button. Its HTML 1 wrapper centres it: once sticky, Astra gives the wrapper a taller line box. */
