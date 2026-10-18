@@ -22,16 +22,16 @@
   <div data-shell-header></div>
 
   <main id="main">
-    <!-- HERO: 30 s silent brand film, looping. Sources are attached by js/pages/home.js only when
-         autoplay is appropriate (desktop, no Save-Data, no reduced motion); otherwise the
-         poster stays and a "Play film" control starts it. -->
+    <!-- HERO: 30 s silent brand film, looping; it ends on ivory linen with the gold CZERA
+         sign-off. Sources are attached by js/pages/home.js only when autoplay is appropriate
+         (desktop, no Save-Data, no reduced motion); otherwise the poster stays and the round
+         play button starts it. -->
     <section class="hero">
       <video class="hero__media" muted loop playsinline preload="none"
              poster="assets/img/hero-poster.jpg" aria-hidden="true"
              data-src-webm="assets/video/hero-30s.webm" data-src-mp4="assets/video/hero-30s.mp4"></video>
-      <button type="button" class="hero__play" data-hero-play data-state="paused" hidden>
-        <svg class="hero__play-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="hero__play-shape hero__play-shape--play" d="M4 2.5v11l9-5.5z" fill="currentColor"/><path class="hero__play-shape hero__play-shape--pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>
-        <span data-hero-play-label>Play film</span>
+      <button type="button" class="hero__play" data-hero-play data-state="paused" aria-label="Play film" hidden>
+        <svg class="hero__play-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="hero__play-shape hero__play-shape--play" d="M4.5 2.5v11l9-5.5z" fill="currentColor"/><path class="hero__play-shape hero__play-shape--pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>
       </button>
       <div class="hero__overlay" aria-hidden="true"></div>
       <div class="hero__copy">
