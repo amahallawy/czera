@@ -237,11 +237,42 @@ bringing back an inline nav beside the centred wordmark.
 
 ### 6.2 Hero
 
-Full viewport, the 30s brand film as background. Headline bottom-left
-("The hotel experience, at home."), a one-line fact line, and two
-actions: "Shop the collection" (light filled) and "Build your own box"
-(outline). Nothing else on the film: no order or delivery line under
+Full viewport, the 30s brand film as background, looping without end
+(`assets/video/hero-30s.webm` / `.mp4`, silent). It opens on the cotton
+field and ends, from 24s to 30s, on ivory linen with the gold CZERA
+sign-off (owner decision, 2026-10-18, amahallawy/czera#96). Headline
+bottom-left ("The hotel experience, at home."), a one-line fact line, and
+two actions: "Shop the collection" (light filled) and "Build your own
+box" (outline). Nothing else on the film: no order or delivery line under
 the buttons (owner decision, 2026-10-18; How to order covers it).
+
+**Play / pause.** One quiet, icon-only round button (WCAG 2.2.2) at the
+hero's bottom right, clear of the copy; on phones it sits beside "Build
+your own box". At rest it is a 60% ivory icon on a soft dark disc; hover
+and keyboard focus bring the icon to full ivory, darken the disc and, for
+focus, draw the gold ring. 44px target. Its name follows the film:
+"Pause film" while it plays, "Play film" while it is paused. Where the
+film does not autoplay (phones, touch, Save-Data, slow connections) the
+poster shows and the same button starts it. Reduced motion: the poster,
+no film and no button.
+
+**Sign-off shade.** The linen is the film's brightest moment, so while it
+plays the header's top shade deepens (`body.hero-signoff`, set by
+`js/pages/home.js`; it fades in over 600ms, starting 0.6s before the cut
+so it is full when the linen appears, and fades out when the film loops
+back). MENU, BAG and their icons keep at least 4.5:1 on every sign-off
+frame. Only the shade changes: no halo or shadow on the labels. On phones
+the bottom scrim climbs higher, so the taller copy stays readable on every
+frame. On portrait phones, where the film plays only when tapped, the
+sign-off wordmark sits behind the eyebrow and headline; the copy stays
+readable and this is accepted (owner decision, 2026-10-18).
+
+**WordPress store.** The Home hero (Spectra container `czera-hero`) plays
+the same 30s film above 782px, Spectra's desktop band; tablets and phones
+keep the towel poster. The "CZERA hero" Code Snippet adds the same quiet
+button and sign-off class, and keeps the poster with no button under
+reduced motion; the look is the "Hero film" Additional CSS block (see
+`tools/wp/live/czera-hero.php` and `hero-film.css`).
 
 ### 6.3 Promises (replaces the old value strip)
 
@@ -402,6 +433,8 @@ category pages carry the same band after their product grid.
 | `.reveal` (opacity + 20px Y) | Section enters viewport | IntersectionObserver in [`js/main.js`](js/main.js); 700ms `--ease-out`. |
 | Ken-burns on `.chapter__media` | Chapter media in view | Slow `transform: scale()` + `translate()`, ~20s loop. Imperceptible per frame. |
 | Menu slide | Menu button | Panel slides in from the inline start, 360ms `--ease-out`; backdrop fades in. Instant under reduced motion. |
+| Hero film | Home, on load (desktop) | The 30s film loops silently; a quiet round button pauses it (§6.2). Reduced motion: poster only. |
+| Sign-off shade | Film 23.4–30s | The header shade deepens, 600ms opacity fade (`--dur-slow`), and lifts when the film loops. Instant under reduced motion. |
 | Image hover lift | Catalogue cards | `transform: scale(1.02)` on the inner img, 320ms `--ease-out`. |
 | `prefers-reduced-motion` | Always respected | All transitions clamped to `0.01ms`; reveal becomes instant. |
 

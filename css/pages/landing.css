@@ -85,36 +85,66 @@ video.hero__media {
   margin-block-start: var(--space-2);
 }
 
-/* Play / pause control for the film (shown by home.js; keeps a >= 44px target). */
+/* Play / pause for the film (WCAG 2.2.2), shown by home.js: a quiet, icon-only
+ * round button at the hero's bottom right, clear of the copy. At rest the icon is
+ * 60% ivory on a soft dark disc; hover and keyboard focus bring it up to full
+ * ivory. 44px target; its name ("Pause film" / "Play film") is set by home.js. */
 .hero__play {
   position: absolute;
   z-index: 3;
   inset-inline-end: max(var(--gutter), calc((100% - var(--content-max)) / 2 + var(--gutter)));
-  inset-block-start: calc(var(--header-height) + var(--space-3));
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-block-size: 44px;
-  min-inline-size: 44px;
-  padding-inline: var(--space-4);
-  font: inherit;
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  letter-spacing: var(--ls-wide);
-  text-transform: uppercase;
-  color: var(--color-on-dark);
-  background: color-mix(in srgb, var(--color-ink-strong) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-on-dark) 60%, transparent);
-  border-radius: 0;
+  inset-block-end: var(--space-8);
+  display: inline-grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  color: color-mix(in srgb, var(--color-on-dark) 60%, transparent);
+  background: color-mix(in srgb, var(--color-ink-strong) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-on-dark) 22%, transparent);
+  border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition:
+    color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
 }
-.hero__play:hover { background: color-mix(in srgb, var(--color-ink-strong) 80%, transparent); }
-.hero__play:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+.hero__play:hover,
+.hero__play:focus-visible {
+  color: var(--color-on-dark);
+  background: color-mix(in srgb, var(--color-ink-strong) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-on-dark) 50%, transparent);
+}
+.hero__play:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; border-radius: 50%; }
 .hero__play[hidden] { display: none; }
+.hero__play-icon { inline-size: 14px; block-size: 14px; }
 /* The icon follows the film: a triangle while paused, two bars while playing. */
 .hero__play[data-state="paused"] .hero__play-shape--pause,
 .hero__play[data-state="playing"] .hero__play-shape--play { display: none; }
+
+/* Sign-off shade. The film's last 6 s (24-30 s) are bright ivory linen, where the
+ * header's usual top shade (components.css) leaves MENU and BAG faint. While
+ * home.js sets body.hero-signoff, a deeper shade fades in over the header (and a
+ * little below it, so it has no edge), then fades out when the film loops back.
+ * No halo on the labels; only the shade changes. Measured >= 4.5:1 for ivory
+ * labels on every sign-off frame (amahallawy/czera#96). */
+body.has-hero .site-header::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -48px;
+  background-image: linear-gradient(to bottom,
+    rgba(1, 1, 0, 0.6) 0%,
+    rgba(1, 1, 0, 0.56) 40%,
+    rgba(1, 1, 0, 0.4) 60%,
+    rgba(1, 1, 0, 0.2) 76%,
+    rgba(1, 1, 0, 0.07) 89%,
+    rgba(1, 1, 0, 0) 100%);
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+  z-index: -1;
+}
+body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__play { display: none; }
@@ -548,6 +578,28 @@ video.hero__media {
 
 @media (max-width: 560px) {
   .hero__copy { max-width: 100%; padding-block-end: var(--space-7); }
+  /* The copy is taller on phones, so the scrim climbs higher: the eyebrow keeps
+   * >= 4.5:1 on every frame of the film. */
+  .hero__overlay {
+    background:
+      linear-gradient(to top,
+        color-mix(in srgb, var(--color-ink-strong) 86%, transparent) 0%,
+        color-mix(in srgb, var(--color-ink-strong) 78%, transparent) 45%,
+        color-mix(in srgb, var(--color-ink-strong) 50%, transparent) 62%,
+        transparent 80%),
+      radial-gradient(ellipse 130% 100% at 50% 40%,
+        transparent 55%,
+        color-mix(in srgb, var(--color-ink-strong) 18%, transparent) 100%);
+  }
+  /* The play button sits beside the last full-width button, in the dark scrim. */
+  .hero:has(.hero__play:not([hidden])) .hero__actions .btn:last-child {
+    width: calc(100% - 44px - var(--space-3));
+    align-self: flex-start;
+  }
+  /* +5px centres the 44px button on the 54px button row: (54 - 44) / 2. The row's
+   * height comes from .btn's padding, line height and border, not from a token,
+   * so it is written out here; change it if .btn changes. */
+  .hero__play { inset-block-end: calc(var(--space-7) + 5px); }
   .hero__actions { flex-direction: column; align-self: stretch; }
   .hero__actions .btn { width: 100%; justify-content: center; text-align: center; }
   .promise-list { grid-template-columns: 1fr 1fr; gap: var(--space-5) var(--space-4); }

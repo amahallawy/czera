@@ -1,0 +1,37 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#96. */
+/* ---------- Hero film (controls and sign-off shade, CZERA hero snippet) ---------- */
+/* design: css/pages/landing.css, .hero__play and the sign-off shade (design.md section 6.2). The "CZERA hero" snippet adds
+   the button over the Home hero film and sets body.hero-signoff during the film's 24-30s ivory linen sign-off. */
+/* !important on position: Spectra makes every child of a video container position: relative (6-class selector). */
+.czera-hero .czera-hero-play {
+  position: absolute !important; z-index: 3; right: clamp(24px, 7vw, 120px); bottom: 76px;
+  display: inline-grid; place-items: center; width: 44px; height: 44px; min-height: 0; padding: 0; margin: 0;
+  color: rgba(244, 242, 236, 0.6); background: rgba(1, 1, 0, 0.3); border: 1px solid rgba(244, 242, 236, 0.22);
+  border-radius: 50%; box-shadow: none; cursor: pointer; line-height: 0;
+  transition: color 0.32s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.czera-hero .czera-hero-play:hover, .czera-hero .czera-hero-play:focus-visible {
+  color: #f4f2ec; background: rgba(1, 1, 0, 0.6); border-color: rgba(244, 242, 236, 0.5);
+}
+.czera-hero .czera-hero-play:focus { outline: none; }
+.czera-hero .czera-hero-play:focus-visible { outline: 2px solid #d4af36; outline-offset: 3px; }
+.czera-hero .czera-hero-play[hidden] { display: none; }
+.czera-hero .czera-hero-play svg { width: 14px; height: 14px; }
+.czera-hero .czera-hero-play[data-state="paused"] .czera-hero-play__pause,
+.czera-hero .czera-hero-play[data-state="playing"] .czera-hero-play__play { display: none; }
+/* Reduced motion: the snippet pauses the film and sets the poster (media 18) on the hero; the film's wrapper is hidden
+   with visibility, as Spectra's per-block display rule (5 classes, !important) would win over display: none. */
+.czera-hero.czera-hero--still { background-size: cover; background-position: 60% 50%; }
+.czera-hero.czera-hero--still .spectra-background-video__wrapper { visibility: hidden !important; }
+/* Sign-off shade: while the film shows the bright linen, a deeper shade fades in behind the header labels (and a little
+   below the bar, so it has no edge), then fades out when the film loops. No halo on the labels. */
+.ast-theme-transparent-header .ast-primary-header-bar::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: -48px; left: 0; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(to bottom, rgba(1, 1, 0, 0.6) 0%, rgba(1, 1, 0, 0.56) 40%, rgba(1, 1, 0, 0.4) 60%, rgba(1, 1, 0, 0.2) 76%, rgba(1, 1, 0, 0.07) 89%, rgba(1, 1, 0, 0) 100%);
+  opacity: 0; transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.hero-signoff.ast-theme-transparent-header .ast-primary-header-bar:not(.ast-sticky-active)::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .czera-hero .czera-hero-play, .ast-theme-transparent-header .ast-primary-header-bar::after { transition: none; }
+}
+/* ---------- end hero film */

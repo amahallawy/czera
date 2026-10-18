@@ -8,9 +8,18 @@ initShell({ hasHero: true });
 
 // Hero film: autoplay only where it is cheap and welcome. Touch devices, narrow
 // screens, slow/cellular connections, Save-Data and reduced-data visitors get the
-// poster and a "Play film" control instead. Everyone else autoplays and gets a
-// "Pause film" control (WCAG 2.2.2). Reduced motion keeps the poster, no control
-// (CSS hides the video and the button).
+// poster and the play button instead. Everyone else autoplays and gets the same
+// round button to pause it (WCAG 2.2.2); its name follows the state, "Pause film"
+// or "Play film". Reduced motion keeps the poster, no film and no button (CSS
+// hides the video and the button).
+//
+// The film loops every 30 s and its last 6 s (24-30 s) are the bright ivory linen
+// with the gold CZERA sign-off. While they play, `body.hero-signoff` deepens the
+// header shade so MENU and BAG stay readable (landing.css). The class goes on
+// SIGNOFF_LEAD seconds before the cut so the 600 ms fade has finished when the
+// linen appears, and comes off when the film loops back to the cotton field.
+const SIGNOFF_START = 24;
+const SIGNOFF_LEAD = 0.6;
 const heroVideo = document.querySelector('video.hero__media');
 const heroPlay = document.querySelector('[data-hero-play]');
 if (heroVideo) {
@@ -39,20 +48,34 @@ if (heroVideo) {
     return heroVideo.play();
   };
 
+  // Follow the film's clock: every frame where the browser can report frames,
+  // otherwise on each timeupdate (about four times a second).
+  const syncSignoff = () => {
+    document.body.classList.toggle('hero-signoff',
+      heroVideo.currentTime >= SIGNOFF_START - SIGNOFF_LEAD);
+  };
+  const watchFrames = () => {
+    syncSignoff();
+    heroVideo.requestVideoFrameCallback(watchFrames);
+  };
+
   if (!reducedMotion) {
+    if ('requestVideoFrameCallback' in heroVideo) heroVideo.requestVideoFrameCallback(watchFrames);
+    else heroVideo.addEventListener('timeupdate', syncSignoff);
+    heroVideo.addEventListener('seeked', syncSignoff);
+
     if (heroPlay) {
-      const label = heroPlay.querySelector('[data-hero-play-label]');
-      const setLabel = text => {
-        label.textContent = text;
-        heroPlay.dataset.state = text === 'Pause film' ? 'playing' : 'paused';
+      const setState = playing => {
+        heroPlay.setAttribute('aria-label', playing ? 'Pause film' : 'Play film');
+        heroPlay.dataset.state = playing ? 'playing' : 'paused';
       };
       heroPlay.hidden = false;
-      heroVideo.addEventListener('play', () => setLabel('Pause film'));
-      heroVideo.addEventListener('pause', () => setLabel('Play film'));
+      heroVideo.addEventListener('play', () => setState(true));
+      heroVideo.addEventListener('pause', () => setState(false));
       // Source load failures fire `error` on the <source>, which does not bubble.
-      heroVideo.addEventListener('error', () => { setLabel(heroVideo.paused ? 'Play film' : 'Pause film'); }, true);
+      heroVideo.addEventListener('error', () => { setState(!heroVideo.paused); }, true);
       heroPlay.addEventListener('click', () => {
-        if (heroVideo.paused) play().catch(() => setLabel('Play film'));
+        if (heroVideo.paused) play().catch(() => setState(false));
         else heroVideo.pause();
       });
     }
