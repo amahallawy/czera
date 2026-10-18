@@ -593,7 +593,7 @@ body.menu-open { overflow: hidden; }
 .toast__link:hover { color: var(--color-on-dark); }
 
 /* ---------------- Dark band ----------------
- * Two-column near-black band with a gold eyebrow; used once per page. */
+ * Two-column near-black band with a muted ivory eyebrow; gold only on its button; used once per page. */
 .band--dark {
   display: grid;
   grid-template-columns: 1fr 1fr;

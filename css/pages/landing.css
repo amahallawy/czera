@@ -305,8 +305,6 @@ video.hero__media {
   text-align: center;
   gap: var(--space-4);
 }
-/* Desktop: ivory air between the hero film and the story photo, so the page
- * reads hero → pause → chapter instead of two images cut together (§5.2). */
 /* Desktop: the story meets the hero with no gap; its photo fades in from ivory over the top 140px
  * so the film and the photo never meet in a hard cut (owner's choice, critique 2026-10-18). */
 @media (min-width: 769px) {

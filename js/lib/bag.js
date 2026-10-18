@@ -25,11 +25,24 @@ function cleanLine(line) {
   return null;
 }
 
+// Saved lines that now share a key (e.g. two boxes that differed only by the retired ribbon field)
+// become one line, so a quantity change or removal acts on exactly one row.
+function merge(lines) {
+  const byKey = new Map();
+  for (const line of lines) {
+    const key = lineKey(line);
+    const existing = byKey.get(key);
+    if (existing) existing.qty = Math.min(existing.qty + line.qty, MAX_QTY);
+    else byKey.set(key, line);
+  }
+  return [...byKey.values()];
+}
+
 function read(storage) {
   try {
     const raw = storage?.getItem(BAG_KEY);
     const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.map(cleanLine).filter(Boolean) : [];
+    return Array.isArray(parsed) ? merge(parsed.map(cleanLine).filter(Boolean)) : [];
   } catch {
     return [];
   }

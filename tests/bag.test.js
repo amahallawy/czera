@@ -107,6 +107,22 @@ test('a box saved with the old ribbon field still loads, without the ribbon', ()
   assert.equal(bag.lines()[0].qty, 2);
 });
 
+test('two saved boxes that differed only by ribbon become one line', () => {
+  const old = ribbon => ({ type: 'box', box: { box: 'black', ribbon, colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 });
+  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([old('burgundy'), old('gold')]) }));
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, 2);
+  bag.setQty('box:black|white|face:2,bath:1', 3);   // one press acts on one line
+  assert.equal(bag.count(), 3);
+});
+
+test('merging saved lines never goes past the per-line limit', () => {
+  const line = { type: 'product', slug: 'face-towel', qty: MAX_QTY };
+  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([line, line]) }));
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, MAX_QTY);
+});
+
 test('stored boxes with retired colour rules are dropped', () => {
   const stored = JSON.stringify([
     { type: 'box', box: { box: 'black', ribbon: 'gold', colour: 'black', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 },
