@@ -21,7 +21,7 @@
   --color-ink-faint:    #A3A099;   /* Soft gray — placeholder, divider on light */
 
   --color-on-dark:      #F4F2EC;   /* Foreground on charcoal surfaces */
-  --color-whatsapp:     #1f7a4d;   /* WhatsApp action — deep green, AA on ivory/white */
+  --color-send:         #1f7a4d;   /* The bag's "Send order by email" — deep green, AA on ivory/white */
   /* Build-your-box swatches (colour names only used by the box builder) */
   --swatch-burgundy:    #6E1F2E;
   --swatch-blue:        #2F5D8A;

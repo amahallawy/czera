@@ -9,7 +9,7 @@ project-specific concretions.
 Czera — 100% cotton towels, bathrobes and boxed gift sets. A showroom-style
 static site (HTML / CSS / vanilla JS), bilingual English/Arabic: editorial
 home page, Frette-inspired collection and product pages, a bag whose order
-is sent on WhatsApp, and Build Your Own Box. Product facts come only from
+is sent by email, and Build Your Own Box. Product facts come only from
 the client's files (see `PRODUCT.md`); the design is in
 `docs/superpowers/specs/2026-10-13-czera-showroom-design.md`.
 

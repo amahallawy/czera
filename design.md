@@ -17,8 +17,9 @@ exist to protect.
 **Czera** — 100% cotton towels (650+ GSM), bathrobes (1200 GSM) and
 gift sets in the black Czera box. Bilingual (English default, Arabic
 mirror). A showroom: editorial brand storytelling on the home page, a
-Frette-style collection and product page, a bag, and orders sent on
-WhatsApp. Facts come only from the client's product files and catalogue
+Frette-style collection and product page, a bag, and orders sent by
+email to support@czeramaison.com (owner, 2026-10-18, #84; the site no
+longer uses WhatsApp). Facts come only from the client's product files and catalogue
 PDF (see [`PRODUCT.md`](PRODUCT.md)); the full page-by-page design is in
 [the showroom spec](docs/superpowers/specs/2026-10-13-czera-showroom-design.md).
 
@@ -28,7 +29,7 @@ PDF (see [`PRODUCT.md`](PRODUCT.md)); the full page-by-page design is in
 | **Posture** | The hotel experience, at home. Refined, gift-ready, never loud. |
 | **Surface** | Ivory pages, near-black for the gift-box moments, gold kept rare. |
 | **Brand line** | *Luxury towels & bath essentials.* Catalogue line: *Every detail feels like home.* |
-| **Region** | Egypt. WhatsApp orders. EGP pricing. |
+| **Region** | Egypt. Orders by email. EGP pricing. |
 
 ---
 
@@ -271,10 +272,13 @@ chapters blur into each other.
 - **Solid gold**: the main action on a dark band ("Start your box").
   One per screen.
 - **Outline**: the second action beside a solid one (hero).
-- **WhatsApp green**: only the final "Send order on WhatsApp" in the
-  bag.
+- **Send green** (`--color-send`): only the final "Send order by email"
+  in the bag.
+- **Contact us**: every contact button is labelled "Contact us" and
+  opens the visitor's email app (`mailto:support@czeramaison.com`); its
+  accessible name adds "(opens your email app)".
 - **Gold text link with `›`**: "Add to bag ›" on product cards, "Or
-  order just this on WhatsApp ›", "See all gift sets ›".
+  order just this by email ›", "See all gift sets ›".
 
 No ghost-button stacks. A third action is a text link, not a button.
 
@@ -287,9 +291,10 @@ divider between rows. Reads like a Frette product fact-sheet.
 
 Dark. Four columns: brand block (wordmark, "Luxury towels & bath
 essentials" in gold sentence case, one line) / Shop / Help (How to order, Sizes & care,
-Delivery, About) / Contact (the WhatsApp number, a row of social icons
-for Instagram, Facebook and TikTok, then an "Order on WhatsApp" outline
-button). Bottom row: © line and the
+Delivery, About) / Contact (support@czeramaison.com as a mailto link, a
+row of social icons for Instagram, Facebook and TikTok, then a "Contact
+us" outline button that opens an email to the same address, 16px below
+the icons). Bottom row: © line and the
 English · العربية switch. No newsletter form (the site has nowhere to
 send it). On Home it sits under the three-step "How to order" band.
 Column headings are `h2` (small caps by style), so the page's heading
@@ -320,7 +325,7 @@ becomes a "Filters" button that opens a panel.
 Photos stacked large on the left; the buying panel stays in view on
 the right: category, name, price, short description, "In the box"
 list for sets, quantity, "Add to bag · price", the "Or order just this
-on WhatsApp ›" link, four quick facts, the delivery line. Under that,
+by email ›" link, four quick facts, the delivery line. Under that,
 fold-out sections: Description and Features open, Sizes & care and
 Delivery & payment closed. At the bottom: a dark "Add this to a box of
 your own" band (towels and beach towels pre-fill the box; robes and
@@ -335,8 +340,14 @@ bag · View bag"). The bag opens as a panel that slides in from the
 right, in two steps: (1) items with photo, name, spec, quantity,
 remove, line price, total, "Continue"; (2) delivery details: name,
 phone, address, city required, note optional, then the green "Send
-order on WhatsApp" button, which opens WhatsApp with the order written
-out. The bag is kept in the visitor's browser.
+order by email" button, which opens the visitor's email app addressed to
+support@czeramaison.com, subject "Order from czeramaison.com", with the
+order written out in the body. A confirmation step follows: "Your order
+is ready in your email app", the order text, a "Copy order" button and,
+for visitors whose email app did not open, the address to send it to and
+a "try again" link. Orders longer than about 2,000 characters as a link
+(some email apps cut those short) get one more line asking the visitor
+to check every item arrived. The bag is kept in the visitor's browser.
 
 ### 6.12 Gift-set tabs (Home)
 
@@ -423,7 +434,7 @@ horizontal scroll storytelling, parallax beyond ken-burn.
 - Currency: `1,450 EGP` — comma-grouped amount, space, three-letter
   code (matches the client's mockup).
 - CTAs are imperative + concrete: "Shop the collection", "Add to bag",
-  "Start your box", "Send order on WhatsApp". Never "Click here",
+  "Start your box", "Send order by email", "Contact us". Never "Click here",
   "Learn more", "Get started", "Buy now".
 - Product names are Italiana, title case as in the catalogue, no
   "Luxury" prefix ("The Complete Czera Set", "3 Bath Sheets Set").
@@ -520,7 +531,8 @@ Section-by-section choices are in the
 Editorial, chapter-paced, in seven blocks: hero film, our story (text
 over image), shop by category (editorial grid, gift sets lead), gift
 sets (two tabs), Build Your Own Box (dark band), the four promises with
-a photo strip, how to order (three steps) + footer. The story leads
+a photo strip, how to order (three steps, all by email: Add to bag,
+Send your bag by email, We confirm and deliver) + footer. The story leads
 the page and About leads the menu (client request, 2026-10-17,
 amahallawy/czera#68). Goal: the first screen sets the brand, the second
 tells its story, and the category tiles with prices follow straight
@@ -543,7 +555,9 @@ bag in under a minute.
 
 ### About (`about.html`)
 Photo header, two short chapters from the catalogue's copy, the
-bulk-orders band and contact details. Goal: who Czera is and how to
+bulk-orders band ("Custom quantities, quoted by email." and a "Contact
+us" button, an email with the subject "Bulk or corporate order") and the
+contact strip (Email, Follow, Delivery). Goal: who Czera is and how to
 order in quantity.
 
 ---

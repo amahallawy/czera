@@ -5,6 +5,12 @@
 **Status**: Draft, awaiting owner review
 **Mockups**: `.superpowers/brainstorm/605-1791904595/content/` (local, gitignored)
 
+> **Note, 2026-10-18 (#84): WhatsApp replaced by email (owner).** Orders and
+> enquiries now go to **support@czeramaison.com**: the bag's last step opens
+> the visitor's email app with the order written into the body, contact
+> buttons say "Contact us", and the site no longer mentions WhatsApp. The
+> sections below are updated to match.
+
 ## 1. What changes and why
 
 The site was built as a design with placeholder content. The client has now
@@ -18,7 +24,8 @@ supplied the real catalogue, and the site is rebuilt around it:
   hospitality site. `PRODUCT.md`, `design.md` and `CLAUDE.md` are updated to
   match in the same PR as this spec.
 - **Buying**: visitors add products to a **bag**, then send the whole bag as an
-  order on **WhatsApp**. No payment or checkout on the site.
+  order by **email** (support@czeramaison.com; WhatsApp until #84). No
+  payment or checkout on the site.
 
 Supported claims (and only these): 100% (premium) cotton; towels 650+ GSM
 (catalogue p6); robes 1200 GSM, fit up to 130 kg; ultra soft and highly
@@ -72,7 +79,8 @@ until the client supplies new photos.
   short confirmation ("Black Bathrobe added to your bag · View bag").
 - **Footer** (dark): wordmark and "Luxury towels & bath essentials"; Shop
   links; Help (How to order, Sizes & care, Delivery, About); Contact
-  (WhatsApp, Instagram @czera_maison, Facebook); English · العربية switch.
+  (support@czeramaison.com, the social icons and a "Contact us" button that
+  opens an email); English · العربية switch.
 - **Logo**: `assets/logo/czera-wordmark-white.png` has a fake checkerboard
   baked into the image and cannot be used. A clean transparent PNG or SVG is
   needed (from the brand book, per `CLAUDE.md`).
@@ -90,7 +98,7 @@ now follows the hero, and About is the first menu item.
 | 4 | Gift sets | **B**: grouped by occasion with tabs. **Two tabs of four** (assumed, see §11): *For the home* (Complete Set, 3 Bath Towels, 3 Bath Sheets, Hand & Bath Sheet) and *Robes & beach* (His & Hers, both Robe & Beach sets, Beach Towel Set). |
 | 5 | Build your own box | **C**: dark band in the black-box look; three steps (box, colour, towels; no ribbon choice since 2026-10-18); gold "Start your box" button. |
 | 6 | Material & craft | **B**: four icon promises as in the catalogue (100% cotton, Highly absorbent, Long-lasting, Hotel quality with 650+ GSM / 1200 GSM) plus a four-photo strip. |
-| 7 | How to order + footer | **B**: three steps: *Add to bag* → *Send your bag on WhatsApp* → *We confirm and deliver*; one line for bulk and corporate orders; then the footer. |
+| 7 | How to order + footer | **B**: three steps: *Add to bag* → *Send your bag by email* → *We confirm and deliver* (title "Three steps, all by email."); one line for bulk and corporate orders ("Custom quantities, quoted by email."); then the footer. |
 
 ## 5. Collection (`catalog.html`)
 
@@ -109,7 +117,7 @@ now follows the hero, and About is the first menu item.
 - **Photos & panel, A**: photos stacked large on the left; the buying panel
   stays in view while they scroll. Panel: category, name, price, short
   description, "In the box" list (sets), quantity, **"Add to bag · price"**,
-  a small **"Or order just this on WhatsApp ›"** link, four quick facts, and
+  a small **"Or order just this by email ›"** link, four quick facts, and
   the delivery line. On phones: swipeable photos, panel below.
 - **Details, A**: fold-out sections inside the panel. *Description* and
   *Features* open by default (text from `info.txt`); *Sizes & care* and
@@ -120,7 +128,7 @@ now follows the hero, and About is the first menu item.
   pre-filling. Beside it, *Recently viewed*; first-time visitors see
   *Bestsellers* instead.
 
-## 7. The bag and the WhatsApp order
+## 7. The bag and the email order
 
 - The bag is stored in the visitor's browser and survives page changes and
   reloads. No account.
@@ -129,8 +137,11 @@ now follows the hero, and About is the first menu item.
   1. **Your bag**: items with photo, name, spec, quantity (− / +), remove,
      line price, total, "Continue".
   2. **Delivery details**: name, phone, address, city (required) and note
-     (optional), then **"Send order on WhatsApp"**.
-- The button opens WhatsApp to the shop number with the message pre-written:
+     (optional), then **"Send order by email"**.
+- The button opens the visitor's email app (a `mailto:` link) addressed to
+  support@czeramaison.com, subject **"Order from czeramaison.com"**, with the
+  order pre-written in the body (line breaks sent as CRLF, every value
+  URL-encoded):
 
   ```
   Hello Czera, I'd like to order:
@@ -145,7 +156,12 @@ now follows the hero, and About is the first menu item.
   Note: …
   ```
 
-- The single-item "Or order just this on WhatsApp" link on the product page
+- A confirmation step follows with the order text, a "Copy order" button,
+  and the address plus a "try again" link for visitors whose email app did
+  not open. Some email apps cut a mailto link past about 2,000 characters;
+  a longer order still opens the email app, and the confirmation asks the
+  visitor to check every item arrived or paste the copied order.
+- The single-item "Or order just this by email" link on the product page
   sends the same format with one line and skips the bag.
 
 ## 8. Build Your Own Box (`build-your-box.html`, new)
@@ -166,8 +182,9 @@ now follows the hero, and About is the first menu item.
 
 - **Layout, A**: photo header "Every detail feels like home."; two
   image-and-text chapters (*Our belief*, *The details*) using catalogue copy;
-  dark bulk-orders band (weddings, companies, hotels → WhatsApp); contact
-  strip (WhatsApp, Instagram, delivery). Chapters stay short until the client
+  dark bulk-orders band (weddings, companies, hotels → a "Contact us" email
+  with the subject "Bulk or corporate order"); contact strip (Email, Follow
+  icons, Delivery). Chapters stay short until the client
   writes more.
 
 ## 10. Images
@@ -183,7 +200,8 @@ now follows the hero, and About is the first menu item.
 
 Placeholders (approved by the owner, clearly marked in the code):
 
-- WhatsApp number: **+20 100 000 0000**
+- ~~WhatsApp number: +20 100 000 0000~~ (retired in #84; orders go to
+  support@czeramaison.com, set by the owner)
 - Delivery: "Across Egypt in 2–5 days, next day in Cairo & Giza"
 - Payment: "Cash on delivery or InstaPay"
 - Care: "Machine wash warm, tumble dry low"
@@ -215,7 +233,7 @@ approved.
 - Static HTML/CSS/vanilla JS, no framework or bundler (`CLAUDE.md`).
 - Decisions that need an AgDR before building: where product data lives (one
   shared data file read by every page), bag storage in the browser, and the
-  WhatsApp link and message format.
+  order link and message format (WhatsApp at first; email since #84).
 - Logic worth unit tests: price totals, filter counts, the build-box price,
-  and the WhatsApp message builder.
+  and the order message and mailto link builders.
 - `projects.yaml` keeps `release.bar: none` until the site is deployed.

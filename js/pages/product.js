@@ -5,7 +5,7 @@ import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
 import { escapeHtml, nameHtml } from '../lib/escape.js';
 import { fitSticky } from '../ui/sticky-fit.js';
-import { buildOrderMessage, orderLink } from '../lib/whatsapp.js';
+import { buildOrderMessage, orderMailto } from '../lib/email.js';
 import { readRecent, pushRecent } from '../lib/recent.js';
 import { BOX_SIZES } from '../lib/box.js';
 import { CONFIG } from '../config.js';
@@ -47,7 +47,7 @@ if (!p) {
           <div class="qty"><button type="button" data-step="-1" aria-label="One less">−</button><span data-qty-value>1</span><button type="button" data-step="1" aria-label="One more">+</button></div>
           <button type="button" class="btn btn--ink" data-add-to-bag="${escapeHtml(p.slug)}" data-qty="1"><span class="pdp__buy-label">Add to bag</span><span class="pdp__buy-sep" aria-hidden="true">·</span><span class="pdp__buy-total" data-buy-total>${formatEGP(p.price)}</span></button>
         </div>
-        <a class="link pdp__wa" data-order-one href="#" target="_blank" rel="noopener">Or order just this on WhatsApp ›</a>
+        <a class="link pdp__email" data-order-one href="#">Or order just this by email ›<span class="sr-only"> (opens your email app)</span></a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
         <details class="acc" open><summary>Features</summary><ul>${p.features.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul></details>
         <details class="acc"><summary>Sizes &amp; care</summary><p>${escapeHtml(p.spec)}. ${escapeHtml(CONFIG.careText)}.</p></details>
@@ -69,7 +69,7 @@ if (!p) {
     root.querySelector('[data-qty-value]').textContent = String(qty);
     root.querySelector('[data-buy-total]').textContent = formatEGP(p.price * qty);
     addBtn.dataset.qty = String(qty);
-    root.querySelector('[data-order-one]').href = orderLink(buildOrderMessage([{ type: 'product', slug: p.slug, qty }]));
+    root.querySelector('[data-order-one]').href = orderMailto(buildOrderMessage([{ type: 'product', slug: p.slug, qty }]));
   };
   root.addEventListener('click', e => {
     const step = e.target.closest('[data-step]');
