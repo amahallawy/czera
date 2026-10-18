@@ -8,6 +8,14 @@ that section into a version.
 
 ## [Unreleased]
 
+- Accessibility: buttons on the black bands (Home's "Start your box", the
+  Collection band, About's bulk-order "Contact us") show the gold focus
+  ring when reached by keyboard, on the design and the WordPress store; the
+  dark ink ring was lost on black (#88).
+- WordPress store (czeramaison.com): screen readers announce the footer and
+  About social icons as "CZERA on social media", as on the design. Other
+  social icon lists, such as the coming-soon page's, are unchanged (#88).
+
 - Collection: the "Build your own box" band now comes after all the products,
   full width, whatever the filters show (before, it sat after the first row
   and disappeared when fewer than four products matched). The Category filter
