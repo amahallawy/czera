@@ -8,6 +8,9 @@ that section into a version.
 
 ## [Unreleased]
 
+- Footer: Instagram, Facebook and TikTok are now icons instead of text,
+  with the same names for screen readers.
+
 - WordPress store (czeramaison.com): Home's story now meets the hero with no
   empty strip on desktop (its photo fades in from the page colour), it ends on
   "About CZERA ›" only, and the Build-your-box band keeps gold for its button

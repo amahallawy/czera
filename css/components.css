@@ -725,6 +725,12 @@ img.band__media { display: block; width: 100%; height: 100%; min-height: 280px; 
 .footer__list { display: flex; flex-direction: column; gap: var(--space-2); font-size: var(--fs-sm); color: rgba(244, 242, 236, 0.78); }
 .footer__list a { color: rgba(244, 242, 236, 0.78); }
 .footer__list a:hover { color: var(--color-gold); }
+/* Social media as icons (#80): 22px drawings in 44px targets, ivory like the footer links, gold on
+ * hover. The first icon's glyph lines up with the column's text edge. */
+.footer__social { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 var(--space-4); margin-inline-start: -11px; padding: 0; list-style: none; }
+.footer__social .social-link { display: inline-flex; align-items: center; justify-content: center; min-inline-size: 44px; min-block-size: 44px; color: rgba(244, 242, 236, 0.78); transition: color var(--dur-fast) var(--ease-out); }
+.footer__social .social-link:hover { color: var(--color-gold); }
+.footer__social .social-link--text { padding-inline: 11px; font-size: var(--fs-sm); }
 .footer-grid .btn { margin-block-start: var(--space-4); padding: var(--space-3) var(--space-5); font-size: var(--fs-xs); }
 .footer__bottom {
   display: flex;
