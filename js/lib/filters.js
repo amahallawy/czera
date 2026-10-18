@@ -27,8 +27,13 @@ function matches(p, state, ignore) {
   return Object.keys(FACETS).every(f => f === ignore || FACETS[f](p, state[SELECTION[f]]));
 }
 
+// The collection's order (owner, #89): white towels, striped beach towels, bathrobes, then gift boxes.
+// The sort is stable, so each group keeps the data order (towels by size, gift sets as listed).
+const COLLECTION_ORDER = ['towels', 'beach', 'bathrobes', 'gift-sets'];
+const rank = p => { const i = COLLECTION_ORDER.indexOf(p.category); return i < 0 ? COLLECTION_ORDER.length : i; };
+
 export function filterProducts(products, state) {
-  return products.filter(p => matches(p, state));
+  return products.filter(p => matches(p, state)).sort((a, b) => rank(a) - rank(b));
 }
 
 export function facetCounts(products, state) {

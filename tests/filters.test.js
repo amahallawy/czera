@@ -3,8 +3,23 @@ import assert from 'node:assert/strict';
 import { PRODUCTS } from '../js/data/products.js';
 import { emptyFilters, filterProducts, facetCounts } from '../js/lib/filters.js';
 
-test('no filters returns all 16 in data order', () => {
-  assert.deepEqual(filterProducts(PRODUCTS, emptyFilters()).map(p => p.slug), PRODUCTS.map(p => p.slug));
+const ORDER = ['towels', 'beach', 'bathrobes', 'gift-sets'];   // white towels, striped, robes, boxes
+
+test('no filters returns all 16: white towels, striped towels, bathrobes, then gift boxes', () => {
+  const got = filterProducts(PRODUCTS, emptyFilters());
+  assert.equal(got.length, 16);
+  const ranks = got.map(p => ORDER.indexOf(p.category));
+  assert.deepEqual(ranks, [...ranks].sort((a, b) => a - b));
+  assert.deepEqual(got.slice(0, 4).map(p => p.name), ['Face Towel', 'Hand Towel', 'Bath Towel', 'Bath Sheet']);
+  assert.equal(got[15].category, 'gift-sets');
+});
+
+test('within a group the data order is kept, and filtering keeps the group order', () => {
+  const all = filterProducts(PRODUCTS, emptyFilters());
+  const gifts = all.filter(p => p.category === 'gift-sets').map(p => p.slug);
+  assert.deepEqual(gifts, PRODUCTS.filter(p => p.category === 'gift-sets').map(p => p.slug));
+  const white = filterProducts(PRODUCTS, { ...emptyFilters(), colours: new Set(['white']) }).map(p => ORDER.indexOf(p.category));
+  assert.deepEqual(white, [...white].sort((a, b) => a - b));
 });
 
 test('price bands split 3 / 7 / 6', () => {

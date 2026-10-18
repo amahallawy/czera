@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- Collection: with no filters, products are listed white towels first, then
+  the striped beach towels, then bathrobes, then gift boxes (towels by size).
+  Filtered results keep that order.
+- WordPress store (czeramaison.com): the shop and category pages use the same
+  order, set with each product's position in WooCommerce.
+
 - Orders and questions now go by email to support@czeramaison.com, and the
   site no longer mentions WhatsApp (owner decision, #84). The bag's last
   button, "Send order by email", opens your email app addressed to
