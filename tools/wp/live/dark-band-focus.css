@@ -1,0 +1,8 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#88. */
+/* ---------- Dark band focus (czera#88) ---------- */
+/* design: css/base.css, .band--dark :focus-visible (design.md section 11). Links and buttons on the black bands (the
+   Build your own box band on Home and after the collection grid, About's bulk orders band) take the design's gold focus
+   ring, 1.5px with a 3px offset, as in the footer, in place of the theme's dotted ink outline, which is lost on black. */
+.czera-box-band a:focus-visible, .czera-box-band button:focus-visible,
+.czera-about-bulk a:focus-visible, .czera-about-bulk button:focus-visible { outline: 1.5px solid #d4af36 !important; outline-offset: 3px !important; }
+/* ---------- end dark band focus */

@@ -8,6 +8,13 @@ that section into a version.
 
 ## [Unreleased]
 
+- Accessibility: buttons on the black bands (Home's "Start your box", the
+  Collection band, About's bulk-order "Contact us") show the gold focus
+  ring when reached by keyboard, on the design and the WordPress store; the
+  dark ink ring was lost on black (#88).
+- WordPress store (czeramaison.com): screen readers announce the footer and
+  About social icons as "CZERA on social media", as on the design. Other
+  social icon lists, such as the coming-soon page's, are unchanged (#88).
 - Collection: the band's title reads "Can’t choose? Make your own." with a
   curly apostrophe, on the design and the WordPress store. design.md's
   component table now points to the compact Collection band in §6.15 (#93).

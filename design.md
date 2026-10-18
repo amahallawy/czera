@@ -475,8 +475,11 @@ Non-negotiables:
 - Every image has `alt` text. Decorative-only images use `alt=""`
   **and** `aria-hidden="true"` on the wrapper.
 - Visible focus on every interactive element. Default outline:
-  1.5px ink-strong, 3px offset. On dark surfaces: gold. See
-  [`base.css`](css/base.css) `:focus-visible`.
+  1.5px ink-strong, 3px offset. On dark surfaces (hero, header over
+  the hero, dark chapters, the black bands such as Build your box and
+  About's bulk orders, the footer): gold. See
+  [`base.css`](css/base.css) `:focus-visible`. The WordPress store
+  draws the same gold ring on its black bands.
 - Skip link is the first focusable element.
 - Heading order is sequential — no `h2` followed by `h4`.
 - Color contrast: ink on bg ≥ 7:1; ink-mute on bg ≥ 4.5:1.

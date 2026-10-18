@@ -93,6 +93,7 @@ hr {
 body.has-hero .site-header:not(.is-scrolled) :focus-visible,
 .btn--on-dark:focus-visible,
 .chapter--dark :focus-visible,
+.band--dark :focus-visible,
 .site-footer :focus-visible {
   outline-color: var(--color-gold);
 }
