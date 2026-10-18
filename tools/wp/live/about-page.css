@@ -1,0 +1,115 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#82. */
+/* ---------- About page (czera#82) ---------- */
+/* design: about.html + css/pages/about.css. Photo hero, two 50/50 chapters, the dark bulk-orders band and
+   the beige contact strip (WhatsApp, Follow as icons, Delivery). Spectra's container padding, gap and
+   alignment are reset so each section lays out as in the design. */
+.czera-about-hero, .czera-about-chapter, .czera-about-bulk, .czera-about-contact {
+  width: 100% !important; max-width: none !important; margin: 0 !important; box-sizing: border-box;
+}
+.czera-about-eyebrow { margin: 0 !important; line-height: 1.5 !important; }
+
+/* Photo hero: 40vw tall (260px to 55vh), dark fade to the bottom, copy bottom-left. */
+.czera-about-hero {
+  position: relative !important; display: block !important; height: clamp(260px, 40vw, 55vh);
+  overflow: hidden; padding: 0 !important; background: #010100; color: #f4f2ec;
+}
+.czera-about-hero .czera-about-hero__img { position: absolute; inset: 0; margin: 0 !important; width: 100%; height: 100%; }
+.czera-about-hero .czera-about-hero__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 75%; display: block; }
+.czera-about-hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(1, 1, 0, 0.45));
+}
+.czera-about-hero .czera-about-hero__copy {
+  position: absolute !important; left: clamp(16px, 4vw, 48px); bottom: 32px; z-index: 1;
+  display: block !important; width: auto !important; padding: 0 !important;
+}
+.czera-about-hero .czera-about-eyebrow { color: #d4af36 !important; line-height: 22px !important; }
+.czera-about-hero__title {
+  margin: 8px 0 0 !important; font-size: 38px !important; font-weight: 300 !important; line-height: 1.1 !important;
+  letter-spacing: -0.025em !important; color: #f4f2ec !important;
+}
+
+/* Chapters: photo and copy side by side, 340px to 480px tall; the second one mirrors. */
+.czera-about-chapter {
+  display: grid !important; grid-template-columns: 1fr 1fr; grid-template-areas: "media text";
+  grid-template-rows: clamp(340px, 34vw, 480px); gap: 0 !important; padding: 0 !important; background: #f4f2ec;
+}
+.czera-about-chapter--flip { grid-template-areas: "text media"; }
+.czera-about-chapter .czera-about-chapter__img { grid-area: media; margin: 0 !important; width: 100%; height: 100%; min-height: 0; overflow: hidden; }
+.czera-about-chapter .czera-about-chapter__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.czera-about-chapter .czera-about-chapter__text {
+  grid-area: text; display: flex !important; flex-direction: column; justify-content: center !important;
+  align-items: flex-start !important; align-self: stretch !important; gap: 0 !important;
+  width: auto !important; min-width: 0; padding: 64px !important;
+}
+.czera-about-chapter__title {
+  margin: 12px 0 16px !important; font-size: 28px !important; font-weight: 300 !important; line-height: 1.1 !important;
+  letter-spacing: -0.01em !important; color: #010100 !important;
+}
+.czera-about-chapter__body { margin: 0 !important; max-width: 46ch; font-size: 15px !important; line-height: 1.65 !important; color: #2b2b2b; }
+.czera-about-chapter__body + .czera-about-chapter__body { margin-top: 12px !important; }
+.czera-about-chapter .czera-about-care { font-size: 13px !important; color: #6b6b6b; }
+
+/* Bulk and corporate orders: near-black band, copy left, the one gold button right. */
+.czera-about-bulk {
+  display: grid !important; grid-template-columns: 1fr auto; align-items: center !important; gap: 32px !important;
+  padding: 0 64px 0 0 !important; background: #010100; color: #f4f2ec;
+}
+.czera-about-bulk .czera-about-bulk__copy {
+  display: flex !important; flex-direction: column; justify-content: center; align-items: flex-start !important;
+  align-self: stretch !important; gap: 16px !important; width: auto !important; min-width: 0; padding: 64px !important;
+}
+.czera-about-bulk .czera-about-eyebrow { color: rgba(244, 242, 236, 0.7) !important; }
+.czera-about-bulk__title {
+  margin: 0 !important; font-size: 28px !important; font-weight: 300 !important; line-height: 1.1 !important;
+  letter-spacing: -0.025em !important; color: #f4f2ec !important;
+}
+.czera-about-bulk__body { margin: 0 !important; font-size: 15px !important; line-height: 1.5 !important; color: rgba(244, 242, 236, 0.75); }
+.czera-about-bulk .czera-about-bulk__actions { width: auto !important; margin: 0 !important; padding: 0 !important; }
+.czera-about-bulk .czera-btn-gold { line-height: 1.5 !important; }
+
+/* Contact strip: three columns on beige; small-caps headings, ink links. */
+.czera-about-contact {
+  display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 24px !important;
+  padding: 32px clamp(16px, 4vw, 48px) !important; background: #e7e1d5;
+}
+.czera-about-contact .czera-about-contact__item { display: block !important; width: auto !important; min-width: 0; padding: 0 !important; }
+.czera-about-contact__title {
+  margin: 0 0 8px !important; font-size: 11px !important; font-weight: 500 !important; line-height: 1.1 !important;
+  letter-spacing: 0.18em !important; text-transform: uppercase; color: #010100 !important;
+}
+.czera-about-contact__body { margin: 0 !important; font-size: 15px !important; line-height: 1.5 !important; color: #2b2b2b; }
+.czera-about-contact__body a {
+  font-size: inherit !important; line-height: inherit !important;
+  color: #010100 !important; text-decoration: underline !important; text-underline-offset: 3px;
+}
+/* Follow: Instagram, Facebook and TikTok as icons (core Social Icons block, logos only), 22px drawings in
+   44px targets, ink on beige, gold-deep on hover; the first glyph lines up with the heading above. */
+.czera-about-contact .czera-about-social {
+  display: flex !important; flex-wrap: wrap; gap: 8px !important;
+  margin: 0 0 0 -11px !important; padding: 0 !important; font-size: 22px !important;
+}
+.czera-about-contact .czera-about-social .wp-social-link {
+  margin: 0 !important; padding: 0 !important; background: none !important;
+  color: #010100 !important; transition: color 0.2s ease;
+}
+.czera-about-contact .czera-about-social .wp-social-link:hover { color: #ba7c17 !important; transform: none; }
+.czera-about-contact .czera-about-social .wp-block-social-link-anchor {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; padding: 0 !important; color: inherit !important;
+}
+.czera-about-contact .czera-about-social .wp-block-social-link-anchor svg { width: 1em; height: 1em; fill: currentColor; }
+
+@media (max-width: 768px) {
+  .czera-about-hero .czera-about-hero__copy { right: clamp(16px, 4vw, 48px); }
+  .czera-about-hero__title { font-size: 21px !important; }
+  .czera-about-chapter, .czera-about-chapter--flip {
+    grid-template-columns: 1fr; grid-template-areas: "media" "text"; grid-template-rows: 260px auto;
+  }
+  .czera-about-chapter .czera-about-chapter__img { height: 260px; }
+  .czera-about-chapter .czera-about-chapter__text { padding: 48px clamp(16px, 4vw, 48px) !important; }
+  .czera-about-bulk { grid-template-columns: 1fr; justify-items: start; padding: 0 clamp(16px, 4vw, 48px) 48px !important; }
+  .czera-about-bulk .czera-about-bulk__copy { padding: 48px 0 0 !important; }
+  .czera-about-contact { grid-template-columns: 1fr; }
+}
+/* ---------- end about page */

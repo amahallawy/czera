@@ -8,6 +8,15 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): the About page is built from the design:
+  a photo hero ("About CZERA", "Every detail feels like home."), the "Our
+  belief" and "The details" chapters (with the care line), the dark
+  bulk-orders band with its gold "Ask on WhatsApp" button, and the contact
+  strip (WhatsApp, Follow as Instagram, Facebook and TikTok icons, Delivery).
+  It replaces the one-line placeholder; the page title is hidden so the photo
+  sits right under the header. Styles are in a new Additional CSS block,
+  copied to `tools/wp/live/about-page.css`.
+
 - WordPress store (czeramaison.com): Home's story now meets the hero with no
   empty strip on desktop (its photo fades in from the page colour), it ends on
   "About CZERA ›" only, and the Build-your-box band keeps gold for its button
