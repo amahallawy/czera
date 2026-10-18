@@ -1,0 +1,14 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#91. */
+/* ---------- Collection band (czera#91) ---------- */
+/* design: catalog.html .grid-band (css/pages/catalog.css). The Build-your-box band after the product grid on the shop
+   and category pages, printed by the "CZERA collection band" snippet (ID 11) with the Home band's classes, so the
+   "Build your own box band" block draws it; this makes it the compact version: no steps, no 470px floor, a 28px title,
+   a shorter photo, 32px above it like a grid row. */
+.czera-collection-band { clear: both; width: 100%; min-height: 0 !important; margin: 32px 0 0 !important; }
+.czera-collection-band .czera-box-copy { padding: 24px 32px !important; gap: 12px !important; }
+.czera-collection-band .czera-box-title { font-size: 28px !important; }
+.czera-collection-band .czera-box-media { min-height: 240px !important; }
+@media (max-width: 768px) {
+  .czera-collection-band .czera-box-media { min-height: 200px !important; }
+}
+/* ---------- end collection band */

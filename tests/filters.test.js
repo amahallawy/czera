@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PRODUCTS } from '../js/data/products.js';
-import { emptyFilters, filterProducts, facetCounts } from '../js/lib/filters.js';
+import { PRODUCTS, CATEGORIES } from '../js/data/products.js';
+import { emptyFilters, filterProducts, facetCounts, collectionCategories, gridItems } from '../js/lib/filters.js';
 
 const ORDER = ['towels', 'beach', 'bathrobes', 'gift-sets'];   // white towels, striped, robes, boxes
 
@@ -43,4 +43,21 @@ test('counts reflect the other facets, so dead options show 0', () => {
   assert.equal(c.price['under-500'], 0);
   assert.equal(c.colour.striped, 0);
   assert.equal(c.category.towels, 4); // own facet ignores its own selection
+});
+
+test('the Category filter lists the grid order: Towels, Beach, Bathrobes, Gift sets (#91)', () => {
+  assert.deepEqual(collectionCategories().map(c => c.label), ['Towels', 'Beach', 'Bathrobes', 'Gift sets']);
+  // The menu and footer keep CATEGORIES' own order.
+  assert.deepEqual(CATEGORIES.map(c => c.id), ['towels', 'bathrobes', 'beach', 'gift-sets']);
+});
+
+test('the Build-your-box band follows the last product card, whatever the count (#91)', () => {
+  const cards = n => Array.from({ length: n }, (_, i) => `card${i}`);
+  for (const n of [16, 4, 3, 1]) {
+    const got = gridItems(cards(n), 'BAND');
+    assert.equal(got.length, n + 1);
+    assert.equal(got.at(-1), 'BAND');
+    assert.deepEqual(got.slice(0, n), cards(n));
+  }
+  assert.deepEqual(gridItems([], 'BAND'), ['BAND']);   // no matches: the band alone still offers a way on
 });

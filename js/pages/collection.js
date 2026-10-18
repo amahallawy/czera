@@ -1,7 +1,7 @@
 import { initShell } from '../ui/shell.js';
 import { renderProductCard } from '../ui/card.js';
 import { PRODUCTS, CATEGORIES } from '../data/products.js';
-import { emptyFilters, filterProducts, facetCounts, PRICE_BANDS, COLOURS } from '../lib/filters.js';
+import { emptyFilters, filterProducts, facetCounts, collectionCategories, gridItems, PRICE_BANDS, COLOURS } from '../lib/filters.js';
 import { escapeHtml } from '../lib/escape.js';
 
 initShell();
@@ -11,7 +11,7 @@ const preset = new URLSearchParams(location.search).get('category');
 if (CATEGORIES.some(c => c.id === preset)) state.categories.add(preset);
 
 const GROUPS = [
-  { facet: 'category', key: 'categories', title: 'Category', options: CATEGORIES },
+  { facet: 'category', key: 'categories', title: 'Category', options: collectionCategories() },
   { facet: 'price', key: 'prices', title: 'Price', options: PRICE_BANDS },
   { facet: 'colour', key: 'colours', title: 'Colour', options: COLOURS },
 ];
@@ -38,9 +38,7 @@ function render() {
     </fieldset>`).join('');
 
   const results = filterProducts(PRODUCTS, state);
-  const cards = results.map(renderProductCard);
-  if (results.length >= 4) cards.splice(3, 0, BAND);
-  document.querySelector('[data-grid]').innerHTML = cards.join('');
+  document.querySelector('[data-grid]').innerHTML = gridItems(results.map(renderProductCard), BAND).join('');
   if (focusKey) {
     const next = [...document.querySelectorAll('[data-facet]')]
       .find(i => i.dataset.facet === focusKey.facet && i.value === focusKey.value);
