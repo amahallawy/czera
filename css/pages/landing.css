@@ -596,6 +596,9 @@ body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
     width: calc(100% - 44px - var(--space-3));
     align-self: flex-start;
   }
+  /* +5px centres the 44px button on the 54px button row: (54 - 44) / 2. The row's
+   * height comes from .btn's padding, line height and border, not from a token,
+   * so it is written out here; change it if .btn changes. */
   .hero__play { inset-block-end: calc(var(--space-7) + 5px); }
   .hero__actions { flex-direction: column; align-self: stretch; }
   .hero__actions .btn { width: 100%; justify-content: center; text-align: center; }

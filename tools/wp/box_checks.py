@@ -177,6 +177,16 @@ def check_page():
     assert data['caps'] == {'towels': 6, 'bathrobes': 2} and data['min'] == 2, f'builder rules {data}'
     print(f'page OK ({via})')
 
+HOME_ID = 87
+
+def check_home():
+    """The Home hero that the "CZERA hero" snippet (13) and the "Hero film" CSS act on: the Spectra
+    container with the czera-hero class, its background-video wrapper and the 30s film (#96)."""
+    html = api(f'/wp/v2/pages/{HOME_ID}')['content']['rendered']
+    for needle in ('czera-hero', 'spectra-background-video__wrapper', 'czera-hero-30s.mp4'):
+        assert needle in html, f'{needle!r} missing from the Home page (ID {HOME_ID})'
+    print('home OK', HOME_ID)
+
 def reference_name(path):
     """The snippet name in a tools/wp/live reference copy's header."""
     first = path.read_text(encoding='utf-8').splitlines()[1]
@@ -221,7 +231,7 @@ def check_cache():
     print('cache OK')
 
 CHECKS = {'plugins': check_plugins, 'product': check_product, 'rules': check_rules,
-          'page': check_page, 'snippets': check_snippets, 'cache': check_cache}
+          'page': check_page, 'home': check_home, 'snippets': check_snippets, 'cache': check_cache}
 
 def usage():
     print(__doc__.split('\n\n')[0])

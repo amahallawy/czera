@@ -13,7 +13,9 @@
  * - sets body.hero-signoff while the film plays its 24-30s ivory linen sign-off (from 0.6s before
  *   the cut, so the 600ms fade is full when the linen appears) and clears it when the film loops,
  *   so the header shade deepens behind MENU and BAG;
- * - under reduced motion pauses the film, hides it and shows the poster, with no button.
+ * - under reduced motion pauses the film, drops its sources (no download), hides it and shows the poster,
+ *   with no button.
+ * It finds the film as the hero's Spectra background video, or failing that any video in the hero.
  * Anywhere the hero or its video is missing it does nothing. The button's look and the shade are
  * the "Hero film" Additional CSS block (tools/wp/live/hero-film.css).
  */
@@ -32,15 +34,24 @@ add_action( 'wp_footer', function () {
 
 	function init() {
 		var hero = document.querySelector( '.czera-hero' );
-		var video = hero && hero.querySelector( '.spectra-background-video__wrapper video' );
+		var video = hero && ( hero.querySelector( '.spectra-background-video__wrapper video' ) || hero.querySelector( 'video' ) );
 		if ( ! video ) {
 			return;
 		}
 		var reduced = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 		if ( reduced ) {
-			// Poster only: stop the film whenever Spectra starts it, hide it, show the still.
+			// Poster only: stop the film whenever Spectra starts it, drop its sources so the file is not
+			// downloaded, hide it, show the still.
 			video.pause();
+			// Spectra's responsive-videos script re-attaches the source on load and on resize for any
+			// container carrying data-responsive-videos; without it, Spectra leaves this video alone.
+			hero.removeAttribute( 'data-responsive-videos' );
+			Array.prototype.forEach.call( video.querySelectorAll( 'source' ), function ( source ) {
+				source.remove();
+			} );
+			video.removeAttribute( 'src' );
+			video.load();
 			video.addEventListener( 'play', function () { video.pause(); } );
 			hero.classList.add( 'czera-hero--still' );
 			if ( POSTER ) {
@@ -108,11 +119,9 @@ add_action( 'wp_footer', function () {
 		sync();
 	}
 
-	if ( document.readyState === 'loading' ) {
-		document.addEventListener( 'DOMContentLoaded', init );
-	} else {
-		init();
-	}
+	// Run now: this script prints in the footer, after the hero, and must strip the film's source
+	// under reduced motion before Spectra's DOMContentLoaded handler starts the film (and its download).
+	init();
 }() );
 </script>
 	<?php

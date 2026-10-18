@@ -30,9 +30,6 @@
       <video class="hero__media" muted loop playsinline preload="none"
              poster="assets/img/hero-poster.jpg" aria-hidden="true"
              data-src-webm="assets/video/hero-30s.webm" data-src-mp4="assets/video/hero-30s.mp4"></video>
-      <button type="button" class="hero__play" data-hero-play data-state="paused" aria-label="Play film" hidden>
-        <svg class="hero__play-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="hero__play-shape hero__play-shape--play" d="M4.5 2.5v11l9-5.5z" fill="currentColor"/><path class="hero__play-shape hero__play-shape--pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>
-      </button>
       <div class="hero__overlay" aria-hidden="true"></div>
       <div class="hero__copy">
         <span class="eyebrow">Towels · Bathrobes · Gift sets</span>
@@ -40,6 +37,10 @@
         <p class="hero__lede">100% cotton towels and 1200 GSM bathrobes, presented in the black Czera gift box.</p>
         <div class="hero__actions"><a class="btn btn--light" href="catalog.html">Shop the collection</a><a class="btn btn--outline-light" href="build-your-box.html">Build your own box</a></div>
       </div>
+      <!-- After the copy, so Tab reaches it after the two actions; CSS places it bottom right. -->
+      <button type="button" class="hero__play" data-hero-play data-state="paused" aria-label="Play film" hidden>
+        <svg class="hero__play-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="hero__play-shape hero__play-shape--play" d="M4.5 2.5v11l9-5.5z" fill="currentColor"/><path class="hero__play-shape hero__play-shape--pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>
+      </button>
     </section>
 
     <!-- STORY: copy over the cotton photograph; see landing.css `.chapter--story`. -->
