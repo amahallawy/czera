@@ -8,6 +8,11 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): product cards fade to the product's
+  second photo on hover over 0.6s, as in the design. This works on the
+  collection pages, the shop page, the Home gift sets and a product page's
+  related products. Cards with only one photo stay as they are, and touch
+  screens keep the main photo (#109).
 - Build Your Own Box: a third step, "Choose your bathrobes", adds the
   white and black bathrobes to a box, as on the WordPress store. A box
   holds up to 6 towels and up to 2 bathrobes, at least 2 pieces in all;
