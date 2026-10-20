@@ -25,6 +25,11 @@
 > and "Start your box" wording now uses the client's "Build Your Own Box"
 > and "Create your box". The sections below are updated to match.
 
+> **Note, 2026-10-20 (#107): bathrobes in the box.** The builder gains a
+> third step, "Choose your bathrobes", with the WordPress builder's limits
+> (6 towels, 2 bathrobes, at least 2 pieces). The sections below are
+> updated to match.
+
 ## 1. What changes and why
 
 The site was built as a design with placeholder content. The client has now
@@ -187,18 +192,21 @@ the end.)
 
 ## 8. Build Your Own Box (`build-your-box.html`, new)
 
-- **Layout, A** (the client's mockup): two steps down the left (colour;
-  towels: five sizes with quantity), a preview with the running item list and total on the right that
+- **Layout, A** (the client's mockup): three steps down the left (colour;
+  towels: five sizes with quantity; bathrobes: white and black, #107), a preview with the running item list and total on the right that
   stays in view. On phones the preview becomes a total bar at the bottom.
 - No box colour choice (#103): the team picks the box to fit the towels,
   as on the WordPress builder. The preview photo has no caption.
-- Price = sum of the chosen towels; "Box included free".
-- **"Add box to bag"** adds one bag line that lists the towel colour and
-  contents.
+- Price = sum of the chosen towels and bathrobes; "Box included free".
+- Limits as on the WordPress builder (#107): up to 6 towels in all, up to
+  2 bathrobes, at least 2 pieces. A full group disables its + buttons and
+  says why. The towel colour applies to towels only; a box of bathrobes
+  alone is fine.
+- **"Add box to bag"** adds one bag line that lists the contents and the
+  towel colour ("Custom box: 2 × Bath, white; 1 × Black bathrobe").
 - No ribbon choice (owner, 2026-10-18): ribbons are added when available.
 - Opening the page from a product's related band pre-fills that towel.
-- Drafts until the client confirms: stripes only in the 100 × 200 size; 2 to
-  6 pieces per box.
+- Draft until the client confirms: stripes only in the 100 × 200 size.
 
 ## 9. About (`about.html`, new)
 

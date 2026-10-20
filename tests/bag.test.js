@@ -132,3 +132,20 @@ test('stored boxes with retired colour rules are dropped', () => {
   ]);
   assert.equal(createBag(memoryStorage({ [BAG_KEY]: stored })).lines().length, 1);
 });
+
+test('a box with bathrobes is one line whose spec names them', () => {
+  const bag = createBag(memoryStorage());
+  bag.add({ type: 'box', box: { ...emptyBox(), items: { ...emptyBox().items, bath: 2, robeBlack: 1 } }, qty: 1 });
+  const [line] = bag.lines();
+  assert.equal(line.box.items.robeBlack, 1);
+  const d = describeLine(line);
+  assert.equal(d.total, 1940);
+  assert.equal(d.spec, '2 × Bath · white · 1 × Black bathrobe');
+  assert.equal(d.messageLabel, 'Custom box: 2 × Bath, white; 1 × Black bathrobe');
+});
+
+test('a box of bathrobes alone has no towel colour in its spec', () => {
+  const bag = createBag(memoryStorage());
+  bag.add({ type: 'box', box: { ...emptyBox(), items: { ...emptyBox().items, robeWhite: 1, robeBlack: 1 } }, qty: 1 });
+  assert.equal(describeLine(bag.lines()[0]).spec, '1 × White bathrobe, 1 × Black bathrobe');
+});

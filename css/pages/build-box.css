@@ -84,6 +84,17 @@
 .box-preview__total b { font-weight: 400; font-size: var(--fs-lg); color: var(--color-ink-strong); }
 .box-preview__free { font-size: var(--fs-xs); color: var(--color-gold-text); letter-spacing: var(--ls-wide); text-transform: uppercase; }
 .box-step__note { margin: var(--space-3) 0 0; font-size: var(--fs-xs); color: var(--color-ink-mute); }
+.box-step__note--lead { margin: 0 0 var(--space-3); }
+/* "Up to 6 · 2 of 6" at the end of the towel and bathrobe legends (#107). */
+.box-step__count { font-size: var(--fs-xs); letter-spacing: var(--ls-wide); text-transform: none; white-space: nowrap; color: var(--color-ink-mute); }
+/* Phones: the count drops under the step title, in line with its text. */
+@media (max-width: 480px) {
+  .box-step legend { flex-wrap: wrap; row-gap: var(--space-1); }
+  .box-step__count { flex-basis: 100%; padding-inline-start: calc(26px + var(--space-3)); }
+}
+/* Why a group's + buttons stopped: the group is full. */
+.box-step__full { margin: var(--space-3) 0 0; font-size: var(--fs-xs); line-height: var(--lh-base); color: var(--color-ink); }
+.box-step__full:empty { display: none; }
 .box-preview__reason { font-size: var(--fs-xs); color: var(--color-ink-mute); min-block-size: 1.2em; }
 .box-preview [data-add-box]:disabled { opacity: 0.45; cursor: not-allowed; }
 

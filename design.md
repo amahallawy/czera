@@ -625,9 +625,14 @@ details, and a related band at the bottom. Goal: everything needed to
 decide, with "Add to bag" always beside it.
 
 ### Build Your Own Box (`build-your-box.html`)
-Two steps (colour, towels) and a live preview with the running
-total; price is the sum of the towels, the box free. There is no box
-colour or ribbon step: the team picks the box to fit the towels (#103).
+Three steps (colour, towels, bathrobes) and a live preview with the
+running total; price is the sum of the towels and bathrobes, the box
+free. As on the WordPress builder (#107): up to 6 towels in all and up to
+2 bathrobes, at least 2 pieces; each step's legend shows "Up to 6 · *n* of
+6", and a full group disables its + buttons with "You have 6 towels.
+Remove one to choose another." The towel colour applies to towels only.
+There is no box colour or ribbon step: the team picks the box to fit the
+towels (#103).
 With nothing chosen the preview reads "Nothing chosen yet." The product
 page's related band reads "Build Your Own Box" with "Add this to a box of
 your own." / "Start with this item" for towels that fit a box, and the

@@ -8,6 +8,13 @@ export const BOX_SIZES = [
   { id: 'sheet', label: 'Bath sheet', spec: '90 × 160 cm', slug: 'bath-sheet' },
   { id: 'beach', label: 'Beach', spec: '100 × 200 cm', slug: 'blue-stripe-beach-towel' },
 ];
+// Bathrobes (#107): the second group, as on the WordPress builder. The towel colour does not
+// apply to them; each robe has its own colour.
+export const BOX_ROBES = [
+  { id: 'robeWhite', label: 'White bathrobe', slug: 'white-bathrobe' },
+  { id: 'robeBlack', label: 'Black bathrobe', slug: 'black-bathrobe' },
+];
+const ALL_ITEMS = [...BOX_SIZES, ...BOX_ROBES];
 // No box colour or ribbon choice: the team picks the box to fit the towels and adds ribbons
 // when available. Neither is ever chosen by the customer (#103).
 // DRAFT: which sizes exist in each towel colour, from the catalogue. Awaiting client confirmation (spec §8).
@@ -20,15 +27,24 @@ export const TOWEL_COLOURS = Object.keys(SIZES_BY_COLOUR);
 export const STRIPED = ['blue', 'yellow'];
 
 export function emptyBox() {
-  return { colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 0 } };
+  return { colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 0, robeWhite: 0, robeBlack: 0 } };
 }
 
+const countOf = (sel, list) => list.reduce((n, s) => n + (sel.items[s.id] || 0), 0);
+export const towelCount = sel => countOf(sel, BOX_SIZES);
+export const robeCount = sel => countOf(sel, BOX_ROBES);
+
 export function pieceCount(sel) {
-  return BOX_SIZES.reduce((n, s) => n + (sel.items[s.id] || 0), 0);
+  return countOf(sel, ALL_ITEMS);
+}
+
+// True when the group ('towels' or 'robes') has reached its limit, so its + buttons stop.
+export function groupFull(sel, group) {
+  return group === 'robes' ? robeCount(sel) >= CONFIG.boxMaxRobes : towelCount(sel) >= CONFIG.boxMaxTowels;
 }
 
 export function boxPrice(sel) {
-  return BOX_SIZES.reduce((sum, s) => sum + (sel.items[s.id] || 0) * findProduct(s.slug).price, 0);
+  return ALL_ITEMS.reduce((sum, s) => sum + (sel.items[s.id] || 0) * findProduct(s.slug).price, 0);
 }
 
 export function sizeAllowed(sel, sizeId) {
@@ -63,13 +79,14 @@ export function validateBox(sel) {
   const invalid = { ok: false, reason: 'Invalid choice.' };
   if (!sel || typeof sel !== 'object' || !sel.items) return invalid;
   if (!TOWEL_COLOURS.includes(sel.colour)) return invalid;
-  for (const s of BOX_SIZES) {
+  for (const s of ALL_ITEMS) {
     const q = sel.items[s.id] ?? 0;
     if (!Number.isInteger(q) || q < 0) return invalid;
   }
   const n = pieceCount(sel);
   if (n < CONFIG.boxMinPieces) return { ok: false, reason: `Choose at least ${CONFIG.boxMinPieces} pieces.` };
-  if (n > CONFIG.boxMaxPieces) return { ok: false, reason: `A box holds up to ${CONFIG.boxMaxPieces} pieces.` };
+  if (towelCount(sel) > CONFIG.boxMaxTowels) return { ok: false, reason: `Towels: up to ${CONFIG.boxMaxTowels} per box.` };
+  if (robeCount(sel) > CONFIG.boxMaxRobes) return { ok: false, reason: `Bathrobes: up to ${CONFIG.boxMaxRobes} per box.` };
   if (BOX_SIZES.some(s => (sel.items[s.id] || 0) > 0 && !sizeAllowed(sel, s.id))) {
     return { ok: false, reason: STRIPED.includes(sel.colour)
       ? 'Striped towels come in the beach size only.'
@@ -78,19 +95,37 @@ export function validateBox(sel) {
   return { ok: true, reason: null };
 }
 
-function chosen(sel) {
-  return BOX_SIZES.filter(s => (sel.items[s.id] || 0) > 0);
+function chosen(sel, list = BOX_SIZES) {
+  return list.filter(s => (sel.items[s.id] || 0) > 0);
 }
+const listItems = (sel, list) => chosen(sel, list).map(s => `${sel.items[s.id]} × ${s.label}`).join(', ');
 
 export function boxKey(sel) {
-  const items = chosen(sel).map(s => `${s.id}:${sel.items[s.id]}`).join(',');
+  const items = chosen(sel, ALL_ITEMS).map(s => `${s.id}:${sel.items[s.id]}`).join(',');
   return `${sel.colour}|${items}`;
 }
 
+// The towels only ("2 × Face, 1 × Bath"); the towel colour belongs with them.
 export function boxItemsText(sel) {
-  return chosen(sel).map(s => `${sel.items[s.id]} × ${s.label}`).join(', ');
+  return listItems(sel, BOX_SIZES);
 }
 
+export function boxRobesText(sel) {
+  return listItems(sel, BOX_ROBES);
+}
+
+// "Custom box: 2 × Bath, white; 1 × Black bathrobe". A box of bathrobes alone has no towel colour.
 export function boxLabel(sel) {
-  return `Custom box: ${boxItemsText(sel)}, ${sel.colour}`;
+  const parts = [];
+  if (towelCount(sel)) parts.push(`${boxItemsText(sel)}, ${sel.colour}`);
+  if (robeCount(sel)) parts.push(boxRobesText(sel));
+  return `Custom box: ${parts.join('; ')}`;
+}
+
+// The bag line's detail: "2 × Bath · white · 1 × Black bathrobe".
+export function boxSpecText(sel) {
+  const parts = [];
+  if (towelCount(sel)) parts.push(boxItemsText(sel), sel.colour);
+  if (robeCount(sel)) parts.push(boxRobesText(sel));
+  return parts.join(' · ');
 }

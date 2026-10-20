@@ -8,6 +8,14 @@ that section into a version.
 
 ## [Unreleased]
 
+- Build Your Own Box: a third step, "Choose your bathrobes", adds the
+  white and black bathrobes to a box, as on the WordPress store. A box
+  holds up to 6 towels and up to 2 bathrobes, at least 2 pieces in all;
+  each step shows "Up to 6 · 2 of 6", and a full group stops its +
+  buttons with a line saying why. The towel colour applies to towels
+  only, so a box of two bathrobes is fine. The bag and the order email
+  list them: "Custom box: 2 × Bath, white; 1 × Black bathrobe". Boxes
+  already in a visitor's bag still load (#107).
 - WordPress store (czeramaison.com): the client's updates from the design
   (#101, #103) are live (#105).
   - Menu: Shop all, The towel collection, Bathrobes, Beach towels, Gift
