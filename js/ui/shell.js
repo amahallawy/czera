@@ -54,7 +54,7 @@ function footerHtml() {
     <div class="container footer-grid">
       <div><p class="footer__mark">CZERA</p><p class="footer__tag">Luxury towels &amp; bath essentials</p>
         <p class="footer__about">100% cotton towels, bathrobes and gift sets. Every detail feels like home.</p></div>
-      <div><h2 class="footer__heading">Shop</h2><ul class="footer__list">${shop}<li><a href="build-your-box.html">Build your box</a></li></ul></div>
+      <div><h2 class="footer__heading">Shop</h2><ul class="footer__list">${shop}<li><a href="build-your-box.html">Build Your Own Box</a></li></ul></div>
       <div><h2 class="footer__heading">Help</h2><ul class="footer__list">
         <li><a href="index.html#how-to-order">How to order</a></li><li><a href="about.html#sizes">Sizes &amp; care</a></li>
         <li><a href="about.html#delivery">Delivery</a></li><li><a href="about.html">About Czera</a></li></ul></div>

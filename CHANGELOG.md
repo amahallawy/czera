@@ -8,6 +8,18 @@ that section into a version.
 
 ## [Unreleased]
 
+- Build Your Own Box: the page no longer asks for a box colour (black or
+  beige); the team picks the box to fit the towels, as on the WordPress
+  store. The steps are now 1 Choose a colour and 2 Choose your towels, the
+  preview photo has no "Black box" caption, and the item list reads
+  "Nothing chosen yet." until a towel is added. The bag and the order
+  email no longer name a box colour: "Custom box: 2 × Face, 1 × Bath,
+  white". Boxes already in a visitor's bag still load, and two that
+  differed only by box colour become one line (#103).
+- Wording: the footer link, the hero button and the builder page's title
+  read "Build Your Own Box". On product pages the box band reads "Create
+  your box" in place of "Start your box", with the client's line "Create a
+  gift that feels personal." for items that don't go in a box (#103).
 - Menu: the slide-in menu now reads Shop all, The towel collection,
   Bathrobes, Beach towels, Gift sets, Build Your Own Box, About CZERA (the
   client's order; About moved from first to last). Shop all opens the whole

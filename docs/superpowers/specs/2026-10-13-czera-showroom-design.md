@@ -19,6 +19,12 @@
 > no longer list steps. Six towels lead with the client's newer photos.
 > The sections below are updated to match.
 
+> **Note, 2026-10-20 (#103): no box colour.** The builder no longer asks
+> for a box colour, and the bag and the order email no longer name one
+> ("Custom box: 2 × Face, 1 × Bath, white"). The remaining "Build your box"
+> and "Start your box" wording now uses the client's "Build Your Own Box"
+> and "Create your box". The sections below are updated to match.
+
 ## 1. What changes and why
 
 The site was built as a design with placeholder content. The client has now
@@ -103,7 +109,7 @@ the end.)
 
 | # | Section | Choice |
 |---|---|---|
-| 1 | Hero | **A**: existing 30s film full-bleed; headline "The hotel experience, at home." bottom-left, no fact line under it (#101); buttons "Shop the collection" and "Build your own box". |
+| 1 | Hero | **A**: existing 30s film full-bleed; headline "The hotel experience, at home." bottom-left, no fact line under it (#101); buttons "Shop the collection" and "Build Your Own Box" (#103). |
 | 2 | Our story | **A**: keep the existing text-over-image layout (PR #2); catalogue photo; copy from catalogue p2/p6 ("The hotel experience, brought home", "It's all in the details"). |
 | 3 | Shop by category | **B**: editorial grid. Large Gift sets tile (8 sets, from 1,410 EGP), Towels and Bathrobes tiles, Beach as a wide band. Each tile opens the Collection with that category selected. |
 | 4 | Gift sets | **B**: grouped by occasion with tabs. **Two tabs of four** (assumed, see §11): *For the home* (Complete Set, 3 Bath Towels, 3 Bath Sheets, Hand & Bath Sheet) and *Robes & beach* (His & Hers, both Robe & Beach sets, Beach Towel Set). |
@@ -162,7 +168,7 @@ the end.)
   Hello Czera, I'd like to order:
   • 1 × The Complete Czera Set: 1,450 EGP
   • 1 × Black Bathrobe: 1,000 EGP
-  • 1 × Custom box (black box): 2 × Face, 1 × Bath, white: 570 EGP
+  • 1 × Custom box: 2 × Face, 1 × Bath, white: 570 EGP
   Total: 3,020 EGP
 
   Name: …
@@ -181,17 +187,18 @@ the end.)
 
 ## 8. Build Your Own Box (`build-your-box.html`, new)
 
-- **Layout, A** (the client's mockup): three steps down the left (box: black
-  or beige; colour; towels: five sizes with quantity), a preview with the running item list and total on the right that
+- **Layout, A** (the client's mockup): two steps down the left (colour;
+  towels: five sizes with quantity), a preview with the running item list and total on the right that
   stays in view. On phones the preview becomes a total bar at the bottom.
+- No box colour choice (#103): the team picks the box to fit the towels,
+  as on the WordPress builder. The preview photo has no caption.
 - Price = sum of the chosen towels; "Box included free".
-- **"Add box to bag"** adds one bag line that lists the box, colour and
+- **"Add box to bag"** adds one bag line that lists the towel colour and
   contents.
 - No ribbon choice (owner, 2026-10-18): ribbons are added when available.
 - Opening the page from a product's related band pre-fills that towel.
 - Drafts until the client confirms: stripes only in the 100 × 200 size; 2 to
-  6 pieces per box. There is no photo of the beige box yet; the preview uses
-  the black-box photo with a beige-box swatch until one exists.
+  6 pieces per box.
 
 ## 9. About (`about.html`, new)
 
@@ -232,7 +239,7 @@ For the client:
 1. Home gift-set tabs: two tabs of four sets each, or a different grouping?
 2. Build Your Own Box: which colours come in which sizes? Min and max pieces?
 3. Are black towels sold (the mockup offers black as a towel colour)?
-4. New photos for the two yellow sets, and a beige-box photo.
+4. New photos for the two yellow sets.
 5. Clean logo files.
 6. Can we say the boxes are wrapped "by hand"?
 

@@ -9,17 +9,20 @@ test('price is the sum of the chosen towels; the box is free', () => {
   assert.equal(pieceCount(sample()), 5);
 });
 
-test('defaults: black box, white, no pieces, and no ribbon choice', () => {
+test('defaults: white, no pieces, and no box colour or ribbon choice', () => {
   const b = emptyBox();
-  assert.equal(b.box, 'black'); assert.equal(b.colour, 'white');
+  assert.equal(b.colour, 'white');
+  assert.equal('box' in b, false);
   assert.equal('ribbon' in b, false);
   assert.equal(pieceCount(b), 0);
 });
 
-test('a ribbon field from an older bag is ignored, not required', () => {
+test('box colour and ribbon fields from an older bag are ignored, not required', () => {
   assert.equal(validateBox({ ...sample(), ribbon: 'gold' }).ok, true);
+  assert.equal(validateBox({ ...sample(), box: 'beige' }).ok, true);
   assert.equal(validateBox(sample()).ok, true);
   assert.equal(boxKey({ ...sample(), ribbon: 'gold' }), boxKey(sample()));
+  assert.equal(boxKey({ ...sample(), box: 'black' }), boxKey({ ...sample(), box: 'beige' }));
 });
 
 test('needs at least two pieces', () => {
@@ -56,16 +59,16 @@ test('black is not a towel colour', () => {
 });
 
 test('rejects unknown choices and bad quantities', () => {
-  assert.equal(validateBox({ ...sample(), box: 'gold' }).ok, false);
+  assert.equal(validateBox({ ...sample(), colour: 'gold' }).ok, false);
   assert.equal(validateBox({ ...sample(), items: { ...sample().items, face: -1 } }).ok, false);
   assert.equal(validateBox({ ...sample(), items: { ...sample().items, face: 1.5 } }).ok, false);
   assert.equal(validateBox(null).ok, false);
 });
 
 test('key, items text and label are stable and readable', () => {
-  assert.equal(boxKey(sample()), 'black|white|face:2,hand:1,bath:1,sheet:1');
+  assert.equal(boxKey(sample()), 'white|face:2,hand:1,bath:1,sheet:1');
   assert.equal(boxItemsText(sample()), '2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet');
-  assert.equal(boxLabel(sample()), 'Custom box (black box): 2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet, white');
+  assert.equal(boxLabel(sample()), 'Custom box: 2 × Face, 1 × Hand, 1 × Bath, 1 × Bath sheet, white');
 });
 
 const none = () => emptyBox().items;

@@ -1,5 +1,5 @@
 import { initShell, showToast } from '../ui/shell.js';
-import { emptyBox, BOX_SIZES, BOX_COLOURS, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
+import { emptyBox, BOX_SIZES, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
 import { fitSticky } from '../ui/sticky-fit.js';
@@ -41,7 +41,6 @@ function renderColours() {
 }
 
 function render() {
-  document.querySelector('[data-options="box"]').innerHTML = BOX_COLOURS.map(v => choice('box', v, cap(v))).join('');
   renderColours();
   document.querySelector('[data-colour-note]').textContent = STRIPED.includes(sel.colour)
     ? 'Stripes come in the 100 × 200 beach size only.'
@@ -55,17 +54,10 @@ function render() {
       <span>${q}</span><button type="button" data-size="${s.id}" data-delta="1" aria-label="One more ${s.label}" ${allowed ? '' : 'disabled'}>+</button></span></div>`;
   }).join('');
 
-  const boxName = `${cap(sel.box)} box`;
-  document.querySelectorAll('[data-frame]').forEach(f => { f.dataset.box = sel.box; });
-  document.querySelectorAll('[data-caption]').forEach(c => { c.textContent = boxName; });
-  document.querySelectorAll('[data-preview-img]').forEach(i => {
-    i.alt = `A Czera gift box with towels. Your choice: ${boxName.toLowerCase()}.`;
-  });
-
   const chosen = BOX_SIZES.filter(s => sel.items[s.id] > 0);
-  document.querySelector('[data-summary]').innerHTML =
-    `<li>${cap(sel.box)} box <span>free</span></li>` +
-    chosen.map(s => `<li>${sel.items[s.id]} × ${s.label} ${s.spec}, ${sel.colour} <span>${formatEGP(sel.items[s.id] * findProduct(s.slug).price)}</span></li>`).join('');
+  document.querySelector('[data-summary]').innerHTML = chosen.length
+    ? chosen.map(s => `<li>${sel.items[s.id]} × ${s.label} ${s.spec}, ${sel.colour} <span>${formatEGP(sel.items[s.id] * findProduct(s.slug).price)}</span></li>`).join('')
+    : '<li class="box-preview__empty">Nothing chosen yet.</li>';
   const n = pieceCount(sel);
   document.querySelector('[data-piece-count]').textContent = `Total · ${n} ${n === 1 ? 'piece' : 'pieces'}`;
   document.querySelector('[data-total]').textContent = formatEGP(boxPrice(sel));

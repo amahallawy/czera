@@ -19,13 +19,13 @@ function cleanLine(line) {
   if (line.type === 'product' && findProduct(line.slug)) return { type: 'product', slug: line.slug, qty };
   if (line.type === 'box' && validateBox(line.box).ok) {
     const b = line.box;
-    // An older bag may still carry a ribbon field; it is dropped (there is no ribbon choice).
-    return { type: 'box', box: { box: b.box, colour: b.colour, items: { ...b.items } }, qty };
+    // An older bag may still carry box-colour and ribbon fields; they are dropped (neither is a choice).
+    return { type: 'box', box: { colour: b.colour, items: { ...b.items } }, qty };
   }
   return null;
 }
 
-// Saved lines that now share a key (e.g. two boxes that differed only by the retired ribbon field)
+// Saved lines that now share a key (e.g. two boxes that differed only by the retired box-colour or ribbon field)
 // become one line, so a quantity change or removal acts on exactly one row.
 function merge(lines) {
   const byKey = new Map();
@@ -94,7 +94,7 @@ export function describeLine(line) {
     const unit = boxPrice(line.box);
     return {
       key: lineKey(line), title: 'Custom box',
-      spec: `${line.box.box} box · ${boxItemsText(line.box)} · ${line.box.colour}`,
+      spec: `${boxItemsText(line.box)} · ${line.box.colour}`,
       image: 'assets/img/products/complete-czera-set-2.jpg',
       unitPrice: unit, qty: line.qty, total: unit * line.qty, messageLabel: boxLabel(line.box),
     };
