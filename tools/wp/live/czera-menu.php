@@ -10,8 +10,9 @@
  * the [czera_menu_toggle] shortcode. The panel, its backdrop and its script are printed once on
  * wp_footer, only on pages whose header printed the button (never on the coming-soon page), so they
  * are children of <body>: while the panel is open, every other child of <body> is inert. The nav
- * lists the top level of the "primary" menu location (the "Main menu", ID 21) as one flat list. Its
- * look is the "Site menu" Additional CSS block.
+ * lists the top level of the "primary" menu location (the "Main menu", ID 21) as one flat list. An
+ * item with the CSS class czera-menu-feature (Build Your Own Box) is the featured one: gold, with a
+ * line gift box (design.md §6.1, amahallawy/czera#105). Its look is the "Site menu" Additional CSS block.
  */
 
 if ( ! function_exists( 'czera_menu_items' ) ) {
@@ -29,6 +30,13 @@ if ( ! function_exists( 'czera_menu_items' ) ) {
 		return array_filter( $items, function ( $item ) {
 			return 0 === (int) $item->menu_item_parent;
 		} );
+	}
+}
+
+if ( ! function_exists( 'czera_menu_gift_icon' ) ) {
+	/** The featured item's line gift box, as the static showroom draws it (decorative). */
+	function czera_menu_gift_icon() {
+		return '<svg class="czera-site-menu__icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true" focusable="false"><path d="M4 11h16v9H4zM3 7.5h18V11H3zM12 7.5V20"/><path d="M12 7.5C10.5 4.5 7.5 4 7.5 6s2.5 1.5 4.5 1.5zM12 7.5c1.5-3 4.5-3.5 4.5-1.5S14 7.5 12 7.5z"/></svg>';
 	}
 }
 
@@ -56,8 +64,12 @@ add_action( 'wp_footer', function () {
 <div id="czera-site-menu" class="czera-site-menu" data-czera-menu role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" hidden>
 	<div class="czera-site-menu__head"><button class="czera-site-menu__close" type="button" data-czera-menu-close aria-label="Close menu">&times;</button></div>
 	<nav class="czera-site-menu__nav" aria-label="Primary"><ul class="czera-site-menu__list">
-	<?php foreach ( $items as $item ) : ?>
-		<li><a class="czera-site-menu__link" href="<?php echo esc_url( $item->url ); ?>"<?php echo empty( $item->current ) ? '' : ' aria-current="page"'; ?>><?php echo esc_html( $item->title ); ?></a></li>
+	<?php
+	foreach ( $items as $item ) :
+		$is_feature = in_array( 'czera-menu-feature', (array) $item->classes, true );
+		$label      = esc_html( $item->title );
+		?>
+		<li><a class="czera-site-menu__link<?php echo $is_feature ? ' czera-site-menu__link--feature' : ''; ?>" href="<?php echo esc_url( $item->url ); ?>"<?php echo empty( $item->current ) ? '' : ' aria-current="page"'; ?>><?php echo $is_feature ? '<span>' . $label . '</span>' . czera_menu_gift_icon() : $label; // phpcs:ignore WordPress.Security.EscapeOutput -- the label is escaped above; the icon is a fixed string. ?></a></li>
 	<?php endforeach; ?>
 	</ul></nav>
 </div>

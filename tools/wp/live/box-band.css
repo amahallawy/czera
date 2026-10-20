@@ -1,0 +1,39 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Steps and eyebrow rules removed, the line set to the design's 46ch at 85% ivory, and the phone photo lifted over the overlay by amahallawy/czera#105. */
+/* ---------- Build your own box band (design: dark two-column band) ---------- */
+.czera-box-band {
+  display: grid !important; grid-template-columns: 1fr 1fr; min-height: 470px;
+  gap: 0 !important; padding: 0 !important; background: #010100; color: #f4f2ec;
+}
+.czera-box-copy {
+  display: flex !important; flex-direction: column; justify-content: center !important; align-items: flex-start !important;
+  gap: 16px !important; padding: 64px !important; width: auto !important; max-width: none !important; margin: 0 !important;
+  align-self: stretch !important; height: auto !important;
+}
+.czera-box-copy > * { margin: 0 !important; }
+.czera-box-title { font-size: 38px; font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; color: #f4f2ec; }
+.czera-box-lede { max-width: 46ch; font-size: 15px; line-height: 1.8; color: rgba(244, 242, 236, 0.85); }
+
+.wp-block-button__link.czera-btn-gold {
+  background: #d4af36 !important; color: #010100 !important; border: 1px solid #d4af36 !important; border-radius: 0 !important;
+  padding: 16px 48px !important; font-size: 13px !important; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+.wp-block-button__link.czera-btn-gold:hover {
+  background: #ba7c17 !important; border-color: #ba7c17 !important; color: #f4f2ec !important; transform: translateY(-1px);
+}
+
+.czera-box-media {
+  position: relative !important; overflow: hidden; min-height: 280px !important; padding: 0 !important; margin: 0 !important;
+  width: auto !important; height: auto !important; align-self: stretch !important;
+}
+.czera-box-media .czera-box-media__img { position: absolute; inset: 0; margin: 0 !important; }
+.czera-box-media .czera-box-media__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+@media (max-width: 768px) {
+  .czera-box-band { grid-template-columns: 1fr; }
+  .czera-box-copy { padding: 48px clamp(1rem, 4vw, 3rem) !important; }
+  /* The photo moves above the copy; lift it over Spectra's black ::before overlay, which grid order
+     would otherwise paint on top of it (amahallawy/czera#105). */
+  .czera-box-media { order: -1; min-height: 240px !important; z-index: 1; }
+}
+/* ---------- end box band */

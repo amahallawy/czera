@@ -176,7 +176,7 @@ add_shortcode( 'czera_box_builder', function () {
 	<noscript><p class="czera-box-noscript">Turn on JavaScript to build a box.</p></noscript>
 	<div class="box-page">
 		<div class="box-steps">
-			<span class="eyebrow">Build your own box</span>
+			<span class="eyebrow">Build Your Own Box</span>
 			<h1 class="box-page__title">A gift set that's yours alone.</h1>
 			<figure class="box-frame box-frame--mini"><?php echo $image; ?></figure>
 			<fieldset class="box-step"><legend><span class="box-step__name"><i>1</i> Choose a colour</span></legend>

@@ -1,7 +1,8 @@
 /* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to the end of the block. The site is authoritative; update both together. Added by amahallawy/czera#74; it overrides earlier blocks, so deleting it restores the previous look. */
 /* ---------- Home order and heading sizes (czera#74, #78: static #68, #70, #72, #76) ---------- */
-/* Our story now follows the hero (page 87) and About leads the Main menu (ID 21). These rules carry
-   the static showroom's follow-ups: design.md sections 5.2, 6.1, 6.2, 6.4 and 6.7. */
+/* Our story now follows the hero (page 87). These rules carry the static showroom's follow-ups:
+   design.md sections 5.2, 6.1, 6.2, 6.4 and 6.7. (#105 moved About to the end of the Main menu and
+   took out the band's eyebrow and steps, so their rules here are gone.) */
 
 /* The hero headline is the page's one display size and the largest heading at every width:
    5vw keeps it above the 38px titles from 769px up, the 36px floor above the 28px titles below. */
@@ -45,10 +46,4 @@
 /* Footer tagline in gold sentence case, not capitals. */
 .czera-footer__tag { text-transform: none; font-size: 13px; letter-spacing: 0.06em; }
 
-/* Build-your-box band: one accent. Eyebrow and step numbers in muted ivory; gold only on the button. */
-.czera-box-band .czera-eyebrow { color: rgba(244, 242, 236, 0.7) !important; }
-.czera-box-band .czera-step__num { color: rgba(244, 242, 236, 0.7) !important; }
-
-/* Slide-in menu: About leads on its own, with extra space before the shop links. */
-.czera-site-menu__list > li:first-child { margin-bottom: 24px; }
 /* ---------- end home order */

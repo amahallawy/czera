@@ -12,8 +12,9 @@
  * It reuses the Home band's classes (czera-box-band, czera-box-copy, czera-box-title, czera-box-lede,
  * czera-btn-gold, czera-box-media), so the "Build your own box band" Additional CSS block draws it;
  * the "Collection band (czera#91)" block makes it the compact version the static collection uses.
- * Copy: the design's title; the line is the Home band's (the store builder has colour, sizes, towels
- * and bathrobes, not the static builder's box choice); the photo is the Home band's (attachment 34).
+ * Copy: the design's, in the client's words (amahallawy/czera#105): the title "Build Your Own Box", the
+ * client's line and a "Create your box" button, with no eyebrow; the photo is the Home band's
+ * (attachment 34).
  */
 
 if ( ! function_exists( 'czera_collection_band' ) ) {
@@ -27,10 +28,9 @@ if ( ! function_exists( 'czera_collection_band' ) ) {
 		?>
 		<section class="czera-box-band czera-collection-band" aria-labelledby="czera-collection-band-title">
 			<div class="czera-box-copy">
-				<p class="czera-eyebrow"><?php echo esc_html( 'Build your own box' ); ?></p>
-				<h2 class="czera-box-title" id="czera-collection-band-title"><?php echo esc_html( "Can’t choose? Make your own." ); ?></h2>
-				<p class="czera-box-lede"><?php echo esc_html( 'Choose the colour, the sizes, the towels and the bathrobes.' ); ?></p>
-				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button czera-btn-gold" href="<?php echo esc_url( home_url( '/build-your-box/' ) ); ?>"><?php echo esc_html( 'Start your box' ); ?></a></div>
+				<h2 class="czera-box-title" id="czera-collection-band-title"><?php echo esc_html( 'Build Your Own Box' ); ?></h2>
+				<p class="czera-box-lede"><?php echo esc_html( 'Create a gift that feels personal. Choose your towels, select your preferred options, and complete your CZERA experience with our signature gift box.' ); ?></p>
+				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button czera-btn-gold" href="<?php echo esc_url( home_url( '/build-your-box/' ) ); ?>"><?php echo esc_html( 'Create your box' ); ?></a></div>
 			</div>
 			<?php if ( $image ) : ?>
 				<div class="czera-box-media"><figure class="czera-box-media__img"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput -- built by wp_get_attachment_image(). ?></figure></div>
