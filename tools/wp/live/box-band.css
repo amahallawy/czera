@@ -1,4 +1,4 @@
-/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Steps rules removed, the line set to the design's 46ch at 85% ivory, and the phone photo lifted over the overlay by amahallawy/czera#105. */
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Steps and eyebrow rules removed, the line set to the design's 46ch at 85% ivory, and the phone photo lifted over the overlay by amahallawy/czera#105. */
 /* ---------- Build your own box band (design: dark two-column band) ---------- */
 .czera-box-band {
   display: grid !important; grid-template-columns: 1fr 1fr; min-height: 470px;
@@ -10,7 +10,6 @@
   align-self: stretch !important; height: auto !important;
 }
 .czera-box-copy > * { margin: 0 !important; }
-.czera-box-band .czera-eyebrow { color: #d4af36 !important; }
 .czera-box-title { font-size: 38px; font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; color: #f4f2ec; }
 .czera-box-lede { max-width: 46ch; font-size: 15px; line-height: 1.8; color: rgba(244, 242, 236, 0.85); }
 

@@ -9,7 +9,7 @@ that section into a version.
 ## [Unreleased]
 
 - WordPress store (czeramaison.com): the client's updates from the design
-  (#101, #103) are live.
+  (#101, #103) are live (#105).
   - Menu: Shop all, The towel collection, Bathrobes, Beach towels, Gift
     sets, Build Your Own Box and About CZERA. Build Your Own Box is in gold
     with the gift-box drawing. The extra space under the first item is gone,
@@ -22,7 +22,7 @@ that section into a version.
     words, and the bulk button reads "Enquire now".
   - Footer link and builder page: "Build Your Own Box".
   - Face, Hand, Bath, Bath Sheet and the two striped beach towels lead with
-    the client's new photos; the earlier ones follow (#105).
+    the client's new photos; the earlier ones follow.
 - Build Your Own Box: the page no longer asks for a box colour (black or
   beige); the team picks the box to fit the towels, as on the WordPress
   store. The steps are now 1 Choose a colour and 2 Choose your towels, the
