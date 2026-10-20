@@ -33,7 +33,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "media text";
-  grid-template-rows: clamp(340px, 34vw, 480px);
+  /* At least this tall; taller when the copy needs it (the client's longer
+   * Details text, #101, outgrew the fixed row near 800px). */
+  grid-template-rows: minmax(clamp(340px, 34vw, 480px), auto);
   background: var(--color-bg);
 }
 .about-chapter--flip { grid-template-areas: "text media"; }
@@ -44,6 +46,7 @@
   min-height: 0;
   object-fit: cover;
   display: block;
+  contain: size;   /* the photo fills the row; only the copy sets its height */
 }
 .about-chapter > div {
   grid-area: text;

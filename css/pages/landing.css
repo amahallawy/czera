@@ -1,4 +1,4 @@
-/* Czera — Home page styles. Shared pieces (.section, .card*, .band*, .steps,
+/* Czera — Home page styles. Shared pieces (.section, .card*, .band*,
  * buttons) live in components.css; only home-only layout is here. */
 
 /* ---------------- Hero ---------------- */
@@ -69,14 +69,6 @@ video.hero__media {
   font-size: clamp(2.25rem, 5vw, var(--fs-3xl));
   color: var(--color-on-dark);
   overflow-wrap: break-word;
-}
-.hero__lede {
-  margin: 0;
-  max-width: 44ch;
-  font-size: var(--fs-base);
-  line-height: var(--lh-loose);
-  color: var(--color-on-dark);
-  opacity: 0.95;
 }
 .hero__actions {
   display: flex;

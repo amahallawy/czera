@@ -3,6 +3,7 @@ import { CONFIG } from '../config.js';
 import { createBag } from '../lib/bag.js';
 import { findProduct } from '../lib/products.js';
 import { escapeHtml } from '../lib/escape.js';
+import { menuItems } from '../lib/nav.js';
 import { mailtoLink } from '../lib/email.js';
 import { socialLinksHtml } from './social.js';
 import { initMenu } from './menu.js';
@@ -11,12 +12,14 @@ import { initBagPanel } from './bag-panel.js';
 
 const BAG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>';
 
-function navLinks(cls) {
-  const a = (href, text) => `<a class="${cls}" href="${href}">${escapeHtml(text)}</a>`;
-  // About leads (client request, #68), then the categories and the box builder.
-  return a('about.html', 'About')
-    + CATEGORIES.map(c => a(`catalog.html?category=${c.id}`, c.navLabel)).join('')
-    + a('build-your-box.html', 'Build your box');
+// A line gift box, drawn in gold beside the featured menu item (decorative).
+const GIFT_ICON = '<svg class="site-menu__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true" focusable="false"><path d="M4 11h16v9H4zM3 7.5h18V11H3zM12 7.5V20"/><path d="M12 7.5C10.5 4.5 7.5 4 7.5 6s2.5 1.5 4.5 1.5zM12 7.5c1.5-3 4.5-3.5 4.5-1.5S14 7.5 12 7.5z"/></svg>';
+
+// One list, one landmark: Build Your Own Box is set apart by style only (#101).
+function navLinks() {
+  return menuItems().map(({ label, href, featured }) => featured
+    ? `<a class="site-menu__link site-menu__link--feature" href="${escapeHtml(href)}"><span>${escapeHtml(label)}</span>${GIFT_ICON}</a>`
+    : `<a class="site-menu__link" href="${escapeHtml(href)}">${escapeHtml(label)}</a>`).join('');
 }
 
 // Menu button left, wordmark centred, bag right, on every screen size. The
@@ -40,7 +43,7 @@ function headerHtml() {
   <div class="site-menu-backdrop" data-menu-backdrop aria-hidden="true" hidden></div>
   <div id="site-menu" class="site-menu" data-site-menu role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" hidden>
     <div class="site-menu__head"><button class="site-menu__close" type="button" data-menu-close aria-label="Close menu">×</button></div>
-    <nav class="site-menu__nav" aria-label="Primary">${navLinks('site-menu__link')}</nav>
+    <nav class="site-menu__nav" aria-label="Primary">${navLinks()}</nav>
   </div>`;
 }
 

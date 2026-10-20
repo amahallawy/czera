@@ -8,6 +8,30 @@ that section into a version.
 
 ## [Unreleased]
 
+- Menu: the slide-in menu now reads Shop all, The towel collection,
+  Bathrobes, Beach towels, Gift sets, Build Your Own Box, About CZERA (the
+  client's order; About moved from first to last). Shop all opens the whole
+  collection. Build Your Own Box stands out in gold with a small gift-box
+  drawing and a gold rule, and is still one link in the same list for
+  screen readers and the keyboard (#101).
+- Home: the hero no longer has the line "100% cotton towels and 1200 GSM
+  bathrobes, presented in the black Czera gift box." under the headline,
+  as on the WordPress store (#101).
+- Home and Collection: the Build Your Own Box band carries the client's
+  words: "Build Your Own Box", "Create a gift that feels personal. Choose
+  your towels, select your preferred options, and complete your CZERA
+  experience with our signature gift box." and a "Create your box" button.
+  The steps list (box, colour, towels) is gone, so the band no longer
+  offers a box colour (#101).
+- About: the Our belief and The details chapters and the bulk and
+  corporate orders band use the client's own copy; the bulk band's button
+  reads "Enquire now" and still opens the bulk-order email. The chapters
+  now grow with their text, so the longer copy no longer spills out of its
+  row on tablets (about 769px to 1000px) (#101).
+- Products: Face Towel, Hand Towel, Bath Towel, Bath Sheet and the blue and
+  yellow striped beach towels lead with the client's new photos on cards,
+  product pages and the bag; their earlier photos follow (#101).
+
 - Header: the CZERA wordmark between MENU and BAG is 25% larger on every
   screen, light over the hero and gold once scrolled (90px tall, 70px at
   899px and below; it was 72px and 56px). The header stays 88px and the

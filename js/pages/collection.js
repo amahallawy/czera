@@ -16,8 +16,8 @@ const GROUPS = [
   { facet: 'colour', key: 'colours', title: 'Colour', options: COLOURS },
 ];
 const BAND = `<div class="grid-band band band--dark">
-  <div class="band__copy"><span class="eyebrow">Build your own box</span><h2 class="band__title">Can’t choose? Make your own.</h2>
-  <p>Pick the box, the colour and the towels. Towels come in white, or striped for the beach, one colour per box. The box is included free.</p><a class="btn btn--gold" href="build-your-box.html">Start your box</a></div>
+  <div class="band__copy"><h2 class="band__title">Build Your Own Box</h2>
+  <p class="band__text">Create a gift that feels personal. Choose your towels, select your preferred options, and complete your CZERA experience with our signature gift box.</p><a class="btn btn--gold" href="build-your-box.html">Create your box</a></div>
   <img class="band__media" src="assets/img/products/hand-and-bath-sheet-set-1.jpg" alt="" /></div>`;
 
 function render() {
