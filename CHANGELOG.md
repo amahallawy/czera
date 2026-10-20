@@ -8,6 +8,21 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): the client's updates from the design
+  (#101, #103) are live.
+  - Menu: Shop all, The towel collection, Bathrobes, Beach towels, Gift
+    sets, Build Your Own Box and About CZERA. Build Your Own Box is in gold
+    with the gift-box drawing. The extra space under the first item is gone,
+    and on phones the panel is wider so every item fits on one line.
+  - Home: the hero button and the box band read "Build Your Own Box". The
+    band has the client's line and a "Create your box" button, with no
+    steps. On phones its photo shows again above the text; Spectra's dark
+    overlay had been covering it. The collection pages' band matches.
+  - About: Our belief, The details and the bulk band use the client's own
+    words, and the bulk button reads "Enquire now".
+  - Footer link and builder page: "Build Your Own Box".
+  - Face, Hand, Bath, Bath Sheet and the two striped beach towels lead with
+    the client's new photos; the earlier ones follow (#105).
 - Build Your Own Box: the page no longer asks for a box colour (black or
   beige); the team picks the box to fit the towels, as on the WordPress
   store. The steps are now 1 Choose a colour and 2 Choose your towels, the
