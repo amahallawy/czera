@@ -1,5 +1,5 @@
 import { findProduct } from './products.js';
-import { validateBox, boxKey, boxPrice, boxLabel, boxItemsText } from './box.js';
+import { validateBox, boxKey, boxPrice, boxLabel, boxSpecText } from './box.js';
 
 export const BAG_KEY = 'czera.bag.v1';
 export const MAX_QTY = 20;
@@ -94,7 +94,7 @@ export function describeLine(line) {
     const unit = boxPrice(line.box);
     return {
       key: lineKey(line), title: 'Custom box',
-      spec: `${boxItemsText(line.box)} · ${line.box.colour}`,
+      spec: boxSpecText(line.box),
       image: 'assets/img/products/complete-czera-set-2.jpg',
       unitPrice: unit, qty: line.qty, total: unit * line.qty, messageLabel: boxLabel(line.box),
     };

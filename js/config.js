@@ -10,5 +10,6 @@ export const CONFIG = {
     { label: 'TikTok', handle: '@czera23', url: 'https://www.tiktok.com/@czera23' },
   ],
   boxMinPieces: 2, // DRAFT until the client confirms (spec §8)
-  boxMaxPieces: 6, // DRAFT until the client confirms (spec §8)
+  boxMaxTowels: 6, // towels per box, all sizes and colours together (as on WordPress, #107)
+  boxMaxRobes: 2, // bathrobes per box (as on WordPress, #107)
 };

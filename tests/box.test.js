@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxLabel, sizeAllowed, TOWEL_COLOURS, colourConflicts, colourBlockReason, allowedColours } from '../js/lib/box.js';
+import { emptyBox, pieceCount, boxPrice, validateBox, boxKey, boxItemsText, boxLabel, sizeAllowed, TOWEL_COLOURS, colourConflicts, colourBlockReason, allowedColours, BOX_ROBES, towelCount, robeCount, groupFull } from '../js/lib/box.js';
 
 const sample = () => ({ ...emptyBox(), items: { face: 2, hand: 1, bath: 1, sheet: 1, beach: 0 } });
 
@@ -30,9 +30,9 @@ test('needs at least two pieces', () => {
   assert.equal(validateBox({ ...emptyBox(), items: { ...emptyBox().items, face: 1 } }).ok, false);
 });
 
-test('holds at most six pieces', () => {
+test('holds at most six towels', () => {
   const sel = { ...emptyBox(), items: { face: 7, hand: 0, bath: 0, sheet: 0, beach: 0 } };
-  assert.deepEqual(validateBox(sel), { ok: false, reason: 'A box holds up to 6 pieces.' });
+  assert.deepEqual(validateBox(sel), { ok: false, reason: 'Towels: up to 6 per box.' });
 });
 
 test('white comes in face, hand, bath and sheet, never beach', () => {
@@ -100,4 +100,73 @@ test('beach towels in the box rule out white, but not the other stripe', () => {
 test('colour checks tolerate missing items and unknown colours', () => {
   assert.deepEqual(colourConflicts('white', undefined), []);
   assert.equal(colourBlockReason('black', none()), 'Not available.');
+});
+
+// Bathrobes (#107), as on the WordPress builder: a second group beside the towels.
+const robes = extra => ({ ...emptyBox(), items: { ...emptyBox().items, ...extra } });
+
+test('a new box has both bathrobes at 0', () => {
+  assert.deepEqual(BOX_ROBES.map(r => [r.id, r.label, r.slug]), [
+    ['robeWhite', 'White bathrobe', 'white-bathrobe'],
+    ['robeBlack', 'Black bathrobe', 'black-bathrobe'],
+  ]);
+  assert.equal(emptyBox().items.robeWhite, 0);
+  assert.equal(emptyBox().items.robeBlack, 0);
+});
+
+test('bathrobes count as pieces and are priced', () => {
+  const sel = robes({ bath: 2, robeBlack: 1 });
+  assert.equal(pieceCount(sel), 3);
+  assert.equal(towelCount(sel), 2);
+  assert.equal(robeCount(sel), 1);
+  assert.equal(boxPrice(sel), 1940);
+  assert.deepEqual(validateBox(sel), { ok: true, reason: null });
+});
+
+test('towels and bathrobes have their own limits: 6 towels and 2 bathrobes fit together', () => {
+  assert.equal(validateBox(robes({ bath: 6, robeWhite: 1, robeBlack: 1 })).ok, true);
+  assert.deepEqual(validateBox(robes({ robeWhite: 2, robeBlack: 1 })), { ok: false, reason: 'Bathrobes: up to 2 per box.' });
+});
+
+test('a group is full at its limit', () => {
+  assert.equal(groupFull(robes({ bath: 5 }), 'towels'), false);
+  assert.equal(groupFull(robes({ bath: 4, face: 2 }), 'towels'), true);
+  assert.equal(groupFull(robes({ robeWhite: 1 }), 'robes'), false);
+  assert.equal(groupFull(robes({ robeWhite: 1, robeBlack: 1 }), 'robes'), true);
+});
+
+test('a box of bathrobes alone is valid in any towel colour', () => {
+  assert.equal(validateBox({ ...robes({ robeWhite: 1, robeBlack: 1 }), colour: 'blue' }).ok, true);
+  assert.equal(validateBox(robes({ robeWhite: 1 })).ok, false);   // still at least 2 pieces
+});
+
+test('bathrobes do not change which towel colours are allowed', () => {
+  assert.deepEqual(allowedColours(robes({ robeBlack: 2 }).items), ['white', 'blue', 'yellow']);
+});
+
+test('bad bathrobe quantities are rejected', () => {
+  assert.equal(validateBox(robes({ bath: 2, robeBlack: -1 })).ok, false);
+  assert.equal(validateBox(robes({ bath: 2, robeBlack: 0.5 })).ok, false);
+});
+
+test('a box saved before bathrobes (no robe keys) is still valid and keeps its key', () => {
+  const old = { colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } };
+  assert.equal(validateBox(old).ok, true);
+  assert.equal(pieceCount(old), 3);
+  assert.equal(boxKey(old), 'white|face:2,bath:1');
+});
+
+test('key, items text and label name the bathrobes after the towels', () => {
+  const sel = robes({ bath: 2, robeBlack: 1 });
+  assert.equal(boxKey(sel), 'white|bath:2,robeBlack:1');
+  assert.equal(boxItemsText(sel), '2 × Bath');
+  assert.equal(boxLabel(sel), 'Custom box: 2 × Bath, white; 1 × Black bathrobe');
+  assert.equal(boxLabel(robes({ robeWhite: 1, robeBlack: 1 })), 'Custom box: 1 × White bathrobe, 1 × Black bathrobe');
+});
+
+test('a box of bathrobes alone has the same key whatever towel colour was selected', () => {
+  const a = { ...robes({ robeBlack: 2 }), colour: 'blue' };
+  const b = { ...robes({ robeBlack: 2 }), colour: 'white' };
+  assert.equal(boxKey(a), '|robeBlack:2');
+  assert.equal(boxKey(a), boxKey(b));
 });

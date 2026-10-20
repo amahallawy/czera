@@ -1,5 +1,6 @@
 import { initShell, showToast } from '../ui/shell.js';
-import { emptyBox, BOX_SIZES, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
+import { emptyBox, BOX_SIZES, BOX_ROBES, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, towelCount, robeCount, groupFull, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
+import { CONFIG } from '../config.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
 import { fitSticky } from '../ui/sticky-fit.js';
@@ -45,18 +46,41 @@ function render() {
   document.querySelector('[data-colour-note]').textContent = STRIPED.includes(sel.colour)
     ? 'Stripes come in the 100 × 200 beach size only.'
     : 'Beach towels come in blue or yellow stripes only.';
+  // Towels (up to 6, all sizes together) and bathrobes (up to 2) each stop at their limit (#107):
+  // the group's + buttons are disabled and point to the note saying why.
+  const towelsFull = groupFull(sel, 'towels');
+  const robesFull = groupFull(sel, 'robes');
+  const row = (item, label, note, allowed, full, group) => {
+    const q = sel.items[item.id] || 0;
+    const plus = !allowed || full ? ` disabled${full && allowed ? ` aria-describedby="${group}-full"` : ''}` : '';
+    return `<div class="box-size${allowed ? '' : ' is-disabled'}"><span class="box-size__label">${label}</span>
+      <small>${note}</small>
+      <span class="qty"><button type="button" data-size="${item.id}" data-delta="-1" aria-label="One less ${item.label}" ${q === 0 ? 'disabled' : ''}>−</button>
+      <span>${q}</span><button type="button" data-size="${item.id}" data-delta="1" aria-label="One more ${item.label}"${plus}>+</button></span></div>`;
+  };
   document.querySelector('[data-options="items"]').innerHTML = BOX_SIZES.map(s => {
     const allowed = sizeAllowed(sel, s.id);
-    const q = sel.items[s.id];
-    return `<div class="box-size${allowed ? '' : ' is-disabled'}"><span class="box-size__label">${s.label} ${s.spec.replace(' cm', '')}</span>
-      <small>${allowed ? formatEGP(findProduct(s.slug).price) : 'Not in this colour'}</small>
-      <span class="qty"><button type="button" data-size="${s.id}" data-delta="-1" aria-label="One less ${s.label}" ${q === 0 ? 'disabled' : ''}>−</button>
-      <span>${q}</span><button type="button" data-size="${s.id}" data-delta="1" aria-label="One more ${s.label}" ${allowed ? '' : 'disabled'}>+</button></span></div>`;
+    return row(s, `${s.label} ${s.spec.replace(' cm', '')}`, allowed ? formatEGP(findProduct(s.slug).price) : 'Not in this colour', allowed, towelsFull, 'towels');
   }).join('');
+  document.querySelector('[data-options="robes"]').innerHTML = BOX_ROBES
+    .map(r => row(r, r.label, formatEGP(findProduct(r.slug).price), true, robesFull, 'robes')).join('');
+  document.querySelector('[data-count="towels"]').textContent = `Up to ${CONFIG.boxMaxTowels} · ${towelCount(sel)} of ${CONFIG.boxMaxTowels}`;
+  document.querySelector('[data-count="robes"]').textContent = `Up to ${CONFIG.boxMaxRobes} · ${robeCount(sel)} of ${CONFIG.boxMaxRobes}`;
+  // Live regions: write only when the text changes, so a full group isn't announced again on
+  // every unrelated click.
+  const setNote = (group, text) => {
+    const el = document.querySelector(`[data-full="${group}"]`);
+    if (el.textContent !== text) el.textContent = text;
+  };
+  setNote('towels', towelsFull ? `You have ${CONFIG.boxMaxTowels} towels. Remove one to choose another.` : '');
+  setNote('robes', robesFull ? `You have ${CONFIG.boxMaxRobes} bathrobes. Remove one to choose another.` : '');
 
   const chosen = BOX_SIZES.filter(s => sel.items[s.id] > 0);
-  document.querySelector('[data-summary]').innerHTML = chosen.length
-    ? chosen.map(s => `<li>${sel.items[s.id]} × ${s.label} ${s.spec}, ${sel.colour} <span>${formatEGP(sel.items[s.id] * findProduct(s.slug).price)}</span></li>`).join('')
+  const chosenRobes = BOX_ROBES.filter(r => sel.items[r.id] > 0);
+  const price = item => formatEGP(sel.items[item.id] * findProduct(item.slug).price);
+  document.querySelector('[data-summary]').innerHTML = chosen.length || chosenRobes.length
+    ? chosen.map(s => `<li>${sel.items[s.id]} × ${s.label} ${s.spec}, ${sel.colour} <span>${price(s)}</span></li>`).join('')
+      + chosenRobes.map(r => `<li>${sel.items[r.id]} × ${r.label} <span>${price(r)}</span></li>`).join('')
     : '<li class="box-preview__empty">Nothing chosen yet.</li>';
   const n = pieceCount(sel);
   document.querySelector('[data-piece-count]').textContent = `Total · ${n} ${n === 1 ? 'piece' : 'pieces'}`;
