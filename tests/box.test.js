@@ -163,3 +163,10 @@ test('key, items text and label name the bathrobes after the towels', () => {
   assert.equal(boxLabel(sel), 'Custom box: 2 × Bath, white; 1 × Black bathrobe');
   assert.equal(boxLabel(robes({ robeWhite: 1, robeBlack: 1 })), 'Custom box: 1 × White bathrobe, 1 × Black bathrobe');
 });
+
+test('a box of bathrobes alone has the same key whatever towel colour was selected', () => {
+  const a = { ...robes({ robeBlack: 2 }), colour: 'blue' };
+  const b = { ...robes({ robeBlack: 2 }), colour: 'white' };
+  assert.equal(boxKey(a), '|robeBlack:2');
+  assert.equal(boxKey(a), boxKey(b));
+});

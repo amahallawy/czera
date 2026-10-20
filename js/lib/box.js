@@ -102,7 +102,9 @@ const listItems = (sel, list) => chosen(sel, list).map(s => `${sel.items[s.id]} 
 
 export function boxKey(sel) {
   const items = chosen(sel, ALL_ITEMS).map(s => `${s.id}:${sel.items[s.id]}`).join(',');
-  return `${sel.colour}|${items}`;
+  // The towel colour is part of the key only when there are towels: a box of bathrobes alone is
+  // the same box whichever colour button was last pressed.
+  return `${towelCount(sel) ? sel.colour : ''}|${items}`;
 }
 
 // The towels only ("2 × Face, 1 × Bath"); the towel colour belongs with them.

@@ -149,3 +149,14 @@ test('a box of bathrobes alone has no towel colour in its spec', () => {
   bag.add({ type: 'box', box: { ...emptyBox(), items: { ...emptyBox().items, robeWhite: 1, robeBlack: 1 } }, qty: 1 });
   assert.equal(describeLine(bag.lines()[0]).spec, '1 × White bathrobe, 1 × Black bathrobe');
 });
+
+test('two boxes of the same bathrobes become one line, whatever towel colour was selected', () => {
+  const robesOnly = colour => ({ type: 'box', box: { ...emptyBox(), colour, items: { ...emptyBox().items, robeBlack: 2 } }, qty: 1 });
+  const bag = createBag(memoryStorage());
+  bag.add(robesOnly('blue'));
+  bag.add(robesOnly('white'));
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, 2);
+  const saved = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([robesOnly('blue'), robesOnly('yellow')]) }));
+  assert.equal(saved.lines().length, 1);
+});

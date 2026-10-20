@@ -66,10 +66,14 @@ function render() {
     .map(r => row(r, r.label, formatEGP(findProduct(r.slug).price), true, robesFull, 'robes')).join('');
   document.querySelector('[data-count="towels"]').textContent = `Up to ${CONFIG.boxMaxTowels} · ${towelCount(sel)} of ${CONFIG.boxMaxTowels}`;
   document.querySelector('[data-count="robes"]').textContent = `Up to ${CONFIG.boxMaxRobes} · ${robeCount(sel)} of ${CONFIG.boxMaxRobes}`;
-  document.querySelector('[data-full="towels"]').textContent = towelsFull
-    ? `You have ${CONFIG.boxMaxTowels} towels. Remove one to choose another.` : '';
-  document.querySelector('[data-full="robes"]').textContent = robesFull
-    ? `You have ${CONFIG.boxMaxRobes} bathrobes. Remove one to choose another.` : '';
+  // Live regions: write only when the text changes, so a full group isn't announced again on
+  // every unrelated click.
+  const setNote = (group, text) => {
+    const el = document.querySelector(`[data-full="${group}"]`);
+    if (el.textContent !== text) el.textContent = text;
+  };
+  setNote('towels', towelsFull ? `You have ${CONFIG.boxMaxTowels} towels. Remove one to choose another.` : '');
+  setNote('robes', robesFull ? `You have ${CONFIG.boxMaxRobes} bathrobes. Remove one to choose another.` : '');
 
   const chosen = BOX_SIZES.filter(s => sel.items[s.id] > 0);
   const chosenRobes = BOX_ROBES.filter(r => sel.items[r.id] > 0);
