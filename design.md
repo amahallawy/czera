@@ -541,7 +541,7 @@ Non-negotiables:
   **and** `aria-hidden="true"` on the wrapper.
 - Visible focus on every interactive element. Default outline:
   1.5px ink-strong, 3px offset. On dark surfaces (hero, header over
-  the hero, dark chapters, the black bands such as Build your box and
+  the hero, dark chapters, the black bands such as Build Your Own Box and
   About's bulk orders, the footer): gold. See
   [`base.css`](css/base.css) `:focus-visible`. The WordPress store
   draws the same gold ring on its black bands.
