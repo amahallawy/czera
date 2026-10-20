@@ -10,10 +10,12 @@
  * swap" Additional CSS block stacks it over the main photo and fades it in.
  *
  * Two card types:
- * - Collection pages (Astra's shop loop): WC_Product::get_image() while a loop item is printing,
- *   so the cart, the mini cart and the product page, which also call get_image(), are left alone.
- * - Home gift sets (woocommerce/product-image blocks inside the product collections): the block's
- *   rendered HTML, after its first <img>.
+ * - Shop-loop cards (collection pages, /shop/ and a product page's related products, through Astra):
+ *   WC_Product::get_image() while a loop item is printing, so cart lines, the mini cart and the
+ *   product gallery, which also call get_image(), are left alone.
+ * - Home gift sets (woocommerce/product-image blocks with the class czera-card__media, inside the
+ *   product collections): the block's rendered HTML, after its first <img>. Other product-image
+ *   blocks are left alone, since only these cards have the CSS that hides the photo.
  */
 
 if ( ! function_exists( 'czera_card_alt_image' ) ) {
@@ -45,9 +47,14 @@ if ( ! function_exists( 'czera_card_alt_image' ) ) {
 add_action( 'woocommerce_before_shop_loop_item', function () {
 	$GLOBALS['czera_card_in_loop'] = true;
 }, 1 );
-add_action( 'woocommerce_after_shop_loop_item', function () {
+// Cleared after each item, and again after the whole loop and before the footer in case an item's
+// closing hook never runs (a template override), so nothing later in the page is affected.
+$czera_card_loop_end = function () {
 	$GLOBALS['czera_card_in_loop'] = false;
-}, 99 );
+};
+add_action( 'woocommerce_after_shop_loop_item', $czera_card_loop_end, 99 );
+add_action( 'woocommerce_after_shop_loop', $czera_card_loop_end, 99 );
+add_action( 'wp_footer', $czera_card_loop_end, 0 );
 add_filter( 'woocommerce_product_get_image', function ( $image, $product, $size ) {
 	if ( is_admin() || empty( $GLOBALS['czera_card_in_loop'] ) ) {
 		return $image;
@@ -57,7 +64,8 @@ add_filter( 'woocommerce_product_get_image', function ( $image, $product, $size 
 
 // Home gift sets: the product-image block in each product collection.
 add_filter( 'render_block_woocommerce/product-image', function ( $content, $block, $instance ) {
-	if ( is_admin() || empty( $instance->context['postId'] ) ) {
+	$class = isset( $block['attrs']['className'] ) ? (string) $block['attrs']['className'] : '';
+	if ( is_admin() || empty( $instance->context['postId'] ) || false === strpos( $class, 'czera-card__media' ) ) {
 		return $content;
 	}
 	$alt = czera_card_alt_image( wc_get_product( (int) $instance->context['postId'] ), 'large' );
