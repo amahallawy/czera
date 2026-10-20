@@ -1,12 +1,14 @@
 // The 16 products. Source of truth: the client's info.txt files and catalogue PDF
 // (graphics/client-2026-10/). Prices in EGP. Read PRODUCT.md before editing copy.
 const img = (slug, ...n) => n.map(i => `assets/img/products/${slug}-${i}.jpg`);
+// The client's newer photo leads, the original photos follow (#101).
+const withMain = (slug, ...n) => [`assets/img/products/${slug}-main.jpg`, ...img(slug, ...n)];
 const SET_FEATURES = ['Premium 100% cotton', 'Ultra soft and highly absorbent', 'Hotel-style quality', 'Gift-ready packaging'];
 
 export const CATEGORIES = [
-  { id: 'towels', label: 'Towels', navLabel: 'Towels' },
+  { id: 'towels', label: 'Towels', navLabel: 'The towel collection' },
   { id: 'bathrobes', label: 'Bathrobes', navLabel: 'Bathrobes' },
-  { id: 'beach', label: 'Beach', navLabel: 'Beach' },
+  { id: 'beach', label: 'Beach', navLabel: 'Beach towels' },
   { id: 'gift-sets', label: 'Gift sets', navLabel: 'Gift sets' },
 ];
 
@@ -111,42 +113,42 @@ export const PRODUCTS = [
   },
   {
     slug: 'face-towel', name: 'Face Towel', category: 'towels', price: 50,
-    spec: '30 × 30 cm', colours: ['white'], images: img('face-towel', 2, 3),
+    spec: '30 × 30 cm', colours: ['white'], images: withMain('face-towel', 2, 3),
     description: 'A compact 100% cotton towel for face and hands. Soft and absorbent, with a timeless finish that suits every bathroom.',
     features: ['100% premium cotton', '30 × 30 cm', 'Soft and absorbent', 'For face and hands'],
     contents: null, ribbon: null, giftGroup: null, boxable: true,
   },
   {
     slug: 'hand-towel', name: 'Hand Towel', category: 'towels', price: 230,
-    spec: '50 × 100 cm', colours: ['white'], images: img('hand-towel', 1, 3),
+    spec: '50 × 100 cm', colours: ['white'], images: withMain('hand-towel', 1, 3),
     description: 'A 100% cotton towel that pairs softness with excellent absorbency, with a plush texture and a classic hotel-style finish.',
     features: ['100% cotton', '50 × 100 cm', 'Ultra soft and absorbent', 'Hotel-style quality', 'Durable and easy to care for'],
     contents: null, ribbon: null, giftGroup: null, boxable: true,
   },
   {
     slug: 'bath-towel', name: 'Bath Towel', category: 'towels', price: 470,
-    spec: '70 × 140 cm', colours: ['white'], images: img('bath-towel', 1, 2),
+    spec: '70 × 140 cm', colours: ['white'], images: withMain('bath-towel', 1, 2),
     description: 'A 100% cotton bath towel with a plush terry texture and a classic hotel-style finish. Soft and highly absorbent, for every day.',
     features: ['100% premium cotton', '70 × 140 cm', 'Ultra soft and highly absorbent', 'Classic hotel-style finish', 'Durable'],
     contents: null, ribbon: null, giftGroup: null, boxable: true,
   },
   {
     slug: 'bath-sheet', name: 'Bath Sheet', category: 'towels', price: 650,
-    spec: '90 × 160 cm', colours: ['white'], images: img('bath-sheet', 1, 2),
+    spec: '90 × 160 cm', colours: ['white'], images: withMain('bath-sheet', 1, 2),
     description: 'A generous 100% cotton bath sheet with a plush, soft texture and excellent absorbency. Extra coverage with a classic hotel-style finish.',
     features: ['100% premium cotton', '90 × 160 cm', 'Ultra soft and highly absorbent', 'Generous size for extra comfort', 'Classic hotel-style finish'],
     contents: null, ribbon: null, giftGroup: null, boxable: true,
   },
   {
     slug: 'blue-stripe-beach-towel', name: 'Blue Stripe Beach Towel', category: 'beach', price: 850,
-    spec: '100 × 200 cm', colours: ['striped'], images: img('blue-stripe-beach-towel', 2, 3),
+    spec: '100 × 200 cm', colours: ['striped'], images: withMain('blue-stripe-beach-towel', 2, 3),
     description: 'A 100% cotton beach towel in bold blue-and-white stripes. Plush, absorbent and generously sized for the pool or the sea.',
     features: ['100% premium cotton', '100 × 200 cm', 'Ultra soft and highly absorbent', 'Blue and white stripes', 'For beach and pool'],
     contents: null, ribbon: null, giftGroup: null, boxable: true,
   },
   {
     slug: 'yellow-stripe-beach-towel', name: 'Yellow Stripe Beach Towel', category: 'beach', price: 850,
-    spec: '100 × 200 cm', colours: ['striped'], images: img('yellow-stripe-beach-towel', 1, 2),
+    spec: '100 × 200 cm', colours: ['striped'], images: withMain('yellow-stripe-beach-towel', 1, 2),
     description: 'A 100% cotton beach towel in yellow-and-white stripes. Plush, absorbent and generously sized for the pool or the sea.',
     features: ['100% premium cotton', '100 × 200 cm', 'Ultra soft and highly absorbent', 'Yellow and white stripes', 'For beach and pool'],
     contents: null, ribbon: null, giftGroup: null, boxable: true,

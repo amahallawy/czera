@@ -229,8 +229,24 @@ amahallawy/czera#48).
 **Slide-in menu.** The site's only primary nav, on every screen size.
 Opens from the inline start (left in English, right in Arabic) so the
 bag panel keeps the other side; a dimmed backdrop covers the page. It
-lists About, the four categories and Build your box in large light
-type with hairline rules. It is a modal dialog: focus moves to its
+lists, in large light type with hairline rules and in this order (client
+request, 2026-10-20, amahallawy/czera#101): Shop all (the Collection, no
+filter), The towel collection, Bathrobes, Beach towels, Gift sets, Build
+Your Own Box, About CZERA. The list is `menuItems()` in
+`js/lib/nav.js`; the category links use `navLabel` from the product data,
+while the footer and the Collection filters keep the short `label`.
+
+**Build Your Own Box is the featured item**, styled to invite a click
+while staying one link in the same `nav` list (no extra landmark or
+announcement): its text is gold (`--color-gold-text`, 5.2:1 on ivory), its
+rule is gold instead of grey, and a line gift box (`--color-gold-deep`,
+decorative, `aria-hidden`) sits at the inline end. Same type size, the
+same 44px-plus target and the same focus ring as the other items. It is
+the menu's only gold, so the one-accent rule (§3.1) holds. At 480px and below the panel
+widens to `min(340px, 88vw)` with a narrower inset so the longer labels
+stay on one line.
+
+It is a modal dialog: focus moves to its
 close button, the page behind is `inert`, and Esc, the close button,
 the backdrop or a link closes it and returns focus to the menu button.
 
@@ -248,9 +264,11 @@ Full viewport, the 30s brand film as background, looping without end
 (`assets/video/hero-30s.webm` / `.mp4`, silent). It opens on the cotton
 field and ends, from 24s to 30s, on ivory linen with the gold CZERA
 sign-off (owner decision, 2026-10-18, amahallawy/czera#96). Headline
-bottom-left ("The hotel experience, at home."), a one-line fact line, and
+bottom-left ("The hotel experience, at home.") and
 two actions: "Shop the collection" (light filled) and "Build your own
-box" (outline). Nothing else on the film: no order or delivery line under
+box" (outline). Nothing else on the film: no fact line under the
+headline (removed at the client's request, 2026-10-20, #101; the
+WordPress hero had already dropped it) and no order or delivery line under
 the buttons (owner decision, 2026-10-18; How to order covers it).
 
 **Play / pause.** One quiet, icon-only round button (WCAG 2.2.2) at the
@@ -298,7 +316,7 @@ The landing's narrative engine. Five chapter shapes:
 | `chapter--dark` | Centered copy on charcoal, full-bleed media block | Dark — uses `--color-on-dark`. Single gold accent is the **crown**; the eyebrow reads muted ivory and the link rests ivory (gold on hover only), per §3.1 one-accent-per-screen. |
 | `chapter--split` | 50/50 image-left, copy-right (with `<dl>` spec list) | Light |
 | `chapter--editorial` | Heading row + 3-column entries (no card chrome). Unused while the Journal is off the site. | Light |
-| Build-your-box band | Near-black band in the black-gift-box look: copy and three numbered steps (box, colour, towels) on one side, gift-box photo on the other, one gold button. Used on Home and, full width after the last product card, in the Collection grid; the Collection uses the compact version (no steps, shorter photo; see §6.15). | Dark |
+| Build-your-box band | Near-black band in the black-gift-box look: the title "Build Your Own Box", one line of client copy and one gold button on one side, gift-box photo on the other. Used on Home and, full width after the last product card, in the Collection grid; the Collection uses the compact version (shorter photo; see §6.15). | Dark |
 | `chapter--story` | Text over image — photo full-bleed on the leading edge, copy over the trailing ivory void, a `to right` scrim (`.chapter__scrim`) fading the image into `--color-bg` so image and copy read as one field. Mirrors on RTL. On desktop it meets the hero with no gap and its photo fades in from ivory over the top 140px (`mask-image`), so the film and the photo never meet in a hard cut; an ivory strip between them read as a layout bug (critique 2026-10-18). Stacks (image over copy) at 768px and below; on phones it stays short because it sits before the first prices: a 2:1 photo, no pull-quote, balanced title lines. Ends on one text link, "About Czera ›" (the gift-sets tile follows one screen later). | Light |
 
 Each chapter starts with `<span class="eyebrow">…</span>`, then the
@@ -309,12 +327,14 @@ chapters blur into each other.
 
 - **Solid ink** (`#010100`, ivory text): the main action on light
   surfaces: "Add to bag · price", "Add box to bag", "Continue".
-- **Solid gold**: the main action on a dark band ("Start your box").
+- **Solid gold**: the main action on a dark band ("Create your box",
+  "Enquire now").
   One per screen.
 - **Outline**: the second action beside a solid one (hero).
 - **Send green** (`--color-send`): only the final "Send order by email"
   in the bag.
-- **Contact us**: every contact button is labelled "Contact us" and
+- **Contact us**: every contact button is labelled "Contact us" (the
+  About bulk band's is "Enquire now", the client's wording, #101) and
   opens the visitor's email app (`mailto:support@czeramaison.com`); its
   accessible name adds "(opens your email app)".
 - **Gold text link with `›`**: "Add to bag ›" on product cards, "Or
@@ -418,15 +438,20 @@ behind them). Same stops as the WordPress build.
 
 ### 6.15 Build-your-box band (Home, Collection)
 
-The one dark band: copy on the left (eyebrow, title, one line, the
-steps Box / Colour / Towels, "Start your box"), photo on the right. The
-copy sets the band's height (about 470px on desktop) and the photo
-fills its half with `object-fit: cover`; at 768px and below the photo
-sits on top at 4:3. One accent: the eyebrow and step numbers are muted
-ivory, gold only on the button.
+The one dark band: copy on the left, photo on the right. The copy is
+the client's (2026-10-20, #101), the same on Home and the Collection:
+the title **"Build Your Own Box"** (no eyebrow above it, so the words are
+not said twice), the line "Create a gift that feels personal. Choose your
+towels, select your preferred options, and complete your CZERA experience
+with our signature gift box." and the gold button **"Create your box"**
+(shown in capitals). There is no steps list: it offered a box colour, and
+the box colour and the ribbon are never the customer's choice. The copy
+sets the band's height (about 470px on desktop) and the photo fills its
+half with `object-fit: cover`; at 768px and below the photo sits on top
+at 4:3. One accent: gold only on the button.
 
-On the Collection the band is the compact version (no steps, the photo
-capped at 240px tall) and closes the grid: it spans every column after
+On the Collection the band is the compact version (the photo capped at
+240px tall) and closes the grid: it spans every column after
 the last product card, whatever the filter leaves, so browsing always
 ends on the invitation to build a box (#91). The WordPress shop and
 category pages carry the same band after their product grid.
@@ -482,7 +507,7 @@ horizontal scroll storytelling, parallax beyond ken-burn.
 - Currency: `1,450 EGP` — comma-grouped amount, space, three-letter
   code (matches the client's mockup).
 - CTAs are imperative + concrete: "Shop the collection", "Add to bag",
-  "Start your box", "Send order by email", "Contact us". Never "Click here",
+  "Create your box", "Send order by email", "Contact us". Never "Click here",
   "Learn more", "Get started", "Buy now".
 - Product names are Italiana, title case as in the catalogue, no
   "Luxury" prefix ("The Complete Czera Set", "3 Bath Sheets Set").
@@ -584,8 +609,8 @@ over image), shop by category (editorial grid, gift sets lead), gift
 sets (two tabs), Build Your Own Box (dark band), the four promises with
 a photo strip, how to order (three steps, all by email: Add to bag,
 Send your bag by email, We confirm and deliver) + footer. The story leads
-the page and About leads the menu (client request, 2026-10-17,
-amahallawy/czera#68). Goal: the first screen sets the brand, the second
+the page (client request, 2026-10-17, amahallawy/czera#68); the menu
+order is in §6.1 (About CZERA last since #101). Goal: the first screen sets the brand, the second
 tells its story, and the category tiles with prices follow straight
 after; the story's headline must not repeat the hero's.
 
@@ -605,10 +630,26 @@ total; price is the sum of the towels, the box free. Goal: a custom gift box in 
 bag in under a minute.
 
 ### About (`about.html`)
-Photo header, two short chapters from the catalogue's copy, the
-bulk-orders band ("Custom quantities, quoted by email." and a "Contact
-us" button, an email with the subject "Bulk or corporate order") and the
-contact strip (Email, Follow, Delivery). Goal: who Czera is and how to
+Photo header, two short chapters and the bulk-orders band in the
+client's words (2026-10-20, #101), then the contact strip.
+
+- *Our belief*: "The hotel experience, brought home." / "Inspired by the
+  world's finest hotels, CZERA brings everyday luxury into your home
+  through premium towels, bathrobes and thoughtfully curated gift sets."
+- *The details* (`#sizes`): "It’s all in how it feels." / "Crafted from
+  100% cotton, CZERA towels feature a premium 650+ GSM weight for
+  exceptional softness, superior absorbency and lasting comfort. From
+  luxurious towels and bathrobes to elegant gift sets, every detail is
+  thoughtfully considered to bring the five-star hotel experience into
+  your home." The care line follows.
+- *Bulk & corporate orders* (`#bulk`, dark band): "Tailored solutions for
+  hotels, businesses and special occasions." / "From premium hospitality
+  towels and bathrobes to custom sizes, colors and embroidered logos,
+  CZERA offers tailored textile solutions to meet your needs." and a gold
+  "Enquire now" button: an email with the subject "Bulk or corporate
+  order".
+
+Then the contact strip (Email, Follow, Delivery). Goal: who Czera is and how to
 order in quantity.
 
 ---

@@ -215,12 +215,36 @@ body.has-hero .site-header:not(.is-scrolled) .bag-button:hover { color: var(--co
   border-bottom: 1px solid var(--color-ink-faint);
   transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
-/* About leads the menu on its own; extra space sets it apart from the shop
- * links that follow. */
-.site-menu__link:first-child { margin-block-end: var(--space-5); }
 .site-menu__link:hover {
   color: var(--color-gold-deep);
   border-bottom-color: var(--color-gold);
+}
+/* Build Your Own Box (#101): the one featured item, to invite a click. Gold
+ * text (gold-text, 5.2:1 on ivory), a gold rule and a line gift box at the
+ * inline end; same type size, 44px+ target and focus ring as the others, and
+ * still a link in the same nav list. */
+.site-menu__link--feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--color-gold-text);
+  border-bottom-color: var(--color-gold);
+}
+.site-menu__link--feature:hover {
+  color: var(--color-gold-text);
+  border-bottom-color: var(--color-gold-deep);
+}
+.site-menu__icon {
+  flex: none;
+  inline-size: 26px;
+  block-size: 26px;
+  color: var(--color-gold-deep);   /* 3.1:1 on ivory, a decorative glyph */
+}
+/* Phones: a wider panel with a narrower inset, so the longer labels ("The
+ * towel collection", "Build Your Own Box" and its icon) stay on one line. */
+@media (max-width: 480px) {
+  .site-menu { width: min(340px, 88vw); padding-inline: var(--space-6); }
 }
 
 /* Lock body scroll when the panel is open. */
@@ -607,8 +631,8 @@ body.menu-open { overflow: hidden; }
   background: var(--color-ink-strong);
   color: var(--color-on-dark);
 }
-/* One accent per screen (design.md §3.1): the eyebrow and step numbers are muted ivory; gold is
- * kept for the band's one button. */
+/* One accent per screen (design.md §3.1): the eyebrow is muted ivory; gold is kept for the band's
+ * one button. */
 .band--dark .eyebrow { color: rgba(244, 242, 236, 0.7); }
 .band__copy {
   display: flex;
@@ -628,6 +652,7 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 768px) {
   .band__title { font-size: var(--fs-xl); }
 }
+.band__text { margin: 0; max-width: 46ch; line-height: var(--lh-loose); color: rgba(244, 242, 236, 0.85); }
 .band__media { position: relative; overflow: hidden; min-height: 280px; }
 .band__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 /* A bare <img class="band__media"> (Home, Collection): the copy sets the band's height and the photo
@@ -636,50 +661,6 @@ img.band__media { display: block; width: 100%; height: 100%; min-height: 280px; 
 @media (max-width: 768px) {
   img.band__media { height: auto; min-height: 0; aspect-ratio: 4 / 3; contain: none; }
 }
-.steps {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4) var(--space-5);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
-}
-/* Numbered gold circle comes from CSS; markup is <li><b>Label</b>Caption</li>. */
-.steps li {
-  counter-increment: step;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: var(--space-3);
-  align-content: start;
-  font-size: var(--fs-xs);
-  line-height: var(--lh-base);
-  color: var(--color-ink-mute);
-}
-.steps li::before {
-  content: counter(step);
-  grid-row: 1 / span 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px; height: 24px;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  font-size: var(--fs-2xs);
-  color: var(--color-gold-deep);
-}
-.steps li b {
-  grid-column: 2;
-  display: block;
-  font-size: var(--fs-2xs);
-  font-weight: 500;
-  letter-spacing: var(--ls-wide);
-  text-transform: uppercase;
-  color: var(--color-ink-strong);
-}
-.band--dark .steps li { color: rgba(244, 242, 236, 0.7); }
-.band--dark .steps li::before { color: rgba(244, 242, 236, 0.7); }
-.band--dark .steps li b { color: var(--color-on-dark); }
 @media (max-width: 768px) {
   .band--dark { grid-template-columns: 1fr; }
   .band__copy { padding: var(--space-7) var(--gutter); }

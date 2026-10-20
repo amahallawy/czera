@@ -11,6 +11,14 @@
 > buttons say "Contact us", and the site no longer mentions WhatsApp. The
 > sections below are updated to match.
 
+> **Note, 2026-10-20 (#101): client copy and menu.** The menu is now Shop
+> all · The towel collection · Bathrobes · Beach towels · Gift sets ·
+> Build Your Own Box (featured in gold) · About CZERA. The hero's fact line
+> is gone. The About chapters, the bulk band and the Build Your Own Box
+> bands (Home, Collection) carry the client's own words, and the box bands
+> no longer list steps. Six towels lead with the client's newer photos.
+> The sections below are updated to match.
+
 ## 1. What changes and why
 
 The site was built as a design with placeholder content. The client has now
@@ -68,8 +76,10 @@ until the client supplies new photos.
 
 ## 3. Site-wide
 
-- **Navigation**: About · Towels · Bathrobes · Beach · Gift sets · Build
-  your box, in a **slide-in menu** opened by a "Menu" button on the left, on
+- **Navigation**: Shop all · The towel collection · Bathrobes · Beach
+  towels · Gift sets · Build Your Own Box · About CZERA (client order,
+  2026-10-20, #101; Build Your Own Box is styled in gold to invite a click,
+  still one item in the list), in a **slide-in menu** opened by a "Menu" button on the left, on
   every screen size. The CZERA wordmark is **centred**; the **bag icon and
   item count** sit on the right. (Changed 2026-10-16, amahallawy/czera#48:
   the inline nav beside a left-aligned logo was replaced. See `design.md`
@@ -88,15 +98,16 @@ until the client supplies new photos.
 ## 4. Home (`index.html`)
 
 Order changed 2026-10-17 (client request, amahallawy/czera#68): Our story
-now follows the hero, and About is the first menu item.
+now follows the hero. (About led the menu from #68 until #101 moved it to
+the end.)
 
 | # | Section | Choice |
 |---|---|---|
-| 1 | Hero | **A**: existing 30s film full-bleed; headline "The hotel experience, at home." bottom-left; buttons "Shop the collection" and "Build your own box". |
+| 1 | Hero | **A**: existing 30s film full-bleed; headline "The hotel experience, at home." bottom-left, no fact line under it (#101); buttons "Shop the collection" and "Build your own box". |
 | 2 | Our story | **A**: keep the existing text-over-image layout (PR #2); catalogue photo; copy from catalogue p2/p6 ("The hotel experience, brought home", "It's all in the details"). |
 | 3 | Shop by category | **B**: editorial grid. Large Gift sets tile (8 sets, from 1,410 EGP), Towels and Bathrobes tiles, Beach as a wide band. Each tile opens the Collection with that category selected. |
 | 4 | Gift sets | **B**: grouped by occasion with tabs. **Two tabs of four** (assumed, see §11): *For the home* (Complete Set, 3 Bath Towels, 3 Bath Sheets, Hand & Bath Sheet) and *Robes & beach* (His & Hers, both Robe & Beach sets, Beach Towel Set). |
-| 5 | Build your own box | **C**: dark band in the black-box look; three steps (box, colour, towels; no ribbon choice since 2026-10-18); gold "Start your box" button. |
+| 5 | Build your own box | **C**: dark band in the black-box look; title "Build Your Own Box", the client's line "Create a gift that feels personal. Choose your towels, select your preferred options, and complete your CZERA experience with our signature gift box." and a gold "Create your box" button (#101; no steps list, so no box-colour step). |
 | 6 | Material & craft | **B**: four icon promises as in the catalogue (100% cotton, Highly absorbent, Long-lasting, Hotel quality with 650+ GSM / 1200 GSM) plus a four-photo strip. |
 | 7 | How to order + footer | **B**: three steps: *Add to bag* → *Send your bag by email* → *We confirm and deliver* (title "Three steps, all by email."); one line for bulk and corporate orders ("Custom quantities, quoted by email."); then the footer. |
 
@@ -111,7 +122,8 @@ now follows the hero, and About is the first menu item.
   "Filters" button that opens a panel.
 - **Card, B**: the site-wide card with "Add to bag ›".
 - **Grid, B**: three columns beside the sidebar, closed by one full-width dark
-  **Build Your Own Box** band after the last product card, for every filter
+  **Build Your Own Box** band (the same client copy and "Create your box"
+  button as Home's, #101) after the last product card, for every filter
   result (#91; it was after the first row and hid below four products). On
   the WordPress store the shop and category pages end with the same band.
 
@@ -184,15 +196,21 @@ now follows the hero, and About is the first menu item.
 ## 9. About (`about.html`, new)
 
 - **Layout, A**: photo header "Every detail feels like home."; two
-  image-and-text chapters (*Our belief*, *The details*) using catalogue copy;
-  dark bulk-orders band (weddings, companies, hotels → a "Contact us" email
-  with the subject "Bulk or corporate order"); contact strip (Email, Follow
+  image-and-text chapters (*Our belief*, *The details*) and a dark
+  bulk-orders band ("Tailored solutions for hotels, businesses and special
+  occasions." → an "Enquire now" email with the subject "Bulk or corporate
+  order"), all in the client's words (#101; full text in `design.md` §13);
+  contact strip (Email, Follow
   icons, Delivery). Chapters stay short until the client
   writes more.
 
 ## 10. Images
 
 - Client originals move to `graphics/` (not shipped, per `CLAUDE.md`).
+- The client's newer photos (2026-10-20, #101) lead six towels as
+  `assets/img/products/<slug>-main.jpg`: Face Towel, Hand Towel, Bath
+  Towel, Bath Sheet and the blue and yellow striped beach towels. Their
+  earlier photos follow as the second and third images.
 - Page-ready copies go to `assets/img/products/<slug>-<n>.jpg` and
   `assets/img/catalogue/` at web sizes. Catalogue pages are cropped to their
   photo area; their printed text, icons and CamScanner stamp must not show.

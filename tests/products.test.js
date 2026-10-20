@@ -58,3 +58,19 @@ test('every product has at least one image under assets/img', () => {
     for (const src of p.images) assert.match(src, /^assets\/img\/(products|catalogue)\/[a-z0-9-]+\.jpg$/);
   }
 });
+
+test('the client photos lead the six towels, the old photos follow (#101)', async () => {
+  const { existsSync } = await import('node:fs');
+  const old = {
+    'face-towel': [2, 3], 'hand-towel': [1, 3], 'bath-towel': [1, 2], 'bath-sheet': [1, 2],
+    'blue-stripe-beach-towel': [2, 3], 'yellow-stripe-beach-towel': [1, 2],
+  };
+  for (const [slug, nums] of Object.entries(old)) {
+    const p = findProduct(slug);
+    assert.deepEqual(p.images, [
+      `assets/img/products/${slug}-main.jpg`,
+      ...nums.map(n => `assets/img/products/${slug}-${n}.jpg`),
+    ], slug);
+    for (const src of p.images) assert.ok(existsSync(new URL(`../${src}`, import.meta.url)), src);
+  }
+});
