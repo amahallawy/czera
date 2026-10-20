@@ -625,9 +625,14 @@ details, and a related band at the bottom. Goal: everything needed to
 decide, with "Add to bag" always beside it.
 
 ### Build Your Own Box (`build-your-box.html`)
-Three steps (box, colour, towels) and a live preview with the running
-total; price is the sum of the towels, the box free. Goal: a custom gift box in the
-bag in under a minute.
+Two steps (colour, towels) and a live preview with the running
+total; price is the sum of the towels, the box free. There is no box
+colour or ribbon step: the team picks the box to fit the towels (#103).
+With nothing chosen the preview reads "Nothing chosen yet." The product
+page's related band reads "Build Your Own Box" with "Add this to a box of
+your own." / "Start with this item" for towels that fit a box, and the
+client's "Create a gift that feels personal." / "Create your box" for
+everything else. Goal: a custom gift box in the bag in under a minute.
 
 ### About (`about.html`)
 Photo header, two short chapters and the bulk-orders band in the

@@ -8,8 +8,8 @@ export const BOX_SIZES = [
   { id: 'sheet', label: 'Bath sheet', spec: '90 × 160 cm', slug: 'bath-sheet' },
   { id: 'beach', label: 'Beach', spec: '100 × 200 cm', slug: 'blue-stripe-beach-towel' },
 ];
-export const BOX_COLOURS = ['black', 'beige'];
-// No ribbon choice: ribbons are added when available, never chosen by the customer.
+// No box colour or ribbon choice: the team picks the box to fit the towels and adds ribbons
+// when available. Neither is ever chosen by the customer (#103).
 // DRAFT: which sizes exist in each towel colour, from the catalogue. Awaiting client confirmation (spec §8).
 export const SIZES_BY_COLOUR = {
   white: ['face', 'hand', 'bath', 'sheet'],
@@ -20,7 +20,7 @@ export const TOWEL_COLOURS = Object.keys(SIZES_BY_COLOUR);
 export const STRIPED = ['blue', 'yellow'];
 
 export function emptyBox() {
-  return { box: 'black', colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 0 } };
+  return { colour: 'white', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 0 } };
 }
 
 export function pieceCount(sel) {
@@ -62,7 +62,7 @@ export function allowedColours(items) {
 export function validateBox(sel) {
   const invalid = { ok: false, reason: 'Invalid choice.' };
   if (!sel || typeof sel !== 'object' || !sel.items) return invalid;
-  if (!BOX_COLOURS.includes(sel.box) || !TOWEL_COLOURS.includes(sel.colour)) return invalid;
+  if (!TOWEL_COLOURS.includes(sel.colour)) return invalid;
   for (const s of BOX_SIZES) {
     const q = sel.items[s.id] ?? 0;
     if (!Number.isInteger(q) || q < 0) return invalid;
@@ -84,7 +84,7 @@ function chosen(sel) {
 
 export function boxKey(sel) {
   const items = chosen(sel).map(s => `${s.id}:${sel.items[s.id]}`).join(',');
-  return `${sel.box}|${sel.colour}|${items}`;
+  return `${sel.colour}|${items}`;
 }
 
 export function boxItemsText(sel) {
@@ -92,5 +92,5 @@ export function boxItemsText(sel) {
 }
 
 export function boxLabel(sel) {
-  return `Custom box (${sel.box} box): ${boxItemsText(sel)}, ${sel.colour}`;
+  return `Custom box: ${boxItemsText(sel)}, ${sel.colour}`;
 }

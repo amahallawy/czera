@@ -66,11 +66,11 @@ test('custom boxes are lines with their own key and price', () => {
   const bag = createBag(memoryStorage());
   bag.add({ type: 'box', box: box(), qty: 1 });
   const [line] = bag.lines();
-  assert.equal(lineKey(line), 'box:black|white|face:2,bath:1');
+  assert.equal(lineKey(line), 'box:white|face:2,bath:1');
   const d = describeLine(line);
   assert.equal(d.total, 570);
-  assert.equal(d.messageLabel, 'Custom box (black box): 2 × Face, 1 × Bath, white');
-  assert.equal(d.spec, 'black box · 2 × Face, 1 × Bath · white');
+  assert.equal(d.messageLabel, 'Custom box: 2 × Face, 1 × Bath, white');
+  assert.equal(d.spec, '2 × Face, 1 × Bath · white');
 });
 
 test('describeLine and bagTotal compute prices from current data', () => {
@@ -94,7 +94,7 @@ test('subscribers hear every change', () => {
   assert.equal(calls, 2);
 });
 
-test('a box saved with the old ribbon field still loads, without the ribbon', () => {
+test('a box saved with the old box colour and ribbon fields still loads, without them', () => {
   const stored = JSON.stringify([
     { type: 'box', box: { box: 'black', ribbon: 'burgundy', colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 },
   ]);
@@ -102,17 +102,18 @@ test('a box saved with the old ribbon field still loads, without the ribbon', ()
   const [line] = bag.lines();
   assert.equal(bag.lines().length, 1);
   assert.equal('ribbon' in line.box, false);
+  assert.equal('box' in line.box, false);
   bag.add({ type: 'box', box: box(), qty: 1 });   // the same box chosen today joins the saved line
   assert.equal(bag.lines().length, 1);
   assert.equal(bag.lines()[0].qty, 2);
 });
 
-test('two saved boxes that differed only by ribbon become one line', () => {
-  const old = ribbon => ({ type: 'box', box: { box: 'black', ribbon, colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 });
-  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([old('burgundy'), old('gold')]) }));
+test('two saved boxes that differed only by box colour or ribbon become one line', () => {
+  const old = (box, ribbon) => ({ type: 'box', box: { box, ribbon, colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 });
+  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([old('black', 'burgundy'), old('beige', 'gold')]) }));
   assert.equal(bag.lines().length, 1);
   assert.equal(bag.lines()[0].qty, 2);
-  bag.setQty('box:black|white|face:2,bath:1', 3);   // one press acts on one line
+  bag.setQty('box:white|face:2,bath:1', 3);   // one press acts on one line
   assert.equal(bag.count(), 3);
 });
 

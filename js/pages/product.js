@@ -56,9 +56,9 @@ if (!p) {
     </div>
     <section class="pdp-related">
       <a class="band band--dark pdp-related__box" href="${boxHref}">
-        <span class="band__copy"><span class="eyebrow">Build your own box</span>
-          <span class="band__title">${p.boxable ? 'Add this to a box of your own.' : 'Make a gift box of your own.'}</span>
-          <span class="btn btn--gold">${p.boxable ? 'Start with this item' : 'Start your box'}</span></span>
+        <span class="band__copy"><span class="eyebrow">Build Your Own Box</span>
+          <span class="band__title">${p.boxable ? 'Add this to a box of your own.' : 'Create a gift that feels personal.'}</span>
+          <span class="btn btn--gold">${p.boxable ? 'Start with this item' : 'Create your box'}</span></span>
       </a>
       <div class="pdp-related__side"><h2>${sideTitle}</h2><div class="card-row card-row--2">${side.map(renderProductCard).join('')}</div></div>
     </section>`;
