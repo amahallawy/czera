@@ -8,6 +8,11 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home: the Our story paragraph now reads, in the client's words, "CZERA
+  brings the comfort of premium hotel textiles into your everyday life.
+  Discover 100% cotton towels, bathrobes and thoughtfully curated gift
+  sets, crafted for comfort, quality and lasting elegance." The same text
+  is on the WordPress store's Home (#117).
 - WordPress store (czeramaison.com): every other WooCommerce email
   (cancelled and failed orders, completed, refunded, order details,
   customer notes, new account, password reset) now has the CZERA look of

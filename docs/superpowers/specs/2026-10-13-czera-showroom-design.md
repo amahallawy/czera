@@ -30,6 +30,12 @@
 > (6 towels, 2 bathrobes, at least 2 pieces). The sections below are
 > updated to match.
 
+> **Note, 2026-10-21 (#117): Our story paragraph.** At the client's request the Home story
+> paragraph reads "CZERA brings the comfort of premium hotel textiles into your everyday life.
+> Discover 100% cotton towels, bathrobes and thoughtfully curated gift sets, crafted for comfort,
+> quality and lasting elegance." (it was "Our towels, robes and gift sets bring the calm of a fine
+> hotel into your home.").
+
 > **Note, 2026-10-21 (#113): mixed towel colours.** Owner decision: one box
 > can hold towels of different colours, as on the WordPress builder. The
 > colour buttons only filter the towel rows. The sections below are
