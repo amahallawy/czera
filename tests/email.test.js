@@ -37,10 +37,10 @@ test('the contact address is the support mailbox and the WhatsApp settings are g
 test('message matches the spec format with details', () => {
   assert.equal(buildOrderMessage(lines, details), [
     "Hello Czera, I'd like to order:",
-    '• 1 × The Complete Czera Set: 1,450 EGP',
+    '• 1 × The Complete Czera Set: 1,160 EGP',
     '• 1 × Black Bathrobe: 1,000 EGP',
     '• 1 × Custom box: 2 × Face (white), 1 × Bath (white): 570 EGP',
-    'Total: 3,020 EGP',
+    'Total: 2,730 EGP',
     '',
     'Name: Sara',
     'Phone: 0100 123 4567',

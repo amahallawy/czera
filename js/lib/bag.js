@@ -1,4 +1,5 @@
 import { findProduct } from './products.js';
+import { currentPrice } from './pricing.js';
 import { validateBox, normalizeBox, boxKey, boxPrice, boxLabel, boxSpecText } from './box.js';
 
 export const BAG_KEY = 'czera.bag.v1';
@@ -103,7 +104,7 @@ export function describeLine(line) {
   const p = findProduct(line.slug);
   return {
     key: lineKey(line), title: p.name, spec: p.spec, image: p.images[0],
-    unitPrice: p.price, qty: line.qty, total: p.price * line.qty, messageLabel: p.name,
+    unitPrice: currentPrice(p), qty: line.qty, total: currentPrice(p) * line.qty, messageLabel: p.name,
   };
 }
 
