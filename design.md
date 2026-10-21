@@ -633,8 +633,8 @@ free. As on the WordPress builder (#107): up to 6 towels in all and up to
 Remove one to choose another." One box can mix towel colours (#113): the
 colour buttons only choose which towels are listed (White: face, hand,
 bath, bath sheet; Blue or Yellow stripe: beach), counts in other colours
-are kept, and no colour is ever disabled. The towel colour applies to
-towels only.
+are kept, and no colour is ever disabled; bathrobes are not affected by
+it.
 There is no box colour or ribbon step: the team picks the box to fit the
 towels (#103).
 With nothing chosen the preview reads "Nothing chosen yet." The product

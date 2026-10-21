@@ -47,15 +47,14 @@ export function emptyBox() {
 // A box saved before #113 held one colour and counts per size ({ colour: 'white', items: { face: 2 } }).
 // It becomes the same towels in that colour ({ 'white-face': 2 }); anything else is kept as it is,
 // so a size the colour never had ('white-beach') stays and fails validation, as it always did.
+// Zero counts are dropped, so a saved box only ever lists what is in it.
 export function normalizeBox(sel) {
   if (!sel || typeof sel !== 'object' || !sel.items || typeof sel.items !== 'object') return sel;
   const items = {};
   for (const [key, q] of Object.entries(sel.items)) {
-    if (LEGACY_SIZES.includes(key)) {
-      if (q) items[towelId(sel.colour, key)] = q;
-    } else {
-      items[key] = q;
-    }
+    if (q === 0) continue;
+    const id = LEGACY_SIZES.includes(key) ? towelId(sel.colour, key) : key;
+    items[id] = id in items && Number.isInteger(q) && Number.isInteger(items[id]) ? items[id] + q : q;
   }
   return { ...sel, items };
 }

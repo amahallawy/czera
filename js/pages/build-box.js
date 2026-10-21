@@ -21,8 +21,8 @@ if (BOX_SIZES.some(s => s.id === preset)) {
 }
 
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-const choice = (group, value, label, attrs = '') =>
-  `<button type="button" class="box-option" data-group="${group}" data-value="${value}" aria-pressed="${sel[group] === value}"${attrs}>
+const choice = (group, value, label) =>
+  `<button type="button" class="box-option" data-group="${group}" data-value="${value}" aria-pressed="${sel[group] === value}">
      <span class="swatch swatch--${value}" aria-hidden="true"></span>${label}</button>`;
 // The colour buttons only choose which towels are listed (#113): a box can mix colours, so no
 // colour is ever disabled and counts in other colours are kept.

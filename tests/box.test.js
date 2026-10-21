@@ -104,8 +104,14 @@ test('an older one-colour box (counts per size) becomes the same towels in that 
   assert.equal(normalizeBox({ colour: 'yellow', items: { face: 0, hand: 0, bath: 0, sheet: 0, beach: 2 } }).items['yellow-beach'], 2);
   // The old rules never allowed a white beach towel; such a box stays invalid.
   assert.equal(validateBox(normalizeBox({ colour: 'white', items: { beach: 2 } })).ok, false);
-  // A box already in the new shape is unchanged.
-  assert.deepEqual(normalizeBox(sample()).items, sample().items);
+  // A box already in the new shape keeps its towels; zero counts are dropped.
+  assert.deepEqual(normalizeBox(sample()).items, { 'white-face': 2, 'white-hand': 1, 'white-bath': 1, 'white-sheet': 1 });
+  // An old size key and its new towel id add up rather than one replacing the other.
+  assert.equal(normalizeBox({ colour: 'white', items: { face: 2, 'white-face': 1 } }).items['white-face'], 3);
+});
+
+test('an old saved box of bathrobes only loads, whatever towel colour it recorded', () => {
+  assert.equal(validateBox(normalizeBox({ colour: 'black', items: { face: 0, robeWhite: 1, robeBlack: 1 } })).ok, true);
 });
 
 test('key, label and spec list each towel with its colour, then the bathrobes', () => {
