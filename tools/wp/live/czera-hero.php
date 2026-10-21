@@ -12,7 +12,8 @@
  *   (WCAG 2.2.2), shown only while the film has a source for the current width;
  * - sets body.hero-signoff while the film plays its 24-30s ivory linen sign-off (from 0.6s before
  *   the cut, so the 600ms fade is full when the linen appears) and clears it when the film loops,
- *   so the header shade deepens behind MENU and BAG;
+ *   so the header shade deepens behind MENU and BAG.
+ *
  * The film plays for every visitor, Reduce Motion included, with the button always there to pause it
  * (owner decision, 2026-10-21, #119).
  * It finds the film as the hero's Spectra background video, or failing that any video in the hero.

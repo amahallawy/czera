@@ -1,5 +1,9 @@
 # Czera hero video — design
 
+> **Superseded in part, 2026-10-21 (amahallawy/czera#119):** the film now autoplays on every device,
+> Reduce Motion included, with its pause button always shown. The reduced-motion poster fallback
+> below no longer applies; see design.md §6.2.
+
 **Date**: 2026-05-09
 **Project**: Czera Maison ([projects/czera/](../../../))
 **Status**: Implemented (shipped in PRs #1 and #2)

@@ -298,8 +298,8 @@ decision, 2026-10-18).
 **WordPress store.** The Home hero (Spectra container `czera-hero`) plays
 the same 30s film on every screen size, tablets and phones included (#119),
 and fills the phone screen. The "CZERA hero" Code Snippet adds the same
-quiet button and sign-off class; the look is the "Hero film" Additional CSS block (see
-`tools/wp/live/czera-hero.php` and `hero-film.css`).
+quiet button and sign-off class; the look is the "Hero film" Additional
+CSS block (see `tools/wp/live/czera-hero.php` and `hero-film.css`).
 
 ### 6.3 Promises (replaces the old value strip)
 
@@ -467,10 +467,10 @@ category pages carry the same band after their product grid.
 | `.reveal` (opacity + 20px Y) | Section enters viewport | IntersectionObserver in [`js/main.js`](js/main.js); 700ms `--ease-out`. |
 | Ken-burns on `.chapter__media` | Chapter media in view | Slow `transform: scale()` + `translate()`, ~20s loop. Imperceptible per frame. |
 | Menu slide | Menu button | Panel slides in from the inline start, 360ms `--ease-out`; backdrop fades in. Instant under reduced motion. |
-| Hero film | Home, on load (desktop) | The 30s film loops silently; a quiet round button pauses it (§6.2). Reduced motion: poster only. |
+| Hero film | Home, on load (every device) | The 30s film loops silently; a quiet round button, always shown, pauses it (§6.2). It plays under Reduce Motion too (owner decision, 2026-10-21, #119). |
 | Sign-off shade | Film 23.4–30s | The header shade deepens, 600ms opacity fade (`--dur-slow`), and lifts when the film loops. Instant under reduced motion. |
 | Image hover lift | Catalogue cards | `transform: scale(1.02)` on the inner img, 320ms `--ease-out`. |
-| `prefers-reduced-motion` | Always respected | All transitions clamped to `0.01ms`; reveal becomes instant. |
+| `prefers-reduced-motion` | Always respected, except the hero film (§6.2) | All transitions clamped to `0.01ms`; reveal becomes instant. |
 
 What we do **not** do: spring physics, page-load splash screens,
 cursor-following effects, sticky cursor blobs, scroll-jacking,
@@ -552,7 +552,8 @@ Non-negotiables:
 - Color contrast: ink on bg ≥ 7:1; ink-mute on bg ≥ 4.5:1.
 - Form inputs always have a `<label>` (visible or `sr-only`); icon
   buttons always have `aria-label`.
-- `prefers-reduced-motion` respected (see §7).
+- `prefers-reduced-motion` respected (see §7), except the hero film, which
+  plays with its pause button always shown (§6.2, #119).
 - Slide-in panels (menu, bag) are modal: the page behind is `inert`
   while one is open, Esc closes it, and focus returns to the button
   that opened it. One `nav` landmark labelled "Primary" per page; it
