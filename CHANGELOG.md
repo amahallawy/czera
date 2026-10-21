@@ -8,6 +8,11 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): the hero's round play/pause button no
+  longer covers "Build Your Own Box" on phones and small tablets. As in the
+  design, it sits beside that button at the copy's right edge, centred on
+  its row: on phones the button narrows to make room (and stays on one
+  line), and up to 860px the two buttons stack at their own width (#121).
 - Home hero: the film now plays by itself on every device, phones and
   iPhones with Reduce Motion included, and the round pause button is always
   there to stop it; where a browser blocks autoplay (iOS Low Power Mode)

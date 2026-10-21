@@ -4,7 +4,7 @@
    the button over the Home hero film and sets body.hero-signoff during the film's 24-30s ivory linen sign-off. */
 /* !important on position: Spectra makes every child of a video container position: relative (6-class selector). */
 .czera-hero .czera-hero-play {
-  position: absolute !important; z-index: 3; right: clamp(24px, 7vw, 120px); bottom: 76px;
+  position: absolute !important; z-index: 3; right: calc(clamp(24px, 7vw, 120px) + 10px); bottom: 76px;
   display: inline-grid; place-items: center; width: 44px; height: 44px; min-height: 0; padding: 0; margin: 0;
   color: rgba(244, 242, 236, 0.6); background: rgba(1, 1, 0, 0.3); border: 1px solid rgba(244, 242, 236, 0.22);
   border-radius: 50%; box-shadow: none; cursor: pointer; line-height: 0;
@@ -19,6 +19,18 @@
 .czera-hero .czera-hero-play svg { width: 14px; height: 14px; }
 .czera-hero .czera-hero-play[data-state="paused"] .czera-hero-play__pause,
 .czera-hero .czera-hero-play[data-state="playing"] .czera-hero-play__play { display: none; }
+/* Beside the buttons, never on them (amahallawy/czera#121, design: .hero:has(.hero__play) in landing.css). The button's right
+   edge is the copy's (the hero's side padding plus Spectra's 10px container padding) and its bottom, 76px, centres it on the
+   last button's row. Phones: the last button narrows by the play button and a 12px gap. Small tablets: the buttons stack at
+   their own width, as in the design, so the row never runs under the play button. */
+@media (max-width: 560px) {
+  /* 16px sides keep "Build Your Own Box" on one line in its narrower width, down to 360px screens. */
+  .czera-hero .wp-block-spectra-buttons a.wp-block-button__link { padding-left: 16px !important; padding-right: 16px !important; }
+  .czera-hero .wp-block-spectra-buttons a.czera-btn-outline { width: calc(100% - 56px) !important; align-self: flex-start; white-space: nowrap; }
+}
+@media (min-width: 561px) and (max-width: 860px) {
+  .czera-hero .wp-block-spectra-buttons { flex-direction: column; align-items: flex-start; }
+}
 /* Sign-off shade: while the film shows the bright linen, a deeper shade fades in behind the header labels (and a little
    below the bar, so it has no edge), then fades out when the film loops. No halo on the labels. */
 .ast-theme-transparent-header .ast-primary-header-bar::after {
