@@ -8,7 +8,9 @@ function memoryStorage(initial = {}) {
   return { getItem: k => (k in data ? data[k] : null), setItem: (k, v) => { data[k] = String(v); }, data };
 }
 const throwingStorage = { getItem() { throw new Error('denied'); }, setItem() { throw new Error('denied'); } };
-const box = () => ({ ...emptyBox(), items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } });
+const box = () => ({ ...emptyBox(), items: { ...emptyBox().items, 'white-face': 2, 'white-bath': 1 } });
+// A box saved before #113: one towel colour and counts per size.
+const oldBox = extra => ({ colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 }, ...extra });
 
 test('adding the same product twice merges quantities and persists', () => {
   const s = memoryStorage();
@@ -66,11 +68,11 @@ test('custom boxes are lines with their own key and price', () => {
   const bag = createBag(memoryStorage());
   bag.add({ type: 'box', box: box(), qty: 1 });
   const [line] = bag.lines();
-  assert.equal(lineKey(line), 'box:white|face:2,bath:1');
+  assert.equal(lineKey(line), 'box:white-face:2,white-bath:1');
   const d = describeLine(line);
   assert.equal(d.total, 570);
-  assert.equal(d.messageLabel, 'Custom box: 2 × Face, 1 × Bath, white');
-  assert.equal(d.spec, '2 × Face, 1 × Bath · white');
+  assert.equal(d.messageLabel, 'Custom box: 2 × Face (white), 1 × Bath (white)');
+  assert.equal(d.spec, '2 × Face (white), 1 × Bath (white)');
 });
 
 test('describeLine and bagTotal compute prices from current data', () => {
@@ -96,24 +98,25 @@ test('subscribers hear every change', () => {
 
 test('a box saved with the old box colour and ribbon fields still loads, without them', () => {
   const stored = JSON.stringify([
-    { type: 'box', box: { box: 'black', ribbon: 'burgundy', colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 },
+    { type: 'box', box: oldBox({ box: 'black', ribbon: 'burgundy' }), qty: 1 },
   ]);
   const bag = createBag(memoryStorage({ [BAG_KEY]: stored }));
   const [line] = bag.lines();
   assert.equal(bag.lines().length, 1);
   assert.equal('ribbon' in line.box, false);
   assert.equal('box' in line.box, false);
+  assert.equal(line.box.items['white-face'], 2);   // the old counts per size, now white towels
   bag.add({ type: 'box', box: box(), qty: 1 });   // the same box chosen today joins the saved line
   assert.equal(bag.lines().length, 1);
   assert.equal(bag.lines()[0].qty, 2);
 });
 
 test('two saved boxes that differed only by box colour or ribbon become one line', () => {
-  const old = (box, ribbon) => ({ type: 'box', box: { box, ribbon, colour: 'white', items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 });
+  const old = (box, ribbon) => ({ type: 'box', box: oldBox({ box, ribbon }), qty: 1 });
   const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([old('black', 'burgundy'), old('beige', 'gold')]) }));
   assert.equal(bag.lines().length, 1);
   assert.equal(bag.lines()[0].qty, 2);
-  bag.setQty('box:white|face:2,bath:1', 3);   // one press acts on one line
+  bag.setQty('box:white-face:2,white-bath:1', 3);   // one press acts on one line
   assert.equal(bag.count(), 3);
 });
 
@@ -135,13 +138,13 @@ test('stored boxes with retired colour rules are dropped', () => {
 
 test('a box with bathrobes is one line whose spec names them', () => {
   const bag = createBag(memoryStorage());
-  bag.add({ type: 'box', box: { ...emptyBox(), items: { ...emptyBox().items, bath: 2, robeBlack: 1 } }, qty: 1 });
+  bag.add({ type: 'box', box: { ...emptyBox(), items: { ...emptyBox().items, 'white-bath': 2, robeBlack: 1 } }, qty: 1 });
   const [line] = bag.lines();
   assert.equal(line.box.items.robeBlack, 1);
   const d = describeLine(line);
   assert.equal(d.total, 1940);
-  assert.equal(d.spec, '2 × Bath · white · 1 × Black bathrobe');
-  assert.equal(d.messageLabel, 'Custom box: 2 × Bath, white; 1 × Black bathrobe');
+  assert.equal(d.spec, '2 × Bath (white) · 1 × Black bathrobe');
+  assert.equal(d.messageLabel, 'Custom box: 2 × Bath (white); 1 × Black bathrobe');
 });
 
 test('a box of bathrobes alone has no towel colour in its spec', () => {
@@ -159,4 +162,23 @@ test('two boxes of the same bathrobes become one line, whatever towel colour was
   assert.equal(bag.lines()[0].qty, 2);
   const saved = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([robesOnly('blue'), robesOnly('yellow')]) }));
   assert.equal(saved.lines().length, 1);
+});
+
+test('a box with towels in two colours is one line listing each colour', () => {
+  const bag = createBag(memoryStorage());
+  const mixed = () => ({ type: 'box', box: { ...emptyBox(), colour: 'yellow', items: { ...emptyBox().items, 'white-bath': 2, 'blue-beach': 1 } }, qty: 1 });
+  bag.add(mixed());
+  bag.add(mixed());
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, 2);
+  const d = describeLine(bag.lines()[0]);
+  assert.equal(d.total, 2 * (940 + 850));
+  assert.equal(d.messageLabel, 'Custom box: 2 × Bath (white), 1 × Beach (blue stripe)');
+});
+
+test('a saved one-colour box and the same towels chosen today become one line', () => {
+  const bag = createBag(memoryStorage({ [BAG_KEY]: JSON.stringify([{ type: 'box', box: oldBox(), qty: 1 }]) }));
+  bag.add({ type: 'box', box: box(), qty: 1 });
+  assert.equal(bag.lines().length, 1);
+  assert.equal(bag.lines()[0].qty, 2);
 });

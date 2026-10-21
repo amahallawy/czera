@@ -630,7 +630,11 @@ running total; price is the sum of the towels and bathrobes, the box
 free. As on the WordPress builder (#107): up to 6 towels in all and up to
 2 bathrobes, at least 2 pieces; each step's legend shows "Up to 6 · *n* of
 6", and a full group disables its + buttons with "You have 6 towels.
-Remove one to choose another." The towel colour applies to towels only.
+Remove one to choose another." One box can mix towel colours (#113): the
+colour buttons only choose which towels are listed (White: face, hand,
+bath, bath sheet; Blue or Yellow stripe: beach), counts in other colours
+are kept, and no colour is ever disabled; bathrobes are not affected by
+it.
 There is no box colour or ribbon step: the team picks the box to fit the
 towels (#103).
 With nothing chosen the preview reads "Nothing chosen yet." The product

@@ -8,6 +8,15 @@ that section into a version.
 
 ## [Unreleased]
 
+- Build Your Own Box: one box can now mix towel colours, as on the
+  WordPress store: for example white bath towels with a blue-striped and a
+  yellow-striped beach towel. The colour buttons only choose which towels
+  are listed (White shows the four white sizes, each stripe shows its beach
+  towel), counts in other colours are kept, and no colour is ever disabled.
+  The 6-towel limit counts every colour. The box panel, the bag and the
+  order email name each towel's colour: "Custom box: 2 × Bath (white),
+  1 × Beach (blue stripe); 1 × Black bathrobe". Boxes already in a
+  visitor's bag still load (#113).
 - WordPress store (czeramaison.com): order emails in the CZERA design.
   - The sales team's "New order" email opens with a "Call to confirm" bar
     (name, phone, a Call button), then where to deliver, a pack list with
