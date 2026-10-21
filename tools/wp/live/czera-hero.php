@@ -1,20 +1,20 @@
 <?php
 // Reference copy of live Code Snippet ID 13 "CZERA hero" on czeramaison.com (scope: global).
-// The site database is authoritative; update both together. Added by amahallawy/czera#96.
+// The site database is authoritative; update both together. Added by amahallawy/czera#96; film everywhere and no reduced-motion poster since #119.
 
 /**
  * CZERA hero: the Home hero film's play/pause button and its sign-off shade, as on the static
  * showroom (design.md §6.2). The hero is the Spectra container with the czera-hero class on the
- * Home page (ID 87); its background video is the 30s brand film (media 291), shown above 782px
- * (Spectra's desktop band; tablet and phone get the poster image, media 18). On the front page only,
- * a script printed on wp_footer:
+ * Home page (ID 87); its background video is the 30s brand film (media 291), on every screen size
+ * (#119: tablets and phones too; there is no tablet or phone poster any more). On the front page
+ * only, a script printed on wp_footer:
  * - adds a quiet, icon-only round button over the film, named "Pause film" or "Play film" by state
  *   (WCAG 2.2.2), shown only while the film has a source for the current width;
  * - sets body.hero-signoff while the film plays its 24-30s ivory linen sign-off (from 0.6s before
  *   the cut, so the 600ms fade is full when the linen appears) and clears it when the film loops,
  *   so the header shade deepens behind MENU and BAG;
- * - under reduced motion pauses the film, drops its sources (no download), hides it and shows the poster,
- *   with no button.
+ * The film plays for every visitor, Reduce Motion included, with the button always there to pause it
+ * (owner decision, 2026-10-21, #119).
  * It finds the film as the hero's Spectra background video, or failing that any video in the hero.
  * Anywhere the hero or its video is missing it does nothing. The button's look and the shade are
  * the "Hero film" Additional CSS block (tools/wp/live/hero-film.css).
@@ -24,13 +24,11 @@ add_action( 'wp_footer', function () {
 	if ( is_admin() || ! is_front_page() ) {
 		return;
 	}
-	$poster = wp_get_attachment_image_url( 18, 'full' );
 	?>
 <script>
 ( function () {
 	var SIGNOFF_START = 24;
 	var SIGNOFF_LEAD = 0.6;
-	var POSTER = <?php echo wp_json_encode( $poster ? $poster : '' ); ?>;
 
 	function init() {
 		var hero = document.querySelector( '.czera-hero' );
@@ -38,28 +36,6 @@ add_action( 'wp_footer', function () {
 		if ( ! video ) {
 			return;
 		}
-		var reduced = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-
-		if ( reduced ) {
-			// Poster only: stop the film whenever Spectra starts it, drop its sources so the file is not
-			// downloaded, hide it, show the still.
-			video.pause();
-			// Spectra's responsive-videos script re-attaches the source on load and on resize for any
-			// container carrying data-responsive-videos; without it, Spectra leaves this video alone.
-			hero.removeAttribute( 'data-responsive-videos' );
-			Array.prototype.forEach.call( video.querySelectorAll( 'source' ), function ( source ) {
-				source.remove();
-			} );
-			video.removeAttribute( 'src' );
-			video.load();
-			video.addEventListener( 'play', function () { video.pause(); } );
-			hero.classList.add( 'czera-hero--still' );
-			if ( POSTER ) {
-				hero.style.backgroundImage = 'url("' + POSTER.replace( /"/g, '%22' ) + '")';
-			}
-			return;
-		}
-
 		var button = document.createElement( 'button' );
 		button.type = 'button';
 		button.className = 'czera-hero-play';
@@ -119,8 +95,7 @@ add_action( 'wp_footer', function () {
 		sync();
 	}
 
-	// Run now: this script prints in the footer, after the hero, and must strip the film's source
-	// under reduced motion before Spectra's DOMContentLoaded handler starts the film (and its download).
+	// Run now: this script prints in the footer, after the hero.
 	init();
 }() );
 </script>

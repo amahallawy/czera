@@ -19,10 +19,6 @@
 .czera-hero .czera-hero-play svg { width: 14px; height: 14px; }
 .czera-hero .czera-hero-play[data-state="paused"] .czera-hero-play__pause,
 .czera-hero .czera-hero-play[data-state="playing"] .czera-hero-play__play { display: none; }
-/* Reduced motion: the snippet pauses the film and sets the poster (media 18) on the hero; the film's wrapper is hidden
-   with visibility, as Spectra's per-block display rule (5 classes, !important) would win over display: none. */
-.czera-hero.czera-hero--still { background-size: cover; background-position: 60% 50%; }
-.czera-hero.czera-hero--still .spectra-background-video__wrapper { visibility: hidden !important; }
 /* Sign-off shade: while the film shows the bright linen, a deeper shade fades in behind the header labels (and a little
    below the bar, so it has no edge), then fades out when the film loops. No halo on the labels. */
 .ast-theme-transparent-header .ast-primary-header-bar::after {
