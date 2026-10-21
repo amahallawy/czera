@@ -26,10 +26,11 @@
 @media (max-width: 560px) {
   /* 16px sides keep "Build Your Own Box" on one line in its narrower width, down to 360px screens. */
   .czera-hero .wp-block-spectra-buttons a.wp-block-button__link { padding-left: 16px !important; padding-right: 16px !important; }
-  .czera-hero .wp-block-spectra-buttons a.czera-btn-outline { width: calc(100% - 56px) !important; align-self: flex-start; white-space: nowrap; }
+  /* Only while the play button shows, as the design's .hero:has(.hero__play:not([hidden])) rule. */
+  .czera-hero:has(.czera-hero-play:not([hidden])) .wp-block-spectra-buttons a.czera-btn-outline { width: calc(100% - 56px) !important; align-self: flex-start; white-space: nowrap; }
 }
 @media (min-width: 561px) and (max-width: 860px) {
-  .czera-hero .wp-block-spectra-buttons { flex-direction: column; align-items: flex-start; }
+  .czera-hero .wp-block-spectra-buttons.wp-block-spectra-buttons { flex-direction: column !important; align-items: flex-start !important; }
 }
 /* Sign-off shade: while the film shows the bright linen, a deeper shade fades in behind the header labels (and a little
    below the bar, so it has no edge), then fades out when the film loops. No halo on the labels. */
