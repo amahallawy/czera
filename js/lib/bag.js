@@ -1,5 +1,5 @@
 import { findProduct } from './products.js';
-import { validateBox, boxKey, boxPrice, boxLabel, boxSpecText } from './box.js';
+import { validateBox, normalizeBox, boxKey, boxPrice, boxLabel, boxSpecText } from './box.js';
 
 export const BAG_KEY = 'czera.bag.v1';
 export const MAX_QTY = 20;
@@ -17,10 +17,11 @@ function cleanLine(line) {
   const qty = cleanQty(line.qty);
   if (!qty) return null;
   if (line.type === 'product' && findProduct(line.slug)) return { type: 'product', slug: line.slug, qty };
-  if (line.type === 'box' && validateBox(line.box).ok) {
-    const b = line.box;
-    // An older bag may still carry box-colour and ribbon fields; they are dropped (neither is a choice).
-    return { type: 'box', box: { colour: b.colour, items: { ...b.items } }, qty };
+  if (line.type === 'box') {
+    // An older bag may hold a one-colour box (counts per size), which becomes the same towels in that
+    // colour (#113), and box-colour and ribbon fields, which are dropped (neither is a choice).
+    const b = normalizeBox(line.box);
+    if (validateBox(b).ok) return { type: 'box', box: { items: { ...b.items } }, qty };
   }
   return null;
 }

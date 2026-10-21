@@ -1,5 +1,5 @@
 import { initShell, showToast } from '../ui/shell.js';
-import { emptyBox, BOX_SIZES, BOX_ROBES, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, towelCount, robeCount, groupFull, validateBox, sizeAllowed, colourBlockReason } from '../lib/box.js';
+import { emptyBox, BOX_SIZES, BOX_TOWELS, BOX_ROBES, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, towelCount, robeCount, groupFull, validateBox, sizeAllowed, towelsForColour, towelId, colourName } from '../lib/box.js';
 import { CONFIG } from '../config.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
@@ -11,11 +11,11 @@ const params = new URLSearchParams(location.search);
 const preset = params.get('add');
 const presetColour = params.get('colour');
 if (BOX_SIZES.some(s => s.id === preset)) {
-  sel.items[preset] = 1;
   // Pick the requested colour if that size exists in it, else the first colour that has the size.
   sel.colour = TOWEL_COLOURS.includes(presetColour) && sizeAllowed({ colour: presetColour }, preset)
     ? presetColour
     : TOWEL_COLOURS.find(c => SIZES_BY_COLOUR[c].includes(preset));
+  sel.items[towelId(sel.colour, preset)] = 1;
 } else if (TOWEL_COLOURS.includes(presetColour)) {
   sel.colour = presetColour;
 }
@@ -24,21 +24,11 @@ const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 const choice = (group, value, label, attrs = '') =>
   `<button type="button" class="box-option" data-group="${group}" data-value="${value}" aria-pressed="${sel[group] === value}"${attrs}>
      <span class="swatch swatch--${value}" aria-hidden="true"></span>${label}</button>`;
-// A towel colour that can't hold the towels already in the box is disabled, with the reason
-// shown under the colour row and tied to the button for screen readers (colours that share a
-// reason share one line). Nothing is ever removed silently.
+// The colour buttons only choose which towels are listed (#113): a box can mix colours, so no
+// colour is ever disabled and counts in other colours are kept.
 function renderColours() {
-  const reasons = [];
-  const buttons = TOWEL_COLOURS.map(v => {
-    const label = STRIPED.includes(v) ? `${cap(v)} stripe` : cap(v);
-    const reason = colourBlockReason(v, sel.items);
-    if (!reason) return choice('colour', v, label);
-    if (!reasons.includes(reason)) reasons.push(reason);
-    return choice('colour', v, label, ` disabled aria-describedby="colour-reason-${reasons.indexOf(reason)}"`);
-  });
-  document.querySelector('[data-options="colour"]').innerHTML = buttons.join('');
-  document.querySelector('[data-colour-reasons]').innerHTML =
-    reasons.map((r, i) => `<li id="colour-reason-${i}">${r}</li>`).join('');
+  document.querySelector('[data-options="colour"]').innerHTML =
+    TOWEL_COLOURS.map(v => choice('colour', v, cap(colourName(v)))).join('');
 }
 
 function render() {
@@ -50,20 +40,18 @@ function render() {
   // the group's + buttons are disabled and point to the note saying why.
   const towelsFull = groupFull(sel, 'towels');
   const robesFull = groupFull(sel, 'robes');
-  const row = (item, label, note, allowed, full, group) => {
+  const row = (item, label, name, note, full, group) => {
     const q = sel.items[item.id] || 0;
-    const plus = !allowed || full ? ` disabled${full && allowed ? ` aria-describedby="${group}-full"` : ''}` : '';
-    return `<div class="box-size${allowed ? '' : ' is-disabled'}"><span class="box-size__label">${label}</span>
+    const plus = full ? ` disabled aria-describedby="${group}-full"` : '';
+    return `<div class="box-size"><span class="box-size__label">${label}</span>
       <small>${note}</small>
-      <span class="qty"><button type="button" data-size="${item.id}" data-delta="-1" aria-label="One less ${item.label}" ${q === 0 ? 'disabled' : ''}>−</button>
-      <span>${q}</span><button type="button" data-size="${item.id}" data-delta="1" aria-label="One more ${item.label}"${plus}>+</button></span></div>`;
+      <span class="qty"><button type="button" data-size="${item.id}" data-delta="-1" aria-label="One less ${name}" ${q === 0 ? 'disabled' : ''}>−</button>
+      <span>${q}</span><button type="button" data-size="${item.id}" data-delta="1" aria-label="One more ${name}"${plus}>+</button></span></div>`;
   };
-  document.querySelector('[data-options="items"]').innerHTML = BOX_SIZES.map(s => {
-    const allowed = sizeAllowed(sel, s.id);
-    return row(s, `${s.label} ${s.spec.replace(' cm', '')}`, allowed ? formatEGP(findProduct(s.slug).price) : 'Not in this colour', allowed, towelsFull, 'towels');
-  }).join('');
+  document.querySelector('[data-options="items"]').innerHTML = towelsForColour(sel.colour).map(t =>
+    row(t, `${t.label} ${t.spec.replace(' cm', '')}`, `${t.label} ${t.spec}, ${colourName(t.colour)}`, formatEGP(findProduct(t.slug).price), towelsFull, 'towels')).join('');
   document.querySelector('[data-options="robes"]').innerHTML = BOX_ROBES
-    .map(r => row(r, r.label, formatEGP(findProduct(r.slug).price), true, robesFull, 'robes')).join('');
+    .map(r => row(r, r.label, r.label, formatEGP(findProduct(r.slug).price), robesFull, 'robes')).join('');
   document.querySelector('[data-count="towels"]').textContent = `Up to ${CONFIG.boxMaxTowels} · ${towelCount(sel)} of ${CONFIG.boxMaxTowels}`;
   document.querySelector('[data-count="robes"]').textContent = `Up to ${CONFIG.boxMaxRobes} · ${robeCount(sel)} of ${CONFIG.boxMaxRobes}`;
   // Live regions: write only when the text changes, so a full group isn't announced again on
@@ -75,11 +63,11 @@ function render() {
   setNote('towels', towelsFull ? `You have ${CONFIG.boxMaxTowels} towels. Remove one to choose another.` : '');
   setNote('robes', robesFull ? `You have ${CONFIG.boxMaxRobes} bathrobes. Remove one to choose another.` : '');
 
-  const chosen = BOX_SIZES.filter(s => sel.items[s.id] > 0);
+  const chosen = BOX_TOWELS.filter(t => sel.items[t.id] > 0);
   const chosenRobes = BOX_ROBES.filter(r => sel.items[r.id] > 0);
   const price = item => formatEGP(sel.items[item.id] * findProduct(item.slug).price);
   document.querySelector('[data-summary]').innerHTML = chosen.length || chosenRobes.length
-    ? chosen.map(s => `<li>${sel.items[s.id]} × ${s.label} ${s.spec}, ${sel.colour} <span>${price(s)}</span></li>`).join('')
+    ? chosen.map(t => `<li>${sel.items[t.id]} × ${t.label} ${t.spec}, ${colourName(t.colour)} <span>${price(t)}</span></li>`).join('')
       + chosenRobes.map(r => `<li>${sel.items[r.id]} × ${r.label} <span>${price(r)}</span></li>`).join('')
     : '<li class="box-preview__empty">Nothing chosen yet.</li>';
   const n = pieceCount(sel);

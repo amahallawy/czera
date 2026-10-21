@@ -12,7 +12,7 @@ import { emptyBox } from '../js/lib/box.js';
 const lines = [
   { type: 'product', slug: 'complete-czera-set', qty: 1 },
   { type: 'product', slug: 'black-bathrobe', qty: 1 },
-  { type: 'box', box: { ...emptyBox(), items: { face: 2, hand: 0, bath: 1, sheet: 0, beach: 0 } }, qty: 1 },
+  { type: 'box', box: { ...emptyBox(), items: { ...emptyBox().items, 'white-face': 2, 'white-bath': 1 } }, qty: 1 },
 ];
 const details = { name: 'Sara', phone: '0100 123 4567', address: '12 Street', city: 'Cairo', note: 'Gift, please add a card' };
 
@@ -39,7 +39,7 @@ test('message matches the spec format with details', () => {
     "Hello Czera, I'd like to order:",
     '• 1 × The Complete Czera Set: 1,450 EGP',
     '• 1 × Black Bathrobe: 1,000 EGP',
-    '• 1 × Custom box: 2 × Face, 1 × Bath, white: 570 EGP',
+    '• 1 × Custom box: 2 × Face (white), 1 × Bath (white): 570 EGP',
     'Total: 3,020 EGP',
     '',
     'Name: Sara',
