@@ -1,5 +1,6 @@
 import { initShell } from '../ui/shell.js';
-import { renderProductCard } from '../ui/card.js';
+import { renderProductCard, priceHtml, SALE_FLAG } from '../ui/card.js';
+import { isOnSale, currentPrice } from '../lib/pricing.js';
 import { PRODUCTS, CATEGORIES } from '../data/products.js';
 import { findProduct } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
@@ -35,17 +36,19 @@ if (!p) {
 
   root.innerHTML = `
     <div class="pdp">
-      <div class="pdp__photos">${p.images.map((src, i) =>
-        `<img src="${escapeHtml(src)}" alt="${i === 0 ? escapeHtml(p.name) : ''}" ${i ? 'loading="lazy"' : ''} />`).join('')}</div>
+      <div class="pdp__photos">${p.images.map((src, i) => {
+        const img = `<img src="${escapeHtml(src)}" alt="${i === 0 ? escapeHtml(p.name) : ''}" ${i ? 'loading="lazy"' : ''} />`;
+        return i === 0 ? `<div class="pdp__hero">${img}${isOnSale(p) ? SALE_FLAG : ''}</div>` : img;
+      }).join('')}</div>
       <div class="pdp__panel">
         <p class="crumb"><a href="catalog.html?category=${escapeHtml(p.category)}">${escapeHtml(category)}</a></p>
         <h1 class="pdp__name">${nameHtml(p.name)}</h1>
-        <p class="pdp__price">${formatEGP(p.price)}</p>
+        <p class="pdp__price">${priceHtml(p)}</p>
         <p class="pdp__lede">${escapeHtml(p.description)}</p>
         ${contents}
         <div class="pdp__buy">
           <div class="qty"><button type="button" data-step="-1" aria-label="One less">−</button><span data-qty-value>1</span><button type="button" data-step="1" aria-label="One more">+</button></div>
-          <button type="button" class="btn btn--ink" data-add-to-bag="${escapeHtml(p.slug)}" data-qty="1"><span class="pdp__buy-label">Add to bag</span><span class="pdp__buy-sep" aria-hidden="true">·</span><span class="pdp__buy-total" data-buy-total>${formatEGP(p.price)}</span></button>
+          <button type="button" class="btn btn--ink" data-add-to-bag="${escapeHtml(p.slug)}" data-qty="1"><span class="pdp__buy-label">Add to bag</span><span class="pdp__buy-sep" aria-hidden="true">·</span><span class="pdp__buy-total" data-buy-total>${formatEGP(currentPrice(p))}</span></button>
         </div>
         <a class="link pdp__email" data-order-one href="#">Or order just this by email ›<span class="sr-only"> (opens your email app)</span></a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
@@ -67,7 +70,7 @@ if (!p) {
   const addBtn = root.querySelector('.pdp__buy [data-add-to-bag]');
   const sync = () => {
     root.querySelector('[data-qty-value]').textContent = String(qty);
-    root.querySelector('[data-buy-total]').textContent = formatEGP(p.price * qty);
+    root.querySelector('[data-buy-total]').textContent = formatEGP(currentPrice(p) * qty);
     addBtn.dataset.qty = String(qty);
     root.querySelector('[data-order-one]').href = orderMailto(buildOrderMessage([{ type: 'product', slug: p.slug, qty }]));
   };

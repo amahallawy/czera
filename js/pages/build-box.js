@@ -2,6 +2,7 @@ import { initShell, showToast } from '../ui/shell.js';
 import { emptyBox, BOX_SIZES, BOX_TOWELS, BOX_ROBES, TOWEL_COLOURS, STRIPED, SIZES_BY_COLOUR, boxPrice, pieceCount, towelCount, robeCount, groupFull, validateBox, sizeAllowed, towelsForColour, towelId, colourName } from '../lib/box.js';
 import { CONFIG } from '../config.js';
 import { findProduct } from '../lib/products.js';
+import { currentPrice } from '../lib/pricing.js';
 import { formatEGP } from '../lib/format.js';
 import { fitSticky } from '../ui/sticky-fit.js';
 
@@ -49,9 +50,9 @@ function render() {
       <span>${q}</span><button type="button" data-size="${item.id}" data-delta="1" aria-label="One more ${name}"${plus}>+</button></span></div>`;
   };
   document.querySelector('[data-options="items"]').innerHTML = towelsForColour(sel.colour).map(t =>
-    row(t, `${t.label} ${t.spec.replace(' cm', '')}`, `${t.label} ${t.spec}, ${colourName(t.colour)}`, formatEGP(findProduct(t.slug).price), towelsFull, 'towels')).join('');
+    row(t, `${t.label} ${t.spec.replace(' cm', '')}`, `${t.label} ${t.spec}, ${colourName(t.colour)}`, formatEGP(currentPrice(findProduct(t.slug))), towelsFull, 'towels')).join('');
   document.querySelector('[data-options="robes"]').innerHTML = BOX_ROBES
-    .map(r => row(r, r.label, r.label, formatEGP(findProduct(r.slug).price), robesFull, 'robes')).join('');
+    .map(r => row(r, r.label, r.label, formatEGP(currentPrice(findProduct(r.slug))), robesFull, 'robes')).join('');
   document.querySelector('[data-count="towels"]').textContent = `Up to ${CONFIG.boxMaxTowels} · ${towelCount(sel)} of ${CONFIG.boxMaxTowels}`;
   document.querySelector('[data-count="robes"]').textContent = `Up to ${CONFIG.boxMaxRobes} · ${robeCount(sel)} of ${CONFIG.boxMaxRobes}`;
   // Live regions: write only when the text changes, so a full group isn't announced again on
@@ -65,7 +66,7 @@ function render() {
 
   const chosen = BOX_TOWELS.filter(t => sel.items[t.id] > 0);
   const chosenRobes = BOX_ROBES.filter(r => sel.items[r.id] > 0);
-  const price = item => formatEGP(sel.items[item.id] * findProduct(item.slug).price);
+  const price = item => formatEGP(sel.items[item.id] * currentPrice(findProduct(item.slug)));
   document.querySelector('[data-summary]').innerHTML = chosen.length || chosenRobes.length
     ? chosen.map(t => `<li>${sel.items[t.id]} × ${t.label} ${t.spec}, ${colourName(t.colour)} <span>${price(t)}</span></li>`).join('')
       + chosenRobes.map(r => `<li>${sel.items[r.id]} × ${r.label} <span>${price(r)}</span></li>`).join('')

@@ -542,6 +542,22 @@ body.menu-open { overflow: hidden; }
 }
 /* Digits in product names: Montserrat lining figures (Italiana's old-style "3" reads as "ȝ"). */
 .card__name .num, .pdp__name .num { font-family: var(--font-sans); font-weight: 300; font-size: 0.86em; letter-spacing: 0; }
+/* Sale label: ivory chip, gold text, top-left of the photo. No red, no percentage. */
+.card__flag {
+  position: absolute;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-bg);
+  color: var(--color-gold-text);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.price__was { color: var(--color-ink-mute); font-weight: 300; margin-inline-end: var(--space-1); }
+.price__now { color: var(--color-ink-strong); }
 .card__spec { margin: 0; font-size: var(--fs-xs); color: var(--color-ink-mute); }
 .card__row {
   display: flex;
