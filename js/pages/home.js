@@ -6,12 +6,11 @@ import { CONFIG } from '../config.js';
 
 initShell({ hasHero: true });
 
-// Hero film: autoplay only where it is cheap and welcome. Touch devices, narrow
-// screens, slow/cellular connections, Save-Data and reduced-data visitors get the
-// poster and the play button instead. Everyone else autoplays and gets the same
-// round button to pause it (WCAG 2.2.2); its name follows the state, "Pause film"
-// or "Play film". Reduced motion keeps the poster, no film and no button (CSS
-// hides the video and the button).
+// Hero film: it plays by itself for everyone, phones and Reduce Motion included
+// (owner decision, 2026-10-21, #119). The round button is always there to pause it
+// (WCAG 2.2.2); its name follows the state, "Pause film" or "Play film". Where the
+// browser refuses autoplay (iOS Low Power Mode, for one) the poster stays and the
+// same button starts the film.
 //
 // The film loops every 30 s and its last 6 s (24-30 s) are the bright ivory linen
 // with the gold CZERA sign-off. While they play, `body.hero-signoff` deepens the
@@ -23,15 +22,6 @@ const SIGNOFF_LEAD = 0.6;
 const heroVideo = document.querySelector('video.hero__media');
 const heroPlay = document.querySelector('[data-hero-play]');
 if (heroVideo) {
-  const mq = q => window.matchMedia && window.matchMedia(q).matches;
-  const conn = navigator.connection;
-  const reducedMotion = mq('(prefers-reduced-motion: reduce)');
-  const holdBack = mq('(max-width: 768px)')
-    || mq('(hover: none) and (pointer: coarse)')
-    || mq('(prefers-reduced-data: reduce)')
-    || Boolean(conn && (conn.saveData || conn.type === 'cellular'
-      || /^(slow-2g|2g|3g)$/.test(conn.effectiveType || '')));
-
   const attachSources = () => {
     if (heroVideo.querySelector('source')) return;
     [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
@@ -59,28 +49,26 @@ if (heroVideo) {
     heroVideo.requestVideoFrameCallback(watchFrames);
   };
 
-  if (!reducedMotion) {
-    if ('requestVideoFrameCallback' in heroVideo) heroVideo.requestVideoFrameCallback(watchFrames);
-    else heroVideo.addEventListener('timeupdate', syncSignoff);
-    heroVideo.addEventListener('seeked', syncSignoff);
+  if ('requestVideoFrameCallback' in heroVideo) heroVideo.requestVideoFrameCallback(watchFrames);
+  else heroVideo.addEventListener('timeupdate', syncSignoff);
+  heroVideo.addEventListener('seeked', syncSignoff);
 
-    if (heroPlay) {
-      const setState = playing => {
-        heroPlay.setAttribute('aria-label', playing ? 'Pause film' : 'Play film');
-        heroPlay.dataset.state = playing ? 'playing' : 'paused';
-      };
-      heroPlay.hidden = false;
-      heroVideo.addEventListener('play', () => setState(true));
-      heroVideo.addEventListener('pause', () => setState(false));
-      // Source load failures fire `error` on the <source>, which does not bubble.
-      heroVideo.addEventListener('error', () => { setState(!heroVideo.paused); }, true);
-      heroPlay.addEventListener('click', () => {
-        if (heroVideo.paused) play().catch(() => setState(false));
-        else heroVideo.pause();
-      });
-    }
-    if (!holdBack) play().catch(() => { /* autoplay refused: the poster stays */ });
+  if (heroPlay) {
+    const setState = playing => {
+      heroPlay.setAttribute('aria-label', playing ? 'Pause film' : 'Play film');
+      heroPlay.dataset.state = playing ? 'playing' : 'paused';
+    };
+    heroPlay.hidden = false;
+    heroVideo.addEventListener('play', () => setState(true));
+    heroVideo.addEventListener('pause', () => setState(false));
+    // Source load failures fire `error` on the <source>, which does not bubble.
+    heroVideo.addEventListener('error', () => { setState(!heroVideo.paused); }, true);
+    heroPlay.addEventListener('click', () => {
+      if (heroVideo.paused) play().catch(() => setState(false));
+      else heroVideo.pause();
+    });
   }
+  play().catch(() => { /* autoplay refused: the poster stays and the button reads "Play film" */ });
 }
 
 const META_TEXT = {

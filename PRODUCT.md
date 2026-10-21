@@ -107,8 +107,9 @@ baseline.
 **Strategic commitment specific to Czera's audience:**
 
 - **Phones on mobile data are the default.** Most visitors come from
-  Instagram on 4G. Progressive image loading, per-page image budgets,
-  lazy-loading below the fold, and no autoplay video on cellular shape what
-  the site is, not what it does at the end.
+  Instagram on 4G. Progressive image loading, per-page image budgets and
+  lazy-loading below the fold shape what the site is, not what it does at
+  the end. The one exception is the Home hero film, which autoplays on every
+  connection (owner decision, 2026-10-21, #119).
 - **The bag and the email order must work on any phone browser**, with no
   account, and survive page reloads.

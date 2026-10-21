@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home hero: the film now plays by itself on every device, phones and
+  iPhones with Reduce Motion included, and the round pause button is always
+  there to stop it; where a browser blocks autoplay (iOS Low Power Mode)
+  the button starts it. On phones the hero fills the whole screen, so Our
+  story no longer shows below it. On the WordPress store, tablets and phones
+  now get the film and the button too (#119).
 - Home: the Our story paragraph now reads, in the client's words, "CZERA
   brings the comfort of premium hotel textiles into your everyday life.
   Discover 100% cotton towels, bathrobes and thoughtfully curated gift

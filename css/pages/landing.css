@@ -138,17 +138,6 @@ body.has-hero .site-header::after {
 }
 body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero__play { display: none; }
-  /* Hide the looping video and show the poster as a static background. */
-  .hero__media { display: none; }
-  .hero {
-    background-image: url("../../assets/img/hero-poster.jpg");
-    background-size: cover;
-    background-position: center;
-  }
-}
-
 /* ---------------- Section frame ---------------- */
 .categories,
 .gifts,
@@ -560,12 +549,6 @@ body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
     margin: 0 auto;
     padding: clamp(var(--space-6), 8vw, var(--space-8)) var(--gutter) 0;
   }
-}
-
-@media (max-width: 768px) and (orientation: portrait) {
-  /* Portrait phones: stop just short of a full screen so the next section peeks in.
-     Landscape keeps the full height; the copy needs it. */
-  .hero { min-height: 88vh; min-height: 88svh; }
 }
 
 @media (max-width: 560px) {

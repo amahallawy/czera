@@ -30,6 +30,10 @@
 > (6 towels, 2 bathrobes, at least 2 pieces). The sections below are
 > updated to match.
 
+> **Note, 2026-10-21 (#119): hero film everywhere.** The owner wants the film to play by itself on
+> every device, phones and Reduce Motion included, with the pause button always visible, and the
+> hero to fill the phone screen. WordPress follows on tablets and phones.
+
 > **Note, 2026-10-21 (#117): Our story paragraph.** At the client's request the Home story
 > paragraph reads "CZERA brings the comfort of premium hotel textiles into your everyday life.
 > Discover 100% cotton towels, bathrobes and thoughtfully curated gift sets, crafted for comfort,

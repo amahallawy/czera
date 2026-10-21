@@ -23,9 +23,8 @@
 
   <main id="main">
     <!-- HERO: 30 s silent brand film, looping; it ends on ivory linen with the gold CZERA
-         sign-off. Sources are attached by js/pages/home.js only when autoplay is appropriate
-         (desktop, no Save-Data, no reduced motion); otherwise the poster stays and the round
-         play button starts it. -->
+         sign-off. js/pages/home.js attaches the sources and starts it on every device (#119);
+         the round button pauses it, and starts it where the browser refuses autoplay. -->
     <section class="hero">
       <video class="hero__media" muted loop playsinline preload="none"
              poster="assets/img/hero-poster.jpg" aria-hidden="true"
