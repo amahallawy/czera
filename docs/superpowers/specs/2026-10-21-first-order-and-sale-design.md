@@ -1,0 +1,111 @@
+# First-order code and a Sale section — design
+
+Date: 2026-10-21 · Issue: amahallawy/czera#123 · Scope now: the static showroom design (this repo), for the client to approve. The WordPress store (czeramaison.com) is designed and built later, after approval (§9).
+
+## 1. Why
+
+The client wants two ways to sell more without looking like a discount shop:
+
+- **A first-order discount.** A customer's first order from the website gets a discount. The amount is not decided yet.
+- **Sales to clear stock.** When the client has excess stock and needs room for new supply, they pick some products and put them on sale.
+
+The owner will show both to the client on the design site before the website launches. WordPress follows only after the client approves.
+
+## 2. Goals, non-goals, anti-goals
+
+**Goals**
+
+- A visitor learns about the first-order code without hunting for it, and sees the saving clearly in the bag and in the order.
+- A visitor can tell at a glance which products are on sale and what they used to cost.
+- On the design site, the discount, the code and which products are on sale are each one edit (`CONFIG.firstOrder`, a product's sale price).
+
+**Non-goals (now)**
+
+- Checking that a customer has truly never ordered before (the design site has no customer history).
+- The WordPress store (later, §9).
+- Countdowns, end dates shown to visitors, bundles, "buy 2 get 1", free delivery offers, loyalty points.
+- Arabic.
+
+**Anti-goals (would make it a failure even if it works)**
+
+- Anything that makes CZERA look like a discount shop: red badges, "SALE!!" banners, countdown timers, pop-ups, flashing (PRODUCT.md anti-references).
+- Hype words in the copy ("amazing deal", "don't miss out", "discover").
+- A discount that silently fails: if a code is entered and not applied, the visitor must be told why.
+
+## 3. First-order code
+
+For the client demo: **10% off** (owner, 2026-10-21) with the placeholder code **`WELCOME10`**. Both come from one setting (`CONFIG.firstOrder` on the design site: code, percent, and the three wordings below), so changing them is one edit.
+
+### 3.1 Where it is shown (owner chose all three)
+
+1. **Top line on every page.** A thin black line above the header with ivory small caps: "First order · **10% off** with code **WELCOME10**" (the amount and code in gold). A close button (×, 44px target) hides it; it stays hidden on that device (remembered in the browser). It must not cover the hero film or the menu button.
+2. **Welcome note on Home.** A calm, centred band in the page, like a card in the box: a small gold label "Welcome to CZERA", a light heading "10% off your first order.", a muted line "Use the code at checkout.", and the code in a dashed gold outline. Placement: after the Gift sets section (my call; see §7).
+3. **In the bag, before ordering.** A gold-ruled note: "**First order?** Enter **WELCOME10** for 10% off.", with a code field and an "Apply" button. Once applied, the totals show:
+   - Subtotal
+   - First order −10% (the saving, in gold text)
+   - Total
+
+### 3.2 Rules
+
+- The code works on **every product, sale items included** (owner decision), and on custom boxes.
+- 10% of the bag subtotal after sale prices, rounded to whole pounds.
+- One code per order. Wrong code: a short message under the field, "That code isn't valid." Removing the code restores the total.
+- The code is checked against the setting only; there is no customer history, so "first order" is on trust. The bag remembers an applied code until the order is sent. Codes are matched without regard to letter case.
+- **Order email** (the bag's "Email the order"): the lines, then "Code WELCOME10: −10% (−239 EGP)", then the total.
+
+## 4. Sale
+
+### 4.1 How a sale price looks (owner chose style B)
+
+- On every product card (Collection, Home gift sets, related products, and the Sale page): the **old price crossed out** in muted grey, then the **new price** in the usual ink, plus a **small "Sale" label** on the top-left corner of the photo.
+- The label is **ivory with gold text** (my call between the two shown; the owner can switch to black-and-gold): ivory background (#F4F2EC), gold text (#8A5C12), small caps, 11px+, no red, no percentage.
+- Product page: the same old/new prices beside the name and the same label on the main photo.
+- Sale products **stay in their normal category** too (with the label) and are also gathered on the Sale page.
+- The bag, the order email and the custom box total use the **sale price**. (A towel on sale counts at its sale price inside a custom box.)
+- design.md currently says "no sale badges" (§4 rule 10, §6.8); the owner's style-B decision overrides that, and design.md is updated in the same PR.
+
+### 4.2 Menu and Sale page
+
+- **Menu:** "Sale" sits **right after Build Your Own Box**, before About CZERA, styled **exactly like the other menu items** (not gold, no icon, no count). It **only appears while at least one product is on sale**.
+- **Sale page:** the Collection layout with only sale products: small grey eyebrow "Home / Sale", a light "Sale" heading, one short line (placeholder "A few pieces at a gentler price, while they last." until the client gives their words), then the cards. No filters needed when there are few items (the builder decides whether the usual filters stay).
+- With no sale products, the Sale page (if reached by an old link) shows a calm empty state: "Nothing on sale right now." and a link to the full collection.
+
+### 4.3 Who sets it
+
+A product gets an optional sale price in `js/data/products.js`. For the client demo, two products are put on sale with example prices, clearly marked as demo data in the code (the owner removes them, or replaces them with real ones, after approval). The design site is a noindex client preview, so the demo prices on main are low-risk.
+
+## 5. Constraints
+
+- Follow the CZERA design system (design.md, tokens): Montserrat/Italiana, ivory/ink/gold, quiet commerce, 44px targets, visible focus, WCAG AA contrast, reduced-motion-safe.
+- Client text is used as given (memory rule); placeholders above are clearly placeholders.
+- Box colour and ribbon are never customer choices (unchanged).
+- Design site: vanilla ES modules, no build; logic tested first with the Node test runner (`npm test`).
+- Every change goes issue → branch → PR → code review → owner merge.
+
+## 6. Decided by the owner
+
+- First-order code: shown in all three places (§3.1); works on all products, sale items included.
+- Sale: price style B (struck-through old price + new price + small label); "Sale" menu item after Build Your Own Box, styled like the other items, no count.
+- Design site first; WordPress is discussed only after the client approves it.
+
+## 7. Left to the builder (or marked as my call)
+
+- **Label colour:** ivory (my call); black-and-gold is the alternative the owner saw.
+- **Welcome note position on Home:** after Gift sets (my call).
+- **Sale page URL and mechanism on the design site** (e.g. a `sale` view of the Collection page) and whether filters stay on it.
+- **Exact wording** of the error and empty states, within the voice rules.
+- Rounding and display details for the saving line, and how the bag stores the applied code.
+
+## 8. Open for the client
+
+- The final discount amount (10% is the demo figure) and the code word.
+- Their own line for the Sale page.
+- Whether the first-order code should have an end date.
+
+## 9. Later: WordPress (not designed yet)
+
+Out of scope until the client approves the design site; the owner will discuss it then. Notes to pick up at that point (from the design review, 2026-10-21):
+
+- The code and percent shown in the top line, Home note and bag note should come from the WooCommerce coupon itself, so the text never drifts from the real code and disappears when the coupon is off or expired.
+- The WordPress "bag" is Astra's slide-in drawer, which has no code field; WooCommerce's cart and checkout have their own coupon field, and the one-use-per-email check can only run at checkout (it needs the billing email). Where the code is typed on WordPress is an owner decision for then.
+- A WooCommerce coupon (percentage, not excluding sale items, one use per email), WooCommerce's own sale-price field per product, the "Sale!" badge restyled to the ivory label, a Sale page from WooCommerce's on-sale listing, a "Sale" menu item that hides when nothing is on sale, and a discount row in the CZERA order emails (#111).
