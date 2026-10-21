@@ -8,6 +8,18 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): order emails in the CZERA design.
+  - The sales team's "New order" email opens with a "Call to confirm" bar
+    (name, phone, a Call button), then where to deliver, a pack list with
+    tick boxes (a custom box is one line with its items under it), the
+    money to collect, and a link to the order.
+  - The customer's "order received" email has the CZERA wordmark, "Thank
+    you", the items with photos, the totals and the delivery address.
+  - Checkout: "Pay on delivery" (cash or InstaPay) is switched on, delivery
+    across Egypt shows as "Delivery (fee confirmed on the call)" at no
+    charge for now, the phone number is required, and the postcode is no
+    longer asked for. Emails are sent from support@czeramaison.com.
+  - A first test order (#328) was placed with these settings (#111).
 - WordPress store (czeramaison.com): product cards fade to the product's
   second photo on hover over 0.6s, as in the design. This works on the
   collection pages, the shop page, the Home gift sets and a product page's
