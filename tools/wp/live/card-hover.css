@@ -1,0 +1,24 @@
+/* Reference copy of the live Additional CSS block (Customizer > Additional CSS) on czeramaison.com, from marker to marker. The site is authoritative; update both together. Added by amahallawy/czera#109. */
+/* ---------- Card photo swap (czera#109) ---------- */
+/* design: .card__img--alt (css/components.css). The "CZERA card photo swap" snippet puts the product's
+   second photo (img.czera-card__img-alt) after the main one inside the card's link, on every Astra
+   shop-loop card (collection pages and the product page's related products) and the Home gift sets
+   (product-image blocks). It sits over the main photo, hidden, and fades in over 600ms while the
+   card is hovered. Touch screens keep the main photo. */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap > a,
+.czera-card__media > a { position: relative; display: block; }
+.woocommerce ul.products li.product img.czera-card__img-alt,
+.czera-card__media img.czera-card__img-alt {
+  position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover;
+  margin: 0 !important; opacity: 0; pointer-events: none;
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) {
+  .woocommerce ul.products li.product:hover img.czera-card__img-alt,
+  .wc-block-product:hover .czera-card__media img.czera-card__img-alt { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .woocommerce ul.products li.product img.czera-card__img-alt,
+  .czera-card__media img.czera-card__img-alt { transition: none; }
+}
+/* ---------- end card photo swap */
