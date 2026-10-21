@@ -8,6 +8,13 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): every other WooCommerce email
+  (cancelled and failed orders, completed, refunded, order details,
+  customer notes, new account, password reset) now has the CZERA look of
+  the order emails: the ivory header with the gold wordmark and gold rule,
+  a light heading, small gold section labels, boxed addresses, CZERA
+  colours and the "Questions? Email support@czeramaison.com" footer.
+  WooCommerce's wording is unchanged (#115).
 - Build Your Own Box: one box can now mix towel colours, as on the
   WordPress store: for example white bath towels with a blue-striped and a
   yellow-striped beach towel. The colour buttons only choose which towels

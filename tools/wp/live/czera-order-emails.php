@@ -1,12 +1,12 @@
 <?php
 // Reference copy of live Code Snippet ID 15 "CZERA order emails" on czeramaison.com (scope: global).
-// The site database is authoritative; update both together. Added by amahallawy/czera#111.
+// The site database is authoritative; update both together. Added by amahallawy/czera#111; the CZERA layer for every other email by #115.
 
 /**
  * CZERA order emails: WooCommerce's "New order" email (to the sales team) and its "Processing order"
  * and "Order on-hold" emails (to the customer) in the CZERA design approved on 2026-10-19 (mockup
  * order-emails.html in the czera repo's .superpowers folder, local only). Every other WooCommerce
- * email keeps its default look.
+ * email keeps WooCommerce's layout in the CZERA frame (see below).
  *
  * How: WooCommerce's own templates still run (so its hooks, the preview in Settings > Emails and
  * other plugins keep working), but for these three emails everything they print between
@@ -21,6 +21,13 @@
  *   on one line), totals, the delivery address and the support footer.
  * The delivery fee is 0 until the client decides a fee rule, so it reads "Quote on the call"
  * (sales) and "Confirmed on the call" (customer); a real fee shows as an amount.
+ *
+ * Every other WooCommerce email (cancelled, failed, completed, refunded, order details, customer
+ * note, account and password emails) keeps WooCommerce's content and layout, dressed in the same
+ * identity (amahallawy/czera#115): WooCommerce's own email settings carry the CZERA colours, the
+ * wordmark (media 326) and the support footer, and czera_email_frame_css() below adds what those
+ * settings can't: Montserrat, the ivory header band with its gold rule, the light 22px heading,
+ * small gold section labels, boxed addresses and square corners.
  */
 
 if ( ! function_exists( 'czera_email_kind' ) ) {
@@ -100,6 +107,41 @@ if ( ! function_exists( 'czera_email_kind' ) ) {
 	function czera_email_address( $order ) {
 		$address = $order->has_shipping_address() ? $order->get_formatted_shipping_address() : $order->get_formatted_billing_address();
 		return wp_kses( (string) $address, [ 'br' => [] ] );
+	}
+
+	/** The CZERA layer over WooCommerce's own email CSS, for every email not rendered above. Its phone
+	 * block comes last, so it beats WooCommerce's own max-width 600px rules, which Emogrifier keeps in
+	 * a <style> block. */
+	function czera_email_frame_css() {
+		$font = "Montserrat,'Helvetica Neue',Arial,sans-serif";
+		return '
+#inner_wrapper, #template_container, #template_header { border-radius: 0 !important; }
+#template_header_image { background-color: #F4F2EC !important; padding: 18px 24px !important; border-bottom: 2px solid #D8C28A !important; }
+#template_header_image img { width: 80px !important; height: 34px !important; }
+#header_wrapper { padding: 24px 24px 0 !important; }
+#header_wrapper h1 { font-family: ' . $font . ' !important; font-size: 22px !important; font-weight: 300 !important; letter-spacing: -.01em !important; line-height: 1.3 !important; color: #010100 !important; text-align: left !important; }
+#body_content_inner_cell { padding: 16px 24px 24px !important; }
+#template_container td, #template_container th, #template_container p, #template_container div, #template_container span, #template_container a, #template_container address, #template_container h2, #template_container h3, #template_container table, #credit, #credit p, #credit a { font-family: ' . $font . ' !important; }
+#body_content_inner { font-size: 14px !important; line-height: 1.5 !important; color: #2B2B2B !important; }
+#body_content_inner h2 { font-size: 11px !important; letter-spacing: .12em !important; text-transform: uppercase !important; color: #8A5C12 !important; font-weight: 500 !important; line-height: 1.5 !important; margin: 20px 0 6px !important; }
+#body_content_inner h3 { font-size: 14px !important; letter-spacing: 0 !important; text-transform: none !important; color: #2B2B2B !important; font-weight: 400 !important; line-height: 1.4 !important; }
+#body_content_inner h2 span, #body_content_inner h2 time { font-size: 12px !important; letter-spacing: 0 !important; text-transform: none !important; color: #6B6B6B !important; font-weight: 400 !important; }
+#body_content_inner a { color: #8A5C12 !important; }
+#body_content_inner b.address-title, #body_content_inner tr.order-customer-note b { font-size: 11px !important; letter-spacing: .12em !important; text-transform: uppercase !important; color: #8A5C12 !important; font-weight: 500 !important; }
+#body_content_inner b.address-title { display: block !important; margin-bottom: 6px !important; }
+.email-order-details th, .email-order-details td { color: #2B2B2B !important; border-bottom: 1px solid #F4F2EC !important; }
+#addresses address { border: 1px solid #E7E1D5 !important; border-radius: 4px !important; padding: 12px 14px !important; line-height: 1.5 !important; word-break: normal !important; }
+#credit { background-color: #F4F2EC !important; border-top: 0 !important; color: #6B6B6B !important; font-size: 12px !important; padding: 14px 24px !important; text-align: center !important; }
+#credit a { color: #6B6B6B !important; }
+@media screen and (max-width: 600px) {
+  #template_header_image { padding: 18px 16px !important; }
+  #header_wrapper { padding: 20px 16px 0 !important; }
+  #header_wrapper h1 { font-size: 22px !important; }
+  #body_content_inner_cell { padding: 12px 16px 20px !important; }
+  #body_content_inner { font-size: 14px !important; }
+  #body_content_inner h2.email-order-detail-heading { font-size: 11px !important; line-height: 1.5 !important; }
+}
+';
 	}
 
 	/** The email's subject in CZERA wording. */
@@ -285,9 +327,10 @@ add_action( 'woocommerce_email_footer', function ( $email = null ) {
 	echo czera_email_render( czera_email_kind( $email ), $email->object ); // phpcs:ignore WordPress.Security.EscapeOutput -- built and escaped in czera_email_render().
 }, 99999 );
 
-// Their own markup carries every style; WooCommerce's email CSS would only fight it.
+// The three CZERA emails carry every style inline, so WooCommerce's email CSS would only fight them;
+// every other email gets WooCommerce's CSS plus the CZERA layer.
 add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
-	return czera_email_kind( $email ) ? '' : $css;
+	return czera_email_kind( $email ) ? '' : $css . czera_email_frame_css();
 }, 99, 2 );
 
 // CZERA subjects.
