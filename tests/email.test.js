@@ -109,3 +109,20 @@ test('no shipped page, script or stylesheet mentions WhatsApp', () => {
   const hits = shipped.filter(f => /whatsapp|wa\.me/i.test(readFileSync(join(root, f), 'utf8')));
   assert.deepEqual(hits, []);
 });
+
+test('a valid first-order code adds a discount line and the discounted total', () => {
+  const msg = buildOrderMessage(lines, details, ' welcome10 ');
+  const subtotal = buildOrderMessage(lines, details).match(/^Total: (.*) EGP$/m)[1];
+  assert.ok(msg.includes('Code WELCOME10: −10% (−'), msg);
+  assert.match(msg, /\(−[\d,]+ EGP\)\nTotal: [\d,]+ EGP\n/);
+  const num = s => Number(s.replace(/,/g, ''));
+  const discount = num(msg.match(/\(−([\d,]+) EGP\)/)[1]);
+  assert.equal(num(msg.match(/^Total: ([\d,]+) EGP$/m)[1]), num(subtotal) - discount);
+  assert.equal(discount, Math.round(num(subtotal) * 10 / 100));
+});
+
+test('an invalid or missing code leaves the message unchanged', () => {
+  const plain = buildOrderMessage(lines, details);
+  assert.equal(buildOrderMessage(lines, details, ''), plain);
+  assert.equal(buildOrderMessage(lines, details, 'nope'), plain);
+});
