@@ -23,8 +23,9 @@
 
 <main id="main" class="collection container">
   <aside class="filters" data-filters aria-label="Filters">
-    <p class="crumb"><a href="index.html">Home</a> / Collection</p>
-    <h1 class="filters__title">The collection</h1>
+    <p class="crumb"><a href="index.html">Home</a> / <span data-crumb-label>Collection</span></p>
+    <h1 class="filters__title" data-title>The collection</h1>
+    <p class="filters__line" data-sale-line hidden>A few pieces at a gentler price, while they last.</p>
     <button type="button" class="filters__toggle" data-filters-toggle aria-expanded="false" aria-controls="filter-groups">Filters</button>
     <div id="filter-groups" class="filters__groups" data-filter-groups></div>
   </aside>

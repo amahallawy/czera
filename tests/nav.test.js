@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { menuItems } from '../js/lib/nav.js';
-import { CATEGORIES } from '../js/data/products.js';
+import { PRODUCTS, CATEGORIES } from '../js/data/products.js';
 
 test('the menu lists the client order (#101)', () => {
   assert.deepEqual(menuItems().map(i => [i.label, i.href]), [
@@ -11,6 +11,7 @@ test('the menu lists the client order (#101)', () => {
     ['Beach towels', 'catalog.html?category=beach'],
     ['Gift sets', 'catalog.html?category=gift-sets'],
     ['Build Your Own Box', 'build-your-box.html'],
+    ['Sale', 'catalog.html?view=sale'],
     ['About CZERA', 'about.html'],
   ]);
 });
@@ -29,4 +30,17 @@ test('every category link points at a real category', () => {
 
 test('the footer and filter labels are unchanged', () => {
   assert.deepEqual(CATEGORIES.map(c => c.label), ['Towels', 'Bathrobes', 'Beach', 'Gift sets']);
+});
+
+test('Sale sits after Build Your Own Box, styled like the plain links', () => {
+  const items = menuItems();
+  assert.deepEqual(items.slice(-3).map(i => i.label), ['Build Your Own Box', 'Sale', 'About CZERA']);
+  assert.equal(items.find(i => i.label === 'Sale').featured, undefined);
+});
+
+test('no Sale item while nothing is on sale', () => {
+  const none = PRODUCTS.map(p => ({ ...p, salePrice: undefined }));
+  const items = menuItems(none);
+  assert.ok(!items.some(i => i.label === 'Sale'));
+  assert.equal(items.filter(i => i.featured).length, 1);
 });
