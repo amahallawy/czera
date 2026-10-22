@@ -45,8 +45,8 @@ test('counts reflect the other facets, so dead options show 0', () => {
   assert.equal(c.category.towels, 4); // own facet ignores its own selection
 });
 
-test('the Category filter lists the grid order: Towels, Beach, Bathrobes, Gift sets (#91)', () => {
-  assert.deepEqual(collectionCategories().map(c => c.label), ['Towels', 'Beach', 'Bathrobes', 'Gift sets']);
+test('the Category filter lists the grid order: Towels, Beach towels, Bathrobes, Gift sets (#91, #126)', () => {
+  assert.deepEqual(collectionCategories().map(c => c.label), ['Towels', 'Beach towels', 'Bathrobes', 'Gift sets']);
   // The menu and footer keep CATEGORIES' own order.
   assert.deepEqual(CATEGORIES.map(c => c.id), ['towels', 'bathrobes', 'beach', 'gift-sets']);
 });

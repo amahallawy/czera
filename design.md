@@ -206,7 +206,7 @@ first prices (§6.4).
   scale and fades in the second photo. One full-width Build Your Own
   Box band after the last product card, for every filter result (with
   one to three matches it follows them; with none it stands alone).
-  The Category filter lists Towels, Beach, Bathrobes, Gift sets, the
+  The Category filter lists Towels, Beach towels, Bathrobes, Gift sets, the
   grid's order; the menu and footer keep their own order (#91).
 - Product page: photos stacked in a ~55% column; the buying panel
   stays in view in the other column.
