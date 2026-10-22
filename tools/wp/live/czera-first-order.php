@@ -377,3 +377,104 @@ add_shortcode( 'czera_sale_filter', function () {
 	return '<div class="czera-sale-filter"><h2 class="widget-title">Sale</h2>'
 		. '<ul class="woocommerce-widget-layered-nav-list"><li class="' . esc_attr( $class ) . '">' . $option . '</li></ul></div>';
 } );
+
+// ---------------------------------------------------------------------------------------------------
+// One first-order code per phone number (#137). The phone is required at checkout and is how the shop
+// confirms every order, so a second order with the code from a number that already used it is refused.
+// Orders that used it keep the number's key in _czera_first_order_phone; cancelled and failed orders
+// don't count. The coupon's one-use-per-email limit stays as well.
+
+if ( ! function_exists( 'czera_phone_key' ) ) {
+	/** The comparable part of an Egyptian phone number: digits only, no country code, no leading 0. */
+	function czera_phone_key( $phone ) {
+		$phone  = strtr( (string) $phone, [
+			'٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4', '٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9',
+			'۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
+		] );
+		$digits = preg_replace( '/\D+/', '', $phone );
+		// Drop +20 / 0020 (and a redundant 0 after it) before a mobile or a landline number.
+		$digits = preg_replace( '/^(?:00)?20(?=0?1\d{9}$|0?[2-9]\d{7,8}$)/', '', $digits );
+		return ltrim( $digits, '0' );
+	}
+}
+
+if ( ! function_exists( 'czera_first_order_used_by_phone' ) ) {
+	/** Whether an order other than $except_id already used the first-order code with this phone. */
+	function czera_first_order_used_by_phone( $phone, $except_id = 0 ) {
+		$key = czera_phone_key( $phone );
+		if ( strlen( $key ) < 6 ) {
+			return false;
+		}
+		$ids = wc_get_orders( [
+			'limit'      => 2,
+			'return'     => 'ids',
+			'status'     => [ 'wc-pending', 'wc-on-hold', 'wc-processing', 'wc-completed' ],
+			'meta_query' => [ [ 'key' => '_czera_first_order_phone', 'value' => $key ] ], // phpcs:ignore WordPress.DB.SlowDBQuery
+		] );
+		return (bool) array_diff( array_map( 'absint', $ids ), [ absint( $except_id ) ] );
+	}
+}
+
+if ( ! function_exists( 'czera_order_has_first_order_code' ) ) {
+	/** Whether the order carries a first-order coupon (by the coupon's own flag, even if it has expired since). */
+	function czera_order_has_first_order_code( $order ) {
+		if ( ! $order instanceof WC_Order ) {
+			return false;
+		}
+		foreach ( $order->get_coupon_codes() as $code ) {
+			$coupon = new WC_Coupon( $code );
+			if ( $coupon->get_id() && 'yes' === $coupon->get_meta( 'czera_first_order' ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+if ( ! function_exists( 'czera_first_order_phone_message' ) ) {
+	function czera_first_order_phone_message() {
+		// Deliberately does not say the phone number is why (owner, 2026-10-22).
+		return 'This code is only for a first order.';
+	}
+}
+
+// Block checkout (Store API): the order already has its coupons and billing phone here; throwing stops
+// the checkout and the block shows the message.
+add_action( 'woocommerce_store_api_checkout_update_order_from_request', function ( $order ) {
+	if ( ! czera_order_has_first_order_code( $order )
+		|| ! czera_first_order_used_by_phone( $order->get_billing_phone(), $order->get_id() ) ) {
+		return;
+	}
+	if ( class_exists( '\Automattic\WooCommerce\StoreApi\Exceptions\RouteException' ) ) {
+		throw new \Automattic\WooCommerce\StoreApi\Exceptions\RouteException( 'czera_first_order_used', czera_first_order_phone_message(), 400 );
+	}
+} );
+
+// Classic checkout, should it ever be used.
+add_action( 'woocommerce_after_checkout_validation', function ( $data, $errors ) {
+	$first = czera_first_order_coupon();
+	if ( ! $first || ! WC()->cart || ! WC()->cart->has_discount( $first->get_code() ) ) {
+		return;
+	}
+	if ( czera_first_order_used_by_phone( isset( $data['billing_phone'] ) ? $data['billing_phone'] : '' ) ) {
+		$errors->add( 'czera_first_order_used', czera_first_order_phone_message() );
+	}
+}, 10, 2 );
+
+// Remember the number on every order placed with the code; an order without it (a retry without the
+// code, say) never keeps an old number.
+$czera_remember_phone = function ( $order ) {
+	$order = $order instanceof WC_Order ? $order : wc_get_order( $order );
+	if ( ! $order instanceof WC_Order ) {
+		return;
+	}
+	if ( czera_order_has_first_order_code( $order ) ) {
+		$order->update_meta_data( '_czera_first_order_phone', czera_phone_key( $order->get_billing_phone() ) );
+		$order->save();
+	} elseif ( $order->get_meta( '_czera_first_order_phone' ) ) {
+		$order->delete_meta_data( '_czera_first_order_phone' );
+		$order->save();
+	}
+};
+add_action( 'woocommerce_store_api_checkout_order_processed', $czera_remember_phone );
+add_action( 'woocommerce_checkout_order_processed', $czera_remember_phone );

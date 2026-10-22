@@ -8,6 +8,11 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store: the first-order code works once per phone number. At
+  checkout, a second order with WELCOME10 from a number that already used
+  it (in any format: +20, 0020, a leading 0, Arabic-Indic digits) is
+  refused with a short message; cancelled and failed orders don't count,
+  and the one-use-per-email limit stays (#137).
 - Collection filters, on the design site and the WordPress store: the Sale
   filter now sits under Category instead of first in the panel (#135).
 - WordPress store (czeramaison.com): the Home category tiles no longer end
