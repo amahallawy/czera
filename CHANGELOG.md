@@ -8,6 +8,14 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): the first-order code and Sale from the
+  design. A WooCommerce coupon WELCOME10 (10%, one per customer, sale items
+  included) drives a closable top line on every page and a code field in
+  the slide-in bag (Subtotal / First order −10% / Total); the order emails
+  show the code row. Products on sale show the ivory "Sale" label and the
+  struck old price, a "Sale" menu item opens the shop with the new Sale
+  filter, and both hide while nothing is on sale. Two demo sale prices are
+  set for the client (#123).
 - Home "How to order": interim wording until the client sends theirs. The
   heading is "From our home to yours." and the steps read Choose your
   pieces, Send your order (name, phone and address in your bag) and We

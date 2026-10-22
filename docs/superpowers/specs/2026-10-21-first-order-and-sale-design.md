@@ -104,10 +104,21 @@ A product gets an optional sale price in `js/data/products.js`. For the client d
 - Their own line for the Sale page.
 - Whether the first-order code should have an end date.
 
-## 9. Later: WordPress (not designed yet)
+## 9. WordPress
 
 Out of scope until the client approves the design site; the owner will discuss it then. Notes to pick up at that point (from the design review, 2026-10-21):
 
 - The code and percent shown in the top line, Home note and bag note should come from the WooCommerce coupon itself, so the text never drifts from the real code and disappears when the coupon is off or expired.
 - The WordPress "bag" is Astra's slide-in drawer, which has no code field; WooCommerce's cart and checkout have their own coupon field, and the one-use-per-email check can only run at checkout (it needs the billing email). Where the code is typed on WordPress is an owner decision for then.
 - A WooCommerce coupon (percentage, not excluding sale items, one use per email), WooCommerce's own sale-price field per product, the "Sale!" badge restyled to the ivory label, a Sale page from WooCommerce's on-sale listing, a "Sale" menu item that hides when nothing is on sale, and a discount row in the CZERA order emails (#111).
+
+### 9.1 As built on WordPress (2026-10-22)
+
+Built after the design was confirmed, following it: the code is entered in the bag, as on the design site.
+
+- **Coupon:** WooCommerce coupon `welcome10` (id 349): 10% percent, individual use, sale items included, one use per customer (checked at checkout by billing email), meta `czera_first_order = yes`. Changing the code or percent is an edit to this coupon; the top line and the bag follow it and disappear when it is off, expired or used up.
+- **Code Snippet 17 "CZERA first order and sale"** (reference: `tools/wp/live/czera-first-order.php`): the top line as the first child of the Astra header (`astra_masthead_top`; scrolls away while the sticky bar stays, closing it is remembered per code in `czera.promo.v1`); the code block in the slide-in bag (note, field + Apply, or the code + Remove; Subtotal / First order −10% / Total) applied through `wc-ajax=czera_bag_code`; an emptied bag drops its code; the "Sale" badge and "Was …, now …" screen-reader text; the menu's Sale item (class `czera-menu-sale`, item 352, `/shop/?sale=1`) hidden while nothing is on sale; `?sale=1` on the shop and category pages; the `[czera_sale_filter]` sidebar group (widget block-9, under "The collection").
+- **Snippet 15 "CZERA order emails":** line amounts before the discount, and a gold "Code WELCOME10: −10%" row with the saving in both emails.
+- **Sale prices:** The Complete CZERA Set (25) 1,160 and Blue Stripe Beach Towel (69) 680, demo values as on the design site. Home gift-set images show the sale badge (Home revision 353).
+- **Additional CSS:** block "First order and sale (design #123)" (reference: `tools/wp/live/first-order-and-sale.css`).
+- **Differences from the design, by necessity:** WordPress's filters are links, not checkboxes, so "On sale (n)" looks like the Colour filter; the cart and checkout pages also accept the code through WooCommerce's own coupon field.

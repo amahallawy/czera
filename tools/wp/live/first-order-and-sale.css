@@ -1,0 +1,52 @@
+/* ---------- First order and sale (design #123) ----------
+ * Snippet 17 "CZERA first order and sale". Mirrors the static design's .promo-line, .bag-code,
+ * .bag-totals, .card__flag and .price__was/.price__now. px, not rem (the WordPress root is not 16px). */
+
+/* Top line: first child of the header, black with ivory small caps; amount and code in gold. */
+.czera-promo { position: relative; display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 44px; background: #010100; color: #f4f2ec; }
+.czera-promo__text { margin: 0 !important; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-align: center; line-height: 1.3; color: #f4f2ec; }
+.czera-promo__text b { font-weight: 600; color: #d4af36; }
+.czera-promo__close { position: absolute; top: 0; right: 0; width: 44px; height: 44px; min-height: 0; display: grid; place-items: center; margin: 0; padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; color: #f4f2ec !important; font: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+.czera-promo__close:hover { color: #d4af36 !important; }
+.czera-promo__close:focus-visible { outline: 2px solid #d4af36; outline-offset: -4px; }
+/* Home: the header floats over the hero, so the hero starts below the line and still ends at the
+ * bottom of the screen. --czera-promo-h is the line's measured height (it wraps on phones). */
+.czera-promo-on .czera-hero { margin-top: var(--czera-promo-h, 44px) !important; min-height: calc(100vh - var(--czera-promo-h, 44px)) !important; min-height: calc(100dvh - var(--czera-promo-h, 44px)) !important; }
+
+/* The code in the bag (Astra's slide-in mini cart). WooCommerce's own subtotal line is replaced. */
+.woocommerce-mini-cart__total:not(:has(*)) { display: none !important; }
+.czera-bag-code { margin: 0 21px 8px; padding-top: 12px; border-top: 1px solid #ba7c17; }
+.czera-bag-code__note { margin: 0 0 12px !important; font-size: 13px; line-height: 1.5; color: #2b2b2b; }
+.czera-bag-code__note b { font-weight: 600; }
+.czera-bag-code__label { display: block; margin: 0 0 4px; font-size: 12px; letter-spacing: 0.06em; color: #6b6b6b; }
+.czera-bag-code__row { display: flex; gap: 8px; align-items: stretch; }
+.czera-bag-code__row input { flex: 1 1 auto; min-width: 0; min-height: 44px; margin: 0 !important; padding: 8px 12px !important; font-size: 16px !important; background: #faf8f3 !important; color: #2b2b2b !important; border: 1px solid #a3a099 !important; border-radius: 0 !important; box-shadow: none !important; text-transform: uppercase; }
+.czera-bag-code__row input:focus-visible { outline: 2px solid #ba7c17; outline-offset: 1px; }
+.czera-bag-code__row input[aria-invalid="true"] { border-color: #ba7c17 !important; }
+.czera-bag-code__row input[readonly] { background: #f4f2ec !important; font-weight: 500; }
+.czera-bag-code__btn { min-height: 44px; min-width: 44px; margin: 0 !important; padding: 0 16px !important; font-size: 13px !important; font-weight: 500; letter-spacing: 0.04em; border-radius: 0 !important; box-shadow: none !important; background: #010100 !important; color: #f4f2ec !important; border: 1px solid #010100 !important; cursor: pointer; }
+.czera-bag-code__btn:hover { background: #ba7c17 !important; border-color: #ba7c17 !important; }
+.czera-bag-code__btn--text { background: transparent !important; border-color: transparent !important; color: #6b6b6b !important; text-decoration: underline; text-underline-offset: 3px; }
+.czera-bag-code__btn--text:hover { background: transparent !important; border-color: transparent !important; color: #ba7c17 !important; }
+.czera-bag-code__btn:focus-visible { outline: 2px solid #ba7c17; outline-offset: 2px; }
+.czera-bag-code__error { margin: 4px 0 0 !important; font-size: 12px; color: #8a5c12; }
+.czera-bag-code__error:empty { display: none; }
+.czera-bag-totals { padding: 8px 21px 0; }
+.czera-bag-totals__row { display: flex; justify-content: space-between; gap: 12px; margin: 0 !important; padding: 4px 0; font-size: 13px; color: #2b2b2b; }
+.czera-bag-totals__row--saving { color: #8a5c12; }
+.czera-bag-totals__row--total { padding: 12px 0 16px; font-size: 17px; color: #010100; }
+.czera-bag-totals__row--total b { font-weight: 500; }
+
+/* Sale label: ivory with gold text, small caps, top-left of the photo; no red, no percentage. */
+.woocommerce .onsale.czera-sale-flag, .woocommerce-page .onsale.czera-sale-flag, .czera-sale-flag,
+.wc-block-components-product-sale-badge {
+  position: absolute !important; top: 12px !important; left: 12px !important; right: auto !important; bottom: auto !important; z-index: 3;
+  width: auto !important; height: auto !important; min-width: 0 !important; min-height: 0 !important; margin: 0 !important; padding: 4px 8px !important;
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: #f4f2ec !important; color: #8a5c12 !important;
+  font-size: 11px !important; font-weight: 500 !important; letter-spacing: 0.18em !important; text-transform: uppercase; line-height: 1.2 !important;
+}
+.wc-block-components-product-sale-badge span { font-size: inherit !important; }
+/* Old price struck through in muted grey, new price in the usual ink. */
+.price del, .wc-block-components-product-price del { color: #6b6b6b !important; font-weight: 300 !important; opacity: 1 !important; margin-right: 4px; text-decoration: line-through !important; }
+.price ins, .wc-block-components-product-price ins { color: #010100 !important; background: none !important; text-decoration: none !important; font-weight: inherit; }
+/* ---------- end first order and sale */
