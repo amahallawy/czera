@@ -392,7 +392,8 @@ if ( ! function_exists( 'czera_phone_key' ) ) {
 			'۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
 		] );
 		$digits = preg_replace( '/\D+/', '', $phone );
-		$digits = preg_replace( '/^(?:00)?20(?=1\d{9}$)/', '', $digits ); // +20 / 0020 before a mobile number
+		// Drop +20 / 0020 (and a redundant 0 after it) before a mobile or a landline number.
+		$digits = preg_replace( '/^(?:00)?20(?=0?1\d{9}$|0?[2-9]\d{7,8}$)/', '', $digits );
 		return ltrim( $digits, '0' );
 	}
 }
@@ -415,14 +416,18 @@ if ( ! function_exists( 'czera_first_order_used_by_phone' ) ) {
 }
 
 if ( ! function_exists( 'czera_order_has_first_order_code' ) ) {
-	/** Whether the order carries the live first-order coupon. */
+	/** Whether the order carries a first-order coupon (by the coupon's own flag, even if it has expired since). */
 	function czera_order_has_first_order_code( $order ) {
-		$first = czera_first_order_coupon();
-		if ( ! $first || ! $order instanceof WC_Order ) {
+		if ( ! $order instanceof WC_Order ) {
 			return false;
 		}
-		$code = wc_format_coupon_code( $first->get_code() );
-		return in_array( $code, array_map( 'wc_format_coupon_code', $order->get_coupon_codes() ), true );
+		foreach ( $order->get_coupon_codes() as $code ) {
+			$coupon = new WC_Coupon( $code );
+			if ( $coupon->get_id() && 'yes' === $coupon->get_meta( 'czera_first_order' ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 
@@ -455,11 +460,18 @@ add_action( 'woocommerce_after_checkout_validation', function ( $data, $errors )
 	}
 }, 10, 2 );
 
-// Remember the number on every order placed with the code.
+// Remember the number on every order placed with the code; an order without it (a retry without the
+// code, say) never keeps an old number.
 $czera_remember_phone = function ( $order ) {
 	$order = $order instanceof WC_Order ? $order : wc_get_order( $order );
+	if ( ! $order instanceof WC_Order ) {
+		return;
+	}
 	if ( czera_order_has_first_order_code( $order ) ) {
 		$order->update_meta_data( '_czera_first_order_phone', czera_phone_key( $order->get_billing_phone() ) );
+		$order->save();
+	} elseif ( $order->get_meta( '_czera_first_order_phone' ) ) {
+		$order->delete_meta_data( '_czera_first_order_phone' );
 		$order->save();
 	}
 };
