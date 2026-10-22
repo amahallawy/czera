@@ -446,31 +446,24 @@ it removes it and remembers the choice per code (`czera.promo.v1`), so
 it stays closed on every page and after a reload, and returns if the code
 changes. Not a pop-up: it never moves, fades in or covers content.
 
-### 6.11b Sale view
+### 6.11b Sale filter
 
-A "Sale" item in the menu, after Build Your Own Box and before About
-CZERA, in the same style as its neighbours (Build Your Own Box stays the
-only featured item). It appears only while at least one product has a
-`salePrice`, and opens `catalog.html?view=sale`: the page header reads
-"Home / Sale", the title "Sale" and the line "A few pieces at a gentler
-price, while they last."; the grid shows only the products on sale, with
-no filters and no Build Your Own Box band. With nothing on sale the grid
-area reads "Nothing on sale right now." with a "Shop the collection"
-link. Category tile "from" prices keep the regular price.
+Sale is a filter on the Collection, not a page of its own (owner,
+2026-10-22). While at least one product has a `salePrice`, the filter
+panel starts with a "Sale" group holding one checkbox, "On sale (n)",
+that works like the other filters and combines with them. A "Sale" item
+in the menu, after Build Your Own Box and before About CZERA, in the same
+style as its neighbours (Build Your Own Box stays the only featured
+item), opens `catalog.html?sale=1`: the usual Collection with that box
+ticked. With nothing on sale the group and the menu item are gone, and
+`?sale=1` opens the full collection. Category tile "from" prices keep the
+regular price.
 
 ### 6.12 Gift-set tabs (Home)
 
 Two tabs above a row of four product cards: *For the home* and *Robes
 & beach*. Tab labels are small caps with a count; the active tab has an
 ink underline.
-
-### 6.12a Welcome note (Home)
-
-After the Gift sets section: a small label "Welcome to CZERA", a light
-heading ("10% off your first order."), a muted line ("Use the code at
-checkout.") and the code in a dashed gold outline. The wording is fixed;
-the code and percent come from `CONFIG.firstOrder`. No button and no form: the code is
-entered in the bag (§6.11).
 
 ### 6.13 Build Your Own Box
 
@@ -664,7 +657,7 @@ Section-by-section choices are in the
 ### Home (`index.html`)
 Editorial, chapter-paced, in seven blocks: hero film, our story (text
 over image), shop by category (editorial grid, gift sets lead), gift
-sets (two tabs), welcome note (first-order code, #123), Build Your Own Box (dark band), the four promises with
+sets (two tabs), Build Your Own Box (dark band), the four promises with
 a photo strip, how to order (three steps, all by email: Add to bag,
 Send your bag by email, We confirm and deliver) + footer. The story leads
 the page (client request, 2026-10-17, amahallawy/czera#68); the menu
@@ -673,10 +666,11 @@ tells its story, and the category tiles with prices follow straight
 after; the story's headline must not repeat the hero's.
 
 ### Collection (`catalog.html`)
-Sidebar filters (category, price, colour) beside a three-column grid
-of product cards with "Add to bag ›", closed by the Build Your Own
-Box band after the last card. `?view=sale` shows only the products on
-sale (§6.11b). Goal: browse, compare prices, add to the bag.
+Sidebar filters (sale while something is on sale, category, price,
+colour) beside a three-column grid of product cards with "Add to bag ›",
+closed by the Build Your Own Box band after the last card. `?sale=1`
+opens it with the Sale filter ticked (§6.11b). Goal: browse, compare
+prices, add to the bag.
 
 ### Product (`product.html`)
 Large stacked photos, a buying panel that stays in view, fold-out

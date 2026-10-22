@@ -10,7 +10,7 @@ export function menuItems(products = PRODUCTS) {
     { label: 'Shop all', href: 'catalog.html' },
     ...CATEGORIES.map(c => ({ label: c.navLabel, href: `catalog.html?category=${c.id}` })),
     { label: 'Build Your Own Box', href: 'build-your-box.html', featured: true },
-    ...(saleProducts(products).length > 0 ? [{ label: 'Sale', href: 'catalog.html?view=sale' }] : []),
+    ...(saleProducts(products).length > 0 ? [{ label: 'Sale', href: 'catalog.html?sale=1' }] : []),
     { label: 'About CZERA', href: 'about.html' },
   ];
 }

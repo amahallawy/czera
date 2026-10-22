@@ -1,6 +1,6 @@
 // js/lib/filters.js
 import { CATEGORIES } from '../data/products.js';
-import { currentPrice } from './pricing.js';
+import { currentPrice, isOnSale } from './pricing.js';
 
 export const PRICE_BANDS = [
   { id: 'under-500', label: 'Under 500 EGP', test: p => p < 500 },
@@ -12,17 +12,20 @@ export const COLOURS = [
   { id: 'black', label: 'Black' },
   { id: 'striped', label: 'Striped' },
 ];
+// One option: products whose sale price counts (#123). The Sale menu item opens the collection with it ticked.
+export const SALE_OPTIONS = [{ id: 'on-sale', label: 'On sale' }];
 
 export function emptyFilters() {
-  return { categories: new Set(), prices: new Set(), colours: new Set() };
+  return { sale: new Set(), categories: new Set(), prices: new Set(), colours: new Set() };
 }
 
 const FACETS = {
+  sale: (p, sel) => sel.size === 0 || (sel.has('on-sale') && isOnSale(p)),
   category: (p, sel) => sel.size === 0 || sel.has(p.category),
   price: (p, sel) => sel.size === 0 || PRICE_BANDS.some(b => sel.has(b.id) && b.test(currentPrice(p))),
   colour: (p, sel) => sel.size === 0 || p.colours.some(c => sel.has(c)),
 };
-const SELECTION = { category: 'categories', price: 'prices', colour: 'colours' };
+const SELECTION = { sale: 'sale', category: 'categories', price: 'prices', colour: 'colours' };
 
 function matches(p, state, ignore) {
   return Object.keys(FACETS).every(f => f === ignore || FACETS[f](p, state[SELECTION[f]]));
@@ -52,6 +55,7 @@ export function filterProducts(products, state) {
 export function facetCounts(products, state) {
   const count = (facet, test) => products.filter(p => matches(p, state, facet) && test(p)).length;
   return {
+    sale: { 'on-sale': count('sale', isOnSale) },
     category: Object.fromEntries(CATEGORIES.map(c => [c.id, count('category', p => p.category === c.id)])),
     price: Object.fromEntries(PRICE_BANDS.map(b => [b.id, count('price', p => b.test(currentPrice(p)))])),
     colour: Object.fromEntries(COLOURS.map(c => [c.id, count('colour', p => p.colours.includes(c.id))])),

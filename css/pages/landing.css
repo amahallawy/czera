@@ -142,7 +142,6 @@ body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
 /* ---------------- Section frame ---------------- */
 .categories,
 .gifts,
-.welcome-note,
 .promises,
 .how {
   max-width: var(--content-max);
@@ -248,36 +247,6 @@ body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
 .tabs [role="tab"][aria-selected="true"] {
   color: var(--color-ink-strong);
   border-bottom-color: var(--color-ink-strong);
-}
-/* Welcome note: a calm centred card, like a card in the box. */
-.welcome-note__card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);  /* at large text sizes the code wraps instead of widening the page */
-  justify-items: center;
-  gap: var(--space-3);
-  padding: var(--space-7) var(--space-5);
-  text-align: center;
-  background: var(--color-surface-soft);
-  border: 1px solid var(--color-gold-sand);
-}
-.welcome-note__card > * { max-inline-size: 100%; }
-.welcome-note__card .eyebrow { color: var(--color-gold-text); }  /* AA on the lifted ivory */
-.welcome-note__title {
-  margin: 0;
-  font-size: var(--fs-xl);
-  font-weight: 300;
-  color: var(--color-ink-strong);
-}
-.welcome-note__text { margin: 0; color: var(--color-ink-mute); }
-.welcome-note__code {
-  margin: var(--space-2) 0 0;
-  padding: var(--space-3) var(--space-5);
-  border: 1px dashed var(--color-gold);
-  font-size: var(--fs-md);
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  overflow-wrap: anywhere;
-  color: var(--color-ink-strong);
 }
 .gifts__more { margin: var(--space-6) 0 0; text-align: center; }
 

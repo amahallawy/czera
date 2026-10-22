@@ -11,7 +11,7 @@ test('the menu lists the client order (#101)', () => {
     ['Beach towels', 'catalog.html?category=beach'],
     ['Gift sets', 'catalog.html?category=gift-sets'],
     ['Build Your Own Box', 'build-your-box.html'],
-    ['Sale', 'catalog.html?view=sale'],
+    ['Sale', 'catalog.html?sale=1'],
     ['About CZERA', 'about.html'],
   ]);
 });
