@@ -8,6 +8,8 @@ that section into a version.
 
 ## [Unreleased]
 
+- Collection filters, on the design site and the WordPress store: the Sale
+  filter now sits under Category instead of first in the panel (#135).
 - WordPress store (czeramaison.com): the Home category tiles no longer end
   with a "Shop …" line, and the beach category reads "Beach towels" (Home
   tile, shop Category filter, footer, breadcrumbs; the /beach/ URL is

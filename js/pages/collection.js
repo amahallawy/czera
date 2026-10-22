@@ -16,9 +16,10 @@ if (CATEGORIES.some(c => c.id === preset)) state.categories.add(preset);
 const hasSale = saleProducts().length > 0;
 if (hasSale && params.get('sale') === '1') state.sale.add('on-sale');
 
+// Sale sits under Category (owner, #135).
 const GROUPS = [
-  ...(hasSale ? [{ facet: 'sale', key: 'sale', title: 'Sale', options: SALE_OPTIONS }] : []),
   { facet: 'category', key: 'categories', title: 'Category', options: collectionCategories() },
+  ...(hasSale ? [{ facet: 'sale', key: 'sale', title: 'Sale', options: SALE_OPTIONS }] : []),
   { facet: 'price', key: 'prices', title: 'Price', options: PRICE_BANDS },
   { facet: 'colour', key: 'colours', title: 'Colour', options: COLOURS },
 ];
