@@ -8,6 +8,9 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home: the "Shop by category" tiles no longer end with a small "Shop …"
+  line ("Shop gifts", "Shop beach" and so on). Each tile is already the
+  link, and its photo and name say where it goes (#128).
 - The beach category now reads "Beach towels" in full, not "Beach": in the
   Collection's Category filter, the footer's Shop links, a beach towel's
   product page and the Home category tile. The Build Your Own Box rows keep

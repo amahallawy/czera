@@ -478,8 +478,9 @@ to §14's sticky-bar rule).
 
 ### 6.14 Category tiles (Home)
 
-Photo tiles with a bottom-left label: meta line (count · from price),
-name, "Shop …" link, ivory on the photo. The shade behind the label is a
+Photo tiles with a bottom-left label: meta line (count · from price)
+and name, ivory on the photo. The whole tile is the link, so there is no
+separate "Shop …" line (owner, #128). The shade behind the label is a
 fixed-height gradient anchored to the tile's bottom edge (88% ink at 0,
 84% at 60px, 55% at 120px, clear by 200px), not a percentage of the
 tile, so it covers the label the same way on every tile height. The
