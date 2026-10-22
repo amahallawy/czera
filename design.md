@@ -450,7 +450,7 @@ changes. Not a pop-up: it never moves, fades in or covers content.
 
 Sale is a filter on the Collection, not a page of its own (owner,
 2026-10-22). While at least one product has a `salePrice`, the filter
-panel starts with a "Sale" group holding one checkbox, "On sale (n)",
+panel has a "Sale" group under Category (#135) holding one checkbox, "On sale (n)",
 that works like the other filters and combines with them. A "Sale" item
 in the menu, after Build Your Own Box and before About CZERA, in the same
 style as its neighbours (Build Your Own Box stays the only featured
@@ -668,7 +668,7 @@ tells its story, and the category tiles with prices follow straight
 after; the story's headline must not repeat the hero's.
 
 ### Collection (`catalog.html`)
-Sidebar filters (sale while something is on sale, category, price,
+Sidebar filters (category, sale while something is on sale, price,
 colour) beside a three-column grid of product cards with "Add to bag ›",
 closed by the Build Your Own Box band after the last card. `?sale=1`
 opens it with the Sale filter ticked (§6.11b). Goal: browse, compare
