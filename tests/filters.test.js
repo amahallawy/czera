@@ -45,23 +45,6 @@ test('counts reflect the other facets, so dead options show 0', () => {
   assert.equal(c.category.towels, 4); // own facet ignores its own selection
 });
 
-test('the Sale filter keeps only products on sale, and combines with the other facets (#123)', () => {
-  const s = emptyFilters();
-  s.sale.add('on-sale');
-  assert.deepEqual(filterProducts(PRODUCTS, s).map(p => p.slug).sort(), ['blue-stripe-beach-towel', 'complete-czera-set']);
-  s.categories.add('beach');
-  assert.deepEqual(filterProducts(PRODUCTS, s).map(p => p.slug), ['blue-stripe-beach-towel']);
-});
-
-test('the Sale filter counts products on sale, against the other facets (#123)', () => {
-  assert.deepEqual(facetCounts(PRODUCTS, emptyFilters()).sale, { 'on-sale': 2 });
-  const s = emptyFilters();
-  s.categories.add('bathrobes');
-  assert.deepEqual(facetCounts(PRODUCTS, s).sale, { 'on-sale': 0 });
-  const noSale = PRODUCTS.map(p => ({ ...p, salePrice: undefined }));
-  assert.deepEqual(facetCounts(noSale, emptyFilters()).sale, { 'on-sale': 0 });
-});
-
 test('the Category filter lists the grid order: Towels, Beach, Bathrobes, Gift sets (#91)', () => {
   assert.deepEqual(collectionCategories().map(c => c.label), ['Towels', 'Beach', 'Bathrobes', 'Gift sets']);
   // The menu and footer keep CATEGORIES' own order.
@@ -77,4 +60,21 @@ test('the Build-your-box band follows the last product card, whatever the count 
     assert.deepEqual(got.slice(0, n), cards(n));
   }
   assert.deepEqual(gridItems([], 'BAND'), ['BAND']);   // no matches: the band alone still offers a way on
+});
+
+test('the Sale filter keeps only products on sale, and combines with the other facets (#123)', () => {
+  const s = emptyFilters();
+  s.sale.add('on-sale');
+  assert.deepEqual(filterProducts(PRODUCTS, s).map(p => p.slug).sort(), ['blue-stripe-beach-towel', 'complete-czera-set']);
+  s.categories.add('beach');
+  assert.deepEqual(filterProducts(PRODUCTS, s).map(p => p.slug), ['blue-stripe-beach-towel']);
+});
+
+test('the Sale filter counts products on sale, against the other facets (#123)', () => {
+  assert.deepEqual(facetCounts(PRODUCTS, emptyFilters()).sale, { 'on-sale': 2 });
+  const s = emptyFilters();
+  s.categories.add('bathrobes');
+  assert.deepEqual(facetCounts(PRODUCTS, s).sale, { 'on-sale': 0 });
+  const noSale = PRODUCTS.map(p => ({ ...p, salePrice: undefined }));
+  assert.deepEqual(facetCounts(noSale, emptyFilters()).sale, { 'on-sale': 0 });
 });
