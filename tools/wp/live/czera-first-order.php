@@ -433,7 +433,8 @@ if ( ! function_exists( 'czera_order_has_first_order_code' ) ) {
 
 if ( ! function_exists( 'czera_first_order_phone_message' ) ) {
 	function czera_first_order_phone_message() {
-		return 'This code is for a first order, and it has already been used with this phone number.';
+		// Deliberately does not say the phone number is why (owner, 2026-10-22).
+		return 'This code is only for a first order.';
 	}
 }
 
