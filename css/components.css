@@ -51,14 +51,16 @@ body.has-hero { padding-top: var(--promo-h); }
 /* First-order top line: the header's first child, so the header grows by --promo-h while it
  * shows. --promo-h is 0 on :root until shell.js adds .has-promo, and again once it is closed. */
 :root { --promo-h: 0px; }
+/* 44px is the pre-measure value; shell.js then sets --promo-h to the line's real height. */
 :root.has-promo { --promo-h: 44px; }
 .promo-line {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  block-size: var(--promo-h);
-  padding-inline: 44px;           /* room for the close button, so the text stays centred */
+  min-block-size: 44px;           /* sizes to its text, which wraps on narrow screens and at large text sizes */
+  padding-block: 6px;
+  padding-inline: 44px;          /* room for the close button, so the text stays centred */
   background: var(--color-ink-strong);
   color: var(--color-on-dark);
 }

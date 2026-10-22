@@ -101,11 +101,32 @@ export function initShell({ hasHero = false } = {}) {
   document.documentElement.classList.toggle('has-promo', showPromo);
   replacePlaceholder('[data-shell-header]', headerHtml(showPromo));
   replacePlaceholder('[data-shell-footer]', footerHtml());
-  document.querySelector('[data-promo-close]')?.addEventListener('click', () => {
-    dismissPromo(storage, CONFIG.firstOrder.code);
-    document.querySelector('[data-promo-line]')?.remove();
-    document.documentElement.classList.remove('has-promo');
-  });
+  const promoLine = document.querySelector('[data-promo-line]');
+  if (promoLine) {
+    // The line wraps on narrow screens and at large text sizes, so every offset follows its
+    // measured height. A resize event re-runs the sticky fit, which reads the offset.
+    const root = document.documentElement;
+    const measure = () => {
+      const h = Math.ceil(promoLine.getBoundingClientRect().height);
+      if (root.style.getPropertyValue('--promo-h') === `${h}px`) return;
+      root.style.setProperty('--promo-h', `${h}px`);
+      window.dispatchEvent(new Event('resize'));
+    };
+    const observer = 'ResizeObserver' in window ? new ResizeObserver(measure) : null;
+    if (observer) observer.observe(promoLine);
+    else window.addEventListener('resize', measure);
+    measure();
+    promoLine.querySelector('[data-promo-close]').addEventListener('click', () => {
+      dismissPromo(storage, CONFIG.firstOrder.code);
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+      document.querySelector('[data-menu-toggle]')?.focus();
+      promoLine.remove();
+      root.classList.remove('has-promo');
+      root.style.setProperty('--promo-h', '0px');
+      window.dispatchEvent(new Event('resize'));
+    });
+  }
   document.body.insertAdjacentHTML('beforeend',
     '<div class="toast" data-toast role="status" hidden><span data-toast-text></span> <button type="button" class="toast__link" data-bag-open>View bag ›</button></div>');
   const year = document.querySelector('[data-current-year]');
