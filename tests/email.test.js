@@ -118,7 +118,7 @@ test('a valid first-order code adds a discount line and the discounted total', (
   const num = s => Number(s.replace(/,/g, ''));
   const discount = num(msg.match(/\(−([\d,]+) EGP\)/)[1]);
   assert.equal(num(msg.match(/^Total: ([\d,]+) EGP$/m)[1]), num(subtotal) - discount);
-  assert.equal(discount, Math.round(num(subtotal) * 10 / 100));
+  assert.equal(discount, Math.round(num(subtotal) * CONFIG.firstOrder.percent / 100));
 });
 
 test('an invalid or missing code leaves the message unchanged', () => {

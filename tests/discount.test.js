@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   normaliseCode, isValidCode, orderTotals, CODE_KEY, readCode, writeCode, clearCode,
 } from '../js/lib/discount.js';
+import { CONFIG } from '../js/config.js';
 
 const bag = [
   { type: 'product', slug: 'complete-czera-set', qty: 1 },
@@ -43,12 +44,18 @@ test('orderTotals gives no discount for an invalid or empty code', () => {
   assert.equal(orderTotals(bag, '').discount, 0);
 });
 
-test('orderTotals discount is a whole number of EGP and total = subtotal - discount', () => {
-  // Demo prices are multiples of 10, so a half-pound case (e.g. 2,395 -> 240) cannot be built from
-  // real products; the Math.round in orderTotals covers it if prices change.
-  const t = orderTotals([{ type: 'product', slug: 'bath-sheet', qty: 3 }], 'WELCOME10');
-  assert.ok(Number.isInteger(t.discount));
-  assert.equal(t.total, t.subtotal - t.discount);
+test('orderTotals rounds the discount to whole EGP (half rounds up)', () => {
+  // Demo prices are multiples of 10, so 10% never leaves a fraction; borrow other percents.
+  const towel = [{ type: 'product', slug: 'bath-towel', qty: 1 }]; // 470 EGP
+  const percent = CONFIG.firstOrder.percent;
+  try {
+    CONFIG.firstOrder.percent = 15; // 70.5 -> 71
+    assert.deepEqual(orderTotals(towel, 'WELCOME10'), { subtotal: 470, discount: 71, total: 399 });
+    CONFIG.firstOrder.percent = 13; // 61.1 -> 61
+    assert.deepEqual(orderTotals(towel, 'WELCOME10'), { subtotal: 470, discount: 61, total: 409 });
+  } finally {
+    CONFIG.firstOrder.percent = percent;
+  }
 });
 
 test('readCode ignores a stored code that is not valid', () => {
