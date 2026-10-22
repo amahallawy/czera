@@ -8,6 +8,11 @@ that section into a version.
 
 ## [Unreleased]
 
+- Home "How to order": interim wording until the client sends theirs. The
+  heading is "From our home to yours." and the steps read Choose your
+  pieces, Send your order (name, phone and address in your bag) and We
+  confirm and deliver, now with the payment line. It no longer says "all
+  by email" or "We confirm the price" (#130).
 - Home: the "Shop by category" tiles no longer end with a small "Shop …"
   line ("Shop gifts", "Shop beach" and so on). Each tile is already the
   link, and its photo and name say where it goes (#128).
