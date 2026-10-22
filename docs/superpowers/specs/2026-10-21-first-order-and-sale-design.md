@@ -50,7 +50,7 @@ For the client demo: **10% off** (owner, 2026-10-21) with the placeholder code *
 - The code works on **every product, sale items included** (owner decision), and on custom boxes.
 - 10% of the bag subtotal after sale prices, rounded to whole pounds.
 - One code per order. Wrong code: a short message under the field, "That code isn't valid." Removing the code restores the total.
-- The code is checked against the setting only; there is no customer history, so "first order" is on trust. The bag remembers an applied code until the order is sent. Codes are matched without regard to letter case.
+- The code is checked against the setting only; there is no customer history, so "first order" is on trust. On the WordPress store it works once per phone number (owner, 2026-10-22, #137; §9.1). The bag remembers an applied code until the order is sent. Codes are matched without regard to letter case.
 - **Order email** (the bag's "Email the order"): the lines, then "Code WELCOME10: −10% (−239 EGP)", then the total.
 
 ## 4. Sale
@@ -118,6 +118,7 @@ Built after the design was confirmed, following it: the code is entered in the b
 
 - **Coupon:** WooCommerce coupon `welcome10` (id 349): 10% percent, individual use, sale items included, one use per customer (checked at checkout by billing email), meta `czera_first_order = yes`. Changing the code or percent is an edit to this coupon; the top line and the bag follow it and disappear when it is off, expired or used up.
 - **Code Snippet 17 "CZERA first order and sale"** (reference: `tools/wp/live/czera-first-order.php`): the top line as the first child of the Astra header (`astra_masthead_top`; scrolls away while the sticky bar stays, closing it is remembered per code in `czera.promo.v1`); the code block in the slide-in bag (note, field + Apply, or the code + Remove; Subtotal / First order −10% / Total) applied through `wc-ajax=czera_bag_code`; an emptied bag drops its code; the "Sale" badge and "Was …, now …" screen-reader text; the menu's Sale item (class `czera-menu-sale`, item 352, `/shop/?sale=1`) hidden while nothing is on sale; `?sale=1` on the shop and category pages; the `[czera_sale_filter]` sidebar group (widget block-9, under Category since #135).
+- **Once per phone number (#137):** at checkout, an order with the first-order code is refused when the billing phone already has an order with it (pending, on hold, processing or completed; cancelled and failed don't count): "This code is for a first order, and it has already been used with this phone number." Numbers are compared without spaces, country code (+20 / 0020) or leading 0, and Arabic-Indic digits count. Orders placed with the code store the number's key in `_czera_first_order_phone`. The coupon's one-use-per-email limit stays.
 - **Snippet 15 "CZERA order emails":** line amounts before the discount, and a gold "Code WELCOME10: −10%" row with the saving in both emails.
 - **Sale prices:** The Complete CZERA Set (25) 1,160 and Blue Stripe Beach Towel (69) 680, demo values as on the design site. Home gift-set images show the sale badge (Home revision 353).
 - **Additional CSS:** block "First order and sale (design #123)" (reference: `tools/wp/live/first-order-and-sale.css`).
