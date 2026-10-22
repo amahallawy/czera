@@ -433,10 +433,12 @@ bag's items only and is never red.
 
 ### 6.11a Top line (every page)
 
-A black strip, 44px, as the first child of the site header: ivory small
-caps, with the amount and the code in gold ("10% off your first order ·
-code WELCOME10"), and a × button (`aria-label="Close offer"`, 44px) at
-the inline end. Text comes from `CONFIG.firstOrder`. While it shows the
+A black strip, at least 44px tall (it wraps on narrow screens and at
+large text sizes), as the first child of the site header: ivory small
+caps, "First order · 10% off with code WELCOME10" with the amount and the
+code in gold, and a × button (`aria-label="Close offer"`, 44px) at the
+inline end. The wording is fixed; the code and percent come from
+`CONFIG.firstOrder`. Its measured height sets `--promo-h`. While it shows the
 header and the page offset grow by its height (`--promo-h`), on pages
 with and without the hero, so it never covers the hero copy, the menu
 button or the bag; the hero film still fills the screen below it. Closing
@@ -466,8 +468,8 @@ ink underline.
 
 After the Gift sets section: a small label "Welcome to CZERA", a light
 heading ("10% off your first order."), a muted line ("Use the code at
-checkout.") and the code in a dashed gold outline. All text and the code
-come from `CONFIG.firstOrder`. No button and no form: the code is
+checkout.") and the code in a dashed gold outline. The wording is fixed;
+the code and percent come from `CONFIG.firstOrder`. No button and no form: the code is
 entered in the bag (§6.11).
 
 ### 6.13 Build Your Own Box

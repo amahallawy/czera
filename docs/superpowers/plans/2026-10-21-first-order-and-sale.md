@@ -137,5 +137,5 @@
 - Modify: `design.md` (§4 rule 10 and §6.8 "no sale badges" → the ivory Sale label and struck price; new rows for the top line, welcome note, bag code and Sale view), `docs/superpowers/specs/2026-10-13-czera-showroom-design.md` (dated note #123), `CHANGELOG.md` (`[Unreleased]` entry), the spec and this plan.
 
 - [x] **Step 1: Update** the docs listed.
-- [ ] **Step 2: Run** `npm test` — pass; Playwright pass at 1440 and 390 across Home, Collection, Sale, a product page, the builder and the bag (no overflow, no page errors, no red anywhere).
+- [x] **Step 2: Run** `npm test` — pass; Playwright pass at 1440 and 390 across Home, Collection, Sale, a product page, the builder and the bag (no overflow, no page errors, no red anywhere).
 - [ ] **Step 3: Commit** `docs: first-order code and Sale in the design (#123)`, push, and open the PR with a Glossary. Use "Refs #123" (the issue stays open for the WordPress port).
