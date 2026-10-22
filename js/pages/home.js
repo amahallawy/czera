@@ -91,4 +91,4 @@ document.querySelectorAll('[data-gift-tab]').forEach(t => t.addEventListener('cl
 showGroup('home');
 
 const delivery = document.querySelector('[data-delivery-text]');
-if (delivery) delivery.textContent = `We confirm the price and delivery. ${CONFIG.deliveryText}.`;
+if (delivery) delivery.textContent = `We confirm your order, then deliver. ${CONFIG.deliveryText}. ${CONFIG.paymentText}.`;

@@ -659,8 +659,9 @@ Section-by-section choices are in the
 Editorial, chapter-paced, in seven blocks: hero film, our story (text
 over image), shop by category (editorial grid, gift sets lead), gift
 sets (two tabs), Build Your Own Box (dark band), the four promises with
-a photo strip, how to order (three steps, all by email: Add to bag,
-Send your bag by email, We confirm and deliver) + footer. The story leads
+a photo strip, how to order ("From our home to yours.": Choose your
+pieces, Send your order, We confirm and deliver; interim wording until
+the client sends theirs, #130) + footer. The story leads
 the page (client request, 2026-10-17, amahallawy/czera#68); the menu
 order is in §6.1 (About CZERA last since #101). Goal: the first screen sets the brand, the second
 tells its story, and the category tiles with prices follow straight
