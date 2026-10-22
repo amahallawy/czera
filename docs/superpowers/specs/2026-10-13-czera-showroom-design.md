@@ -32,9 +32,10 @@
 
 > **Note, 2026-10-22 (#123): first-order code and Sale.** The design site gains a first-order
 > code (WELCOME10, 10% off, set in `CONFIG.firstOrder`) entered in the bag and added to the order
-> email, a closable black top line on every page, a "Welcome to CZERA" note on Home after the Gift
-> sets, sale prices with an ivory "Sale" label and a struck old price, and a Sale menu item and view
-> shown only while a product is on sale. This replaces the earlier "no sale badges" rule. Details
+> email, a closable black top line on every page, sale prices with an ivory "Sale" label and a
+> struck old price, and a Sale filter on the Collection with a Sale menu item that opens it, both
+> shown only while a product is on sale (revised 2026-10-22: no Home welcome note, no separate Sale
+> page). This replaces the earlier "no sale badges" rule. Details
 > in [the #123 spec](2026-10-21-first-order-and-sale-design.md). The WordPress store follows after
 > client approval.
 

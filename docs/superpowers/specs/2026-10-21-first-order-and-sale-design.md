@@ -39,7 +39,7 @@ For the client demo: **10% off** (owner, 2026-10-21) with the placeholder code *
 ### 3.1 Where it is shown (owner chose all three)
 
 1. **Top line on every page.** A thin black line above the header with ivory small caps: "First order · **10% off** with code **WELCOME10**" (the amount and code in gold). A close button (×, 44px target) hides it; it stays hidden on that device (remembered in the browser). It must not cover the hero film or the menu button.
-2. **Welcome note on Home.** A calm, centred band in the page, like a card in the box: a small gold label "Welcome to CZERA", a light heading "10% off your first order.", a muted line "Use the code at checkout.", and the code in a dashed gold outline. Placement: after the Gift sets section (my call; see §7).
+2. ~~**Welcome note on Home.**~~ Removed by the owner after the first build (2026-10-22): the top line and the bag carry the code.
 3. **In the bag, before ordering.** A gold-ruled note: "**First order?** Enter **WELCOME10** for 10% off.", with a code field and an "Apply" button. Once applied, the totals show:
    - Subtotal
    - First order −10% (the saving, in gold text)
@@ -57,14 +57,16 @@ For the client demo: **10% off** (owner, 2026-10-21) with the placeholder code *
 
 ### 4.1 How a sale price looks (owner chose style B)
 
-- On every product card (Collection, Home gift sets, related products, and the Sale page): the **old price crossed out** in muted grey, then the **new price** in the usual ink, plus a **small "Sale" label** on the top-left corner of the photo.
+- On every product card (Collection, Home gift sets, related products): the **old price crossed out** in muted grey, then the **new price** in the usual ink, plus a **small "Sale" label** on the top-left corner of the photo.
 - The label is **ivory with gold text** (my call between the two shown; the owner can switch to black-and-gold): ivory background (#F4F2EC), gold text (#8A5C12), small caps, 11px+, no red, no percentage.
 - Product page: the same old/new prices beside the name and the same label on the main photo.
-- Sale products **stay in their normal category** too (with the label) and are also gathered on the Sale page.
+- Sale products **stay in their normal category** too (with the label), and the Sale filter gathers them (§4.2).
 - The bag, the order email and the custom box total use the **sale price**. (A towel on sale counts at its sale price inside a custom box.)
 - design.md currently says "no sale badges" (§4 rule 10, §6.8); the owner's style-B decision overrides that, and design.md is updated in the same PR.
 
-### 4.2 Menu and Sale page
+### 4.2 Menu and Sale filter
+
+> **Revised by the owner, 2026-10-22:** Sale is a filter on the Collection, not a separate page. The filter panel gets a "Sale" group (one checkbox, "On sale"), shown only while something is on sale, and the menu item opens the Collection with it ticked (`catalog.html?sale=1`). The Sale page, its line and its empty state below are superseded.
 
 - **Menu:** "Sale" sits **right after Build Your Own Box**, before About CZERA, styled **exactly like the other menu items** (not gold, no icon, no count). It **only appears while at least one product is on sale**.
 - **Sale page:** the Collection layout with only sale products: small grey eyebrow "Home / Sale", a light "Sale" heading, one short line (placeholder "A few pieces at a gentler price, while they last." until the client gives their words), then the cards. No filters needed when there are few items (the builder decides whether the usual filters stay).
@@ -91,7 +93,7 @@ A product gets an optional sale price in `js/data/products.js`. For the client d
 ## 7. Left to the builder (or marked as my call)
 
 - **Label colour:** ivory (my call); black-and-gold is the alternative the owner saw.
-- **Welcome note position on Home:** after Gift sets (my call).
+- ~~**Welcome note position on Home:** after Gift sets (my call).~~ Note removed (2026-10-22).
 - **Sale page URL and mechanism on the design site** (e.g. a `sale` view of the Collection page) and whether filters stay on it.
 - **Exact wording** of the error and empty states, within the voice rules.
 - Rounding and display details for the saving line, and how the bag stores the applied code.
