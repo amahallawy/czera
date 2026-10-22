@@ -30,7 +30,8 @@
 .czera-bag-code__btn--text:hover { background: transparent !important; border-color: transparent !important; color: #ba7c17 !important; }
 .czera-bag-code__btn:focus-visible { outline: 2px solid #ba7c17; outline-offset: 2px; }
 .czera-bag-code__error { margin: 4px 0 0 !important; font-size: 12px; color: #8a5c12; }
-.czera-bag-code__error:empty { display: none; }
+/* Empty, it stays rendered (visually hidden) so screen readers announce the message when it appears. */
+.czera-bag-code__error:empty { position: absolute; width: 1px; height: 1px; margin: 0 !important; overflow: hidden; clip-path: inset(50%); }
 .czera-bag-totals { padding: 8px 21px 0; }
 .czera-bag-totals__row { display: flex; justify-content: space-between; gap: 12px; margin: 0 !important; padding: 4px 0; font-size: 13px; color: #2b2b2b; }
 .czera-bag-totals__row--saving { color: #8a5c12; }
@@ -49,4 +50,6 @@
 /* Old price struck through in muted grey, new price in the usual ink. */
 .price del, .wc-block-components-product-price del { color: #6b6b6b !important; font-weight: 300 !important; opacity: 1 !important; margin-right: 4px; text-decoration: line-through !important; }
 .price ins, .wc-block-components-product-price ins { color: #010100 !important; background: none !important; text-decoration: none !important; font-weight: inherit; }
+/* The Sale filter with nothing on sale in this category, like the design's dead option. */
+.czera-sale-filter__empty { color: #a3a099; }
 /* ---------- end first order and sale */

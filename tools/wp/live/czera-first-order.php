@@ -80,7 +80,9 @@ add_action( 'astra_masthead_top', function () {
 </div>
 <script>
 (function () {
-	var line = document.currentScript.previousElementSibling;
+	// A cache plugin may delay or move inline scripts, so find the line itself when needed.
+	var line = (document.currentScript && document.currentScript.previousElementSibling) || document.querySelector('[data-czera-promo]');
+	if (!line || !line.matches('[data-czera-promo]')) return;
 	var root = document.documentElement;
 	try {
 		if (localStorage.getItem('czera.promo.v1') === line.dataset.code) { line.remove(); return; }
@@ -94,7 +96,10 @@ add_action( 'astra_masthead_top', function () {
 	line.querySelector('[data-czera-promo-close]').addEventListener('click', function () {
 		try { localStorage.setItem('czera.promo.v1', line.dataset.code); } catch (e) { /* see above */ }
 		if (observer) observer.disconnect();
-		var toggle = Array.prototype.find.call(document.querySelectorAll('[data-czera-menu-toggle]'), function (b) { return b.offsetParent; });
+		// Focus moves to the visible Menu button (the design), else the logo, never back to the page.
+		var visible = function (el) { return el && el.offsetParent; };
+		var toggle = Array.prototype.find.call(document.querySelectorAll('[data-czera-menu-toggle]'), visible)
+			|| Array.prototype.find.call(document.querySelectorAll('#masthead a[href]'), visible);
 		if (toggle) toggle.focus();
 		line.remove();
 		root.classList.remove('czera-promo-on');
@@ -186,7 +191,7 @@ add_action( 'wc_ajax_czera_bag_code', function () {
 	check_ajax_referer( 'czera-bag-code', 'security' );
 	$cart = WC()->cart;
 	$do   = isset( $_POST['do'] ) ? sanitize_key( wp_unslash( $_POST['do'] ) ) : 'apply';
-	$code = isset( $_POST['code'] ) ? wc_format_coupon_code( wp_unslash( $_POST['code'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- wc_format_coupon_code sanitises.
+	$code = isset( $_POST['code'] ) && is_string( $_POST['code'] ) ? wc_format_coupon_code( wp_unslash( $_POST['code'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- wc_format_coupon_code sanitises.
 	if ( ! $cart ) {
 		wp_send_json( [ 'ok' => false, 'message' => "That code isn't valid." ] );
 	}
@@ -222,8 +227,11 @@ add_action( 'wp_footer', function () {
 	// The mini cart is replaced on every refresh, so the handlers are delegated and focus is put back
 	// once WooCommerce reports the new fragments.
 	var focusAfter = null;
+	var focusTimer = null;
 	function refresh(target) {
 		focusAfter = target;
+		clearTimeout(focusTimer);
+		focusTimer = setTimeout(function () { focusAfter = null; }, 8000);
 		if (window.jQuery) jQuery(document.body).trigger('wc_fragment_refresh');
 		else window.location.reload();
 	}
@@ -322,16 +330,16 @@ if ( ! function_exists( 'czera_sale_filter_on' ) ) {
 	}
 }
 
-// ?sale=1 on the shop and category pages keeps only the products on sale. With nothing on sale it is
-// ignored, so an old link opens the full collection.
-add_action( 'pre_get_posts', function ( $query ) {
-	if ( is_admin() || ! $query->is_main_query() || ! function_exists( 'wc_get_product_ids_on_sale' ) || ! czera_sale_filter_on() ) {
-		return;
+// ?sale=1 on the shop and category pages keeps only the products on sale, through WooCommerce's own
+// hook for the shop query (it sets post__in from this list). Another filter's list is narrowed, not
+// replaced. With nothing on sale it is ignored, so an old link opens the full collection.
+add_filter( 'loop_shop_post_in', function ( $ids ) {
+	if ( ! function_exists( 'wc_get_product_ids_on_sale' ) || ! czera_sale_filter_on() ) {
+		return $ids;
 	}
-	if ( ! ( $query->is_post_type_archive( 'product' ) || $query->is_tax( get_object_taxonomies( 'product' ) ) ) ) {
-		return;
-	}
-	$query->set( 'post__in', array_merge( [ 0 ], czera_sale_ids() ) );
+	$sale = czera_sale_ids();
+	$ids  = array_filter( (array) $ids );
+	return array_merge( [ 0 ], $ids ? array_values( array_intersect( $ids, $sale ) ) : $sale );
 } );
 
 // The Sale filter in the shop sidebar, styled like the Colour filter: "On sale (n)", n counted within
@@ -358,10 +366,14 @@ add_shortcode( 'czera_sale_filter', function () {
 	}
 	$count  = count( get_posts( $args ) );
 	$active = czera_sale_filter_on();
-	$url    = $active ? remove_query_arg( [ 'sale', 'paged' ] ) : add_query_arg( 'sale', '1', remove_query_arg( 'paged' ) );
+	$base   = preg_replace( '#/page/\d+/?(?=\?|$)#', '/', remove_query_arg( [ 'sale', 'paged', 'product-page' ] ) );
+	$url    = $active ? $base : add_query_arg( 'sale', '1', $base );
 	$class  = 'woocommerce-widget-layered-nav-list__item wc-layered-nav-term' . ( $active ? ' woocommerce-widget-layered-nav-list__item--chosen chosen' : '' );
+	$label  = '<span class="title">On sale</span> <span class="count">(' . (int) $count . ')</span>';
+	// Nothing on sale in this category: greyed text, not a link to an empty page (the design's dead option).
+	$option = ! $active && 0 === $count
+		? '<span class="czera-sale-filter__empty">' . $label . '</span>'
+		: '<a rel="nofollow" href="' . esc_url( $url ) . '"' . ( $active ? ' aria-current="true"' : '' ) . '>' . $label . '</a>';
 	return '<div class="czera-sale-filter"><h2 class="widget-title">Sale</h2>'
-		. '<ul class="woocommerce-widget-layered-nav-list"><li class="' . esc_attr( $class ) . '">'
-		. '<a rel="nofollow" href="' . esc_url( $url ) . '"' . ( $active ? ' aria-current="true"' : '' ) . '>'
-		. '<span class="title">On sale</span> <span class="count">(' . (int) $count . ')</span></a></li></ul></div>';
+		. '<ul class="woocommerce-widget-layered-nav-list"><li class="' . esc_attr( $class ) . '">' . $option . '</li></ul></div>';
 } );
