@@ -3,6 +3,7 @@ import { renderProductCard } from '../ui/card.js';
 import { giftGroup, categoryMeta } from '../lib/products.js';
 import { formatEGP } from '../lib/format.js';
 import { CONFIG } from '../config.js';
+import { escapeHtml } from '../lib/escape.js';
 
 initShell({ hasHero: true });
 
@@ -92,3 +93,15 @@ showGroup('home');
 
 const delivery = document.querySelector('[data-delivery-text]');
 if (delivery) delivery.textContent = `We confirm the price and delivery. ${CONFIG.deliveryText}.`;
+
+// Welcome note after Gift sets: the wording is fixed; the code and percent come from CONFIG.firstOrder.
+const welcome = document.querySelector('[data-welcome-note]');
+if (welcome) {
+  const { code, percent } = CONFIG.firstOrder;
+  welcome.innerHTML = `<div class="welcome-note__card">
+    <span class="eyebrow eyebrow--gold">Welcome to CZERA</span>
+    <h2 id="welcome-title" class="welcome-note__title">${escapeHtml(String(percent))}% off your first order.</h2>
+    <p class="welcome-note__text">Use the code at checkout.</p>
+    <p class="welcome-note__code"><span class="sr-only">Code: </span>${escapeHtml(code)}</p>
+  </div>`;
+}

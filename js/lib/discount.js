@@ -36,3 +36,18 @@ export function writeCode(storage, code) {
 export function clearCode(storage) {
   try { storage?.removeItem(CODE_KEY); } catch { /* storage unavailable: nothing to clear */ }
 }
+
+// The top line's "closed" memory: stores the code that was dismissed, so a new code shows again.
+export const PROMO_KEY = 'czera.promo.v1';
+
+export function promoDismissed(storage, code) {
+  try {
+    return normaliseCode(storage?.getItem(PROMO_KEY)) === normaliseCode(code);
+  } catch {
+    return false;
+  }
+}
+
+export function dismissPromo(storage, code) {
+  try { storage?.setItem(PROMO_KEY, normaliseCode(code)); } catch { /* storage unavailable: it shows again next page */ }
+}
