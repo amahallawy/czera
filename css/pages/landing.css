@@ -209,15 +209,6 @@ body.has-hero.hero-signoff .site-header:not(.is-scrolled)::after { opacity: 1; }
   line-height: var(--lh-tight);
 }
 .cat-tile--big .cat-tile__label b { font-size: var(--fs-2xl); }
-.cat-tile__label u {
-  margin-block-start: var(--space-2);
-  font-size: var(--fs-2xs);
-  letter-spacing: var(--ls-widest);
-  text-transform: uppercase;
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 2px;
-}
 
 /* ---------------- Gift sets ---------------- */
 .tabs {
