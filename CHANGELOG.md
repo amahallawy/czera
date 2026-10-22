@@ -19,6 +19,14 @@ that section into a version.
   pieces, Send your order (name, phone and address in your bag) and We
   confirm and deliver, now with the payment line. It no longer says "all
   by email" or "We confirm the price" (#130).
+- WordPress store (czeramaison.com): the first-order code and Sale from the
+  design. A WooCommerce coupon WELCOME10 (10%, one per customer, sale items
+  included) drives a closable top line on every page and a code field in
+  the slide-in bag (Subtotal / First order −10% / Total); the order emails
+  show the code row. Products on sale show the ivory "Sale" label and the
+  struck old price, a "Sale" menu item opens the shop with the new Sale
+  filter, and both hide while nothing is on sale. Two demo sale prices are
+  set for the client (#123).
 - Home: the "Shop by category" tiles no longer end with a small "Shop …"
   line ("Shop gifts", "Shop beach" and so on). Each tile is already the
   link, and its photo and name say where it goes (#128).

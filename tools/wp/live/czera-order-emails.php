@@ -62,8 +62,25 @@ if ( ! function_exists( 'czera_email_kind' ) ) {
 	}
 
 	/**
+	 * The order's discount codes as [ [ 'label' => 'Code WELCOME10: −10%', 'amount' => 239.0 ], ... ],
+	 * in the design's wording (#123).
+	 */
+	function czera_email_codes( $order ) {
+		$rows = [];
+		foreach ( $order->get_items( 'coupon' ) as $coupon_item ) {
+			$code   = strtoupper( $coupon_item->get_code() );
+			$coupon = new WC_Coupon( $coupon_item->get_code() );
+			$off    = 'percent' === $coupon->get_discount_type() ? ': −' . wc_format_localized_decimal( (float) $coupon->get_amount() ) . '%' : '';
+			$amount = (float) $coupon_item->get_discount() + ( $order->get_prices_include_tax() ? (float) $coupon_item->get_discount_tax() : 0 );
+			$rows[] = [ 'label' => 'Code ' . $code . $off, 'amount' => $amount ];
+		}
+		return $rows;
+	}
+
+	/**
 	 * The order's lines, with each custom box's components grouped under the box:
 	 * [ [ 'item' => WC_Order_Item_Product, 'parts' => [ items ], 'total' => float ], ... ].
+	 * Totals are before any discount code, so the lines add up to "Items"; the code has its own row.
 	 */
 	function czera_email_lines( $order ) {
 		$lines = [];
@@ -71,10 +88,10 @@ if ( ! function_exists( 'czera_email_kind' ) ) {
 		foreach ( $order->get_items() as $item ) {
 			if ( null !== $last && czera_email_is_component( $item ) ) {
 				$lines[ $last ]['parts'][] = $item;
-				$lines[ $last ]['total']  += (float) $item->get_total();
+				$lines[ $last ]['total']  += (float) $item->get_subtotal();
 				continue;
 			}
-			$lines[] = [ 'item' => $item, 'parts' => [], 'total' => (float) $item->get_total() ];
+			$lines[] = [ 'item' => $item, 'parts' => [], 'total' => (float) $item->get_subtotal() ];
 			$last    = count( $lines ) - 1;
 		}
 		return $lines;
@@ -245,6 +262,9 @@ if ( ! function_exists( 'czera_email_kind' ) ) {
 <div style="<?php echo esc_attr( $label ); ?>">Money</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="<?php echo esc_attr( $box ); ?>">
 <tr><td style="<?php echo esc_attr( $cell ); ?>">Items</td><td style="<?php echo esc_attr( $right ); ?>"><?php echo $money( $order->get_subtotal() ); ?></td></tr>
+<?php foreach ( czera_email_codes( $order ) as $code_row ) : ?>
+<tr><td style="<?php echo esc_attr( $cell . 'color:#8A5C12;' ); ?>"><?php echo esc_html( $code_row['label'] ); ?></td><td style="<?php echo esc_attr( $right . 'color:#8A5C12;' ); ?>">−<?php echo $money( $code_row['amount'] ); ?></td></tr>
+<?php endforeach; ?>
 <tr><td style="<?php echo esc_attr( $cell ); ?>">Delivery</td><td style="<?php echo esc_attr( $right . ( $fee > 0 ? '' : 'color:#6B6B6B;' ) ); ?>"><?php echo $fee > 0 ? $money( $fee ) : 'Quote on the call'; ?></td></tr>
 <tr><td style="<?php echo esc_attr( $cell ); ?>">Payment</td><td style="<?php echo esc_attr( $right ); ?>"><?php echo esc_html( $order->get_payment_method_title() ); ?></td></tr>
 <tr><td style="<?php echo esc_attr( $cell . 'border-bottom:0;font-size:16px;font-weight:500;color:#010100;' ); ?>">To collect</td><td style="<?php echo esc_attr( $right . 'border-bottom:0;font-size:16px;font-weight:500;color:#010100;' ); ?>"><?php echo $money( $order->get_total() ) . ( $fee > 0 ? '' : ' + delivery' ); ?></td></tr>
@@ -286,6 +306,9 @@ Our team will contact you to confirm it and arrange delivery.
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="<?php echo esc_attr( $box ); ?>margin-top:10px;">
 <tr><td style="<?php echo esc_attr( $cell ); ?>">Items</td><td style="<?php echo esc_attr( $right ); ?>"><?php echo $money( $order->get_subtotal() ); ?></td></tr>
+<?php foreach ( czera_email_codes( $order ) as $code_row ) : ?>
+<tr><td style="<?php echo esc_attr( $cell . 'color:#8A5C12;' ); ?>"><?php echo esc_html( $code_row['label'] ); ?></td><td style="<?php echo esc_attr( $right . 'color:#8A5C12;' ); ?>">−<?php echo $money( $code_row['amount'] ); ?></td></tr>
+<?php endforeach; ?>
 <tr><td style="<?php echo esc_attr( $cell ); ?>">Delivery</td><td style="<?php echo esc_attr( $right . ( $fee > 0 ? '' : 'color:#6B6B6B;' ) ); ?>"><?php echo $fee > 0 ? $money( $fee ) : 'Confirmed on the call'; ?></td></tr>
 <tr><td style="<?php echo esc_attr( $cell . 'border-bottom:0;' ); ?>">Payment</td><td style="<?php echo esc_attr( $right . 'border-bottom:0;' ); ?>">On delivery</td></tr>
 </table>
