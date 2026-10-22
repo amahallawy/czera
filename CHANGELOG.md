@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- WordPress store (czeramaison.com): the Home category tiles no longer end
+  with a "Shop …" line, and the beach category reads "Beach towels" (Home
+  tile, shop Category filter, footer, breadcrumbs; the /beach/ URL is
+  unchanged). Home has its How to order section again, after Why CZERA,
+  with the design's interim wording ("From our home to yours.") and the
+  bulk orders line linking to About (#132).
 - Home "How to order": interim wording until the client sends theirs. The
   heading is "From our home to yours." and the steps read Choose your
   pieces, Send your order (name, phone and address in your bag) and We

@@ -1,0 +1,19 @@
+/* ---------- How to order (design #130; WordPress #132) ----------
+ * Home page 87, section .czera-how after Why CZERA. Mirrors the static
+ * design's .how / .how-steps / .how__bulk. px, not rem: the WordPress
+ * root font size is not 16px. */
+.czera-how { display: block !important; max-width: 1320px !important; width: 100%; margin: 0 auto !important; padding: clamp(64px, 10vw, 128px) clamp(16px, 4vw, 48px) !important; }
+.czera-how-steps { display: grid !important; grid-template-columns: repeat(3, 1fr); align-items: start !important; gap: 32px !important; max-width: 900px; width: 100%; margin: 0 auto 48px !important; padding: 0 !important; text-align: center; }
+.czera-how-step { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: flex-start !important; gap: 8px !important; margin: 0 !important; padding: 0 !important; }
+.czera-how-step > * { margin: 0 !important; }
+.czera-how-step__num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; margin-bottom: 8px; border: 1px solid #ba7c17; border-radius: 50%; font-family: Montserrat, sans-serif; font-size: 13px; font-weight: 400; line-height: 1; color: #8a5c12; }
+.czera-how-step__title { font-size: 21px !important; font-weight: 300 !important; line-height: 1.1 !important; color: #010100 !important; }
+.czera-how-step__text { font-size: 13px !important; line-height: 1.5 !important; color: #6b6b6b !important; }
+.czera-how__bulk { max-width: 65ch; margin: 0 auto !important; padding: 24px 0 0 !important; border-top: 1px solid rgba(43, 43, 43, 0.12); text-align: center; font-size: 13px !important; line-height: 1.5 !important; color: #6b6b6b !important; }
+.czera-how__bulk strong { font-weight: 500; color: #010100; }
+.czera-how__link { margin-left: 8px; padding-bottom: 1px; border-bottom: 1px solid currentColor; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none !important; color: #8a5c12 !important; white-space: nowrap; }
+.czera-how__link:hover { color: #010100 !important; }
+@media (max-width: 768px) {
+  .czera-how-steps { grid-template-columns: 1fr; }
+}
+/* ---------- end how to order */
