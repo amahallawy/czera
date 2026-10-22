@@ -8,7 +8,7 @@ const SET_FEATURES = ['Premium 100% cotton', 'Ultra soft and highly absorbent', 
 export const CATEGORIES = [
   { id: 'towels', label: 'Towels', navLabel: 'The towel collection' },
   { id: 'bathrobes', label: 'Bathrobes', navLabel: 'Bathrobes' },
-  { id: 'beach', label: 'Beach', navLabel: 'Beach towels' },
+  { id: 'beach', label: 'Beach towels', navLabel: 'Beach towels' },
   { id: 'gift-sets', label: 'Gift sets', navLabel: 'Gift sets' },
 ];
 

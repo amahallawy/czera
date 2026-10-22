@@ -28,8 +28,8 @@ test('every category link points at a real category', () => {
   }
 });
 
-test('the footer and filter labels are unchanged', () => {
-  assert.deepEqual(CATEGORIES.map(c => c.label), ['Towels', 'Bathrobes', 'Beach', 'Gift sets']);
+test('the footer and filter labels, Beach towels in full (#126)', () => {
+  assert.deepEqual(CATEGORIES.map(c => c.label), ['Towels', 'Bathrobes', 'Beach towels', 'Gift sets']);
 });
 
 test('Sale sits after Build Your Own Box, styled like the plain links', () => {

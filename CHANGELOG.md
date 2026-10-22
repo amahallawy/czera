@@ -8,6 +8,10 @@ that section into a version.
 
 ## [Unreleased]
 
+- The beach category now reads "Beach towels" in full, not "Beach": in the
+  Collection's Category filter, the footer's Shop links, a beach towel's
+  product page and the Home category tile. The Build Your Own Box rows keep
+  their piece name "Beach" (#126).
 - Design site: a first-order discount and a Sale section, for the client to
   approve. The code WELCOME10 takes 10% off a first order: visitors enter it
   in the bag (Apply, Remove, and a "That code isn't valid." line), see a
