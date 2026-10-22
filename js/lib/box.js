@@ -1,5 +1,6 @@
 import { CONFIG } from '../config.js';
 import { findProduct } from './products.js';
+import { currentPrice } from './pricing.js';
 
 export const BOX_SIZES = [
   { id: 'face', label: 'Face', spec: '30 × 30 cm', slug: 'face-towel' },
@@ -73,7 +74,7 @@ export function groupFull(sel, group) {
 }
 
 export function boxPrice(sel) {
-  return ALL_ITEMS.reduce((sum, s) => sum + (sel.items[s.id] || 0) * findProduct(s.slug).price, 0);
+  return ALL_ITEMS.reduce((sum, s) => sum + (sel.items[s.id] || 0) * currentPrice(findProduct(s.slug)), 0);
 }
 
 // Whether `sizeId` comes in the selected colour (used by the ?add= link from a product page).

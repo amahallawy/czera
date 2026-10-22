@@ -2,12 +2,15 @@ import { initShell } from '../ui/shell.js';
 import { renderProductCard } from '../ui/card.js';
 import { PRODUCTS, CATEGORIES } from '../data/products.js';
 import { emptyFilters, filterProducts, facetCounts, collectionCategories, gridItems, PRICE_BANDS, COLOURS } from '../lib/filters.js';
+import { saleProducts } from '../lib/pricing.js';
 import { escapeHtml } from '../lib/escape.js';
 
 initShell();
 
 const state = emptyFilters();
-const preset = new URLSearchParams(location.search).get('category');
+const params = new URLSearchParams(location.search);
+const preset = params.get('category');
+const saleView = params.get('view') === 'sale';
 if (CATEGORIES.some(c => c.id === preset)) state.categories.add(preset);
 
 const GROUPS = [
@@ -19,6 +22,22 @@ const BAND = `<div class="grid-band band band--dark">
   <div class="band__copy"><h2 class="band__title">Build Your Own Box</h2>
   <p class="band__text">Create a gift that feels personal. Choose your towels, select your preferred options, and complete your CZERA experience with our signature gift box.</p><a class="btn btn--gold" href="build-your-box.html">Create your box</a></div>
   <img class="band__media" src="assets/img/products/hand-and-bath-sheet-set-1.jpg" alt="" /></div>`;
+
+// ?view=sale: only the products on sale, no box band, no filters, own header.
+function renderSale() {
+  document.title = 'Sale — Czera';
+  document.querySelector('.collection').classList.add('collection--sale');
+  document.querySelector('[data-crumb-label]').textContent = 'Sale';
+  document.querySelector('[data-title]').textContent = 'Sale';
+  document.querySelector('[data-sale-line]').hidden = false;
+  document.querySelector('[data-filters-toggle]').hidden = true;
+  document.querySelector('[data-filter-groups]').hidden = true;
+  const sale = saleProducts();
+  document.querySelector('[data-result-count]').textContent = `${sale.length} ${sale.length === 1 ? 'product' : 'products'}`;
+  document.querySelector('[data-grid]').innerHTML = sale.length
+    ? sale.map(renderProductCard).join('')
+    : `<div class="collection__empty"><p>Nothing on sale right now.</p><a class="btn btn--gold" href="catalog.html">Shop the collection</a></div>`;
+}
 
 function render() {
   const active = document.activeElement;
@@ -62,4 +81,4 @@ toggle.addEventListener('click', () => {
   document.querySelector('[data-filters]').classList.toggle('is-open', open);
 });
 
-render();
+if (saleView) renderSale(); else render();

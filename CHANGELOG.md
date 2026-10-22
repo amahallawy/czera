@@ -8,6 +8,16 @@ that section into a version.
 
 ## [Unreleased]
 
+- Design site: a first-order discount and a Sale section, for the client to
+  approve. The code WELCOME10 takes 10% off a first order: visitors enter it
+  in the bag (Apply, Remove, and a "That code isn't valid." line), see a
+  "First order −10%" row in the bag and the discounted total, and the order
+  email carries the code line. A thin black line at the top of every page
+  announces it and can be closed (it stays closed), and Home has a "Welcome
+  to CZERA" note after the Gift sets. Products with a sale price show an
+  ivory "Sale" label and the old price struck through, and a "Sale" menu
+  item opens a Sale view of those products; it is hidden while nothing is
+  on sale. Two demo sale prices are set for the client (#123).
 - WordPress store (czeramaison.com): the hero's round play/pause button no
   longer covers "Build Your Own Box" on phones and small tablets. As in the
   design, it sits beside that button at the copy's right edge, centred on

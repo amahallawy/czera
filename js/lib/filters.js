@@ -1,5 +1,6 @@
 // js/lib/filters.js
 import { CATEGORIES } from '../data/products.js';
+import { currentPrice } from './pricing.js';
 
 export const PRICE_BANDS = [
   { id: 'under-500', label: 'Under 500 EGP', test: p => p < 500 },
@@ -18,7 +19,7 @@ export function emptyFilters() {
 
 const FACETS = {
   category: (p, sel) => sel.size === 0 || sel.has(p.category),
-  price: (p, sel) => sel.size === 0 || PRICE_BANDS.some(b => sel.has(b.id) && b.test(p.price)),
+  price: (p, sel) => sel.size === 0 || PRICE_BANDS.some(b => sel.has(b.id) && b.test(currentPrice(p))),
   colour: (p, sel) => sel.size === 0 || p.colours.some(c => sel.has(c)),
 };
 const SELECTION = { category: 'categories', price: 'prices', colour: 'colours' };
@@ -52,7 +53,7 @@ export function facetCounts(products, state) {
   const count = (facet, test) => products.filter(p => matches(p, state, facet) && test(p)).length;
   return {
     category: Object.fromEntries(CATEGORIES.map(c => [c.id, count('category', p => p.category === c.id)])),
-    price: Object.fromEntries(PRICE_BANDS.map(b => [b.id, count('price', p => b.test(p.price))])),
+    price: Object.fromEntries(PRICE_BANDS.map(b => [b.id, count('price', p => b.test(currentPrice(p)))])),
     colour: Object.fromEntries(COLOURS.map(c => [c.id, count('colour', p => p.colours.includes(c.id))])),
   };
 }

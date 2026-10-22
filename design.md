@@ -162,8 +162,11 @@ them.
    production.
 10. **Quiet commerce.** Ordering is always one tap away but never
     shouts: text links in grids, one solid button per screen, no
-    pop-ups, no sale badges. A single "Bestseller" tag is allowed;
-    "Trending now" strips are not.
+    pop-ups. A sale is shown quietly: a small-caps ivory "Sale" label on
+    the photo and the old price struck through beside the new one, never
+    red and never a percentage burst. The first-order offer is one thin
+    black line the visitor can close. A single "Bestseller" tag is
+    allowed; "Trending now" strips are not.
 
 ---
 
@@ -232,7 +235,7 @@ bag panel keeps the other side; a dimmed backdrop covers the page. It
 lists, in large light type with hairline rules and in this order (client
 request, 2026-10-20, amahallawy/czera#101): Shop all (the Collection, no
 filter), The towel collection, Bathrobes, Beach towels, Gift sets, Build
-Your Own Box, About CZERA. The list is `menuItems()` in
+Your Own Box, Sale (only while a product is on sale, #123), About CZERA. The list is `menuItems()` in
 `js/lib/nav.js`; the category links use `navLabel` from the product data,
 while the footer and the Collection filters keep the short `label`.
 
@@ -373,7 +376,12 @@ Used everywhere a product appears (Home gift sets, Collection, related
 products). Photo (4:5, second photo on hover), name (Italiana), one
 spec line, price ("1,450 EGP"), and a gold "Add to bag ›" text link
 beside the price. Clicking anywhere else opens the product page. No
-buttons, no badges except a single optional "Bestseller" tag.
+buttons, no badges except a single optional "Bestseller" tag and, on
+products with a sale price, the "Sale" label (#123): ivory ground, gold
+small caps (`.card__flag`), top inline-start corner of the photo. The
+price shows the regular price struck through in muted ink
+(`.price__was`) beside the sale price in strong ink. The same label and
+price pair appear on the product page. Sale prices are never red.
 
 ### 6.9 Collection page
 
@@ -411,11 +419,58 @@ a "try again" link. Orders longer than about 2,000 characters as a link
 (some email apps cut those short) get one more line asking the visitor
 to check every item arrived. The bag is kept in the visitor's browser.
 
+**First-order code (#123).** In step 1, above the totals, a gold-ruled
+note reads "First order? Enter WELCOME10 for 10% off." (code and percent
+come from `CONFIG.firstOrder`), with a labelled field and an "Apply"
+button (44px). A valid code (case and spaces ignored) adds a "First order
+−10%" row in gold text with a negative amount between Subtotal and Total,
+and the field gives way to the code with a "Remove" text button. An
+invalid code shows "That code isn't valid." under the field and changes
+nothing. Step 2 shows the same three rows, and the email gets a
+`Code WELCOME10: −10% (−N EGP)` line before the discounted Total. Clear
+bag, or an emptied bag, removes the code. The discount applies to the
+bag's items only and is never red.
+
+### 6.11a Top line (every page)
+
+A black strip, at least 44px tall (it wraps on narrow screens and at
+large text sizes), as the first child of the site header: ivory small
+caps, "First order · 10% off with code WELCOME10" with the amount and the
+code in gold, and a × button (`aria-label="Close offer"`, 44px) at the
+inline end. The wording is fixed; the code and percent come from
+`CONFIG.firstOrder`. Its measured height sets `--promo-h`. While it shows the
+header and the page offset grow by its height (`--promo-h`), on pages
+with and without the hero, so it never covers the hero copy, the menu
+button or the bag; the hero film still fills the screen below it. Closing
+it removes it and remembers the choice per code (`czera.promo.v1`), so
+it stays closed on every page and after a reload, and returns if the code
+changes. Not a pop-up: it never moves, fades in or covers content.
+
+### 6.11b Sale view
+
+A "Sale" item in the menu, after Build Your Own Box and before About
+CZERA, in the same style as its neighbours (Build Your Own Box stays the
+only featured item). It appears only while at least one product has a
+`salePrice`, and opens `catalog.html?view=sale`: the page header reads
+"Home / Sale", the title "Sale" and the line "A few pieces at a gentler
+price, while they last."; the grid shows only the products on sale, with
+no filters and no Build Your Own Box band. With nothing on sale the grid
+area reads "Nothing on sale right now." with a "Shop the collection"
+link. Category tile "from" prices keep the regular price.
+
 ### 6.12 Gift-set tabs (Home)
 
 Two tabs above a row of four product cards: *For the home* and *Robes
 & beach*. Tab labels are small caps with a count; the active tab has an
 ink underline.
+
+### 6.12a Welcome note (Home)
+
+After the Gift sets section: a small label "Welcome to CZERA", a light
+heading ("10% off your first order."), a muted line ("Use the code at
+checkout.") and the code in a dashed gold outline. The wording is fixed;
+the code and percent come from `CONFIG.firstOrder`. No button and no form: the code is
+entered in the bag (§6.11).
 
 ### 6.13 Build Your Own Box
 
@@ -609,7 +664,7 @@ Section-by-section choices are in the
 ### Home (`index.html`)
 Editorial, chapter-paced, in seven blocks: hero film, our story (text
 over image), shop by category (editorial grid, gift sets lead), gift
-sets (two tabs), Build Your Own Box (dark band), the four promises with
+sets (two tabs), welcome note (first-order code, #123), Build Your Own Box (dark band), the four promises with
 a photo strip, how to order (three steps, all by email: Add to bag,
 Send your bag by email, We confirm and deliver) + footer. The story leads
 the page (client request, 2026-10-17, amahallawy/czera#68); the menu
@@ -620,7 +675,8 @@ after; the story's headline must not repeat the hero's.
 ### Collection (`catalog.html`)
 Sidebar filters (category, price, colour) beside a three-column grid
 of product cards with "Add to bag ›", closed by the Build Your Own
-Box band after the last card. Goal: browse, compare prices, add to the bag.
+Box band after the last card. `?view=sale` shows only the products on
+sale (§6.11b). Goal: browse, compare prices, add to the bag.
 
 ### Product (`product.html`)
 Large stacked photos, a buying panel that stays in view, fold-out

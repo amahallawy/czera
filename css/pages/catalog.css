@@ -8,7 +8,7 @@
   padding-block: var(--space-7) var(--space-9);
 }
 
-.filters { position: sticky; top: calc(var(--header-height) + var(--space-4)); }
+.filters { position: sticky; top: calc(var(--header-height) + var(--promo-h) + var(--space-4)); }
 .filters__title {
   font-weight: 300;
   letter-spacing: var(--ls-tight);
@@ -99,3 +99,12 @@
   .filters.is-open .filters__groups { display: block; }
   .grid-band img.band__media { max-height: 200px; }
 }
+
+/* Sale view (?view=sale): the header sits above a full-width grid; no filters. */
+.collection--sale { grid-template-columns: 1fr; gap: var(--space-5); }
+.collection--sale .filters { position: static; }
+.collection--sale .filters__toggle, .collection--sale .filters__groups { display: none; }
+.collection--sale .filters__title { margin-block-end: var(--space-3); }
+.filters__line { margin: 0; color: var(--color-ink-mute); }
+.collection__empty { display: grid; justify-items: start; gap: var(--space-5); padding-block: var(--space-7); grid-column: 1 / -1; }
+.collection__empty p { margin: 0; color: var(--color-ink-mute); }

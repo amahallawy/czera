@@ -1,6 +1,7 @@
 import { CATEGORIES } from '../data/products.js';
 import { CONFIG } from '../config.js';
 import { createBag } from '../lib/bag.js';
+import { promoDismissed, dismissPromo } from '../lib/discount.js';
 import { findProduct } from '../lib/products.js';
 import { escapeHtml } from '../lib/escape.js';
 import { menuItems } from '../lib/nav.js';
@@ -24,9 +25,18 @@ function navLinks() {
 
 // Menu button left, wordmark centred, bag right, on every screen size. The
 // primary nav lives only in the slide-in menu, so the page has one "Primary".
-function headerHtml() {
+function promoHtml() {
+  const { code, percent } = CONFIG.firstOrder;
+  return `<div class="promo-line" data-promo-line>
+      <p class="promo-line__text">First order · <b>${escapeHtml(String(percent))}% off</b> with code <b>${escapeHtml(code)}</b></p>
+      <button class="promo-line__close" type="button" data-promo-close aria-label="Close offer"><span aria-hidden="true">×</span></button>
+    </div>`;
+}
+
+function headerHtml(withPromo) {
   return `
   <header class="site-header">
+    ${withPromo ? promoHtml() : ''}
     <div class="container site-header__inner">
       <button class="menu-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 8h16M4 12h9M4 16h16"/></svg><span class="menu-toggle__label">Menu</span>
@@ -84,15 +94,44 @@ function replacePlaceholder(selector, html) {
 }
 
 export function initShell({ hasHero = false } = {}) {
-  replacePlaceholder('[data-shell-header]', headerHtml());
+  let storage = null;
+  try { storage = window.localStorage; } catch { storage = null; }
+  // The top line grows the header by --promo-h; closing it sets that back to 0 (components.css).
+  const showPromo = !promoDismissed(storage, CONFIG.firstOrder.code);
+  document.documentElement.classList.toggle('has-promo', showPromo);
+  replacePlaceholder('[data-shell-header]', headerHtml(showPromo));
   replacePlaceholder('[data-shell-footer]', footerHtml());
+  const promoLine = document.querySelector('[data-promo-line]');
+  if (promoLine) {
+    // The line wraps on narrow screens and at large text sizes, so every offset follows its
+    // measured height. A resize event re-runs the sticky fit, which reads the offset.
+    const root = document.documentElement;
+    const measure = () => {
+      const h = Math.ceil(promoLine.getBoundingClientRect().height);
+      if (root.style.getPropertyValue('--promo-h') === `${h}px`) return;
+      root.style.setProperty('--promo-h', `${h}px`);
+      window.dispatchEvent(new Event('resize'));
+    };
+    const observer = 'ResizeObserver' in window ? new ResizeObserver(measure) : null;
+    if (observer) observer.observe(promoLine);
+    else window.addEventListener('resize', measure);
+    measure();
+    promoLine.querySelector('[data-promo-close]').addEventListener('click', () => {
+      dismissPromo(storage, CONFIG.firstOrder.code);
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+      document.querySelector('[data-menu-toggle]')?.focus();
+      promoLine.remove();
+      root.classList.remove('has-promo');
+      root.style.setProperty('--promo-h', '0px');
+      window.dispatchEvent(new Event('resize'));
+    });
+  }
   document.body.insertAdjacentHTML('beforeend',
     '<div class="toast" data-toast role="status" hidden><span data-toast-text></span> <button type="button" class="toast__link" data-bag-open>View bag ›</button></div>');
   const year = document.querySelector('[data-current-year]');
   if (year) year.textContent = String(new Date().getFullYear());
 
-  let storage = null;
-  try { storage = window.localStorage; } catch { storage = null; }
   const bag = createBag(storage);
   const refresh = () => {
     const el = document.querySelector('[data-bag-count]');

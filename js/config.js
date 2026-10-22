@@ -12,4 +12,5 @@ export const CONFIG = {
   boxMinPieces: 2, // DRAFT until the client confirms (spec §8)
   boxMaxTowels: 6, // towels per box, all sizes and colours together (as on WordPress, #107)
   boxMaxRobes: 2, // bathrobes per box (as on WordPress, #107)
+  firstOrder: { code: 'WELCOME10', percent: 10 }, // DEMO values (owner, 2026-10-21); the only place they are written
 };

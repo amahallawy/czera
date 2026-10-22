@@ -44,7 +44,7 @@ test('one box can mix towel colours, as on WordPress', () => {
   const sel = withItems({ 'white-bath': 2, 'blue-beach': 1, 'yellow-beach': 1 });
   assert.deepEqual(validateBox(sel), { ok: true, reason: null });
   assert.equal(towelCount(sel), 4);
-  assert.equal(boxPrice(sel), 2 * 470 + 850 + 850);
+  assert.equal(boxPrice(sel), 2 * 470 + 680 + 850);
 });
 
 test('the selected colour is only a filter: it does not change the box', () => {
@@ -121,4 +121,8 @@ test('key, label and spec list each towel with its colour, then the bathrobes', 
   assert.equal(boxLabel(sel), 'Custom box: 2 × Bath (white), 1 × Beach (blue stripe); 1 × Black bathrobe');
   assert.equal(boxSpecText(sel), '2 × Bath (white), 1 × Beach (blue stripe) · 1 × Black bathrobe');
   assert.equal(boxLabel(withItems({ robeWhite: 1, robeBlack: 1 })), 'Custom box: 1 × White bathrobe, 1 × Black bathrobe');
+});
+
+test('a sale towel counts at its sale price in the box', () => {
+  assert.equal(boxPrice(withItems({ 'blue-beach': 1, 'white-bath': 1 })), 680 + 470);
 });

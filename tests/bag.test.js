@@ -81,8 +81,8 @@ test('describeLine and bagTotal compute prices from current data', () => {
     { type: 'product', slug: 'black-bathrobe', qty: 1 },
     { type: 'box', box: box(), qty: 1 },
   ];
-  assert.equal(describeLine(lines[0]).total, 1450);
-  assert.equal(bagTotal(lines), 3020);
+  assert.equal(describeLine(lines[0]).total, 1160);
+  assert.equal(bagTotal(lines), 2730);
 });
 
 test('subscribers hear every change', () => {
@@ -172,7 +172,7 @@ test('a box with towels in two colours is one line listing each colour', () => {
   assert.equal(bag.lines().length, 1);
   assert.equal(bag.lines()[0].qty, 2);
   const d = describeLine(bag.lines()[0]);
-  assert.equal(d.total, 2 * (940 + 850));
+  assert.equal(d.total, 2 * (940 + 680));
   assert.equal(d.messageLabel, 'Custom box: 2 × Bath (white), 1 × Beach (blue stripe)');
 });
 
@@ -181,4 +181,10 @@ test('a saved one-colour box and the same towels chosen today become one line', 
   bag.add({ type: 'box', box: box(), qty: 1 });
   assert.equal(bag.lines().length, 1);
   assert.equal(bag.lines()[0].qty, 2);
+});
+
+test('a product on sale is priced at its sale price in the bag', () => {
+  const d = describeLine({ type: 'product', slug: 'complete-czera-set', qty: 2 });
+  assert.equal(d.unitPrice, 1160);
+  assert.equal(d.total, 2320);
 });

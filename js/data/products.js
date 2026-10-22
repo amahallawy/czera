@@ -15,6 +15,7 @@ export const CATEGORIES = [
 export const PRODUCTS = [
   {
     slug: 'complete-czera-set', name: 'The Complete Czera Set', category: 'gift-sets', price: 1450,
+    salePrice: 1160, // DEMO sale for the client (#123): remove or replace after approval.
     spec: '5 pieces · burgundy ribbon', colours: ['white'], images: img('complete-czera-set', 1, 2, 3),
     description: 'Five 100% cotton towels, from face towel to bath sheet, presented in the black Czera gift box and finished with burgundy satin ribbons.',
     features: [...SET_FEATURES, 'For weddings, birthdays and special occasions'],
@@ -141,6 +142,7 @@ export const PRODUCTS = [
   },
   {
     slug: 'blue-stripe-beach-towel', name: 'Blue Stripe Beach Towel', category: 'beach', price: 850,
+    salePrice: 680, // DEMO sale for the client (#123): remove or replace after approval.
     spec: '100 × 200 cm', colours: ['striped'], images: withMain('blue-stripe-beach-towel', 2, 3),
     description: 'A 100% cotton beach towel in bold blue-and-white stripes. Plush, absorbent and generously sized for the pool or the sea.',
     features: ['100% premium cotton', '100 × 200 cm', 'Ultra soft and highly absorbent', 'Blue and white stripes', 'For beach and pool'],
