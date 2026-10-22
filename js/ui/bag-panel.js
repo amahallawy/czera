@@ -1,10 +1,11 @@
-import { describeLine, bagTotal } from '../lib/bag.js';
+import { describeLine } from '../lib/bag.js';
 import { formatEGP } from '../lib/format.js';
 import { escapeHtml } from '../lib/escape.js';
 import { validateDetails } from '../lib/checkout.js';
 import { buildOrderMessage, orderMailto, isLongMailto } from '../lib/email.js';
 import { summariseLines } from '../lib/summary.js';
 import { readDetails, writeDetails } from '../lib/details.js';
+import { orderTotals, isValidCode, normaliseCode, readCode, writeCode, clearCode } from '../lib/discount.js';
 import { CONFIG } from '../config.js';
 
 const FIELDS = [
@@ -34,12 +35,19 @@ export function initBagPanel(bag) {
   let sentMessage = '';
   let sessionStore = null;
   try { sessionStore = window.sessionStorage; } catch { /* blocked: keep details in memory only */ }
+  let localStore = null;
+  try { localStore = window.localStorage; } catch { /* blocked: keep the code in memory only */ }
+  let code = readCode(localStore);
+  const setCode = value => { code = value; if (value) writeCode(localStore, value); else clearCode(localStore); };
+  const { code: promoCode, percent: promoPercent } = CONFIG.firstOrder;
+  const discountLabel = `First order \u2212${promoPercent}%`;
   let details = readDetails(sessionStore);
   const remember = values => { details = { ...details, ...values }; writeDetails(sessionStore, details); };
 
   function renderItems() {
     const lines = bag.lines();
     if (!lines.length) {
+      if (code) setCode('');
       body.innerHTML = '<p class="bag-panel__empty">Your bag is empty.</p><a class="btn btn--ink" href="catalog.html">Shop the collection</a>';
       return;
     }
@@ -53,9 +61,48 @@ export function initBagPanel(bag) {
         <span class="bag-line__price">${formatEGP(d.total)}</span></div>`;
     }).join('');
     body.innerHTML = `<p class="bag-panel__step">Step 1 of 2</p>${rows}
-      <div class="bag-total"><span>Total</span><b>${formatEGP(bagTotal(lines))}</b></div>
+      ${renderCodeBlock()}
+      ${renderTotals(lines)}
       <p class="bag-panel__note">Delivery fee confirmed by email · ${escapeHtml(CONFIG.paymentText)}</p>
       <button type="button" class="btn btn--ink btn--block" data-continue>Continue ›</button>`;
+  }
+
+  function renderCodeBlock() {
+    const applied = isValidCode(code);
+    const control = applied
+      ? `<input id="bag-code" name="code" type="text" value="${escapeHtml(code)}" readonly aria-describedby="bag-code-note bag-code-error" />
+         <button type="button" class="bag-code__btn bag-code__btn--text" data-code-remove>Remove<span class="sr-only"> code ${escapeHtml(code)}</span></button>`
+      : `<input id="bag-code" name="code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-invalid="false" aria-describedby="bag-code-note bag-code-error" />
+         <button type="submit" class="bag-code__btn bag-code__btn--apply" data-code-apply>Apply</button>`;
+    return `<form class="bag-code" data-code-form novalidate>
+      <p class="bag-code__note" id="bag-code-note"><b>First order?</b> Enter ${escapeHtml(promoCode)} for ${promoPercent}% off.</p>
+      <label class="field__label" for="bag-code">Discount code</label>
+      <div class="bag-code__row">${control}</div>
+      <p class="bag-code__error" id="bag-code-error" role="status" data-code-error></p></form>`;
+  }
+
+  // Subtotal / first-order saving / Total when a code is applied; just Total otherwise.
+  function renderTotals(lines) {
+    const { subtotal, discount, total } = orderTotals(lines, code);
+    if (!discount) return `<div class="bag-total"><span>Total</span><b>${formatEGP(total)}</b></div>`;
+    return `<div class="bag-totals">
+      <div class="bag-totals__row"><span>Subtotal</span><span>${formatEGP(subtotal)}</span></div>
+      <div class="bag-totals__row bag-totals__row--saving"><span>${escapeHtml(discountLabel)}</span><span>\u2212${formatEGP(discount)}</span></div>
+      <div class="bag-total"><span>Total</span><b>${formatEGP(total)}</b></div></div>`;
+  }
+
+  function applyCode(form) {
+    const input = form.querySelector('#bag-code');
+    const error = form.querySelector('[data-code-error]');
+    if (!isValidCode(input.value)) {
+      input.setAttribute('aria-invalid', 'true');
+      error.textContent = "That code isn't valid.";
+      input.focus();
+      return;
+    }
+    setCode(normaliseCode(input.value));
+    render();
+    body.querySelector('[data-code-remove]')?.focus();
   }
 
   function renderSummary() {
@@ -65,7 +112,15 @@ export function initBagPanel(bag) {
       return `<li class="order-summary__row"><span>${d.qty} × ${escapeHtml(d.title)}</span><span>${formatEGP(d.total)}</span></li>`; }).join('');
     return `<section class="order-summary" aria-label="Order summary"><ul class="order-summary__list">${rows}</ul>
       ${more ? `<p class="order-summary__more">and ${more} more</p>` : ''}
-      <p class="order-summary__total"><span>Total</span><b>${formatEGP(bagTotal(lines))}</b></p></section>`;
+      ${renderSummaryTotals(lines)}</section>`;
+  }
+
+  function renderSummaryTotals(lines) {
+    const { subtotal, discount, total } = orderTotals(lines, code);
+    if (!discount) return `<p class="order-summary__total"><span>Total</span><b>${formatEGP(total)}</b></p>`;
+    return `<p class="order-summary__sub"><span>Subtotal</span><span>${formatEGP(subtotal)}</span></p>
+      <p class="order-summary__sub order-summary__sub--saving"><span>${escapeHtml(discountLabel)}</span><span>\u2212${formatEGP(discount)}</span></p>
+      <p class="order-summary__total"><span>Total</span><b>${formatEGP(total)}</b></p>`;
   }
 
   function renderDetails(values = details, errors = {}) {
@@ -147,7 +202,7 @@ export function initBagPanel(bag) {
   }
 
   function open(from) {
-    trigger = from; step = 1; sentLink = ''; sentMessage = ''; live.textContent = ''; render();
+    trigger = from; code = readCode(localStore); step = 1; sentLink = ''; sentMessage = ''; live.textContent = ''; render();
     panel.setAttribute('aria-hidden', 'false');
     panel.classList.add('is-open'); backdrop.classList.add('is-open');
     document.body.classList.add('bag-open');
@@ -183,7 +238,8 @@ export function initBagPanel(bag) {
     }
     else if (e.target.closest('[data-continue]')) { step = 2; render(); body.querySelector('input')?.focus(); }
     else if (e.target.closest('[data-back]')) { step = 1; render(); body.querySelector('[data-continue]')?.focus(); }
-    else if (e.target.closest('[data-clear]')) { bag.clear(); close(); }
+    else if (e.target.closest('[data-clear]')) { bag.clear(); setCode(''); close(); }
+    else if (e.target.closest('[data-code-remove]')) { setCode(''); render(); body.querySelector('#bag-code')?.focus(); }
     else if (e.target.closest('[data-keep]')) { close(); }
     else if (e.target.closest('[data-copy]')) { copyOrder(e.target.closest('[data-copy]')); }
   });
@@ -193,13 +249,14 @@ export function initBagPanel(bag) {
   });
 
   document.addEventListener('submit', e => {
+    if (e.target.matches('[data-code-form]')) { e.preventDefault(); applyCode(e.target); return; }
     if (!e.target.matches('[data-details]')) return;
     e.preventDefault();
     const values = Object.fromEntries(new FormData(e.target));
     remember(values);
     const { ok, errors } = validateDetails(values);
     if (!ok) { renderDetails(values, errors); body.querySelector('[aria-invalid="true"]')?.focus(); return; }
-    sentMessage = buildOrderMessage(bag.lines(), values);
+    sentMessage = buildOrderMessage(bag.lines(), values, code);
     sentLink = orderMailto(sentMessage);
     openEmailApp(sentLink);
     renderConfirmation();

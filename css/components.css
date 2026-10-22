@@ -812,6 +812,30 @@ body.bag-open { overflow: hidden; }
 .bag-line__price { font-size: var(--fs-sm); white-space: nowrap; }
 .bag-total { display: flex; justify-content: space-between; padding-block: var(--space-4); font-size: var(--fs-md); }
 
+/* First-order code in the bag */
+.bag-code { margin-block: var(--space-4) var(--space-2); padding-block-start: var(--space-3); border-block-start: 1px solid var(--color-gold-deep); }
+.bag-code__note { font-size: var(--fs-sm); color: var(--color-ink); margin-block-end: var(--space-3); }
+.bag-code__row { display: flex; gap: var(--space-2); align-items: stretch; }
+.bag-code__row input {
+  flex: 1 1 auto; min-inline-size: 0; min-block-size: 44px; padding: var(--space-2) var(--space-3); font: inherit; font-size: max(1rem, var(--fs-base));
+  background: var(--color-surface-soft); color: var(--color-ink); border: 1px solid var(--color-ink-faint); border-radius: 0; text-transform: uppercase;
+}
+.bag-code__row input:focus-visible { outline: 2px solid var(--color-gold-deep); outline-offset: 1px; }
+.bag-code__row input[aria-invalid="true"] { border-color: var(--color-gold-deep); }
+.bag-code__row input[readonly] { background: var(--color-bg); font-weight: 500; }
+.bag-code__btn { min-block-size: 44px; min-inline-size: 44px; padding-inline: var(--space-4); font-size: var(--fs-sm); }
+.bag-code__btn--apply { background: var(--color-ink-strong); color: var(--color-on-dark); border: 1px solid var(--color-ink-strong); }
+.bag-code__btn--apply:hover { background: var(--color-gold-deep); border-color: var(--color-gold-deep); }
+.bag-code__btn--apply:focus-visible, .bag-code__btn--text:focus-visible { outline: 2px solid var(--color-gold-deep); outline-offset: 2px; }
+.bag-code__btn--text { color: var(--color-ink-mute); text-decoration: underline; text-underline-offset: 3px; }
+.bag-code__btn--text:hover { color: var(--color-gold-deep); }
+.bag-code__error { margin-block-start: var(--space-1); font-size: var(--fs-xs); color: var(--color-gold-text); }
+.bag-code__error:empty { display: none; }
+.bag-totals { padding-block-start: var(--space-2); }
+.bag-totals__row, .order-summary__sub { display: flex; justify-content: space-between; gap: var(--space-3); padding-block: var(--space-1); font-size: var(--fs-sm); }
+.bag-totals__row--saving, .order-summary__sub--saving { color: var(--color-gold-text); }
+.bag-totals .bag-total { padding-block-start: var(--space-2); }
+
 /* Bag send moment: order summary and confirmation (design.md §6.11) */
 .order-summary { margin-block-end: var(--space-5); padding-block: var(--space-3); border-block: var(--border-divider); font-size: var(--fs-sm); }
 .order-summary__list { list-style: none; margin: 0; padding: 0; }
