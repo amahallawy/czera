@@ -1,11 +1,11 @@
 # Company status report: read by the Company dashboard and checked before every PR.
 # Keep it current (at least every 14 days). See /project-status in the Company workspace.
 schema: 1
-updated: 2026-10-15
-goal: "Client accepts the static showroom (v1.0.0), then rebuild it in WordPress"
-due: 2026-10-31
-progress: 10
-progress_note: "v1.0.0 sent to the client for acceptance; WordPress build starts once accepted"
+updated: 2026-11-03
+goal: "Launch the WordPress store at czeramaison.com"
+due: 2026-11-15
+progress: 70
+progress_note: "Build Your Box, first-order code (once per phone), Sale and Home tiles are live on WordPress; remaining pages and launch to go"
 health: on-track
 blockers:
 next_release: none
