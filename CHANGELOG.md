@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- Returns page: the WordPress store's /returns-exchanges/ now matches the
+  design. Astra's own title, boxed background and sidebar are off, and the
+  page carries the design's "Help" eyebrow, heading and introduction in the
+  720px reading column with the same type sizes, gold numerals and dividers.
+  The list in "How to Request a Return or Exchange" shows its bullets on
+  both sites (#153).
 - Returns & Exchanges policy, on both sites (#151). The client's text, word
   for word, on its own page (design site `returns.html`, WordPress
   `/returns-exchanges/`, replacing WooCommerce's sample "Refund and Returns
