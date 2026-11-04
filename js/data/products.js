@@ -89,12 +89,17 @@ export const PRODUCTS = [
   },
   {
     slug: 'beach-towel-set', name: 'Beach Towel Set', category: 'gift-sets', price: 1700,
-    spec: 'Yellow + blue · 2 × 100 × 200 cm', colours: ['striped'], images: ['assets/img/catalogue/p20.jpg'],
-    description: 'Two 100% cotton beach towels, one in yellow and white stripes and one in blue and white, presented in the black Czera gift box with satin ribbons.',
-    features: ['100% premium cotton', 'Ultra soft and highly absorbent', 'Gift-ready packaging', 'For beach and pool'],
+    // The client's copy and photos (#141): the second towel is orange & white.
+    spec: 'Blue + orange · 2 × 100 × 200 cm', colours: ['striped'], images: img('beach-towel-set', 2, 1, 3),
+    description: 'A sophisticated gift set featuring two premium 100% cotton beach towels, beautifully presented in a sleek black gift box and finished with elegant satin ribbons. Designed with bold blue & white and orange & white stripes, these oversized towels combine softness, absorbency, and effortless resort-style luxury.',
+    features: [
+      '100% premium cotton', 'Size: 100 × 200 cm each', 'Ultra soft and highly absorbent',
+      'Blue & white striped towel', 'Orange & white striped towel', 'Elegant gift-ready packaging',
+      'Perfect for beach and pool', 'Premium resort-style quality',
+    ],
     contents: [
-      { qty: 1, label: 'Yellow stripe beach towel', spec: '100 × 200 cm' },
       { qty: 1, label: 'Blue stripe beach towel', spec: '100 × 200 cm' },
+      { qty: 1, label: 'Orange stripe beach towel', spec: '100 × 200 cm' },
     ],
     ribbon: 'gold', giftGroup: 'robes-beach', boxable: false,
   },

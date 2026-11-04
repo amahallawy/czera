@@ -8,6 +8,12 @@ that section into a version.
 
 ## [Unreleased]
 
+- Design site: the Beach Towel Set has the client's new copy and photos.
+  The description and the eight-point features list are the client's own,
+  the gallery shows the three new photos (styled box, close-up, boxed)
+  instead of catalogue page 20, and the set reads blue + orange, not
+  yellow, as the client's copy now names it. Price unchanged at
+  1,700 EGP (#141).
 - WordPress store: the first-order code works once per phone number. At
   checkout, a second order with WELCOME10 from a number that already used
   it (in any format: +20, 0020, a leading 0, Arabic-Indic digits) is
