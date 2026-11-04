@@ -9,14 +9,14 @@ that section into a version.
 ## [Unreleased]
 
 - WordPress store security (#155, AgDR-0006). A new "CZERA security" snippet
-  stops the store showing the admin's login name to visitors. The REST users
-  list, author archives and oEmbed author fields are hidden, and a wrong
-  username or password now gets one message, so the login form no longer
-  confirms which accounts exist. XML-RPC refuses password logins and no
-  longer offers `system.multicall` (hundreds of guesses per request) or
-  pingbacks. Pages now send HSTS, `nosniff`, `SAMEORIGIN` framing, a referrer
-  policy and a permissions policy, and no longer reveal the PHP or WordPress
-  version.
+  stops the store showing the admin's login name to visitors and customers:
+  the REST users list, author archives and oEmbed author fields are hidden,
+  and a wrong username or a wrong password now gets the same login message.
+  XML-RPC refuses password logins, so `system.multicall` can no longer carry
+  hundreds of guesses per request, and pingbacks are gone. Pages now send
+  HSTS, `nosniff`, `SAMEORIGIN` framing, a referrer policy and a permissions
+  policy, without the `X-Powered-By` header or the generator tag that named
+  the PHP and WordPress versions.
 - Returns page: the WordPress store's /returns-exchanges/ now matches the
   design. Astra's own title, boxed background and sidebar are off, and the
   page carries the design's "Help" eyebrow, heading and introduction in the

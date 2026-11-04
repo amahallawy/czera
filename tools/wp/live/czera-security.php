@@ -5,21 +5,23 @@
 /**
  * CZERA security: closes what the 2026-11-04 security review found on the store (AgDR-0006).
  *
- * - The admin's login name is not shown to visitors: no REST users list, no author archives (and so
- *   no ?author=1 → /author/<slug>/ redirect), no author in oEmbed, and one wording for every wrong
- *   username or password, so the login form does not confirm which accounts exist.
- * - XML-RPC refuses username/password methods and drops system.multicall (hundreds of password
- *   guesses in one request) and pingbacks. The file itself stays reachable for Jetpack, which signs
- *   its requests instead of sending a password.
- * - Front-end pages send the standard security headers; no response says which PHP or WordPress
- *   version runs the site.
+ * - The admin's login name is not shown to visitors or customers: no REST users list, no author
+ *   archives (and so no ?author=1 → /author/<slug>/ redirect), no author in oEmbed, and one wording
+ *   for a wrong username or a wrong password at login. The lost-password forms still say when an
+ *   account doesn't exist (#155).
+ * - XML-RPC refuses username/password methods, which also empties system.multicall (hundreds of
+ *   password guesses in one request) of any use, and drops pingbacks. The file itself stays
+ *   reachable for Jetpack.
+ * - Front-end pages send the standard security headers, and no X-Powered-By or generator tag says
+ *   which PHP or WordPress version runs the site.
  * Login limiting and two-factor are not here: they need a plugin or Hostinger's setting (#155).
  */
 
 // ---------------------------------------------------------------------------------------------------
-// The login name. Logged-in users keep the users endpoint: the block editor's author list reads it.
+// The login name. Only people who edit content keep the users endpoint (the block editor's author
+// list reads it); a logged-in customer could otherwise list the admin's slug.
 add_filter( 'rest_endpoints', function ( $endpoints ) {
-	if ( is_user_logged_in() ) {
+	if ( current_user_can( 'edit_posts' ) ) {
 		return $endpoints;
 	}
 	foreach ( array_keys( $endpoints ) as $route ) {
@@ -53,11 +55,13 @@ add_filter( 'authenticate', function ( $user ) {
 }, 99 );
 
 // ---------------------------------------------------------------------------------------------------
-// XML-RPC.
+// XML-RPC. With xmlrpc_enabled off, every username/password method answers 405 before checking the
+// password, so system.multicall can no longer carry guesses (WordPress re-adds multicall itself after
+// xmlrpc_methods, so it can't be removed here). Pingbacks go: they let the site be used to hit others.
 add_filter( 'xmlrpc_enabled', '__return_false' );
 
 add_filter( 'xmlrpc_methods', function ( $methods ) {
-	unset( $methods['system.multicall'], $methods['pingback.ping'], $methods['pingback.extensions.getPingbacks'] );
+	unset( $methods['pingback.ping'], $methods['pingback.extensions.getPingbacks'] );
 	return $methods;
 } );
 
