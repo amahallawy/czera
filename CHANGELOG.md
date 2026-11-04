@@ -8,6 +8,9 @@ that section into a version.
 
 ## [Unreleased]
 
+- Design site and WordPress store: the white robe and striped beach towel
+  set shows the client's three photos (styled box, close-up, boxed)
+  instead of catalogue page 17 (#149).
 - Design site and WordPress store: "Robe & Beach Set, White + Yellow" is
   now titled "Set of Robe & Beach Towel White+Yellow", as the owner asked.
   Only the title changes; the photos, contents, price and link

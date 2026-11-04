@@ -78,7 +78,7 @@ export const PRODUCTS = [
   },
   {
     slug: 'robe-beach-white-yellow', name: 'Set of Robe & Beach Towel White+Yellow', category: 'gift-sets', price: 1850,
-    spec: 'Robe + beach towel', colours: ['white', 'striped'], images: ['assets/img/catalogue/p17.jpg'],
+    spec: 'Robe + beach towel', colours: ['white', 'striped'], images: img('robe-beach-white-yellow', 1, 3, 2), // client's photos (#149)
     description: 'A white 1200 GSM bathrobe and a yellow-and-white striped beach towel, presented in the black Czera gift box with satin ribbon.',
     features: ['Premium 100% cotton', 'Bathrobe: 1200 GSM, fits up to 130 kg', 'Beach towel: 100 × 200 cm', 'Gift-ready packaging'],
     contents: [
