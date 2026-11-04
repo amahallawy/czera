@@ -8,15 +8,26 @@ that section into a version.
 
 ## [Unreleased]
 
-- Search-ready WordPress store, phase 1 (#157). Every page, product category
-  and product now has its own search title and description, and the store
-  sends product, organisation, website and breadcrumb structured data, with
-  the CZERA brand added through the new "CZERA SEO" snippet. The cart,
-  checkout, account and Build-your-box product pages are marked noindex. The
-  sample post and the Uncategorized category are removed, and the blog and
-  author sitemaps are off. `llms.txt` is now written by Rank Math and lists
-  every page, product and product category for AI assistants. The
-  `tools/wp/seo_checks.py` script checks all of this against the live store.
+- Search-ready WordPress store, phase 1 (#157, AgDR-0007). Nothing a visitor
+  sees has changed. Every page, product category and product now has its own
+  search title and description. Rank Math already sent product, website and
+  breadcrumb structured data; a new "CZERA SEO" snippet adds the CZERA brand
+  to every product, uses each product's exact store name instead of its
+  search title, prints names with a plain "&", and removes all author data
+  (the admin's author URL and Gravatar). Pages no longer default to an
+  Article schema. The organisation now carries the CZERA name, logo, email
+  and the Instagram and Facebook profiles, and the website is named CZERA,
+  with Czera Maison as its alternate name. The cart, checkout, account and
+  Build-your-box product pages are marked noindex. The sample post and the
+  Uncategorized category are removed, the blog and author sitemaps are off,
+  and product categories are now in the sitemap. `llms.txt` is now written by
+  Rank Math instead of Hostinger, whose file is off. It lists every page,
+  product and product category, uses five page excerpts set to their search
+  descriptions as summaries, and ends with an "About CZERA" block of
+  confirmed facts. Rank Math's Headless CMS support is on, which makes its
+  head route public, so the `tools/wp/seo_checks.py` script can read the
+  rendered page heads behind the coming-soon redirect and check all of this
+  against the live store.
 - WordPress store security (#155, AgDR-0006). A new "CZERA security" snippet
   stops the store showing the admin's login name to visitors and customers:
   the REST users list, author archives and oEmbed author fields are hidden,
