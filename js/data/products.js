@@ -66,7 +66,7 @@ export const PRODUCTS = [
     ribbon: 'gold', giftGroup: 'robes-beach', boxable: false,
   },
   {
-    slug: 'robe-beach-black-blue', name: 'Robe & Beach Set, Black + Blue', category: 'gift-sets', price: 1850,
+    slug: 'robe-beach-black-blue', name: 'Set of Robe & Beach Towel White+Blue', category: 'gift-sets', price: 1850,
     spec: 'Robe + beach towel', colours: ['black', 'striped'], images: img('robe-beach-black-blue', 2, 3, 1),
     description: 'A black 1200 GSM bathrobe and a blue-and-white striped beach towel, presented in the black Czera gift box with satin ribbon.',
     features: ['Premium 100% cotton', 'Bathrobe: 1200 GSM, fits up to 130 kg', 'Beach towel: 100 × 200 cm', 'Gift-ready packaging'],
