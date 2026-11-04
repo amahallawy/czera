@@ -67,7 +67,8 @@ function footerHtml() {
       <div><h2 class="footer__heading">Shop</h2><ul class="footer__list">${shop}<li><a href="build-your-box.html">Build Your Own Box</a></li></ul></div>
       <div><h2 class="footer__heading">Help</h2><ul class="footer__list">
         <li><a href="index.html#how-to-order">How to order</a></li><li><a href="about.html#sizes">Sizes &amp; care</a></li>
-        <li><a href="about.html#delivery">Delivery</a></li><li><a href="about.html">About Czera</a></li></ul></div>
+        <li><a href="about.html#delivery">Delivery</a></li><li><a href="returns.html">Returns &amp; exchanges</a></li>
+        <li><a href="about.html">About Czera</a></li></ul></div>
       <div><h2 class="footer__heading">Contact</h2><ul class="footer__list">
         <li><a href="${escapeHtml(mailtoLink())}">${escapeHtml(CONFIG.contactEmail)}<span class="sr-only"> (opens your email app)</span></a></li>
         </ul>
