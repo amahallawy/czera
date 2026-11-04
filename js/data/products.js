@@ -88,7 +88,7 @@ export const PRODUCTS = [
     ribbon: 'gold', giftGroup: 'robes-beach', boxable: false,
   },
   {
-    slug: 'beach-towel-set', name: 'Beach Towel Set', category: 'gift-sets', price: 1700,
+    slug: 'beach-towel-set', name: 'Luxury Beach Towel Gift Set', category: 'gift-sets', price: 1700,
     // The client's copy and photos (#141): the second towel is orange & white.
     spec: 'Blue + orange · 2 × 100 × 200 cm', colours: ['striped'], images: img('beach-towel-set', 2, 1, 3),
     description: 'A sophisticated gift set featuring two premium 100% cotton beach towels, beautifully presented in a sleek black gift box and finished with elegant satin ribbons. Designed with bold blue & white and orange & white stripes, these oversized towels combine softness, absorbency, and effortless resort-style luxury.',
