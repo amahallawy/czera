@@ -1,5 +1,5 @@
 <?php
-// Reference copy of live Code Snippet "CZERA security" on czeramaison.com (scope: global).
+// Reference copy of live Code Snippet ID 19 "CZERA security" on czeramaison.com (scope: global).
 // The site database is authoritative; update both together. Added by amahallawy/czera#155.
 
 /**
