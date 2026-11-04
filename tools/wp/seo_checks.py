@@ -4,6 +4,7 @@
 Usage:
     python tools/wp/seo_checks.py <check>
     python tools/wp/seo_checks.py all          # every check, in the order listed by usage
+    python tools/wp/seo_checks.py selftest     # offline tests of the pure helpers
     python tools/wp/seo_checks.py push-meta    # write tools/wp/seo_meta.json into Rank Math
 
 Environment:
@@ -34,11 +35,11 @@ PAGE_SLUGS = ('shop', 'about', 'faq')
 CATEGORY_SLUGS = ('towels', 'bathrobes', 'gift-sets', 'beach')
 NOINDEX_URLS = ('/cart/', '/checkout/', '/my-account/', '/product/build-your-czera-box/')
 COMING_SOON = 'window.location.href = "https://czeramaison.com/coming-soon/"'
-ARABIC = re.compile('[؀-ۿ]')
+ARABIC = re.compile(r'[\u0600-\u06FF]')
 BANNED = re.compile(
     r'discover|elevate|indulge|best in class|egyptian cotton|by hand|handmade|!|instapay'
     r'|next day|2\s*[–-]\s*5 days|machine wash|tumble|deliver\w*[^.]{0,30}\bin \d+ days', re.I)
-MONEY = re.compile(r'(?:EGP|LE|£)\s*\d|\d\s*(?:EGP|LE|£)', re.I)
+MONEY = re.compile(r'(?:\b(?:EGP|LE)\b|£)\s*\d|\d\s*(?:\b(?:EGP|LE)\b|£)', re.I)
 
 _auth = None
 
@@ -196,9 +197,14 @@ def check_schema():
 def read_meta():
     return json.loads(META_FILE.read_text(encoding='utf-8'))
 
-def tag(markup, pattern):
+def raw_tag(markup, pattern):
+    """The first capture group of pattern in markup, exactly as served (still HTML-encoded)."""
     m = re.search(pattern, markup, re.S)
-    return html.unescape(m.group(1)) if m else None
+    return m.group(1) if m else None
+
+def encoding_problems(raw):
+    """Double or numeric encodings in raw served text; unescaping once would hide them."""
+    return [bad for bad in ('&amp;amp;', '&#038;') if raw and bad in raw]
 
 def price_hits(text, p):
     """Prices stated in text: a number beside EGP/LE/pound, or the product's live or regular
@@ -208,8 +214,8 @@ def price_hits(text, p):
         if not value or float(value) == 0:
             continue
         num = f'{float(value):g}'
-        pat = (r'(?<![\d.,])(?<!×)(?<!×\s)(?<!x\s)' + re.escape(num) +
-               r'(?:\.0+)?(?![\d.,])(?!\s*(?:×|x\b|cm\b|gsm\b|%))')
+        pat = (r'(?<![\d.,])(?<!×)(?<!×\s)(?<!\bx)(?<!\bx\s)' + re.escape(num) +
+               r'(?:\.0+)?(?![\d.,])(?!\s*(?:\+|×|x\b|cm\b|gsm\b|kg\b|%))')
         hits += [f'{num}, the live price' for _ in re.finditer(pat, text, re.I)]
     return hits
 
@@ -225,8 +231,13 @@ def check_meta():
             problems.append(f'{label}: no entry in seo_meta.json')
             continue
         markup = head(it['url'])
-        title = tag(markup, r'<title>(.*?)</title>')
-        desc = tag(markup, r'<meta name="description" content="(.*?)"\s*/?>')
+        raw_title = raw_tag(markup, r'<title>(.*?)</title>')
+        raw_desc = raw_tag(markup, r'<meta name="description" content="(.*?)"\s*/?>')
+        for field, raw in (('title', raw_title), ('description', raw_desc)):
+            for bad in encoding_problems(raw):
+                problems.append(f'{label}: {field} is double-encoded ({bad} in {raw!r})')
+        title = html.unescape(raw_title) if raw_title is not None else None
+        desc = html.unescape(raw_desc) if raw_desc is not None else None
         if title != want['title']:
             problems.append(f'{label}: title is {title!r}, wanted {want["title"]!r}')
         if desc != want['description']:
@@ -239,10 +250,10 @@ def check_meta():
             if field == 'description':
                 if len(text) > 155:
                     problems.append(f'{label}: description is {len(text)} characters (max 155)')
-                for hit in price_hits(text, by_id.get(it['id'])):
+                for hit in price_hits(text, by_id.get(it['id']) if it['kind'] == 'product' else None):
                     problems.append(f'{label}: description states a price ({hit})')
             for what, hit in (('a banned word', BANNED.search(text)), ('Arabic', ARABIC.search(text)),
-                              ('EGP', re.search('EGP', text)), ('&amp;amp;', re.search('&amp;amp;', text))):
+                              ('EGP', re.search('EGP', text))):
                 if hit:
                     problems.append(f'{label}: {field} has {what} {hit.group(0)!r}')
         titles.setdefault(title, []).append(label)
@@ -291,14 +302,42 @@ def run(names):
         except (AssertionError, SystemExit) as e:
             failed += 1
             print(f'FAIL {name}: {e}')
+        except Exception as e:  # one check crashing must not hide the others
+            failed += 1
+            print(f'FAIL {name}: {type(e).__name__}: {e}')
+    return 1 if failed else 0
+
+def selftest():
+    """Offline checks of the pure helpers, with literal inputs. Needs no network or WP_AUTH."""
+    product = {'price': '650', 'regular_price': '650'}
+    cases = [
+        ('raw title with &amp;amp; fails', bool(encoding_problems('His &amp;amp; Hers | CZERA'))),
+        ('raw title with &#038; fails', bool(encoding_problems('His &#038; Hers | CZERA'))),
+        ('single-encoded title passes', not encoding_problems('His &amp; Hers Robes | CZERA')),
+        ('single-encoded title unescapes to &',
+         html.unescape('His &amp; Hers Robes | CZERA') == 'His & Hers Robes | CZERA'),
+        ('650+ GSM is not a price', not price_hits('Bath Sheet, 90 × 160 cm, 650+ GSM', product)),
+        ('130 kg is not a price', not price_hits('Holds 130 kg', {'price': '130', 'regular_price': '130'})),
+        ('650 EGP is a price', bool(price_hits('Bath Sheet for 650 EGP', product))),
+        ('standalone 650 is a price', bool(price_hits('Bath Sheet at 650 only', product))),
+        ('"2 less" is not money', not MONEY.search('2 less')),
+        ('"2 LE" is money', bool(MONEY.search('2 LE'))),
+        ('Arabic matches U+0628', bool(ARABIC.search('\u0628'))),
+        ('Arabic does not match abc', not ARABIC.search('abc')),
+    ]
+    failed = 0
+    for name, ok in cases:
+        failed += not ok
+        print(f'{"PASS" if ok else "FAIL"} selftest: {name}')
     return 1 if failed else 0
 
 def usage():
     print(__doc__.split('\n\n')[0])
-    print('\nusage: python tools/wp/seo_checks.py <check|all|push-meta>\n\nchecks:')
+    print('\nusage: python tools/wp/seo_checks.py <check|all|selftest|push-meta>\n\nchecks:')
     for name in CHECKS:
         print(f'  {name}')
     print('  all        run every check above, in this order')
+    print('  selftest   offline checks of the helper functions (no network, no WP_AUTH)')
     print('  push-meta  write tools/wp/seo_meta.json into Rank Math')
     print('\nWP_AUTH must hold an admin application password as user:password.')
 
@@ -308,6 +347,8 @@ if __name__ == '__main__':
         sys.exit(run(CHECKS))
     elif arg in CHECKS:
         sys.exit(run([arg]))
+    elif arg == 'selftest':
+        sys.exit(selftest())
     elif arg == 'push-meta':
         push_meta()
     else:
