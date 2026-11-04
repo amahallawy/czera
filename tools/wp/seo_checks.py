@@ -12,6 +12,9 @@ Environment:
                   given as 'user:password' (wp-admin > Users > Profile >
                   Application Passwords).
 
+Purge the LiteSpeed cache (MCP ability `hostinger-ai/litespeed-cache-flush`) before
+a run, so the checks see the current heads, sitemaps and llms.txt.
+
 Each check prints `PASS <name>` or `FAIL <name>: <reason>`; the script exits
 non-zero if any check fails. The checks are read-only against production and need
 Rank Math's "Headless CMS Support" switched on (General Settings > Others), which
@@ -22,6 +25,7 @@ sitemaps, llms.txt and the redirect itself are fetched logged out.
 `tools/wp/seo_meta.json` holds the wanted search title and description for each
 indexable page, product category and product, keyed by WordPress ID:
     {"pages": {"<id>": {"title": str, "description": str}}, "terms": {...}, "products": {...}}
+A page's description is also its excerpt, which Rank Math's llms.txt uses as the page summary.
 """
 import base64, html, json, os, re, sys, urllib.parse, urllib.request, urllib.error, uuid
 from pathlib import Path
@@ -34,6 +38,9 @@ PAGE_IDS = (87, 74, 12)  # Home, Build your box, Returns & exchanges
 PAGE_SLUGS = ('shop', 'about', 'faq')
 CATEGORY_SLUGS = ('towels', 'bathrobes', 'gift-sets', 'beach')
 NOINDEX_URLS = ('/cart/', '/checkout/', '/my-account/', '/product/build-your-czera-box/')
+PRIVATE_EXTRA = ('/cart/', '/checkout/', '/my-account/', '/coming-soon/')  # heads checked for author data
+OPTIONAL_PAGE_SLUGS = ('faq',)  # not created until a later phase
+NOINDEX = re.compile(r'<meta name="robots" content="[^"]*\bnoindex\b', re.I)
 COMING_SOON = 'window.location.href = "https://czeramaison.com/coming-soon/"'
 ARABIC = re.compile(r'[\u0600-\u06FF]')
 BANNED = re.compile(
@@ -92,19 +99,26 @@ def products():
     return [p for p in out if p['id'] != BOX_ID]
 
 def indexable():
-    """Every page, category and product that should appear in search."""
-    items = []
+    """Every page, category and product that should appear in search. Fails if a page or
+    category the store must have is missing; only the pages in OPTIONAL_PAGE_SLUGS may be."""
+    items, missing = [], []
     for pid in PAGE_IDS:
         p = api(f'/wp/v2/pages/{pid}?_fields=id,link,title')
         items.append({'kind': 'page', 'id': p['id'], 'url': p['link'], 'name': html.unescape(p['title']['rendered'])})
     for slug in PAGE_SLUGS:
-        for p in api(f'/wp/v2/pages?slug={slug}&status=publish&_fields=id,link,title'):
+        found = api(f'/wp/v2/pages?slug={slug}&status=publish&_fields=id,link,title')
+        if not found and slug not in OPTIONAL_PAGE_SLUGS:
+            missing.append(f'page {slug!r}')
+        for p in found:
             items.append({'kind': 'page', 'id': p['id'], 'url': p['link'], 'name': html.unescape(p['title']['rendered'])})
     cats = {c['slug']: c for c in api('/wp/v2/product_cat?per_page=100&_fields=id,slug,link,name')}
     for slug in CATEGORY_SLUGS:
         c = cats.get(slug)
-        if c:
-            items.append({'kind': 'cat', 'id': c['id'], 'url': c['link'], 'name': html.unescape(c['name'])})
+        if not c:
+            missing.append(f'product category {slug!r}')
+            continue
+        items.append({'kind': 'cat', 'id': c['id'], 'url': c['link'], 'name': html.unescape(c['name'])})
+    assert not missing, 'indexable(): not found on the store: ' + ', '.join(missing)
     for p in products():
         items.append({'kind': 'product', 'id': p['id'], 'url': p['permalink'], 'name': html.unescape(p['name'])})
     return items
@@ -123,6 +137,25 @@ def of_type(nodes, kind):
 
 def first(value):
     return value[0] if isinstance(value, list) and value else value
+
+def strings(value):
+    """Every string inside parsed JSON, at any depth."""
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for v in value.values():
+            yield from strings(v)
+    elif isinstance(value, list):
+        for v in value:
+            yield from strings(v)
+
+def jsonld_encoding_problems(nodes):
+    """JSON-LD strings still HTML-encoded. JSON is not HTML: '&' should appear as '&'."""
+    return sorted({s for s in strings(nodes) if '&amp;' in s or '&#038;' in s})
+
+def privacy_problems(markup):
+    """Traces in a <head> of the admin's author URL (which carries the login slug) or Gravatar."""
+    return [needle for needle in ('/author/', 'gravatar.com') if needle in markup]
 
 def coming_soon_live():
     """True while a logged-out visitor to / is redirected to /coming-soon/."""
@@ -149,12 +182,19 @@ def check_cleanup():
     for name in ('post-sitemap.xml', 'category-sitemap.xml'):
         if name in index:
             problems.append(f'sitemap_index.xml lists {name}')
+    if 'product_cat-sitemap.xml' not in index:
+        problems.append('sitemap_index.xml lists no product_cat-sitemap.xml')
+    else:
+        cat_map = fetch('/product_cat-sitemap.xml')
+        for it in indexable():
+            if it['kind'] == 'cat' and f'<loc>{it["url"]}</loc>' not in cat_map:
+                problems.append(f'product_cat-sitemap.xml lacks {it["url"]}')
     assert not problems, '; '.join(problems)
 
 def check_noindex():
     problems = []
     for path in NOINDEX_URLS:
-        if 'name="robots" content="noindex' not in head(SITE + path):
+        if not NOINDEX.search(head(SITE + path)):
             problems.append(f'{path} is not noindex')
     if 'build-your-czera-box' in fetch('/product-sitemap.xml'):
         problems.append('product-sitemap.xml lists build-your-czera-box')
@@ -164,13 +204,21 @@ def check_noindex():
 
 def check_schema():
     problems = []
-    for p in products():
-        nodes = jsonld(head(p['permalink']))
+    live = {p['id']: p for p in products()}
+    for it in indexable():
+        nodes = jsonld(head(it['url']))
+        for bad in jsonld_encoding_problems(nodes):
+            problems.append(f'{it["kind"]} {it["id"]}: JSON-LD string still HTML-encoded: {bad!r}')
+        if it['kind'] != 'product':
+            continue
+        p = live[it['id']]
         prods = of_type(nodes, 'Product')
         if not prods:
             problems.append(f'{p["slug"]}: no Product JSON-LD')
             continue
         prod = prods[0]
+        if prod.get('name') != html.unescape(p['name']):
+            problems.append(f'{p["slug"]}: Product name {prod.get("name")!r}, store name {html.unescape(p["name"])!r}')
         offers = first(prod.get('offers')) or {}
         if offers.get('priceCurrency') != 'EGP':
             problems.append(f'{p["slug"]}: priceCurrency {offers.get("priceCurrency")!r}, expected EGP')
@@ -194,8 +242,21 @@ def check_schema():
         for url in ('https://www.instagram.com/czera_maison', 'https://www.facebook.com/CzeraMaison'):
             if url not in same:
                 problems.append(f'Home: Organization sameAs lacks {url}')
-    if not of_type(home, 'WebSite'):
+    for bad in jsonld_encoding_problems(home):
+        problems.append(f'Home: JSON-LD string still HTML-encoded: {bad!r}')
+    sites = of_type(home, 'WebSite')
+    if not sites:
         problems.append('Home: no WebSite')
+    elif (sites[0].get('name'), sites[0].get('alternateName')) != ('CZERA', 'Czera Maison'):
+        problems.append(f'Home: WebSite name {sites[0].get("name")!r} / alternateName '
+                        f'{sites[0].get("alternateName")!r}, expected CZERA / Czera Maison')
+    shown = ' | '.join(problems[:6]) + (' | ...' if len(problems) > 6 else '')
+    assert not problems, f'{len(problems)} problem(s): {shown}'
+
+def check_privacy():
+    """No head names the admin: no /author/<slug>/ URL, no Gravatar (#155)."""
+    urls = [it['url'] for it in indexable()] + [SITE + path for path in PRIVATE_EXTRA]
+    problems = [f'{url} has {needle!r}' for url in urls for needle in privacy_problems(head(url))]
     assert not problems, '; '.join(problems)
 
 def read_meta():
@@ -306,10 +367,22 @@ def check_llms():
     problems += page_summary_problems(text)
     if ARABIC.search(text):
         problems.append('contains Arabic text')
+    # The whole file, the About CZERA block included, follows the copy rules.
+    for m in BANNED.finditer(text):
+        problems.append(f'has a banned word {m.group(0)!r}')
+    for p in [None] + products():
+        for hit in price_hits(text, p):
+            problems.append(f'states a price ({hit})')
+    # Page summaries come from the excerpts, which must equal the seo_meta.json descriptions.
+    for pid, m in read_meta().get('pages', {}).items():
+        raw = api(f'/wp/v2/pages/{pid}?context=edit&_fields=excerpt')['excerpt']['raw']
+        if raw != m['description']:
+            problems.append(f'page {pid} excerpt is {raw!r}, wanted its description')
     assert not problems, '; '.join(problems)
 
 def push_meta():
-    """Write seo_meta.json into Rank Math: the title and description of every listed object."""
+    """Write seo_meta.json into Rank Math: the title and description of every listed object,
+    and each page's description as its excerpt too (llms.txt's page summary)."""
     wanted = read_meta()
     kinds = {'pages': 'post', 'products': 'post', 'terms': 'term'}
     count = 0
@@ -317,11 +390,13 @@ def push_meta():
         for oid, m in wanted.get(section, {}).items():
             api('/rankmath/v1/updateMeta', 'POST', {'objectType': object_type, 'objectID': int(oid),
                 'meta': {'rank_math_title': m['title'], 'rank_math_description': m['description']}})
+            if section == 'pages':
+                api(f'/wp/v2/pages/{int(oid)}', 'POST', {'excerpt': m['description']})
             count += 1
     print(f'push-meta: wrote {count} object(s)')
 
 CHECKS = {'site': check_site, 'cleanup': check_cleanup, 'noindex': check_noindex,
-          'schema': check_schema, 'meta': check_meta, 'llms': check_llms}
+          'schema': check_schema, 'privacy': check_privacy, 'meta': check_meta, 'llms': check_llms}
 
 def run(names):
     failed = 0
@@ -362,6 +437,20 @@ def selftest():
          bool(page_summary_problems('## Pages\n- [A](https://x/a/): one two three four five\n'))),
         ('JavaScript notice fails',
          bool(page_summary_problems('## Pages\n- [A](https://x/a/): Turn on JavaScript to build a box now\n'))),
+        ('noindex, follow is noindex', bool(NOINDEX.search('<meta name="robots" content="noindex, follow"/>'))),
+        ('follow, noindex is noindex', bool(NOINDEX.search('<meta name="robots" content="follow, noindex"/>'))),
+        ('index, follow is not noindex', not NOINDEX.search('<meta name="robots" content="index, follow"/>')),
+        ('&amp; in a nested JSON-LD string fails',
+         bool(jsonld_encoding_problems([{'item': {'name': 'Hand &amp; Bath Sheet Set'}}]))),
+        ('&#038; in a JSON-LD list fails', bool(jsonld_encoding_problems([{'a': ['x &#038; y']}]))),
+        ('a plain & in JSON-LD passes', not jsonld_encoding_problems([{'name': 'His & Hers Robes'}])),
+        ('an author URL fails privacy', bool(privacy_problems('"url":"https://x/author/admin-slug/"'))),
+        ('a Gravatar fails privacy', bool(privacy_problems('https://secure.gravatar.com/avatar/abc'))),
+        ('a clean head passes privacy', not privacy_problems('<title>Bath Towel | CZERA</title>')),
+        ('a banned word is caught in llms text', bool(BANNED.search('- Orders arrive next day.'))),
+        ('the About block beach line passes the copy rules', not BANNED.search(
+            '- Beach towels are 100 × 200 cm, in blue or yellow stripes; the beach towel gift set pairs blue and orange.')
+            and not price_hits('- Beach towels are 100 × 200 cm', {'price': '200', 'regular_price': '200'})),
         ('coming-soon entry needs no summary',
          not page_summary_problems('## Pages\n- [Coming soon](https://x/coming-soon/)\n')),
     ]
