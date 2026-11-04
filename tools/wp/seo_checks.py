@@ -124,6 +124,10 @@ def of_type(nodes, kind):
 def first(value):
     return value[0] if isinstance(value, list) and value else value
 
+def coming_soon_live():
+    """True while a logged-out visitor to / is redirected to /coming-soon/."""
+    return COMING_SOON in fetch('/')
+
 def check_site():
     for path in ('/', '/product/bath-towel/'):
         assert COMING_SOON in fetch(path), f'{path} does not redirect logged-out visitors to /coming-soon/'
@@ -265,15 +269,41 @@ def check_meta():
     shown = ' | '.join(problems[:6]) + (' | ...' if len(problems) > 6 else '')
     assert not problems, f'{len(problems)} problem(s): {shown}'
 
+def page_summary_problems(text):
+    """Problems with the lines under '## Pages': each needs a summary of 6+ words, none the JS notice."""
+    problems = []
+    m = re.search(r'^## Pages\n(.*?)(?=^## |\Z)', text, re.S | re.M)
+    if not m:
+        return ["no '## Pages' section"]
+    for line in m.group(1).splitlines():
+        if not line.startswith('- ['):
+            continue
+        entry = re.match(r'- \[([^\]]*)\]\(([^)]*)\)(?::\s*(.*))?$', line)
+        name, url, summary = (entry.group(1), entry.group(2), (entry.group(3) or '').strip()) if entry else (line, line, '')
+        if url.rstrip('/').endswith('/coming-soon'):
+            continue  # the placeholder page has no description of its own
+        if 'turn on javascript' in summary.lower():
+            problems.append(f'{name!r} summary is the JavaScript notice')
+        elif len(summary.split()) < 6:
+            problems.append(f'{name!r} summary has fewer than 6 words: {summary!r}')
+    return problems
+
 def check_llms():
     text = fetch('/llms.txt')
     problems = []
     missing = [it['url'] for it in indexable() if it['url'] not in text]
     if missing:
         problems.append(f'{len(missing)} indexable URL(s) missing, e.g. {missing[0]}')
-    for needle in ('hello-world', '/coming-soon/', 'EGP'):
+    # /coming-soon/ is an indexable page, so Rank Math lists it. It is only
+    # acceptable in the file while the coming-soon redirect is live.
+    forbidden = ['hello-world', 'EGP'] + ([] if coming_soon_live() else ['/coming-soon/'])
+    for needle in forbidden:
         if needle in text:
             problems.append(f'contains {needle!r}')
+    for needle in ('## About CZERA', '650+ GSM'):
+        if needle not in text:
+            problems.append(f'missing {needle!r}')
+    problems += page_summary_problems(text)
     if ARABIC.search(text):
         problems.append('contains Arabic text')
     assert not problems, '; '.join(problems)
@@ -324,6 +354,16 @@ def selftest():
         ('"2 LE" is money', bool(MONEY.search('2 LE'))),
         ('Arabic matches U+0628', bool(ARABIC.search('\u0628'))),
         ('Arabic does not match abc', not ARABIC.search('abc')),
+        ('page summary of 6 words passes',
+         not page_summary_problems('## Pages\n- [A](https://x/a/): one two three four five six\n\n## Products\n')),
+        ('page without summary fails',
+         bool(page_summary_problems('## Pages\n- [A](https://x/a/)\n\n## Products\n'))),
+        ('page with 5 words fails',
+         bool(page_summary_problems('## Pages\n- [A](https://x/a/): one two three four five\n'))),
+        ('JavaScript notice fails',
+         bool(page_summary_problems('## Pages\n- [A](https://x/a/): Turn on JavaScript to build a box now\n'))),
+        ('coming-soon entry needs no summary',
+         not page_summary_problems('## Pages\n- [Coming soon](https://x/coming-soon/)\n')),
     ]
     failed = 0
     for name, ok in cases:
