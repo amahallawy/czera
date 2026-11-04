@@ -15,7 +15,7 @@ test('card shows name, spec, price, link and add-to-bag control', () => {
 
 test('second photo is included for hover when the product has one', () => {
   assert.match(renderProductCard(findProduct('bath-sheet')), /card__img--alt/);
-  assert.doesNotMatch(renderProductCard(findProduct('beach-towel-set')), /card__img--alt/);
+  assert.doesNotMatch(renderProductCard(findProduct('robe-beach-white-yellow')), /card__img--alt/);
 });
 
 test('a product on sale shows the Sale flag, the struck regular price and the sale price', () => {

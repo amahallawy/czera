@@ -20,7 +20,7 @@ test('every gift set costs the sum of its pieces (box and ribbon free)', () => {
   const unit = {
     'Face towel': 50, 'Hand towel': 230, 'Bath towel': 470, 'Bath sheet': 650,
     'White bathrobe': 1000, 'Black bathrobe': 1000,
-    'Blue stripe beach towel': 850, 'Yellow stripe beach towel': 850,
+    'Blue stripe beach towel': 850, 'Yellow stripe beach towel': 850, 'Orange stripe beach towel': 850,
   };
   for (const p of byCategory('gift-sets')) {
     const sum = p.contents.reduce((s, c) => s + c.qty * unit[c.label], 0);
