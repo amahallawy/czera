@@ -8,6 +8,15 @@ that section into a version.
 
 ## [Unreleased]
 
+- Search-ready WordPress store, phase 1 (#157). Every page, product category
+  and product now has its own search title and description, and the store
+  sends product, organisation, website and breadcrumb structured data, with
+  the CZERA brand added through the new "CZERA SEO" snippet. The cart,
+  checkout, account and Build-your-box product pages are marked noindex. The
+  sample post and the Uncategorized category are removed, and the blog and
+  author sitemaps are off. `llms.txt` is now written by Rank Math and lists
+  every page, product and product category for AI assistants. The
+  `tools/wp/seo_checks.py` script checks all of this against the live store.
 - WordPress store security (#155, AgDR-0006). A new "CZERA security" snippet
   stops the store showing the admin's login name to visitors and customers:
   the REST users list, author archives and oEmbed author fields are hidden,
