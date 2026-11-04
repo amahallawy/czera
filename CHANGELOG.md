@@ -8,6 +8,13 @@ that section into a version.
 
 ## [Unreleased]
 
+- Returns & Exchanges policy, on both sites (#151). The client's text, word
+  for word, on its own page (design site `returns.html`, WordPress
+  `/returns-exchanges/`, replacing WooCommerce's sample "Refund and Returns
+  Policy" draft). The footer's Help column links "Returns & exchanges"
+  after Delivery; every product page says "Returns and exchanges within 14
+  days on unused items. Read the policy" under the delivery line; and
+  WordPress checkout notes that placing an order accepts the policy.
 - Design site and WordPress store: the white robe and striped beach towel
   set shows the client's three photos (styled box, close-up, boxed)
   instead of catalogue page 17 (#149).

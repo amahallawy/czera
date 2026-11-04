@@ -52,6 +52,7 @@ if (!p) {
         </div>
         <a class="link pdp__email" data-order-one href="#">Or order just this by email ›<span class="sr-only"> (opens your email app)</span></a>
         <p class="pdp__ship">${escapeHtml(CONFIG.deliveryText)} · ${escapeHtml(CONFIG.paymentText)}</p>
+        <p class="pdp__ship pdp__returns">Returns and exchanges within 14 days on unused items. <a href="returns.html">Read the policy</a></p>
         <details class="acc" open><summary>Features</summary><ul>${p.features.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul></details>
         <details class="acc"><summary>Sizes &amp; care</summary><p>${escapeHtml(p.spec)}. ${escapeHtml(CONFIG.careText)}.</p></details>
         <details class="acc"><summary>Delivery &amp; payment</summary><p>${escapeHtml(CONFIG.deliveryText)}. ${escapeHtml(CONFIG.paymentText)}.</p></details>

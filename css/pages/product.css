@@ -71,6 +71,9 @@
 .pdp__buy-label, .pdp__buy-total { white-space: nowrap; }
 .pdp__email { justify-self: start; }
 .pdp__ship { font-size: var(--fs-xs); color: var(--color-ink-mute); }
+.pdp__returns { margin-block-start: calc(-1 * var(--space-2)); }
+.pdp__returns a { color: var(--color-ink); text-decoration: underline; text-underline-offset: 2px; }
+.pdp__returns a:hover { color: var(--color-ink-strong); }
 
 /* ---------------- Fold-outs ---------------- */
 .acc { border-block-start: var(--border-divider); padding-block: var(--space-4); }
