@@ -40,15 +40,25 @@ add_action( 'wp_head', function () {
 .czera-pdp-returns { margin: 12px 0 0; font-size: 12px; line-height: 1.5; color: #6b6b6b; }
 .czera-pdp-returns a { color: #2b2b2b; text-decoration: underline; text-underline-offset: 2px; }
 .czera-pdp-returns a:hover, .czera-pdp-returns a:focus-visible { color: #010100; }
-.czera-policy { max-width: 720px; margin: 0 auto; line-height: 1.65; color: #2b2b2b; }
-.czera-policy__lede { font-size: 17px; padding-bottom: 32px; margin-bottom: 32px; border-bottom: 1px solid #d8c28a; }
-.czera-policy h2 { margin: 32px 0 12px; font-size: 21px; font-weight: 400; line-height: 1.2; color: #010100; }
-.czera-policy__num { color: #8a5c12; }
-.czera-policy p, .czera-policy ul { margin: 0 0 12px; }
-.czera-policy ul { padding-left: 24px; }
-.czera-policy__close { margin-top: 48px; padding-top: 32px; border-top: 1px solid #d8c28a; text-align: center; }
-.czera-policy__close p { margin: 0; }
-.czera-policy .czera-policy__tagline { margin-top: 8px; font-family: "Italiana", serif; font-size: 28px; color: #8a5c12; }
+/* Policy page: as the design's returns.html + css/pages/returns.css (Astra title, box and sidebar are off on page 12). */
+body .czera-policy { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: clamp(48px, 8vw, 96px) clamp(16px, 4vw, 48px);
+  font-family: Montserrat, sans-serif; font-size: 15px; line-height: 1.65; color: #2b2b2b; }
+body .czera-policy__head { padding-bottom: 32px; margin-bottom: 32px; border-bottom: 1px solid #d8c28a; }
+body .czera-policy__eyebrow { display: block; font-size: 11px; font-weight: 500; line-height: 1.5; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #8a5c12; }
+body .czera-policy .czera-policy__title { margin: 8px 0 16px; font-family: inherit; font-size: 38px; font-weight: 300;
+  line-height: 1.1; letter-spacing: -0.025em; color: #010100; }
+body .czera-policy .czera-policy__lede { margin: 0; font-size: 17px; }
+body .czera-policy h2 { margin: 32px 0 12px; font-family: inherit; font-size: 21px; font-weight: 400; line-height: 1.2;
+  letter-spacing: 0; color: #010100; }
+body .czera-policy .czera-policy__head + h2 { margin-top: 0; }
+body .czera-policy__num { color: #8a5c12; }
+body .czera-policy p, body .czera-policy ul { margin: 0 0 12px; }
+body .czera-policy ul { padding-left: 24px; list-style: disc; }
+body .czera-policy li + li { margin-top: 4px; }
+body .czera-policy__close { margin-top: 48px; padding-top: 32px; border-top: 1px solid #d8c28a; text-align: center; }
+body .czera-policy__close p { margin: 0; }
+body .czera-policy .czera-policy__tagline { margin-top: 8px; font-family: "Italiana", serif; font-size: 28px; font-weight: 400; color: #8a5c12; }
 </style>
 	<?php
 } );
