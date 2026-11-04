@@ -8,6 +8,9 @@ that section into a version.
 
 ## [Unreleased]
 
+- Design site: the Beach Towel Set is now "Luxury Beach Towel Gift Set",
+  matching its title on the WordPress store. Its link
+  (`product.html?slug=beach-towel-set`) is unchanged (#143).
 - Design site: the Beach Towel Set has the client's new copy and photos.
   The description and the eight-point features list are the client's own,
   the gallery shows the three new photos (styled box, close-up, boxed)
