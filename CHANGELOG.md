@@ -8,6 +8,10 @@ that section into a version.
 
 ## [Unreleased]
 
+- Design site and WordPress store: "Robe & Beach Set, White + Yellow" is
+  now titled "Set of Robe & Beach Towel White+Yellow", as the owner asked.
+  Only the title changes; the photos, contents, price and link
+  (`robe-beach-white-yellow`) stay as they were (#147).
 - Design site and WordPress store: "Robe & Beach Set, Black + Blue" is now
   titled "Set of Robe & Beach Towel White+Blue", as the owner asked. Only
   the title changes; the photos, contents (black bathrobe and blue stripe
