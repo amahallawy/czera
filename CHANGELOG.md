@@ -8,6 +8,16 @@ that section into a version.
 
 ## [Unreleased]
 
+- Search-ready WordPress store, phase 2: copy sheet (#160). Nothing a visitor
+  sees has changed yet. A new `docs/seo-copy-2026-11.md` sets out, for the
+  owner to approve, a fuller description for each of the 16 products (shown
+  next to the current text), a short introduction for each of the four
+  categories, answers to the eleven FAQ questions, with store and design-site
+  versions where the two sites order differently, and the launch-day
+  checklist. Every fact in it comes from the confirmed list, the live store or
+  the client's files: no prices, delivery times, care instructions or origin
+  claims, and no GSM on the beach towels. Phase 3 applies the approved text on
+  both sites.
 - Search-ready WordPress store, phase 1 (#157, AgDR-0007). Nothing a visitor
   sees has changed. Every page, product category and product now has its own
   search title and description. Rank Math already sent product, website and
