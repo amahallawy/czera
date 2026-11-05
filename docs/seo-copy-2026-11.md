@@ -19,6 +19,8 @@ the approved text verbatim, on the WordPress store and on the design site.
   description: the design site names product 25 "The Complete Czera Set"; the
   store names it "The Complete CZERA Set", and the store's name is the one used
   here.
+- **Phase 3 renames product 25 on the design site** to "The Complete CZERA
+  Set" in `js/data/products.js`, to match the store.
 - **Proposed** replaces the opening paragraph on both sites: the store's first
   `<p>` and the design site's `description`. The "In the box" and "Details"
   lists and the short descriptions are not part of this sheet and stay as they
@@ -61,7 +63,7 @@ A compact 100% cotton towel for the face and hands, 30 × 30 cm. It is soft and 
 
 **Proposed**
 
-A 100% cotton hand towel, 50 × 100 cm, that pairs softness with excellent absorbency. It has a plush texture and a classic hotel-style finish, and at 650+ GSM it has the weight of the whole CZERA bath range. The size suits daily use by the basin, and the towel is durable enough for it. It comes in white, to sit alongside the face towel, the bath towel and the bath sheet in the same colour. Two hand towels also come in the Hand & Bath Sheet Set, paired with two bath sheets, and one is part of The Complete CZERA Set, with one of every size in the range.
+A 100% cotton hand towel, 50 × 100 cm, that pairs softness with excellent absorbency. It has a plush texture and a classic hotel-style finish, and at 650+ GSM it has the weight of the whole CZERA bath range. The size suits everyday use, and the towel is durable. It comes in white, to sit alongside the face towel, the bath towel and the bath sheet in the same colour. Two hand towels also come in the Hand & Bath Sheet Set, paired with two bath sheets, and one is part of The Complete CZERA Set, with one of every size in the range.
 
 ### 63 · `bath-towel` · Bath Towel
 
@@ -75,7 +77,7 @@ A 100% cotton hand towel, 50 × 100 cm, that pairs softness with excellent absor
 
 **Proposed**
 
-A 100% cotton bath towel, 70 × 140 cm, with a plush terry texture and a classic hotel-style finish. It is soft and highly absorbent, and at 650+ GSM it has the weight of the rest of the CZERA bath range. This is the everyday size for after a bath or shower, and it is durable enough for daily use. It comes in white. For more coverage, the Bath Sheet is 90 × 160 cm. Three bath towels also come boxed together as the 3 Bath Towels Set, and one is part of The Complete CZERA Set, next to the face towel, the hand towel and the bath sheet.
+A 100% cotton bath towel, 70 × 140 cm, with a plush terry texture and a classic hotel-style finish. It is soft and highly absorbent, and at 650+ GSM it has the weight of the rest of the CZERA bath range. This is the everyday bath size, and it is durable enough for daily use. It comes in white. Three bath towels also come boxed together as the 3 Bath Towels Set, and one is part of The Complete CZERA Set, next to the face towel, the hand towel and the bath sheet.
 
 ### 66 · `bath-sheet` · Bath Sheet
 
@@ -103,7 +105,7 @@ A generous 100% cotton bath sheet, 90 × 160 cm, with a plush, soft texture and 
 
 **Proposed**
 
-A 100% cotton beach towel in bold blue-and-white stripes, 100 × 200 cm. It is plush, soft and highly absorbent, and generously sized, with room to lie out by the pool or the sea. The stripes are the classic beach pattern, in a towel large enough for a sunbed. The same towel comes in two gift sets, each presented in the black CZERA gift box with satin ribbon: the Luxury Beach Towel Gift Set, where it is paired with an orange-and-white striped towel, and the Set of Robe & Beach Towel White+Blue, where it comes with a black bathrobe. For a second colour, the Yellow Stripe Beach Towel is the same size.
+A 100% cotton beach towel, 100 × 200 cm, in classic blue-and-white stripes. It is plush, soft and highly absorbent, and its generous beach size is made for lounging by the beach or pool. Blue-and-white striped beach towels also come in two gift sets, each presented in the black CZERA gift box with satin ribbon: the Luxury Beach Towel Gift Set, which pairs one with an orange-and-white striped towel, and the Set of Robe & Beach Towel White+Blue, which pairs one with a black bathrobe. The Yellow Stripe Beach Towel is the same size in yellow-and-white stripes.
 
 ### 72 · `yellow-stripe-beach-towel` · Yellow Stripe Beach Towel
 
@@ -117,7 +119,7 @@ A 100% cotton beach towel in bold blue-and-white stripes, 100 × 200 cm. It is p
 
 **Proposed**
 
-A 100% cotton beach towel in yellow-and-white stripes, 100 × 200 cm. It is plush, soft and highly absorbent, and generously sized for the pool or the sea, with room to lie out in the sun. The stripes are bright, in a towel large enough for a sunbed. The same towel comes with a white bathrobe in the Set of Robe & Beach Towel White+Yellow, presented in the black CZERA gift box with satin ribbon. For a second colour, the Blue Stripe Beach Towel is the same size in blue-and-white stripes, so two towels are easy to tell apart on the sand.
+A 100% cotton beach towel, 100 × 200 cm, in bold yellow-and-white stripes. It is plush, soft and highly absorbent, with a generous beach size for relaxing by the beach or pool. The bright stripes bring a touch of sunshine to beach days. A yellow-and-white striped beach towel also comes with a white bathrobe in the Set of Robe & Beach Towel White+Yellow, presented in the black CZERA gift box with satin ribbon. The Blue Stripe Beach Towel is the same size in blue-and-white stripes.
 
 ### 51 · `white-bathrobe` · White Bathrobe
 
@@ -131,7 +133,7 @@ A 100% cotton beach towel in yellow-and-white stripes, 100 × 200 cm. It is plus
 
 **Proposed**
 
-A 100% cotton bathrobe at 1200 GSM: soft, thick and absorbent, with a generous fit for up to 130 kg. The weight gives it a plush, substantial feel, the hotel and spa feeling at home, for after a bath or shower. It comes in white. The same robe is part of two gift sets, both presented in the black CZERA gift box with satin ribbon: His & Hers Robes, where it is paired with the black robe, and the Set of Robe & Beach Towel White+Yellow, where it comes with a yellow-and-white striped beach towel. The Black Bathrobe is the same robe in black.
+A 100% cotton bathrobe at 1200 GSM: soft, thick and absorbent, with a generous fit for up to 130 kg. The weight gives it a plush, substantial feel, the hotel and spa feeling at home. It comes in white. A white 1200 GSM bathrobe also comes in two gift sets, both presented in the black CZERA gift box with satin ribbon: His & Hers Robes, with a black bathrobe, and the Set of Robe & Beach Towel White+Yellow, with a yellow-and-white striped beach towel. There is also a Black Bathrobe at the same 1200 GSM weight.
 
 ### 54 · `black-bathrobe` · Black Bathrobe
 
@@ -145,7 +147,7 @@ A 100% cotton bathrobe at 1200 GSM: soft, thick and absorbent, with a generous f
 
 **Proposed**
 
-A 100% cotton bathrobe in black, at 1200 GSM. It is soft, thick and absorbent, with a generous fit for up to 130 kg, and it brings the hotel and spa feeling home at the end of the day. The 1200 GSM weight gives the robe its plush, substantial feel. The same black robe comes in two gift sets, both presented in the black CZERA gift box with satin ribbon: His & Hers Robes, with a white robe, and the Set of Robe & Beach Towel White+Blue, with a blue-and-white striped beach towel. The White Bathrobe is the same robe in white.
+A 100% cotton bathrobe in black, at 1200 GSM. It is soft, thick and absorbent, with a generous fit for up to 130 kg, and it brings the hotel and spa feeling home. The 1200 GSM weight gives the robe its plush, substantial feel. A black 1200 GSM bathrobe also comes in two gift sets, both presented in the black CZERA gift box with satin ribbon: His & Hers Robes, with a white bathrobe, and the Set of Robe & Beach Towel White+Blue, with a blue-and-white striped beach towel. There is also a White Bathrobe at the same 1200 GSM weight.
 
 ### 25 · `complete-czera-set` · The Complete CZERA Set
 
@@ -161,7 +163,7 @@ A 100% cotton bathrobe in black, at 1200 GSM. It is soft, thick and absorbent, w
 
 **Proposed**
 
-Five 100% cotton towels, from face towel to bath sheet, presented in the black CZERA gift box with satin ribbon. On this set the ribbon is burgundy. In the box are two face towels at 30 × 30 cm, a hand towel at 50 × 100 cm, a bath towel at 70 × 140 cm and a bath sheet at 90 × 160 cm: one of every size in the CZERA bath range, with a second face towel. All five are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. It is a full set for one bathroom in a single box, gift-ready for a wedding, a birthday or another special occasion.
+Five 100% cotton towels, from face towel to bath sheet, presented in the black CZERA gift box with satin ribbon. On this set the ribbon is burgundy. In the box are two face towels at 30 × 30 cm, a hand towel at 50 × 100 cm, a bath towel at 70 × 140 cm and a bath sheet at 90 × 160 cm: one of every size in the CZERA bath range, with a second face towel. All five are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. The set is ready to give for a wedding, a birthday or another special occasion.
 
 ### 29 · `three-bath-towels-set` · 3 Bath Towels Set
 
@@ -177,7 +179,7 @@ Five 100% cotton towels, from face towel to bath sheet, presented in the black C
 
 **Proposed**
 
-Three 100% cotton bath towels, each 70 × 140 cm, presented in the black CZERA gift box with satin ribbon. They are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. The bath towel is the everyday size for after a bath or shower, and a set of three means one is always ready. The packaging is gift-ready, so the set can go straight to a wedding, a birthday or another special occasion. For a larger size, the 3 Bath Sheets Set holds three bath sheets at 90 × 160 cm in the same box.
+Three 100% cotton bath towels, each 70 × 140 cm, presented in the black CZERA gift box with satin ribbon. They are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. In the box, all three are the same size: the everyday bath size in the CZERA range. The packaging is gift-ready for a wedding, a birthday or another special occasion. In the same box, the 3 Bath Sheets Set holds three bath sheets at 90 × 160 cm instead.
 
 ### 33 · `three-bath-sheets-set` · 3 Bath Sheets Set
 
@@ -193,7 +195,7 @@ Three 100% cotton bath towels, each 70 × 140 cm, presented in the black CZERA g
 
 **Proposed**
 
-Three generously sized 100% cotton bath sheets, each 90 × 160 cm, presented in the black CZERA gift box with satin ribbon. The bath sheet is the largest size in the CZERA bath range, with extra coverage after a bath or shower. All three are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. The packaging is gift-ready, so the set can go straight to a wedding, a birthday or another special occasion. For the everyday bath size, the 3 Bath Towels Set holds three bath towels at 70 × 140 cm in the same box.
+Three generously sized 100% cotton bath sheets, each 90 × 160 cm, presented in the black CZERA gift box with satin ribbon. The bath sheet is the largest size in the CZERA bath range, a generous size for extra comfort. All three are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. Its gift-ready packaging suits weddings, birthdays and special occasions. The 3 Bath Towels Set holds three 70 × 140 cm bath towels in the same gift box.
 
 ### 37 · `hand-and-bath-sheet-set` · Hand & Bath Sheet Set
 
@@ -209,7 +211,7 @@ Three generously sized 100% cotton bath sheets, each 90 × 160 cm, presented in 
 
 **Proposed**
 
-Two bath sheets and two hand towels in 100% cotton, presented in the black CZERA gift box with satin ribbon. The bath sheets are 90 × 160 cm, for extra coverage after a bath or shower, and the hand towels are 50 × 100 cm, for the basin. All four are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. Two of each makes it a set for two people sharing a bathroom. The packaging is gift-ready for a wedding, a birthday or another special occasion.
+Two bath sheets and two hand towels in 100% cotton, presented in the black CZERA gift box with satin ribbon. In the box are four pieces, two of each size. The bath sheets are 90 × 160 cm, for extra coverage after a bath or shower, and the hand towels are 50 × 100 cm, a size that suits everyday use. All four are white and 650+ GSM, soft and highly absorbent, with hotel-style quality. The set comes ready to give as a gift.
 
 ### 40 · `his-and-hers-robes` · His & Hers Robes
 
@@ -225,7 +227,7 @@ Two bath sheets and two hand towels in 100% cotton, presented in the black CZERA
 
 **Proposed**
 
-Two 100% cotton bathrobes, one white and one black, presented in the black CZERA gift box with satin ribbon. Both robes are 1200 GSM, thick and plush, soft and absorbent, with a generous fit for up to 130 kg. They are the same robes sold on their own as the White Bathrobe and the Black Bathrobe, paired here as a set for two. The packaging is gift-ready, which makes the set a gift for a wedding or an anniversary: the hotel and spa feeling, brought home for both.
+Two 100% cotton bathrobes, one white and one black, presented in the black CZERA gift box with satin ribbon. Both robes are 1200 GSM, thick and plush, ultra soft and highly absorbent, with a generous fit for up to 130 kg. The two share the same weight and the same fit, so the pair is matched in everything but colour. Together they bring the hotel and spa feeling home. The packaging is gift-ready, which makes the set a gift for a wedding, an anniversary or another special occasion.
 
 ### 44 · `robe-beach-black-blue` · Set of Robe & Beach Towel White+Blue
 
@@ -241,7 +243,7 @@ Two 100% cotton bathrobes, one white and one black, presented in the black CZERA
 
 **Proposed**
 
-A black bathrobe and a blue-and-white striped beach towel, both 100% cotton, presented in the black CZERA gift box with satin ribbon. The bathrobe is 1200 GSM, thick, soft and absorbent, with a generous fit for up to 130 kg. The beach towel is 100 × 200 cm, plush and highly absorbent, with room to lie out by the pool or the sea. Together they cover the bath at home and the days at the beach. The robe is the Black Bathrobe and the towel is the Blue Stripe Beach Towel, and each is also sold on its own.
+A black bathrobe and a blue-and-white striped beach towel, both 100% cotton, presented in the black CZERA gift box with satin ribbon. The bathrobe is 1200 GSM, thick, soft and absorbent, with a generous fit for up to 130 kg. The beach towel is 100 × 200 cm, plush and highly absorbent, with room to lie out by the pool or the sea. Together they cover the bath at home and the days at the beach. The set comes in gift-ready packaging.
 
 ### 46 · `robe-beach-white-yellow` · Set of Robe & Beach Towel White+Yellow
 
@@ -257,7 +259,7 @@ A black bathrobe and a blue-and-white striped beach towel, both 100% cotton, pre
 
 **Proposed**
 
-A white bathrobe and a yellow-and-white striped beach towel, both 100% cotton, presented in the black CZERA gift box with satin ribbon. The bathrobe is 1200 GSM, soft, thick and absorbent, with a generous fit for up to 130 kg. The beach towel is 100 × 200 cm, plush and highly absorbent, in bright yellow-and-white stripes for the pool or the sea. One piece is for after the bath, the other for the beach. The robe is the White Bathrobe and the towel is the Yellow Stripe Beach Towel, and each is also sold on its own.
+A white bathrobe and a yellow-and-white striped beach towel, both 100% cotton, presented in the black CZERA gift box with satin ribbon. The bathrobe is 1200 GSM, soft, thick and absorbent, with a generous fit for up to 130 kg. The beach towel is 100 × 200 cm, plush and highly absorbent, in bright yellow-and-white stripes for the beach or the pool. One piece is for after the bath, the other for the beach. The packaging is gift-ready, for weddings and birthdays.
 
 ### 48 · `beach-towel-set` · Luxury Beach Towel Gift Set
 
@@ -273,7 +275,7 @@ A white bathrobe and a yellow-and-white striped beach towel, both 100% cotton, p
 
 **Proposed**
 
-Two 100% cotton beach towels, one in blue-and-white stripes and one in orange-and-white stripes, presented in the black CZERA gift box with satin ribbon. Each towel is 100 × 200 cm, a generous size for lying out by the pool or the sea, and both are plush, soft and highly absorbent. Two colours mean each person has their own towel, easy to tell apart on the sand. The packaging is gift-ready, for anyone who spends their days by the beach or the pool.
+Two 100% cotton beach towels, one in blue-and-white stripes and one in orange-and-white stripes, presented in the black CZERA gift box with satin ribbon. Each towel is 100 × 200 cm, an oversized beach size, and both are plush, soft and highly absorbent. The stripes are bold: blue and white on one towel, orange and white on the other. Each towel has its own stripe colour, in the same size and the same cotton. The packaging is gift-ready, for the beach or the pool.
 
 ## Categories
 
@@ -286,8 +288,8 @@ product grid, on the store and on the design site.
 
 CZERA towels are 100% cotton and 650+ GSM, in white, in four sizes: the face
 towel at 30 × 30 cm, the hand towel at 50 × 100 cm, the bath towel at
-70 × 140 cm and the bath sheet at 90 × 160 cm. Each one is soft and absorbent,
-with a classic hotel-style finish. Buy them one at a time, or choose up to six
+70 × 140 cm and the bath sheet at 90 × 160 cm. Each one is soft and absorbent.
+Buy them one at a time, or choose up to six
 for a box of your own on the Build your box page.
 
 ### `bathrobes` · Bathrobes
@@ -333,8 +335,8 @@ beach towels and every piece in the gift sets.
 
 ### How heavy are they (GSM)?
 
-The towels in the bath range, the face towel, hand towel, bath towel and bath
-sheet, are 650+ GSM, and so are the towel gift sets. The bathrobes are
+The bath-range towels (face towel, hand towel, bath towel and bath sheet) are
+650+ GSM, and so are the towel gift sets. The bathrobes are
 1200 GSM, including the robes in the gift sets.
 
 ### What sizes are there?
@@ -408,15 +410,15 @@ on Facebook, CzeraMaison.
 
 For the owner or the builder on launch day, in this order.
 
+- [ ] Fix the Spectra author-slug leak (#158) before launch.
+- [ ] Decide whether Rank Math's Headless CMS support (the public `getHead`
+      route) stays on after launch.
 - [ ] Turn off the coming-soon redirect.
 - [ ] Delete or noindex `/coming-soon/`.
 - [ ] Remove `/coming-soon/` from `llms.txt` once the page is gone.
 - [ ] Confirm `robots.txt` is real text, not the redirect.
 - [ ] Retire or invert the `site` check in `tools/wp/seo_checks.py`, which
       asserts the coming-soon redirect is still in place.
-- [ ] Fix the Spectra author-slug leak (#158) before launch.
-- [ ] Decide whether Rank Math's Headless CMS support (the public `getHead`
-      route) stays on after launch.
 - [ ] Submit the sitemap to Google Search Console and Bing Webmaster Tools
       (Bing feeds ChatGPT search and Copilot).
 - [ ] Check that Hostinger's CDN or bot settings don't block Googlebot,
